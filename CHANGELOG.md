@@ -228,8 +228,8 @@ zero coverage before, unless it appears in the first wave as well.
   - ValidatePostalCode ran RemoveSpecialCharacthers (which deletes the separator) and then matched `^\d{4}(\s[a-zA-Z]{1})?$`, which demands a whitespace character before the optional letter.
 
 A further 61 weaknesses were found and deliberately left alone, because the fix would have been a
-rewrite or the published rule could not be sourced with confidence. They are recorded in the
-repository issues rather than half-fixed here. The largest recurring one: .NET's `\d` matches any
+rewrite or the published rule could not be sourced with confidence. They are written up in
+[KNOWN-ISSUES.md](KNOWN-ISSUES.md) rather than half-fixed here. The largest recurring one: .NET's `\d` matches any
 Unicode decimal digit while `int.Parse` accepts only ASCII, so a validator that guards with `\d` and
 then parses will throw on Arabic-Indic or fullwidth digits. Argentina and Brazil are fixed; the
 pattern still exists elsewhere.
