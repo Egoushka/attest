@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Validates VAT codes, social security numbers and tax identification numbers for individuals and companies in 80+ countries. Started as a fork of CountryValidator by Anghel Valentin.</Description>
+    <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
+    <Authors>Anghel Valentin, Yehor Hrabovskyi</Authors>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>VAT, SSN, Id, Social Security Number, TIN, Countries Validator, Validator</PackageTags>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Egoushka/attest</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Egoushka/attest</RepositoryUrl>
+    <RootNamespace>Attest</RootNamespace>
+    <AssemblyName>Attest</AssemblyName>
+    <PackageId>Attest</PackageId>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Version>1.0.0</Version>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+
+</Project>

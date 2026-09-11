@@ -1,8 +1,10 @@
 # Changelog
 
-## 1.2.0 (unreleased)
+## 1.0.0 (unreleased)
 
-First release of this fork, based on CountryValidator 1.1.3.
+First release under the name Attest, descended from CountryValidator 1.1.3.
+
+
 
 ### Fixed
 
@@ -21,5 +23,7 @@ First release of this fork, based on CountryValidator 1.1.3.
 
 - Target frameworks are `netstandard2.0` and `net8.0`. `netstandard2.1` and `net48` were dropped.
 - Tests run on `net9.0` with xunit 2.9.2.
-- Package ids are `CountryValidator.Community` and `CountryValidator.DataAnnotations.Community`.
-  Namespaces and assembly names are unchanged, so this is a drop-in replacement.
+- Renamed to Attest. Package ids are `Attest` and `Attest.DataAnnotations`, the root namespace is
+  `Attest` (was `CountryValidation`), and the country validators live in `Attest.Countries`.
+  Migrating from CountryValidator is a package swap plus a `using` change.
+- Dropped the upstream package icon, which is the original project's branding.

@@ -1,75 +1,57 @@
-# Country Validator (Community fork)
+# Attest
 
-Maintained fork of [CountryValidator](https://github.com/anghelvalentin/CountryValidator) by Anghel
-Valentin, which has had no release since version 1.1.3 and carries a number of open validation bugs.
+Validates national identification numbers, tax identification numbers, VAT codes and postal codes
+for 80+ countries.
 
-Namespaces and assembly names are unchanged, so replacing the package reference is the whole
-migration:
-
-```
-Install-Package CountryValidator.Community
-Install-Package CountryValidator.DataAnnotations.Community
-```
-
-Fixes in this fork are listed in [CHANGELOG.md](CHANGELOG.md). The original README follows.
-
----
-
-# Country Validator 
-
-Country Validator is a .NET library that can validate **VAT codes, national identification numbers and tax identification numbers for individuals and companies**
-
-## Features
-- Validate Social Security Numbers/Personal Identity Numbers
-- Validate VAT Codes
-- Validate Tax Indentification Numbers for Individuals
-- Validate Tax Identification Numbers For Companies
+Attest started as a fork of [CountryValidator](https://github.com/anghelvalentin/CountryValidator)
+by Anghel Valentin, which has had no release since 1.1.3 and a number of open validation bugs. The
+country rules and coverage come from that project; see [CHANGELOG.md](CHANGELOG.md) for what has
+been fixed since, and [NOTICE](NOTICE) for attribution.
 
 ## Install
-**Nuget Package [CountryValidator](https://www.nuget.org/packages/CountryValidator/)**
-**Nuget Package [CountryValidator.DataAnnotations](https://www.nuget.org/packages/CountryValidator.DataAnnotations/)**
 
-
-```powershell
-Install-Package CountryValidator
-Install-Package CountryValidator.DataAnnotations
+```
+Install-Package Attest
+Install-Package Attest.DataAnnotations
 ```
 
+## Use
 
-## How to use Country Validator
-### Using Validator Class
 ```csharp
-CountryValidator validator = new CountryValidator();
-ValidationResult validationResult = validator.ValidateNationalIdentityCode(ssn, Country.US);
-if (validationResult.IsValid)
+using Attest;
+
+var validator = new CountryValidator();
+
+ValidationResult result = validator.ValidateIndividualTaxCode("93051822361", Country.BE);
+if (!result.IsValid)
 {
-    Console.WriteLine("Valid");
+    Console.WriteLine(result.ErrorMessage);
 }
-else
-{
-    Console.WriteLine(validationResult.ErrorMessage);
-}
+```
+
+Each country also has its own validator class in `Attest.Countries`, if you want to skip the
+dispatch:
+
+```csharp
+using Attest.Countries;
+
+bool valid = new BelgiumValidator().ValidateVAT("BE0428759497").IsValid;
 ```
 
 ### Using Data Annotations
 
 ```csharp
 [HttpPost]
-public IActionResult ValidateSSN([Required, SSNAttribute(Country.US)]string ssn)
+public IActionResult ValidateSSN([Required, SSNAttribute(Country.US)] string ssn)
 {
     if (!ModelState.IsValid)
     {
-        //log exception
+        return BadRequest();
     }
+
     return Ok();
 }
 ```
-
-### Live Demo
-[Social Security Number Validation](https://randommer.io/SocialNumber/SsnValidator)
-
-[VAT Code Validation](https://randommer.io/SocialNumber/VatValidator)
-
 
 ### Supported Countries
 |   Supported Country  | Alpha Code 2 |                        National Identification Number Name                        |                                   VAT Code                                  | Entity code                                            | Postal Code        |
@@ -161,9 +143,11 @@ public IActionResult ValidateSSN([Required, SSNAttribute(Country.US)]string ssn)
 <a href="https://www.buymeacoffee.com/valentinanghel" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
 
 ### License
-Copyright 2020 Anghel Valentin
 
-Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
+Apache License, Version 2.0 — see [LICENSE](LICENSE).
+
+Copyright 2020 Anghel Valentin (original work)
+Copyright 2026 Yehor Hrabovskyi (changes)
 
 ##### Special thanks
 [Python Stdnum](https://github.com/arthurdejong/python-stdnum)
