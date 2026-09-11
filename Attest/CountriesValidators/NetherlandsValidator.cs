@@ -75,7 +75,7 @@ namespace Attest.Countries
         {
             number = number.RemoveSpecialCharacthers();
 
-            if (!number.All(char.IsDigit) || int.Parse(number) <= 0)
+            if (!number.All(char.IsDigit) || !int.TryParse(number, out var parsedNum) || parsedNum <= 0)
             {
                 return ValidationResult.InvalidFormat("1034.56.789");
             }
@@ -123,14 +123,14 @@ namespace Attest.Countries
             int[] multipliers = { 9, 8, 7, 6, 5, 4, 3, 2 };
             var sum = vatId.Sum(multipliers);
 
-            var checkDigit = sum % 11;
+            // Two checksums are in use: the legacy BSN derived mod 11 btw-nummer, and since
+            // 2020-01-01 the btw-identificatienummer issued to sole proprietorships, which carries
+            // ISO 7064 MOD 97-10 over "NL" + the number instead.
+            // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/nl/btw.py
+            // "2321" is NL and "11" is B under the A..Z -> 10..35 mapping used by MOD 97-10.
+            bool isValid = sum % 11 == vatId[8].ToInt()
+                || long.Parse("2321" + vatId.Substring(0, 9) + "11" + vatId.Substring(10)) % 97 == 1;
 
-            if (checkDigit > 9)
-            {
-                checkDigit = 0;
-            }
-
-            bool isValid = checkDigit == vatId[8].ToInt();
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 

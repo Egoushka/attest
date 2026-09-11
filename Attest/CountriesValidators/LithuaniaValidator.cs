@@ -62,6 +62,8 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateVAT(string vat)
         {
+            vat = vat.RemoveSpecialCharacthers();
+
             if (!Regex.IsMatch(vat, @"^(\d{9}|\d{12})$"))
             {
                 return ValidationResult.InvalidFormat("123456789 or 123456789012");
@@ -85,7 +87,10 @@ namespace Attest.Countries
                 var checkDigit = sum % 11;
                 if (checkDigit == 10)
                 {
-                    checkDigit = vat.Sum(Multipliers);
+                    // Second pass is reduced mod 11 as well; the check below turns a
+                    // remainder of 10 into 0 (stdnum lt/pvm.py: `check % 11 % 10`).
+                    // https://arthurdejong.org/python-stdnum/doc/lt.pvm
+                    checkDigit = vat.Sum(Multipliers) % 11;
                 }
 
                 if (checkDigit == 10)

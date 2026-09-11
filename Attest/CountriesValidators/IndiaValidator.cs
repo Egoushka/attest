@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -47,6 +47,12 @@ namespace Attest.Countries
         public override ValidationResult ValidateNationalIdentity(string num)
         {
             num = num.RemoveSpecialCharacthers();
+            // Aadhaar is 12 digits, never starts with 0 or 1, and ends with a Verhoeff check digit.
+            // https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.in_.aadhaar.html
+            if (!Regex.IsMatch(num, @"^[2-9]\d{11}$"))
+            {
+                return ValidationResult.InvalidFormat("234123412346");
+            }
             int c = 0;
             int[] myArray = StringToReversedIntArray(num);
 

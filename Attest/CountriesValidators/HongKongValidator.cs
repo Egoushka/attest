@@ -12,7 +12,7 @@ namespace Attest.Countries
 
         public override ValidationResult ValidateIndividualTaxCode(string id)
         {
-            id = id.RemoveSpecialCharacthers();
+            id = id.RemoveSpecialCharacthers().ToUpper();
 
             int getLetterValue(string letter)
             {
@@ -29,7 +29,10 @@ namespace Attest.Countries
             {
                 return ValidationResult.Invalid("Invalid length. The code should have 8 or 9 charachters");
             }
-            else if (!Regex.IsMatch("^[A-NP-Z]{1,2}[0-9]{6}[0-9A]$", string.Empty))
+            // 1-2 letters, six digits, then a check character that is any digit or the letter A.
+            // I and O are never issued as prefix letters.
+            // https://learn.microsoft.com/en-us/purview/sit-defn-hong-kong-identity-card-number
+            else if (!Regex.IsMatch(id, "^[A-HJ-NP-Z]{1,2}[0-9]{6}[0-9A]$"))
             {
                 return ValidationResult.Invalid("Invalid format");
             }

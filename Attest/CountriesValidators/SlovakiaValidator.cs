@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text.RegularExpressions;
 
 namespace Attest.Countries
@@ -16,6 +16,11 @@ namespace Attest.Countries
             if (ssn.Length < 9 || ssn.Length > 10)
             {
                 return ValidationResult.Invalid("Invalid length");
+            }
+
+            if (!Regex.IsMatch(ssn, @"^\d{9,10}$"))
+            {
+                return ValidationResult.InvalidFormat("YYMMDDNNN(N)");
             }
 
             int year, month, day;
@@ -79,7 +84,7 @@ namespace Attest.Countries
                 return false;
             }
 
-            int daysInMonth = DateTime.DaysInMonth(year, month - 1);
+            int daysInMonth = DateTime.DaysInMonth(year, month);
 
             if (daysInMonth < day)
             {

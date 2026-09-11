@@ -36,6 +36,9 @@ namespace Attest.Tests
         [InlineData("119511515", true)]
         [InlineData("100001919017", true)]
         [InlineData("100001919018", false)]
+        [InlineData("783533719", true)]
+        [InlineData(null, false)]
+        [InlineData("", false)]
         public void TestCorrectEntityCode(string code, bool isValid)
         {
             Assert.Equal(isValid, _lithuaniaValidator.ValidateEntity(code).IsValid);
@@ -45,6 +48,15 @@ namespace Attest.Tests
         [InlineData("119511515", true)]
         [InlineData("100001919017", true)]
         [InlineData("100001919018", false)]
+        [InlineData("783533719", true)]     // First remainder is 10, so the second pass decides
+        [InlineData("100002019", true)]     // Second pass as well
+        [InlineData("783533718", false)]    // Wrong check digit
+        [InlineData("100001900419", true)]  // Twelve digits, second pass
+        [InlineData("119 511 515", true)]   // Separators are ignored
+        [InlineData(null, false)]
+        [InlineData("", false)]
+        [InlineData("   ", false)]
+        [InlineData("abcdefghi", false)]
         public void TestCorrectVatCode(string code, bool isValid)
         {
             Assert.Equal(isValid, _lithuaniaValidator.ValidateVAT(code).IsValid);

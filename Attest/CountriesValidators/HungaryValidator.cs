@@ -18,7 +18,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateNationalIdentity(string ssn)
         {
             ssn = ssn.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(ssn, "^[1-8][0-9]{2}(0[1-9]|1[12])(0[1-9]|[12][0-9]|3[01])[0-9]{3}[0-9]$"))
+            if (!Regex.IsMatch(ssn, "^[1-8][0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])[0-9]{3}[0-9]$"))
             {
                 return ValidationResult.Invalid("Invalid format");
             }
@@ -83,7 +83,7 @@ namespace Attest.Countries
             int sum = 0;
             for (int i = 0; i < value.Length - 1; i++)
             {
-                sum += (int)value[i] * (i + 1);
+                sum += (int)char.GetNumericValue(value[i]) * (i + 1);
             }
 
             return (sum % 11);

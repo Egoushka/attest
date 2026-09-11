@@ -19,6 +19,11 @@ namespace Attest.Tests
         [InlineData("6433435IH", false)]
         [InlineData("6433435VH", false)]
         [InlineData("6433435E", false)]
+        [InlineData("1000016W", true)]
+        [InlineData("1000016A", false)]
+        [InlineData(null, false)]
+        [InlineData("", false)]
+        [InlineData("garbage", false)]
         public void TestNationalId(string code, bool isValid)
         {
             Assert.Equal(isValid, _irelandValidator.ValidateNationalIdentity(code).IsValid);
@@ -31,6 +36,11 @@ namespace Attest.Tests
         [InlineData("6433435IH", false)]
         [InlineData("6433435VH", false)]
         [InlineData("6433435E", false)]
+        [InlineData("1000016W", true)]
+        [InlineData("1000016A", false)]
+        [InlineData(null, false)]
+        [InlineData("", false)]
+        [InlineData("garbage", false)]
         public void TestIndividualCode(string code, bool isValid)
         {
             Assert.Equal(isValid, _irelandValidator.ValidateIndividualTaxCode(code).IsValid);
@@ -39,6 +49,9 @@ namespace Attest.Tests
         [Theory]
         [InlineData("6433435IH", true)]
         [InlineData("6433435VH", false)]
+        [InlineData("1000016W", true)]
+        [InlineData(null, false)]
+        [InlineData("", false)]
         public void TestCorrectEntityCode(string code, bool isValid)
         {
             Assert.Equal(isValid, _irelandValidator.ValidateEntity(code).IsValid);
@@ -49,6 +62,11 @@ namespace Attest.Tests
         [InlineData("6433435OA", true)]
         [InlineData("8D79739I", true)]
         [InlineData("8D79738J", false)]
+        [InlineData("1234567T", true)]
+        [InlineData("1234567TZZZZ", false)]
+        [InlineData(null, false)]
+        [InlineData("", false)]
+        [InlineData("garbage", false)]
         public void TestCorrectVatCode(string code, bool isValid)
         {
             Assert.Equal(isValid, _irelandValidator.ValidateVAT(code).IsValid);

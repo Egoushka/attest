@@ -41,7 +41,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateVAT(string number)
         {
             number = number.RemoveSpecialCharacthers();
-            if (number.Length > 9 || number.Length < 6)
+            if (number.Length > 9 || number.Length < 2)
             {
                 return ValidationResult.InvalidLength();
             }
@@ -71,7 +71,9 @@ namespace Attest.Countries
                 s = s + ((i + 2) * (int)Char.GetNumericValue(number[i]));
             }
 
-            int rez = -s.Mod(11);
+            // DV = (-s mod 11) mod 10
+            // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/py/ruc.py
+            int rez = (-s).Mod(11);
             return rez.Mod(10);
         }
 

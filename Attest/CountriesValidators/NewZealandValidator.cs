@@ -21,7 +21,7 @@ namespace Attest.Countries
         {
             ird = ird.RemoveSpecialCharacthers();
             ird = ird.Replace("NZ", string.Empty).Replace("nz", string.Empty);
-            if (!(ird.Length != 8 || ird.Length != 9))
+            if (ird.Length != 8 && ird.Length != 9)
             {
                 return ValidationResult.InvalidLength();
             }

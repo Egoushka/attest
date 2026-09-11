@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -62,7 +63,7 @@ namespace Attest.Countries
                 {
                     return ValidationResult.Invalid("Invalid format");
                 }
-                else if (!HasValidDate(rfc))
+                else if (!HasValidDate(rfc.Substring(3, 6)))
                 {
                     return ValidationResult.InvalidDate();
                 }
@@ -72,17 +73,15 @@ namespace Attest.Countries
                 return ValidationResult.InvalidLength();
             }
 
-            if (rfc.Length >= 12)
+            if (!Regex.IsMatch(rfc.Substring(rfc.Length - 3), @"^[1-9A-V][1-9A-Z][0-9A]$"))
             {
-                if (!Regex.IsMatch(rfc.Substring(rfc.Length - 3), @"^[1-9A-V][1-9A-Z][0-9A]$"))
-                {
-                    return ValidationResult.Invalid("Invalid");
-                }
-                else if (rfc[rfc.Length - 1] != CalculateChecksum(rfc.Substring(0, rfc.Length - 1)))
-                {
-                    return ValidationResult.InvalidChecksum();
-                }
+                return ValidationResult.Invalid("Invalid");
             }
+            else if (rfc[rfc.Length - 1] != CalculateChecksum(rfc.Substring(0, rfc.Length - 1)))
+            {
+                return ValidationResult.InvalidChecksum();
+            }
+
             return ValidationResult.Success();
         }
 
@@ -101,20 +100,15 @@ namespace Attest.Countries
 
             return alphabet[(11 - sum).Mod(11)];
         }
-        private bool HasValidDate(string number)
+        /// <summary>
+        /// Checks the six digit YYMMDD component of an RFC. The two digit year is resolved
+        /// against the 2000s, as python-stdnum's mx.rfc does: the century only changes the
+        /// answer for 29 February of a century year, and 2000 is a leap year while 1900 is not.
+        /// https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/mx/rfc.py
+        /// </summary>
+        private bool HasValidDate(string yymmdd)
         {
-            try
-            {
-                int year = int.Parse(number.Substring(2, 2));
-                int month = int.Parse(number.Substring(4, 2));
-                int day = int.Parse(number.Substring(6, 2));
-                DateTime date = new DateTime(1900 + year, month, day);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            return DateTime.TryParseExact("20" + yymmdd, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out _);
         }
 
         /// <summary>

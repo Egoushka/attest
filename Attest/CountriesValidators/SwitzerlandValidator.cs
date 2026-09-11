@@ -46,6 +46,13 @@ namespace Attest.Countries
         {
             id = id.RemoveSpecialCharacthers();
 
+            // AHV/AVS is exactly 13 digits: the fixed 756 country prefix plus 9 digits and an EAN-13 check digit.
+            // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/ch/ssn.py
+            if (!Regex.IsMatch(id, "^756\\d{10}$"))
+            {
+                return ValidationResult.InvalidFormat("7561234567897");
+            }
+
             var checkDigit = GetCheckDigit(id);
             return (int)char.GetNumericValue(id[12]) == checkDigit ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
@@ -96,8 +103,8 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateVAT(string value)
         {
-            value = value.RemoveSpecialCharacthers();
-            value = value.Replace("CH", string.Empty).Replace("ch", string.Empty);
+            value = value.RemoveSpecialCharacthers().ToUpper();
+            value = value.Replace("CH", string.Empty);
             value = value.RemoveSpecialCharacthers();
 
             if (!Regex.IsMatch(value, "^E?[0-9]{9}(MWST|IVA|TVA)?$"))

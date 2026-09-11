@@ -134,7 +134,11 @@ namespace Attest.Countries
         public override ValidationResult ValidateVAT(string number)
         {
             number = number.RemoveSpecialCharacthers().ToUpper().Replace("FR", string.Empty);
-            if (_alphabet.IndexOf(number[0]) == -1)
+            if (number.Length != 11)
+            {
+                return ValidationResult.InvalidLength();
+            }
+            else if (_alphabet.IndexOf(number[0]) == -1 || _alphabet.IndexOf(number[1]) == -1)
             {
                 return ValidationResult.Invalid("Invalid format");
             }
@@ -142,17 +146,20 @@ namespace Attest.Countries
             {
                 return ValidationResult.InvalidFormat("A1234567890");
             }
-            else if (number.Length != 11)
-            {
-                return ValidationResult.InvalidLength();
-            }
-            else if (number.Substring(2, 3) != "000")
-            {
-                return ValidateEntity(number.Substring(2));
-            }
-            else if (!number.All(char.IsDigit))
-            {
 
+            if (number.Substring(2, 3) != "000")
+            {
+                // Numbers from Monaco start with "000" and are a valid TVA but not a valid SIREN.
+                var siren = ValidateEntity(number.Substring(2));
+                if (!siren.IsValid)
+                {
+                    return siren;
+                }
+            }
+
+            // Key algorithm: https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/fr/tva.py
+            if (number.All(char.IsDigit))
+            {
                 if (int.Parse(number.Substring(0, 2)) != (long.Parse(number.Substring(2) + "12") % 97))
                 {
                     return ValidationResult.InvalidChecksum();
@@ -172,10 +179,10 @@ namespace Attest.Countries
                     check = (
                         _alphabet.IndexOf(number[0]) * 34 +
                         _alphabet.IndexOf(number[1]) - 100);
-                    if ((long.Parse(number.Substring(2)) + 1 + check / 11) % 11 != (check % 11))
-                    {
-                        return ValidationResult.InvalidChecksum();
-                    }
+                }
+                if ((long.Parse(number.Substring(2)) + 1 + check / 11) % 11 != (check % 11))
+                {
+                    return ValidationResult.InvalidChecksum();
                 }
             }
             return ValidationResult.Success();

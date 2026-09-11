@@ -18,9 +18,12 @@ namespace Attest.Countries
         {
             id = id.RemoveSpecialCharacthers();
 
-            if (Regex.IsMatch(id, @"^(CS|D|E|F|FA|PT|TA|TC|TN|TR|TP|TJ|LE)\d{10}$"))
+            // Non-individual TIN codes and lengths per IRBM/OECD "Information on Tax Identification Numbers - Malaysia"
+            // (updated March 2023): https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/malaysia-tin.pdf
+            // Effective 2 January 2023 a trailing "0" was appended, so 10 or 11 digits follow the code.
+            if (!Regex.IsMatch(id, @"^(CS|FA|PT|TA|TC|TN|TR|TP|LE|C|D|E|F|J)\d{10,11}$"))
             {
-                return ValidationResult.Invalid("Invalid code!");
+                return ValidationResult.InvalidFormat("C20880050010");
             }
             return ValidationResult.Success();
 
@@ -36,9 +39,12 @@ namespace Attest.Countries
         {
             itn = itn.RemoveSpecialCharacthers();
 
-            if (Regex.IsMatch(itn, @"^(SG|OG)\d{10}[01]$"))
+            // Individual TIN: the SG (non-business) and OG (business) codes were converted to IG on
+            // 2 January 2023, the digits unchanged; 9 to 11 digits follow the code (IG115002000,
+            // IG4040080091, IG56003500070). Same source as ValidateEntity.
+            if (!Regex.IsMatch(itn, @"^(IG|SG|OG)\d{9,11}$"))
             {
-                return ValidationResult.Invalid("Invalid code!");
+                return ValidationResult.InvalidFormat("IG56003500070");
             }
             return ValidationResult.Success();
 

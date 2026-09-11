@@ -58,7 +58,7 @@ namespace Attest.Countries
             sin = sin.RemoveSpecialCharacthers();
 
             var chardDigits = sin.ToCharArray();
-            if (Regex.IsMatch(sin, @"^\d{9}$"))
+            if (!Regex.IsMatch(sin, @"^\d{9}$"))
             {
                 return ValidationResult.InvalidFormat("123-456-789");
             }

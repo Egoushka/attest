@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text.RegularExpressions;
 
 namespace Attest.Countries
@@ -17,6 +17,11 @@ namespace Attest.Countries
             if (id?.Length < 9 || id?.Length > 10)
             {
                 return ValidationResult.Invalid("Invalid length. The code must have 9 or 10 digits");
+            }
+
+            if (!Regex.IsMatch(id, @"^\d{9,10}$"))
+            {
+                return ValidationResult.InvalidFormat("YYMMDDNNN(N)");
             }
 
             int year, month, day;
@@ -72,7 +77,7 @@ namespace Attest.Countries
                 return ValidationResult.InvalidDate();
             }
 
-            int daysInMonth = DateTime.DaysInMonth(year, month - 1);
+            int daysInMonth = DateTime.DaysInMonth(year, month);
 
             if (daysInMonth < day)
             {
@@ -216,8 +221,10 @@ namespace Attest.Countries
 
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
-            postalCode = postalCode.Trim();
-            if (!(Regex.IsMatch(postalCode, @"^\d{3}\s?\d{2}$") || Regex.IsMatch(postalCode, "^\\d{4}$")))
+            postalCode = postalCode.RemoveSpecialCharacthers();
+            // The Czech PSC is always five digits, written NNN NN.
+            // https://en.wikipedia.org/wiki/Postal_codes_in_the_Czech_Republic
+            if (!Regex.IsMatch(postalCode, "^\\d{5}$"))
             {
                 return ValidationResult.InvalidFormat("NNN NN");
             }

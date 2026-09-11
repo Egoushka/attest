@@ -29,7 +29,10 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateIndividualTaxCode(string id)
         {
-            if (!Regex.IsMatch(id, "^[0-9]{6}[-+A][0-9]{3}[0-9ABCDEFHJKLMNPRSTUVWXY]$"))
+            // The century separators Y, X, W, V, U (born in the 1900s) and B, C, D, E, F (born in the
+            // 2000s) were added by government decree 690/2022, in force from 2023-01-01.
+            // https://www.finlex.fi/fi/lainsaadanto/saadoskokoelma/2022/690
+            if (string.IsNullOrWhiteSpace(id) || !Regex.IsMatch(id, "^[0-9]{6}[-+ABCDEFYXWVU][0-9]{3}[0-9ABCDEFHJKLMNPRSTUVWXY]$"))
             {
                 return ValidationResult.Invalid("Invalid code");
             }
@@ -39,8 +42,8 @@ namespace Attest.Countries
             var year = int.Parse(id.Substring(4, 2));
             var centuries = new Dictionary<char, int>(){
             { '+',  1800 },
-            { '-', 1900},
-            {  'A', 2000}
+            { '-', 1900}, { 'Y', 1900}, { 'X', 1900}, { 'W', 1900}, { 'V', 1900}, { 'U', 1900},
+            {  'A', 2000}, { 'B', 2000}, { 'C', 2000}, { 'D', 2000}, { 'E', 2000}, { 'F', 2000}
             };
             year = centuries[id[6]] + year;
             try
@@ -86,6 +89,12 @@ namespace Attest.Countries
             var sum = vatId.Sum(multipliers);
 
             var checkDigit = 11 - sum % 11;
+
+            // A remainder of 1 leaves no check digit, so the number is never issued.
+            if (checkDigit == 10)
+            {
+                return ValidationResult.InvalidChecksum();
+            }
 
             if (checkDigit > 9)
             {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -15,10 +15,6 @@ namespace Attest.DataAnnotations
             if (!Enum.IsDefined(typeof(Country), countryCode))
             {
                 throw new ArgumentNullException(nameof(countryCode));
-            }
-            else if (!CountryValidator.IsCountrySupported(CountryCode))
-            {
-                throw new NotSupportedException("This country is not supported");
             }
 
             CountryCode = countryCode;

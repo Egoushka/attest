@@ -32,17 +32,26 @@ namespace Attest.Countries
         }
 
 
+        /// <summary>
+        /// SSI (Social Security Number), the tax number of individuals: a block of up to 9 digits,
+        /// whose first digits may be omitted when they are zeros.
+        /// https://www.oecd.org/tax/automatic-exchange/crs-implementation-and-assistance/tax-identification-numbers/San-Marino-TIN.pdf
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public override ValidationResult ValidateIndividualTaxCode(string id)
         {
             if (ValidateVAT(id).IsValid)
             {
                 return ValidationResult.Success();
             }
-            else if (!Regex.IsMatch(id, @"^\d{9}$"))
+
+            id = id.RemoveSpecialCharacthers();
+            if (!Regex.IsMatch(id, @"^\d{1,9}$"))
             {
-                return ValidationResult.Success();
+                return ValidationResult.InvalidFormat("123456789");
             }
-            return ValidationResult.Invalid("Invalid");
+            return ValidationResult.Success();
         }
 
         /// <summary>

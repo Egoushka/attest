@@ -1,4 +1,5 @@
 ﻿using Attest.Countries;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -127,7 +128,16 @@ namespace Attest
         {
             if (_supportedCountries.ContainsKey(country))
             {
-                return _supportedCountries[country].ValidateIndividualTaxCode(ssn);
+                try
+                {
+                    return _supportedCountries[country].ValidateIndividualTaxCode(ssn);
+                }
+                catch (Exception e) when (e is NotSupportedException || e is NotImplementedException)
+                {
+                    // Some validators throw for a method they have no rule for; answer the
+                    // same way an unregistered country is answered instead of escaping.
+                    return ValidationResult.Invalid("Not supported");
+                }
             }
             return ValidationResult.Invalid("Not supported");
 
@@ -137,7 +147,16 @@ namespace Attest
         {
             if (_supportedCountries.ContainsKey(country))
             {
-                return _supportedCountries[country].ValidateVAT(vat);
+                try
+                {
+                    return _supportedCountries[country].ValidateVAT(vat);
+                }
+                catch (Exception e) when (e is NotSupportedException || e is NotImplementedException)
+                {
+                    // Some validators throw for a method they have no rule for; answer the
+                    // same way an unregistered country is answered instead of escaping.
+                    return ValidationResult.Invalid("Not supported");
+                }
             }
             return ValidationResult.Invalid("Not supported");
 
@@ -147,7 +166,16 @@ namespace Attest
         {
             if (_supportedCountries.ContainsKey(country))
             {
-                return _supportedCountries[country].ValidateEntity(vat);
+                try
+                {
+                    return _supportedCountries[country].ValidateEntity(vat);
+                }
+                catch (Exception e) when (e is NotSupportedException || e is NotImplementedException)
+                {
+                    // Some validators throw for a method they have no rule for; answer the
+                    // same way an unregistered country is answered instead of escaping.
+                    return ValidationResult.Invalid("Not supported");
+                }
             }
             return ValidationResult.Invalid("Not supported");
 
@@ -157,7 +185,16 @@ namespace Attest
         {
             if (_supportedCountries.ContainsKey(country))
             {
-                return _supportedCountries[country].ValidateNationalIdentity(ssn);
+                try
+                {
+                    return _supportedCountries[country].ValidateNationalIdentity(ssn);
+                }
+                catch (Exception e) when (e is NotSupportedException || e is NotImplementedException)
+                {
+                    // Some validators throw for a method they have no rule for; answer the
+                    // same way an unregistered country is answered instead of escaping.
+                    return ValidationResult.Invalid("Not supported");
+                }
             }
             return ValidationResult.Invalid("Not supported");
 
@@ -167,7 +204,16 @@ namespace Attest
         {
             if (_supportedCountries.ContainsKey(country))
             {
-                return _supportedCountries[country].ValidatePostalCode(zip);
+                try
+                {
+                    return _supportedCountries[country].ValidatePostalCode(zip);
+                }
+                catch (Exception e) when (e is NotSupportedException || e is NotImplementedException)
+                {
+                    // Some validators throw for a method they have no rule for; answer the
+                    // same way an unregistered country is answered instead of escaping.
+                    return ValidationResult.Invalid("Not supported");
+                }
             }
             return ValidationResult.Invalid("Not supported");
         }

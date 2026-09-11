@@ -48,7 +48,10 @@ namespace Attest.Countries
             {
                 sum += (int)char.GetNumericValue(value[i]) * weight[i];
             }
-            sum = 11 - sum % 11;
+            // Check digit is (11 - weighted sum mod 11) mod 11; a remainder of 0 yields check digit 0,
+            // and a remainder of 1 yields 10, which never matches a single digit.
+            // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/is_/kennitala.py
+            sum = (11 - sum % 11) % 11;
             return sum == (int)char.GetNumericValue(value[8]) ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 

@@ -17,6 +17,16 @@ namespace Attest.Tests
         [InlineData("991231123", false)]
         [InlineData("7103192746", false)]
         [InlineData("1103492745", false)]
+        [InlineData("7101011236", true)]     // 1 Jan 1971, male - January threw ArgumentOutOfRangeException (month - 1 == 0)
+        [InlineData("8551010017", true)]     // 1 Jan 1985, female (month 01 + 50) - same crash
+        [InlineData("7103302745", true)]     // 30 Mar 1971 - was checked against February's 28 days
+        [InlineData("7112312746", true)]     // 31 Dec 1971 - was checked against November's 30 days
+        [InlineData("7102300007", false)]    // 30 Feb 1971 - impossible date, was checked against January's 31 days
+        [InlineData("7101011237", false)]    // Wrong check digit, 710101123 % 11 == 6
+        [InlineData("123456abcd", false)]    // Garbage of valid length threw FormatException
+        [InlineData("abcdefghij", false)]
+        [InlineData("", false)]
+        [InlineData(null, false)]
         public void TestNationalId(string code, bool isValid)
         {
             Assert.Equal(isValid, _slovakiaValidator.ValidateNationalIdentity(code).IsValid);
@@ -27,6 +37,16 @@ namespace Attest.Tests
         [InlineData("991231123", false)]
         [InlineData("7103192746", false)]
         [InlineData("1103492745", false)]
+        [InlineData("7101011236", true)]     // 1 Jan 1971, male - January threw ArgumentOutOfRangeException (month - 1 == 0)
+        [InlineData("8551010017", true)]     // 1 Jan 1985, female (month 01 + 50) - same crash
+        [InlineData("7103302745", true)]     // 30 Mar 1971 - was checked against February's 28 days
+        [InlineData("7112312746", true)]     // 31 Dec 1971 - was checked against November's 30 days
+        [InlineData("7102300007", false)]    // 30 Feb 1971 - impossible date, was checked against January's 31 days
+        [InlineData("7101011237", false)]    // Wrong check digit, 710101123 % 11 == 6
+        [InlineData("123456abcd", false)]    // Garbage of valid length threw FormatException
+        [InlineData("abcdefghij", false)]
+        [InlineData("", false)]
+        [InlineData(null, false)]
         public void TestIndividualCode(string code, bool isValid)
         {
             Assert.Equal(isValid, _slovakiaValidator.ValidateIndividualTaxCode(code).IsValid);

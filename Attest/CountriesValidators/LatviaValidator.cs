@@ -65,8 +65,8 @@ namespace Attest.Countries
                 checkSum += int.Parse(identificationCodeWithoutDash[i].ToString()) * checkSumDigits[i];
 
             }
-            checkSum = (1 - checkSum) % 11;
-            checkSum += (checkSum < -1) ? 11 : 0;
+            // check digit = (1 - weighted sum) mod 11 mod 10, see python-stdnum stdnum/lv/pvn.py (calc_check_digit_pers)
+            checkSum = (1 - checkSum).Mod(11).Mod(10);
 
 
             return checkSum == int.Parse(match.Groups[6].Value) ? ValidationResult.Success() : ValidationResult.InvalidChecksum();

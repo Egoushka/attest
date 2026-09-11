@@ -45,7 +45,8 @@ namespace Attest.Countries
             }
 
             var checksum = sum % 23;
-            return checksum + 64 == checksumCharacter[0] ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
+            // Mod-23 check alphabet is "WABCDEFGHIJKLMNOPQRSTUV" (python-stdnum ie/vat.py), so 0 maps to 'W'.
+            return checksumCharacter[0] == (checksum == 0 ? 'W' : (char)(checksum + 64)) ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
         /// <summary>
@@ -83,7 +84,8 @@ namespace Attest.Countries
             }
 
             var checksum = sum % 23;
-            return checksum + 64 == checksumCharacter[0] ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
+            // Mod-23 check alphabet is "WABCDEFGHIJKLMNOPQRSTUV" (python-stdnum ie/vat.py), so 0 maps to 'W'.
+            return checksumCharacter[0] == (checksum == 0 ? 'W' : (char)(checksum + 64)) ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
 
         }
 
@@ -91,7 +93,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateVAT(string vatId)
         {
             int[] multipliers = { 8, 7, 6, 5, 4, 3, 2 };
-            if (!Regex.IsMatch(vatId, @"^(\d{7}[A-W])|([7-9][A-Z\*\+)]\d{5}[A-W])|(\d{7}[A-W][AH])$"))
+            if (string.IsNullOrWhiteSpace(vatId) || !Regex.IsMatch(vatId, @"^(?:\d{7}[A-W]|[7-9][A-Z\*\+]\d{5}[A-W]|\d{7}[A-W][AH])$"))
             {
                 return ValidationResult.InvalidFormat("Invalid format");
             }

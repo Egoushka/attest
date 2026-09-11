@@ -40,11 +40,19 @@ namespace Attest.Countries
         {
             try
             {
-                int year = int.Parse(number.Substring(0, 2));
+                //Only two digits are used for the year, so map it into the 100 year window ending today.
+                //https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/za/idnr.py
+                int year = int.Parse(number.Substring(0, 2)) + DateTime.Today.Year / 100 * 100;
                 int month = int.Parse(number.Substring(2, 2));
                 int day = int.Parse(number.Substring(4, 2));
+
+                if (year > DateTime.Today.Year)
+                {
+                    year -= 100;
+                }
+
                 DateTime date = new DateTime(year, month, day);
-                return false;
+                return true;
             }
             catch
             {

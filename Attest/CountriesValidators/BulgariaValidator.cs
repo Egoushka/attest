@@ -17,6 +17,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateEntity(string vat)
         {
             bool isValid;
+            vat = vat.RemoveSpecialCharacthers();
             if (vat.Length == 9)
             {
                 return Bg9DigitsVat(vat) ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
@@ -132,6 +133,13 @@ namespace Attest.Countries
 
         public static bool BgForeignerPhysicalPerson(string vat)
         {
+            // Personal number of a foreigner (PNF) is always exactly 10 digits.
+            // https://arthurdejong.org/python-stdnum/doc/1.19/stdnum.bg.pnf.html
+            if (vat?.Length != 10)
+            {
+                return false;
+            }
+
             var total = vat.Sum(MultipliersForeignPhysicalPerson);
 
             return total % 10 == vat[9].ToInt();
@@ -139,6 +147,13 @@ namespace Attest.Countries
 
         public static bool BgMiscellaneousVatNumber(string vat)
         {
+            // The "other" BULSTAT checksum only applies to the 10 digit form.
+            // https://arthurdejong.org/python-stdnum/doc/1.19/stdnum.bg.vat.html
+            if (vat?.Length != 10)
+            {
+                return false;
+            }
+
             var total = vat.Sum(MultipliersMiscellaneous);
 
             total = 11 - total % 11;
