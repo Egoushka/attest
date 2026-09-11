@@ -6,6 +6,18 @@ First release under the name Attest, descended from CountryValidator 1.1.3.
 
 
 
+### Added
+
+- `CountryValidator.Validate(value, country, IdentifierKind kinds)` validates against a category of
+  identifiers rather than one named method, so callers can ask for personal identifiers only,
+  business identifiers only, or any of them, without knowing which of a country's five methods
+  applies. Returns an `IdentifierResult` carrying every kind the value matched, the per-kind
+  results, and `IsAmbiguous` — true where a country issues one number that is both a personal and a
+  business identifier, which is the case in seven of the countries here.
+- `CountryValidator.Supports(country, kind)` reports whether a country has a rule for a kind at all,
+  which a caller cannot otherwise distinguish from a value being wrong. 33 of the 435 country/kind
+  pairs have no rule.
+
 ### Fixed
 
 - **Belgium** — national register numbers whose check number is below 10 were rejected. The check

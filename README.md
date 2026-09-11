@@ -29,6 +29,41 @@ if (!result.IsValid)
 }
 ```
 
+### Asking by category
+
+When you do not want to name a method — "is this any business identifier for this country?" — ask by
+kind:
+
+```csharp
+using Attest;
+
+var validator = new CountryValidator();
+
+IdentifierResult result = validator.Validate(value, Country.BE, IdentifierKind.Business);
+
+if (result.IsValid && !result.IsAmbiguous)
+{
+    // definitely a company number or a VAT number
+}
+```
+
+`IdentifierKind` is a flags enum: `PersonalId`, `PersonalTaxCode`, `CompanyNumber`, `Vat`,
+`PostalCode`, plus the combinations `Person`, `Business` and `Any` (the default, which covers
+personal and business identifiers but not postal codes).
+
+Two things the result tells you that a plain boolean cannot:
+
+- **`IsAmbiguous`** — some countries issue one number that serves as both a personal and a business
+  identifier. Thailand, Russia, Iceland, Peru, Andorra, Armenia and Nigeria are the ones in this
+  library. There, a value asked about as a business identifier can be valid and indistinguishable at
+  the same time, and the flag says so instead of guessing.
+- **`Supports(country, kind)`** — whether the country has a rule for that kind at all. A kind with no
+  rule reports every value invalid, which is not a verdict on the value. 33 of the 435 country/kind
+  pairs in this library have no rule.
+
+`Matched` lists every kind the value is valid as, and `Details` carries the individual
+`ValidationResult` for each kind that was evaluated.
+
 Each country also has its own validator class in `Attest.Countries`, if you want to skip the
 dispatch:
 
