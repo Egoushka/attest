@@ -1,3 +1,20 @@
+# Country Validator (Community fork)
+
+Maintained fork of [CountryValidator](https://github.com/anghelvalentin/CountryValidator) by Anghel
+Valentin, which has had no release since version 1.1.3 and carries a number of open validation bugs.
+
+Namespaces and assembly names are unchanged, so replacing the package reference is the whole
+migration:
+
+```
+Install-Package CountryValidator.Community
+Install-Package CountryValidator.DataAnnotations.Community
+```
+
+Fixes in this fork are listed in [CHANGELOG.md](CHANGELOG.md). The original README follows.
+
+---
+
 # Country Validator 
 
 Country Validator is a .NET library that can validate **VAT codes, national identification numbers and tax identification numbers for individuals and companies**

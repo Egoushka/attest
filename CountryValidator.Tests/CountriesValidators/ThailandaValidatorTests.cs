@@ -22,27 +22,27 @@ namespace CountryValidation.Tests
         }
 
         [Theory]
-        [InlineData("8112289874", true)]
-        [InlineData("811228-9874", true)]
-        [InlineData("811228+9874", true)]
-        [InlineData("811228-9873", false)]
+        [InlineData("0107537001510", true)]
+        [InlineData("0105-515-004-336", true)]
+        [InlineData("0107537001511", false)] // Wrong check digit
+        [InlineData("8112289874", false)]    // Ten digit format, withdrawn in 2012
         public void TestIndividualCode(string code, bool isValid)
         {
             Assert.Equal(isValid, _thailandaValidator.ValidateIndividualTaxCode(code).IsValid);
         }
 
         [Theory]
-        [InlineData("1234567897", true)]
-        [InlineData("123456-7897", true)]
-        [InlineData("1234567891", false)]
+        [InlineData("0107537001706", true)]
+        [InlineData("0107-537-001-706", true)]
+        [InlineData("0107537001707", false)] // Wrong check digit
         public void TestCorrectEntityCode(string code, bool isValid)
         {
             Assert.Equal(isValid, _thailandaValidator.ValidateEntity(code).IsValid);
         }
 
         [Theory]
-        [InlineData("123456789701", true)]
-        [InlineData("123456789101", false)]
+        [InlineData("0105515004336", true)]
+        [InlineData("123456789101", false)] // Twelve digits
         public void TestCorrectVatCode(string code, bool isValid)
         {
             Assert.Equal(isValid, _thailandaValidator.ValidateVAT(code).IsValid);

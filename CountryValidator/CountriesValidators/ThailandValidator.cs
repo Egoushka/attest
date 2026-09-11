@@ -18,7 +18,7 @@ namespace CountryValidation.Countries
         public override ValidationResult ValidateNationalIdentity(string ssn)
         {
             ssn = ssn.RemoveSpecialCharacthers();
-            if (ssn.Length != 13)
+            if (!Regex.IsMatch(ssn, @"^\d{13}$"))
             {
                 return ValidationResult.InvalidLength();
             }
@@ -38,20 +38,15 @@ namespace CountryValidation.Countries
             return ValidateIndividualTaxCode(id);
         }
 
+        /// <summary>
+        /// Thai tax identification numbers are 13 digits since 1 February 2012. Individuals use the
+        /// identification number issued by the Ministry of Interior, juristic persons the registration
+        /// number issued by the Ministry of Commerce; both carry the same check digit.
+        /// https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/thailand-tin.pdf
+        /// </summary>
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
-            ssn = ssn.RemoveSpecialCharacthers();
-            if (ValidateNationalIdentity(ssn).IsValid)
-            {
-                return ValidationResult.Success();
-            }
-            else if (!Regex.IsMatch(ssn, @"^\d{10}$"))
-            {
-                return ValidationResult.Success();
-
-            }
-            return ValidationResult.Invalid("Invalid TIN");
-
+            return ValidateNationalIdentity(ssn);
         }
 
         public override ValidationResult ValidateVAT(string vatId)

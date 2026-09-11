@@ -36,18 +36,21 @@ namespace CountryValidation.Countries
             {
                 return ValidationResult.InvalidFormat("12345678901");
             }
-            var checkDigit = id.Substring(id.Length - 2);
+            // Parsed as a number, not compared as text: check numbers below 10 are written with a
+            // leading zero ("01"), which never equals the computed "1".
+            var checkDigit = int.Parse(id.Substring(id.Length - 2));
 
             var nrToCheck = long.Parse(id.Substring(0, 9));
 
-            if (ModFunction(nrToCheck).ToString() == checkDigit)
+            if (ModFunction(nrToCheck) == checkDigit)
             {
                 return ValidationResult.Success();
             }
 
+            // People born from 2000 on get a 2 in front of the nine digits before the modulo
             nrToCheck = long.Parse('2' + id.Substring(0, 9));
 
-            bool isValid = ModFunction(nrToCheck).ToString() == checkDigit;
+            bool isValid = ModFunction(nrToCheck) == checkDigit;
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
