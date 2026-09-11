@@ -78,13 +78,10 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateVAT(string vatId)
         {
-            vatId = vatId.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(vatId, @"^\d{8}$"))
-            {
-                return ValidationResult.Invalid("Invalid format");
-            }
-            return ValidationResult.Success();
-
+            // The VAT identifier is the NIT itself: two to twelve characters closed with a check
+            // digit that may be K, not a fixed run of eight digits.
+            // https://arthurdejong.org/nm/python-stdnum/doc/1.20/stdnum.gt.nit.html
+            return ValidateEntity(vatId);
         }
 
         public override ValidationResult ValidatePostalCode(string postalCode)

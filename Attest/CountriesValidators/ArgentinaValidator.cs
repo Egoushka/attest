@@ -8,6 +8,15 @@ namespace Attest.Countries
 {
     public class ArgentinaValidator : IdValidationAbstract
     {
+        /// <summary>
+        /// Valid CUIT taxpayer types: individuals, companies and international purposes.
+        /// https://arthurdejong.org/nl/python-stdnum/doc/1.20/stdnum.ar.cuit
+        /// </summary>
+        private static readonly string[] _cuitTypes = new string[]
+        {
+            "20", "23", "24", "27", "30", "33", "34", "50", "51", "55"
+        };
+
         public ArgentinaValidator()
         {
             CountryCode = nameof(Country.AR);
@@ -52,9 +61,15 @@ namespace Attest.Countries
 
             cuit = cuit.RemoveSpecialCharacthers();
 
-            if (!Regex.IsMatch(cuit, @"^\d{11}$"))
+            // [0-9] and not \d: in .NET \d also matches non-ASCII Unicode digits,
+            // which int.Parse below rejects with a FormatException.
+            if (!Regex.IsMatch(cuit, "^[0-9]{11}$"))
             {
                 return ValidationResult.InvalidFormat("12345678901");
+            }
+            else if (!_cuitTypes.Contains(cuit.Substring(0, 2)))
+            {
+                return ValidationResult.Invalid("Invalid taxpayer type.");
             }
             else
             {
@@ -75,22 +90,13 @@ namespace Attest.Countries
         public override ValidationResult ValidateNationalIdentity(string dni)
         {
             dni = dni.RemoveSpecialCharacthers();
-            if (string.IsNullOrWhiteSpace(dni) || dni.Length != 8 || !dni.All(Char.IsNumber))
+            // 7 or 8 digits, no check digit. Numbers below 10.000.000 are older but still valid.
+            // https://arthurdejong.org/nl/python-stdnum/doc/1.20/stdnum.ar.dni
+            if (!Regex.IsMatch(dni, "^[0-9]{7,8}$"))
             {
                 return ValidationResult.InvalidFormat("12345678");
             }
-            else if (!Int32.TryParse(dni, out int dniNumber))
-            {
-                return ValidationResult.InvalidFormat("12345678");
-            }
-            else
-            {
-                if (dniNumber >= 10000000 && dniNumber <= 99999999)
-                {
-                    return ValidationResult.Success();
-                }
-                return ValidationResult.Invalid("Invalid");
-            }
+            return ValidationResult.Success();
         }
 
         private int CalculateDigitCuit(string cuit)
@@ -151,7 +157,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{4}|[A-Za-z]\\d{4}[a-zA-Z]{3}$"))
+            if (!Regex.IsMatch(postalCode, "^([0-9]{4}|[A-Za-z][0-9]{4}[A-Za-z]{3})$"))
             {
                 return ValidationResult.InvalidFormat("NNNN OR ANNNNAAA");
             }

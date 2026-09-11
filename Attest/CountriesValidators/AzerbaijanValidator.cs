@@ -19,7 +19,11 @@ namespace Attest.Countries
         {
             ssn = ssn.RemoveSpecialCharacthers();
 
-            if (!Regex.IsMatch(ssn, @"^\w{7}$"))
+            // The PIN is the seven character code printed on the identity card and read from the
+            // machine readable zone, so it is made of Latin letters and digits only. \w would also
+            // accept letters of any other script.
+            // https://www.e-gov.az/en/services/read/3243/1
+            if (!Regex.IsMatch(ssn, @"^[A-Za-z0-9]{7}$"))
             {
                 return ValidationResult.InvalidFormat("5VBK5VR");
             }

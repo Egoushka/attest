@@ -43,13 +43,21 @@ namespace Attest.Countries
         public override ValidationResult ValidateVAT(string number)
         {
             number = number.RemoveSpecialCharacthers();
-            number = number.Replace("CL", string.Empty).Replace("cl", string.Empty);
+            // python-stdnum upper cases before validating, so a lower case "k" check digit
+            // is accepted: https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/cl/rut.py
+            // Only a "CL" prefix is stripped, not every occurrence: "76086CL4285" is not a RUT.
+            number = number.ToUpperInvariant();
+            if (number.StartsWith("CL"))
+            {
+                number = number.Substring(2);
+            }
 
             if (!(number.Length == 8 || number.Length == 9))
             {
                 return ValidationResult.InvalidLength();
             }
-            else if (!number.Substring(0, number.Length - 1).All(char.IsDigit))
+            // [0-9] and not char.IsDigit: IsDigit also accepts non-ASCII Unicode digits.
+            else if (!Regex.IsMatch(number.Substring(0, number.Length - 1), "^[0-9]+$"))
             {
                 return ValidationResult.InvalidFormat("12345678 or 123456789");
             }
@@ -89,7 +97,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{7}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{7}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNNNN or NNN-NNNNN");
             }

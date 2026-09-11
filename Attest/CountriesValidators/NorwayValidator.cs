@@ -120,8 +120,8 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateVAT(string vatId)
         {
-            vatId = vatId?.RemoveSpecialCharacthers();
-            vatId = vatId?.Replace("NO", string.Empty).Replace("no", string.Empty)
+            vatId = vatId.RemoveSpecialCharacthers();
+            vatId = vatId.Replace("NO", string.Empty).Replace("no", string.Empty)
                 .Replace("MVA", string.Empty).Replace("mva", string.Empty);
 
             if (!Regex.IsMatch(vatId, @"^\d{9}$"))

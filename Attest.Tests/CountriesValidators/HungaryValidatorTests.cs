@@ -12,12 +12,21 @@ namespace Attest.Tests
             _hungaryValidator = new HungaryValidator();
         }
 
+        // Szemelyi azonosito: M YYMMDD SSS K. The check digit is sum(digit * weight) mod 11,
+        // with weights 1..10 for births up to 1996-12-31 and reversed weights 10..1 from
+        // 1997-01-01 onwards. https://hu.wikipedia.org/wiki/Szem%C3%A9lyi_azonos%C3%ADt%C3%B3
         [Theory]
         [InlineData("26136907-2-13", false)]
         [InlineData("18509151239", true)]  // Born 1985-09-15
         [InlineData("18510151231", true)]  // Born 1985-10-15, October is a valid month
         [InlineData("27010010776", true)]  // Born 1970-10-01, female
         [InlineData("18510151232", false)] // Wrong check digit
+        [InlineData("29612311231", true)]  // Born 1996-12-31, last day of the 1..10 weights
+        [InlineData("29701011231", true)]  // Born 1997-01-01, first day of the 10..1 weights
+        [InlineData("19803120076", true)]  // Born 1998-03-12, serial 007, reversed weights
+        [InlineData("40012253112", true)]  // Born 2000-12-25, female, leading 4 means 20xx
+        [InlineData("19803120075", false)] // 1998 birth carrying the pre-1997 check digit
+        [InlineData("18509151232", false)] // 1985 birth carrying the post-1996 check digit
         [InlineData(null, false)]
         [InlineData("", false)]
         [InlineData("abc", false)]

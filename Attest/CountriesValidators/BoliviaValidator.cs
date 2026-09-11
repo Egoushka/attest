@@ -16,7 +16,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateNationalIdentity(string ssn)
         {
-            if (!Regex.IsMatch(ssn, @"^\d{5,8}\w?$"))
+            if (string.IsNullOrWhiteSpace(ssn) || !Regex.IsMatch(ssn, @"^\d{5,8}\w?$"))
             {
                 return ValidationResult.InvalidFormat("1234567");
             }

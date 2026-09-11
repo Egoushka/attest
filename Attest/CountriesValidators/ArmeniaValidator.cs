@@ -28,9 +28,12 @@ namespace Attest.Countries
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
             ssn = ssn.RemoveSpecialCharacthers();
+            // The ՀՎՀՀ is eight digits: a seven digit serial number and a check digit whose
+            // algorithm is not published.
+            // https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/armenia-tin.pdf
             if (!Regex.IsMatch(ssn, @"^\d{8}$"))
             {
-                return ValidationResult.InvalidFormat("123456789");
+                return ValidationResult.InvalidFormat("12345678");
             }
             return ValidationResult.Success();
         }

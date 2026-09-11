@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -40,7 +40,11 @@ namespace Attest.Countries
         public override ValidationResult ValidateEntity(string id)
         {
             id = id.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(id, @"^\d{14}$"))
+            // [0-9] and not \d: in .NET \d also matches non-ASCII Unicode digits,
+            // which int.Parse in DigitChecksum rejects with a FormatException.
+            // A CNPJ whose first twelve digits are zero has valid check digits but is not issued.
+            // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/br/cnpj.py
+            if (!Regex.IsMatch(id, @"^[0-9]{14}$") || id.StartsWith("000000000000"))
             {
                 return ValidationResult.InvalidFormat("12345678901234");
             }
@@ -64,7 +68,9 @@ namespace Attest.Countries
             cpf = cpf.RemoveSpecialCharacthers();
             var regex = @"^[0-9]{11}$";
 
-            if (!Regex.IsMatch(cpf, regex))
+            // A CPF of all zeros satisfies both check digits; python-stdnum rejects it explicitly.
+            // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/br/cpf.py
+            if (!Regex.IsMatch(cpf, regex) || cpf == "00000000000")
             {
                 return ValidationResult.InvalidFormat("12345678901");
 
@@ -117,7 +123,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{8}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{8}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNN-NNN");
             }

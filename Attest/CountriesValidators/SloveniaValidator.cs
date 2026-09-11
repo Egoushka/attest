@@ -115,7 +115,11 @@ namespace Attest.Countries
 
             var checkDigit = 11 - sum % 11;
 
-            if (checkDigit > 9)
+            // 10 maps to check digit 0, but 11 (a weighted sum divisible by 11) leaves no
+            // representable check digit and the number is invalid. Unlike EMSO above, which
+            // collapses both 10 and 11 to 0, DDV only collapses 10.
+            // https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.si.ddv
+            if (checkDigit == 10)
             {
                 checkDigit = 0;
             }

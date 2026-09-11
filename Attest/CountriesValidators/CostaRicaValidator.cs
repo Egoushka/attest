@@ -90,7 +90,13 @@ namespace Attest.Countries
             {
                 return ValidationResult.InvalidFormat("12-345-678");
             }
-
+            // A CPF is 0P-TTTT-AAAA, so the padded ten digit form always starts with a zero.
+            // Nine digit input is the same number with that leading zero omitted.
+            // https://arthurdejong.org/nm/python-stdnum/doc/1.20/stdnum.cr.cpf.html
+            else if (number.Length == 10 && number[0] != '0')
+            {
+                return ValidationResult.Invalid("Invalid format. The first digit must be 0");
+            }
 
             return ValidationResult.Success();
         }

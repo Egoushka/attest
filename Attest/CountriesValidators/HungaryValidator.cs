@@ -28,6 +28,7 @@ namespace Attest.Countries
                 yearPrefix = "20";
             }
 
+            bool reversedWeights;
             try
             {
                 var year = int.Parse(yearPrefix + ssn.Substring(1, 2));
@@ -38,12 +39,17 @@ namespace Attest.Countries
                 {
                     return ValidationResult.InvalidDate();
                 }
+                // The check digit weights were reversed (10..1 instead of 1..10) for births
+                // from 1997-01-01, so that swapping the last two digits is detected.
+                // A leading 7 or 8 means an 18xx birth year, which always keeps the old weights.
+                // https://hu.wikipedia.org/wiki/Szem%C3%A9lyi_azonos%C3%ADt%C3%B3
+                reversedWeights = ssn[0] != '7' && ssn[0] != '8' && date >= new DateTime(1997, 1, 1);
             }
             catch
             {
                 return ValidationResult.InvalidDate();
             }
-            return (int)char.GetNumericValue(ssn[ssn.Length - 1]) == CheckSum(ssn) ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
+            return (int)char.GetNumericValue(ssn[ssn.Length - 1]) == CheckSum(ssn, reversedWeights) ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
         /// <summary>
@@ -78,12 +84,13 @@ namespace Attest.Countries
             return (int)char.GetNumericValue(code[code.Length - 1]) == CheckSum(code) ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
-        private int CheckSum(string value)
+        private int CheckSum(string value, bool reversedWeights = false)
         {
             int sum = 0;
             for (int i = 0; i < value.Length - 1; i++)
             {
-                sum += (int)char.GetNumericValue(value[i]) * (i + 1);
+                var weight = reversedWeights ? value.Length - 1 - i : i + 1;
+                sum += (int)char.GetNumericValue(value[i]) * weight;
             }
 
             return (sum % 11);

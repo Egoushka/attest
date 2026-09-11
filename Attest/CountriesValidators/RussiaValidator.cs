@@ -74,7 +74,10 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateEntity(string id)
         {
-            if (id?.Length != 10)
+            // Organisations carry the 10 digit INN, persons the 12 digit one, so the length is
+            // measured after the separators are dropped like everywhere else in this class.
+            id = id.RemoveSpecialCharacthers();
+            if (id.Length != 10)
             {
                 return ValidationResult.Invalid("Invalid length");
 

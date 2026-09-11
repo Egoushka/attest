@@ -67,6 +67,8 @@ namespace Attest.Countries
             "58005174058","90001200901"
         };
 
+        // NCF/e-CF document type codes published by the DGII.
+        // https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.do.ncf
         readonly string[] _ecf_document_types = {
             "31",  // invoices for fiscal declaration (or tax reporting)
             "32",  // invoices for final consumer
@@ -76,6 +78,8 @@ namespace Attest.Countries
             "43",  // minor expenses invoices (purchases)
             "44",  // invoices for special customers (tourists, free zones)
             "45",  // invoices for the government
+            "46",  // invoices for export
+            "47",  // invoices for payments abroad
         };
 
 
@@ -189,9 +193,9 @@ namespace Attest.Countries
                 {
                     return ValidationResult.Invalid("Invalid code");
                 }
-                else if (_ncf_document_types.Contains(number.Substring(1, 2)))
+                else if (!_ncf_document_types.Contains(number.Substring(1, 2)))
                 {
-                    return ValidationResult.Invalid("Invalid code");
+                    return ValidationResult.Invalid("Invalid ncf document type");
                 }
             }
             else if (number.Length == 19)

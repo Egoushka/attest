@@ -54,7 +54,9 @@ namespace Attest.Countries
             }
             else if (ruc[2] == '6')   // 6 = public RUC
             {
-                if (ruc.Substring(ruc.Length - 4) == "000")
+                // A public RUC carries a four digit establishment number, so the guard compares
+                // four characters. https://arthurdejong.org/nm/python-stdnum/doc/1.20/stdnum.ec.ruc.html
+                if (ruc.Substring(ruc.Length - 4) == "0000")
                 {
                     return ValidationResult.Invalid("Invalid code");
                 }

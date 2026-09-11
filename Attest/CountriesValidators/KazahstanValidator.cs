@@ -17,12 +17,11 @@ namespace Attest.Countries
         public override ValidationResult ValidateEntity(string id)
         {
             id = id.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(id, @"\d{12}$"))
+            if (!Regex.IsMatch(id, @"^\d{12}$"))
             {
                 return ValidationResult.InvalidFormat("123456789012");
             }
-            return ValidationResult.Success();
-
+            return ValidateCheckDigit(id);
         }
 
         /// <summary>
@@ -33,7 +32,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
             ssn = ssn.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(ssn, @"\d{12}$"))
+            if (!Regex.IsMatch(ssn, @"^\d{12}$"))
             {
                 return ValidationResult.InvalidFormat("123456789012");
             }
@@ -52,7 +51,29 @@ namespace Attest.Countries
                 return ValidationResult.InvalidDate();
             }
 
-            return ValidationResult.Success();
+            return ValidateCheckDigit(ssn);
+        }
+
+        /// <summary>
+        /// IIN and BIN share the same check digit: the weighted sum of the first
+        /// eleven digits modulo 11. A remainder of 10 is recalculated with the
+        /// alternative weights; when that is also 10 the number is never issued,
+        /// so it stays invalid.
+        /// https://ru.wikipedia.org/wiki/%D0%98%D0%BD%D0%B4%D0%B8%D0%B2%D0%B8%D0%B4%D1%83%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9_%D0%B8%D0%B4%D0%B5%D0%BD%D1%82%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D1%8B%D0%B9_%D0%BD%D0%BE%D0%BC%D0%B5%D1%80
+        /// </summary>
+        private ValidationResult ValidateCheckDigit(string id)
+        {
+            int[] multipliers = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+            int[] multipliersDoubleCheck = { 3, 4, 5, 6, 7, 8, 9, 10, 11, 1, 2 };
+
+            var checkDigit = id.Sum(multipliers) % 11;
+            if (checkDigit == 10)
+            {
+                checkDigit = id.Sum(multipliersDoubleCheck) % 11;
+            }
+
+            var isValid = checkDigit == id[11].ToInt();
+            return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
         /// <summary>

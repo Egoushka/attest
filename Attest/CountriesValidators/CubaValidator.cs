@@ -25,6 +25,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateIndividualTaxCode(string number)
         {
+            number = number.RemoveSpecialCharacthers();
             if (number.Length != 11)
             {
                 return ValidationResult.InvalidLength();

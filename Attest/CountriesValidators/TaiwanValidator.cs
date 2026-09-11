@@ -41,6 +41,12 @@ namespace Attest.Countries
         /// <returns></returns>
         public ValidationResult ValidateLocalSSN(string ssn)
         {
+            ssn = ssn.RemoveSpecialCharacthers();
+            if (!Regex.IsMatch(ssn, "^[A-Z][12][0-9]{8}$"))
+            {
+                return ValidationResult.InvalidFormat("A123456789");
+            }
+
             int idLen = ssn.Length;
             string letters = "ABCDEFGHJKLMNPQRSTUVXYWZIO";
             int letterIndex = letters.IndexOf(ssn[0]);
@@ -69,6 +75,12 @@ namespace Attest.Countries
         /// <returns></returns>
         public ValidationResult ValidateResidentSSN(string ssn)
         {
+            ssn = ssn.RemoveSpecialCharacthers();
+            if (!Regex.IsMatch(ssn, "^[A-Z][A-D][0-9]{8}$"))
+            {
+                return ValidationResult.InvalidFormat("AB12345677");
+            }
+
             int idLen = ssn.Length;
 
             string letters = "ABCDEFGHJKLMNPQRSTUVXYWZIO";

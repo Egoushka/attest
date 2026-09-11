@@ -26,8 +26,14 @@ namespace Attest.Countries
             number = number.Replace("FR", string.Empty).Replace("fr", string.Empty).Replace("mc", string.Empty).Replace("MC", string.Empty);
 
 
-            if (number.Substring(2, 3) != "000")
+            if (number.Length != 11)
             {
+                return ValidationResult.InvalidLength();
+            }
+            else if (number.Substring(2, 3) != "000")
+            {
+                // Monaco numbers are issued as a French TVA whose SIREN part starts with "000".
+                // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/fr/tva.py
                 return ValidationResult.Invalid("Invalid Code");
             }
 

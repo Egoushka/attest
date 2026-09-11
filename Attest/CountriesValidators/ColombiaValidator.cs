@@ -36,13 +36,19 @@ namespace Attest.Countries
 
         public override ValidationResult ValidateVAT(string number)
         {
-            number = number.RemoveSpecialCharacthers();
-            number = number.Replace("CO", string.Empty).Replace("co", string.Empty);
+            number = number.RemoveSpecialCharacthers().ToUpperInvariant();
+            // Only a "CO" prefix is stripped, not every occurrence: "213CO1234321" is not a NIT.
+            if (number.StartsWith("CO"))
+            {
+                number = number.Substring(2);
+            }
             if (!(8 <= number.Length && number.Length <= 16))
             {
-                return ValidationResult.InvalidChecksum();
+                return ValidationResult.InvalidLength();
             }
-            else if (!number.All(char.IsDigit))
+            // [0-9] and not char.IsDigit: IsDigit also accepts non-ASCII Unicode digits.
+            // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/co/nit.py
+            else if (!Regex.IsMatch(number, "^[0-9]+$"))
             {
                 return ValidationResult.Invalid("Only digits are allowed");
             }
@@ -77,7 +83,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{6}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{6}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNNN");
             }

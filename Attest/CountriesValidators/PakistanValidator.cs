@@ -23,9 +23,12 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateIndividualTaxCode(string id)
         {
-            id = id.Trim();
+            id = id.RemoveSpecialCharacthers();
 
-            var isValid = Regex.IsMatch(id, "^[1-7][0-9]{4}-[0-9]{7}-[1-9]{1}$");
+            // 13 digits, first digit is the province code 1-7, last digit is the
+            // gender digit and is never 0.
+            // https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.pk.cnic
+            var isValid = Regex.IsMatch(id, "^[1-7][0-9]{11}[1-9]{1}$");
             if (isValid)
             {
                 return ValidationResult.Success();

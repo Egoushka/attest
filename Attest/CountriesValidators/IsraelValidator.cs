@@ -13,16 +13,15 @@ namespace Attest.Countries
         public override ValidationResult ValidateEntity(string ssn)
         {
             ssn = ssn.RemoveSpecialCharacthers();
-            if (ssn?.Length > 9 || !ssn.All(char.IsDigit))
+            // A company number is always exactly nine digits starting with 5, so zero padding a
+            // shorter string only ever produced numbers that cannot be issued.
+            // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/il/hp.py
+            if (ssn?.Length != 9 || !ssn.All(char.IsDigit))
             {
                 return ValidationResult.Invalid("Invalid length. The code must have 9 digits");
             }
-            else if (ssn?.Length < 9)
-            {
-                ssn = ssn.PadLeft(9, '0');
-            }
 
-            if (!Regex.IsMatch(ssn, @"^0*5\d+$"))
+            if (!Regex.IsMatch(ssn, @"^5\d{8}$"))
             {
                 return ValidationResult.Invalid("For companies the first digit must be 5");
             }
@@ -40,6 +39,10 @@ namespace Attest.Countries
             if (ssn?.Length != 9)
             {
                 return ValidationResult.Invalid("Invalid length. The code must have 9 digits");
+            }
+            else if (!ssn.All(char.IsDigit))
+            {
+                return ValidationResult.InvalidFormat("123456789");
             }
 
             int counter = 0;

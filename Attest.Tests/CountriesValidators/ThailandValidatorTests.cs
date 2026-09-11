@@ -3,13 +3,13 @@ using Xunit;
 
 namespace Attest.Tests
 {
-    public class ThailandaValidatorTests
+    public class ThailandValidatorTests
     {
-        private readonly ThailandValidator _thailandaValidator;
+        private readonly ThailandValidator _thailandValidator;
 
-        public ThailandaValidatorTests()
+        public ThailandValidatorTests()
         {
-            _thailandaValidator = new ThailandValidator();
+            _thailandValidator = new ThailandValidator();
         }
 
         [Theory]
@@ -18,7 +18,7 @@ namespace Attest.Tests
         [InlineData("0107537001706", true)]
         public void TestNationalId(string code, bool isValid)
         {
-            Assert.Equal(isValid, _thailandaValidator.ValidateNationalIdentity(code).IsValid);
+            Assert.Equal(isValid, _thailandValidator.ValidateNationalIdentity(code).IsValid);
         }
 
         [Theory]
@@ -28,7 +28,7 @@ namespace Attest.Tests
         [InlineData("8112289874", false)]    // Ten digit format, withdrawn in 2012
         public void TestIndividualCode(string code, bool isValid)
         {
-            Assert.Equal(isValid, _thailandaValidator.ValidateIndividualTaxCode(code).IsValid);
+            Assert.Equal(isValid, _thailandValidator.ValidateIndividualTaxCode(code).IsValid);
         }
 
         [Theory]
@@ -37,7 +37,7 @@ namespace Attest.Tests
         [InlineData("0107537001707", false)] // Wrong check digit
         public void TestCorrectEntityCode(string code, bool isValid)
         {
-            Assert.Equal(isValid, _thailandaValidator.ValidateEntity(code).IsValid);
+            Assert.Equal(isValid, _thailandValidator.ValidateEntity(code).IsValid);
         }
 
         [Theory]
@@ -45,7 +45,7 @@ namespace Attest.Tests
         [InlineData("123456789101", false)] // Twelve digits
         public void TestCorrectVatCode(string code, bool isValid)
         {
-            Assert.Equal(isValid, _thailandaValidator.ValidateVAT(code).IsValid);
+            Assert.Equal(isValid, _thailandValidator.ValidateVAT(code).IsValid);
         }
 
         [Theory]
@@ -54,7 +54,7 @@ namespace Attest.Tests
         [InlineData("321", false)]
         public void TestPostalCode(string code, bool isValid)
         {
-            Assert.Equal(isValid, _thailandaValidator.ValidatePostalCode(code).IsValid);
+            Assert.Equal(isValid, _thailandValidator.ValidatePostalCode(code).IsValid);
         }
 
     }

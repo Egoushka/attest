@@ -68,6 +68,12 @@ namespace Attest.Countries
             }
         }
 
+        /// <summary>
+        /// Weights 14 down to 2 over the first thirteen characters, modulus 17. The leading
+        /// character is the initial of the surname, so its value is its position in the alphabet
+        /// below - char.GetNumericValue returns -1 for letters and skews the whole sum.
+        /// https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.mu.nid.html
+        /// </summary>
         public char CalculateChecksum(string number)
         {
             string _alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -75,7 +81,7 @@ namespace Attest.Countries
             int sum = 0;
             for (int i = 0; i < number.Length; i++)
             {
-                sum += (14 - i) * (int)char.GetNumericValue(number[i]);
+                sum += (14 - i) * _alphabet.IndexOf(number[i]);
             }
 
             sum = (17 - sum).Mod(17);

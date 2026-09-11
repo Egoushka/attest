@@ -87,6 +87,11 @@ namespace Attest.Countries
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// ЕДБ (Единствен Даночен Број)
+        /// </summary>
+        /// <param name="vatId"></param>
+        /// <returns></returns>
         public override ValidationResult ValidateVAT(string vatId)
         {
             vatId = vatId.RemoveSpecialCharacthers();
@@ -95,7 +100,28 @@ namespace Attest.Countries
             {
                 return ValidationResult.InvalidFormat("MK1234567890123");
             }
+
+            // The last digit is a modulus 11 check digit, a remainder of 10 is written as 0.
+            // https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.mk.edb.html
+            if ((int)char.GetNumericValue(vatId[12]) != CalculateChecksum(vatId.Substring(0, 12)))
+            {
+                return ValidationResult.InvalidChecksum();
+            }
+
             return ValidationResult.Success();
+        }
+
+        private int CalculateChecksum(string number)
+        {
+            int[] weights = new int[] { 7, 6, 5, 4, 3, 2, 7, 6, 5, 4, 3, 2 };
+
+            int sum = 0;
+            for (int i = 0; i < weights.Length; i++)
+            {
+                sum += weights[i] * (int)char.GetNumericValue(number[i]);
+            }
+
+            return (11 - sum % 11) % 11 % 10;
         }
 
         public override ValidationResult ValidatePostalCode(string postalCode)

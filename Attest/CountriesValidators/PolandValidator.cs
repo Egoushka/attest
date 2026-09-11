@@ -23,7 +23,7 @@ namespace Attest.Countries
             List<int> peselList;
             int peselMonth, peselDay, peselYear, peselChecksum;
 
-            if (pesel.Length != 11 || !pesel.All(char.IsDigit))
+            if (string.IsNullOrWhiteSpace(pesel) || pesel.Length != 11 || !pesel.All(char.IsDigit))
             {
                 return ValidationResult.InvalidFormat("12345678901");
             }
@@ -112,12 +112,11 @@ namespace Attest.Countries
 
             var sum = vatId.Sum(multipliers);
 
+            // A remainder of 10 leaves no representable check digit, so the NIP is unissuable.
+            // The spec has no 10 -> 0 fallback: stdnum requires the full weighted sum
+            // (weights 6,5,7,2,3,4,5,6,7,-1) to be congruent to 0 mod 11.
+            // https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.pl.nip
             var checkDigit = sum % 11;
-
-            if (checkDigit > 9)
-            {
-                checkDigit = 0;
-            }
 
             bool isValid = checkDigit == vatId[9].ToInt();
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();

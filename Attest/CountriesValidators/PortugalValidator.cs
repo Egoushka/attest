@@ -68,51 +68,47 @@ namespace Attest.Countries
             }
         }
 
+        // The leading digits of a NIF identify the kind of taxpayer it was issued to:
+        //  1, 2, 3     natural persons (the 3 range opened in June 2019)
+        //  45          natural persons, non-resident citizens
+        //  8           empresario em nome individual (sole trader, range no longer issued)
+        //  5           pessoa colectiva registered with the Registo Nacional de Pessoas Colectivas
+        //  6           central, regional or local public administration bodies
+        //  7           herancas indivisas, investment funds, non-resident collectives, official attributions
+        //  9           irregular collective bodies, condominiums, non-residents without permanent establishment
+        // 0, and 4 not followed by 5, are not issued at all.
+        // https://pt.wikipedia.org/wiki/N%C3%BAmero_de_identifica%C3%A7%C3%A3o_fiscal
+        private const string IndividualPrefixes = "^([123]|45|8)";
+        private const string EntityPrefixes = "^[5679]";
+        private const string AnyPrefix = "^([12356789]|45)";
+
         public override ValidationResult ValidateEntity(string id)
         {
-            id = id.RemoveSpecialCharacthers();
-            id = id.Replace("PT", string.Empty).Replace("pt", string.Empty);
-            int[] multipliers = { 9, 8, 7, 6, 5, 4, 3, 2 };
-
-            if (!Regex.IsMatch(id, @"^\d{9}$"))
-            {
-                return ValidationResult.InvalidFormat("123456789");
-
-            }
-            else if (Regex.IsMatch(id, "^[123]"))
-            {
-                return ValidationResult.Invalid("Invalid code. This is not a company nif.");
-            }
-
-            var sum = id.Sum(multipliers);
-
-            var checkDigit = 11 - sum % 11;
-
-            if (checkDigit > 9)
-            {
-                checkDigit = 0;
-            }
-            bool isValid = checkDigit == id[8].ToInt();
-            return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
+            return ValidateNif(id, EntityPrefixes, "Invalid code. This is not a company nif.");
         }
 
         public override ValidationResult ValidateIndividualTaxCode(string code)
         {
-            code = code.RemoveSpecialCharacthers();
-            code = code.Replace("PT", string.Empty).Replace("pt", string.Empty);
+            return ValidateNif(code, IndividualPrefixes, "Invalid code. This is not a personal nif.");
+        }
+
+        private ValidationResult ValidateNif(string nif, string allowedPrefixes, string prefixError)
+        {
+            nif = nif.RemoveSpecialCharacthers();
+            nif = nif.Replace("PT", string.Empty).Replace("pt", string.Empty);
             int[] multipliers = { 9, 8, 7, 6, 5, 4, 3, 2 };
 
-            if (!Regex.IsMatch(code, @"^\d{9}$"))
+            if (!Regex.IsMatch(nif, @"^\d{9}$"))
             {
                 return ValidationResult.InvalidFormat("123456789");
 
             }
-            else if (Regex.IsMatch(code, "^[5]"))
+            else if (!Regex.IsMatch(nif, allowedPrefixes))
             {
-                return ValidationResult.Invalid("Invalid code. This is not a personal nif.");
+                return ValidationResult.Invalid(prefixError);
             }
 
-            var sum = code.Sum(multipliers);
+            var sum = nif.Sum(multipliers);
 
             var checkDigit = 11 - sum % 11;
 
@@ -120,7 +116,7 @@ namespace Attest.Countries
             {
                 checkDigit = 0;
             }
-            bool isValid = checkDigit == code[8].ToInt();
+            bool isValid = checkDigit == nif[8].ToInt();
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
@@ -214,36 +210,16 @@ namespace Attest.Countries
         }
 
         /// <summary>
-        /// Numero de Identificacao Fiscal (NIF) 
+        /// Numero de Identificacao Fiscal (NIF). The Portuguese VAT number is the taxpayer's
+        /// own NIF, so sole traders and other natural persons registered for IVA carry a
+        /// 1, 2 or 3 prefixed VAT number just as companies carry a 5 prefixed one.
+        /// https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.pt.nif.html
         /// </summary>
         /// <param name="vatId"></param>
         /// <returns></returns>
         public override ValidationResult ValidateVAT(string vatId)
         {
-            vatId = vatId.RemoveSpecialCharacthers();
-            vatId = vatId.Replace("PT", string.Empty).Replace("pt", string.Empty);
-            int[] multipliers = { 9, 8, 7, 6, 5, 4, 3, 2 };
-
-            if (!Regex.IsMatch(vatId, @"^\d{9}$"))
-            {
-                return ValidationResult.InvalidFormat("123456789");
-
-            }
-            else if (Regex.IsMatch(vatId, "^[123]"))
-            {
-                return ValidationResult.Invalid("Invalid code. This is not a company nif.");
-            }
-
-            var sum = vatId.Sum(multipliers);
-
-            var checkDigit = 11 - sum % 11;
-
-            if (checkDigit > 9)
-            {
-                checkDigit = 0;
-            }
-            bool isValid = checkDigit == vatId[8].ToInt();
-            return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
+            return ValidateNif(vatId, AnyPrefix, "Invalid code. This is not a nif.");
         }
 
         public override ValidationResult ValidatePostalCode(string postalCode)

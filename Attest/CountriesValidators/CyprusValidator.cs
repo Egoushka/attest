@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
@@ -11,22 +11,32 @@ namespace Attest.Countries
 
         public override ValidationResult ValidateNationalIdentity(string ssn)
         {
+            // Cypriot identity card number: 10 digits, no published check digit,
+            // so only the format can be verified.
+            // https://learn.microsoft.com/en-us/purview/sit-defn-cyprus-identity-card
             ssn = ssn.RemoveSpecialCharacthers();
             if (!Regex.IsMatch(ssn, @"^\d{10}$"))
             {
-                return ValidationResult.InvalidFormat("1234567890");
+                return ValidationResult.InvalidFormat("NNNNNNNNNN");
             }
             return ValidationResult.Success();
         }
 
         public override ValidationResult ValidateEntity(string id)
         {
-            id = id.RemoveSpecialCharacthers();
-            id = id?.Replace("cy", string.Empty)?.Replace("CY", string.Empty);
+            // Tax Identification Code / VAT number: 8 digits plus a mod 26 check letter.
+            // Numbers starting with "12" are reserved and are never issued.
+            // https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.cy.vat.html
+            id = id.RemoveSpecialCharacthers().ToUpper().Replace("CY", string.Empty);
 
-            if (!Regex.IsMatch(id, @"^([0-59]\d{7}[A-Z])$"))
+            if (!Regex.IsMatch(id, @"^\d{8}[A-Z]$"))
             {
-                return ValidationResult.InvalidFormat("12345678X");
+                return ValidationResult.InvalidFormat("NNNNNNNNL");
+            }
+
+            if (id.StartsWith("12"))
+            {
+                return ValidationResult.Invalid("Numbers starting with 12 are reserved.");
             }
 
             var result = 0;
@@ -73,14 +83,7 @@ namespace Attest.Countries
 
         public override ValidationResult ValidateVAT(string vatId)
         {
-            vatId = vatId.RemoveSpecialCharacthers();
-            vatId = vatId.Replace("CY", string.Empty).Replace("cy", string.Empty);
-
-            if (!Regex.IsMatch(vatId, @"^([0-59]\d{7}[A-Z])$"))
-            {
-                return ValidationResult.InvalidFormat("12345678X");
-            }
-
+            // The VAT number is the Tax Identification Code prefixed with CY.
             return ValidateEntity(vatId);
         }
 

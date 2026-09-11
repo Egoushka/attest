@@ -51,7 +51,9 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateVAT(string vatId)
         {
-            vatId = vatId.RemoveSpecialCharacthers();
+            // Seven digits, optionally prefixed with MD, for example MD9234564.
+            // https://www.vatify.eu/moldova-vat-number.html
+            vatId = vatId.RemoveSpecialCharacthers().ToUpper().Replace("MD", string.Empty);
             if (!Regex.IsMatch(vatId, @"^\d{7}$"))
             {
                 return ValidationResult.InvalidFormat("1234567");

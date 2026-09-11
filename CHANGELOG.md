@@ -101,6 +101,139 @@ reproduced against the published rule for that country before being changed.
   - IdValidationAbstract.CountryCode was `public static string`, written by all 87 validator constructors.
   - The facade returned ValidationResult.Invalid("Not supported") for an unregistered country but let NotSupportedException/NotImplementedException escape for 35 of 435 (registered country, method) pairs — a supported country crashed…
 
+### Fixed in the second repair wave
+
+Covers the defects the audit left on the list, plus the 38 validators that had never had a single
+test. 80 further defects were fixed and 1911 test cases added, taking the suite from 1111 to 3010.
+Writing the first tests for a validator is what surfaced most of these — every country below had
+zero coverage before, unless it appears in the first wave as well.
+
+- **Argentina**
+  - ValidatePostalCode regex "^\\d{4}|[A-Za-z]\\d{4}[a-zA-Z]{3}$" is a top-level alternation with no group, so the anchors bind to one branch each: any string STARTING with 4 digits was accepted regardless of what…
+  - ValidateCuit guarded with @"^\d{11}$".
+  - ValidateCuit accepted any two-digit prefix.
+  - ValidateNationalIdentity required exactly 8 digits and additionally rejected anything below 10000000, so every 7-digit DNI (numbers issued below 10 million, still in circulation) was a false negative.…
+- **Armenia**
+  - The InvalidFormat message advertised "123456789" (nine digits) for a TIN the same method requires to be eight digits.
+- **Azerbaijan**
+  - ValidateNationalIdentity used ^\w{7}$, and .NET's \w matches letters of any script, so "ЖЖЖЖЖЖЖ" passed as a PIN.
+- **Belarus**
+  - ValidateEntity gated on Regex "^[AaBbCcEeHhKkMmOoPpTt]{2}", requiring two leading letters.
+  - ValidateVAT carried the same two-leading-letters guard, so it rejected every numeric UNP.
+  - ValidateIndividualTaxCode was the mirror image: `!number.Substring(0, 2).All(char.IsDigit)` rejected the two-letter form, which is exactly the form issued to individuals.
+  - All three UNP methods threw NullReferenceException on null input: `id?.Replace(...)` left id null, then the `id.Translit()` extension dereferenced it inside its body.
+  - ValidateUNP never checked that the first two characters were consistently digits or consistently letters, nor that a letter in position 1 was one of ABCEHKMOPT. "A11953684" and "AD1953684" reached…
+  - Cyrillic input was run through IdExtensions.Translit(), which transliterates (В->V, Н->N, Р->R, С->S) instead of mapping to the Latin look-alikes the UNP actually uses (B, H, P, C).
+- **Bolivia**
+  - ValidateNationalIdentity called Regex.IsMatch(ssn, ...) with no guard, so null input threw ArgumentNullException instead of returning a ValidationResult.
+- **Brazil**
+  - ValidateEntity/ValidateVAT (CNPJ) guarded with @"^\d{14}$"; .NET \d matches non-ASCII Unicode digits (e.g.
+  - CNPJ "00000000000000" has arithmetically correct check digits and was reported valid.
+  - CPF "00000000000" passes both check digits and was reported valid.
+  - ValidatePostalCode used "^\\d{8}$", so a CEP written in Arabic-Indic digits was reported valid.
+- **Chile**
+  - A lower case "k" check digit (remainder 10) was rejected: CalculateChecksum returns upper case 'K' and the input was never upper-cased, so "12000008k" failed the checksum.
+  - Replace("CL", "") stripped "CL" from anywhere in the string, so "76086CL4285" was accepted as the valid RUT 76086428-5.
+  - Body digit check used char.IsDigit, which accepts non-ASCII Unicode digits; postal code used "^\\d{7}$" with the same leniency.
+- **Colombia**
+  - A NIT of the wrong length returned ValidationResult.InvalidChecksum() — the wrong failure reason for a length failure.
+  - Replace("CO", "") stripped "CO" from anywhere, so "213CO1234321" was accepted as the valid NIT 2131234321.
+  - char.IsDigit accepted non-ASCII Unicode digits; postal code used "^\\d{6}$".
+- **CostaRica**
+  - ValidateCPF accepted any 10-digit number.
+- **Cuba**
+  - ValidateIndividualTaxCode dereferenced number.Length with no guard, so null threw NullReferenceException.
+- **Cyprus**
+  - National-ID test data was the Czech rodne cislo 7103192745, copied verbatim from CzechValidatorTests.cs (grep confirms the same literal in CzechValidatorTests.cs and SlovakiaValidatorTests.cs).
+  - The TIC/VAT format guard ^([0-59]\d{7}[A-Z])$ restricts the first digit to 0-5 or 9, rejecting 6, 7 and 8.
+  - The reserved '12' prefix was not rejected. python-stdnum raises InvalidComponent for any CY number beginning '12'.
+  - Input was never upper-cased, although the code already tried to handle lowercase input by calling .Replace("cy", ...).
+  - ValidateVAT duplicated ValidateEntity's regex and CY-stripping, then delegated to ValidateEntity anyway, so the format rule lived in two places and could drift.
+- **Dominican-republic**
+  - ValidateNCF: the document-type test for the 11-character B-series receipt was inverted relative to its two sibling branches — `else if (_ncf_document_types.Contains(number.Substring(1, 2)))` rejected every…
+  - _ecf_document_types was missing the codes "46" (comprobante electrónico para exportaciones) and "47" (comprobante electrónico para pagos al exterior), so valid 13-character e-CF receipts of those two types…
+- **Ecuador**
+  - In the public-RUC branch of ValidateEntity the establishment guard read `ruc.Substring(ruc.Length - 4) == "000"` — a 4-character slice compared to a 3-character literal, so it could never be true.
+- **Germany**
+  - ValidateEntity accepted any 10- or 11-digit numeric string and never verified the Pruefziffer it captured.
+  - The 10/11-digit Bescheid form was validated by unanchored per-Land regexes that could not reject anything.
+  - Three permanently dead regexes.
+  - TestCorrectEntityCode was three rows that all expected true, with no negative row, so it certified nothing -- the theory would still pass if ValidateEntity returned Success for every 10/11/13-digit input.
+  - ValidateEntity had no explicit guard for empty input.
+- **Guatemala**
+  - ValidateVAT was a bare `^\d{8}$` format check while the method's own doc comment says NIT.
+- **Hungary**
+  - ValidateNationalIdentity computed the szemelyi azonosito check digit with weights 1..10 for every input.
+- **Indonesia**
+  - NPWP Luhn check computed over the wrong window: ValidateEntity and ValidateIndividualTaxCode both called ssn.Substring(0, 10).CheckLuhnDigit(), treating digit 10 (first digit of the tax-office code) as the…
+  - ValidateEntity rejected the wrong taxpayer-type digit with the message "Second digit must be between 4-9" — that is the individual rule; the entity branch requires 0-3.
+- **Israel**
+  - ValidateIndividualTaxCode accepted non-digit input. char.GetNumericValue returns -1 for a letter, so a letter contributed -1 or -2 to the running total instead of being rejected; "23456789a" summed to exactly…
+  - ValidateEntity/ValidateVAT accepted strings that are not company numbers: inputs shorter than 9 were zero-padded (so "59" became 000000059 and validated), and the prefix regex ^0*5\d+$ let leading zeros stand…
+- **Japan**
+  - ValidatePostalCode's InvalidFormat hint read "NNNNNNN or NNN-NNNNN" — eight N in the grouped form for a seven-digit code.
+- **Kazakhstan**
+  - Unanchored regex in ValidateEntity (line 20) and ValidateIndividualTaxCode (line 36): @"\d{12}$" checks "ends with 12 digits", not "is exactly 12 digits".
+  - No checksum at all.
+  - No test file existed for Kazakhstan.
+- **Korea**
+  - new DateTime(DateTime.Now.Year - 17, DateTime.Now.Month, DateTime.Now.Day) throws ArgumentOutOfRangeException whenever the call happens on 29 February and the year 17 years earlier is not a leap year (e.g.…
+- **Macedonia**
+  - ValidateVAT (and ValidateEntity, which delegates to it) accepted any 13 digits with no check-digit verification.
+- **Malta**
+  - ValidatePostalCode accepted 2 and 3 digit postcodes.
+  - ValidatePostalCode was case-sensitive while its normalisation line (RemoveSpecialCharacthers, no ToUpper) never uppercased, unlike the other three methods in the same file.
+  - ValidateVAT stripped the country prefix with .Replace("mt").Replace("MT") without uppercasing first, so mixed-case input was rejected.
+  - ValidateVAT's Replace("MT", "") removed 'MT' anywhere in the string, not just as a prefix.
+  - ValidateIndividualTaxCode's regex ^\d{7}[1-9MGAPLHBZ]$ mixed digits into the id-card suffix class, so any 8-digit number ending 1-9 was accepted as a TIN (e.g. '12345678'), while '12345670' was rejected - an…
+  - ValidateEntity required 8 digits (left-padding shorter input with zeros).
+- **Mauritius**
+  - MauritiusValidator.CalculateChecksum valued the leading character with char.GetNumericValue, which returns -1 for letters.
+- **Moldova**
+  - ValidateVAT rejected the documented optional MD prefix: RemoveSpecialCharacthers keeps letters, so "MD9234564" reached the ^\d{7}$ regex intact and failed.
+- **Monaco**
+  - ValidateVAT threw ArgumentOutOfRangeException for null, "", "abc" or any input shorter than 5 characters: `number.Substring(2, 3)` ran before any length guard.
+- **Norway**
+  - ValidateVAT (and ValidateEntity, which delegates to it) threw ArgumentNullException on null input: `vatId?.RemoveSpecialCharacthers()` propagated null through the whole ?. chain and Regex.IsMatch(null, ...)…
+- **Pakistan**
+  - ValidateIndividualTaxCode called id.Trim() and matched "^[1-7][0-9]{4}-[0-9]{7}-[1-9]{1}$".
+- **Peru**
+  - ValidateNationalIdentity rejected a lower case check letter: CalculateChecksumNationalIdentity produces upper case (e.g. "2G") and the input was never upper-cased, so "10117410g" failed.
+  - char.IsDigit accepted non-ASCII Unicode digits in both the CUI body and the RUC; postal code used "^\\d{5}$".
+- **Poland**
+  - ValidateVAT (NIP) mapped a mod-11 remainder of 10 to check digit 0, accepting numbers the NIP spec declares unissuable.
+  - ValidateIndividualTaxCode (PESEL) dereferenced `pesel.Length` with no null guard, so ValidateIndividualTaxCode(null) and ValidateNationalIdentity(null) threw NullReferenceException instead of returning a…
+- **Portugal**
+  - ValidateIndividualTaxCode discriminated with Regex.IsMatch(code, "^[5]") only, so every non-5 range validated as an individual NIF.
+  - ValidateEntity discriminated with Regex.IsMatch(id, "^[123]") only, the mirror image of the same bug: individual ranges 45 and 8, plus the never-issued 0 and 4x ranges, validated as company NIFs. python3…
+  - ValidateVAT carried a third copy of the entity guard (^[123] -> "This is not a company nif"), rejecting every Portuguese sole trader's and individual's VAT number.
+  - The same 20-line format-guard + mod-11 checksum block was duplicated verbatim in ValidateEntity, ValidateIndividualTaxCode and ValidateVAT, which is how the three guards drifted apart in the first place.
+- **Russia**
+  - ValidateEntity measured the raw string length (id?.Length != 10) before stripping separators, so a formatted INN such as "7707 083 893" was rejected with "Invalid length" while every other method in the class…
+- **Slovenia**
+  - ValidateVAT (DDV) collapsed both 10 and 11 to check digit 0.
+- **Taiwan**
+  - The public helpers ValidateLocalSSN and ValidateResidentSSN did no format check of their own — they were only safe when reached through ValidateIndividualTaxCode.
+- **Turkey**
+  - ValidateIndividualTaxCode threw on null (Enumerable.All on a null source -> ArgumentNullException) and on "" (`"".All(char.IsDigit)` is vacuously true, so execution reached `kimlik[0]` ->…
+  - ValidateVAT (and ValidateEntity, which delegates to it) threw ArgumentNullException on null: `vatId?.RemoveSpecialCharacthers().ToUpper().Replace(...)` short-circuits the whole chain to null, and…
+- **Ukraine**
+  - ValidateIndividualTaxCode required 12 digits and validated no check digit.
+  - ValidateEntity just called ValidateVAT (12 digits), so the ЄДРПОУ registry code that identifies every Ukrainian legal entity (8 digits, e.g.
+- **Uruguay**
+  - ValidateVAT guarded digits with rut.All(char.IsDigit), which passes for Arabic-Indic digits, and then called int.Parse(rut.Substring(0, 2)) — FormatException escapes the validator for a 12-character…
+  - Replace("UY", "") stripped "UY" from anywhere in the string, letting a 14-character string collapse into a 12-digit RUT.
+  - ValidatePostalCode used "^\\d{5}$".
+- **VenezuelaAfrica**
+  - ValidatePostalCode ran RemoveSpecialCharacthers (which deletes the separator) and then matched `^\d{4}(\s[a-zA-Z]{1})?$`, which demands a whitespace character before the optional letter.
+
+A further 61 weaknesses were found and deliberately left alone, because the fix would have been a
+rewrite or the published rule could not be sourced with confidence. They are recorded in the
+repository issues rather than half-fixed here. The largest recurring one: .NET's `\d` matches any
+Unicode decimal digit while `int.Parse` accepts only ASCII, so a validator that guards with `\d` and
+then parses will throw on Arabic-Indic or fullwidth digits. Argentina and Brazil are fixed; the
+pattern still exists elsewhere.
+
 ### Changed
 
 - Target frameworks are `netstandard2.0` and `net8.0`. `netstandard2.1` and `net48` were dropped.

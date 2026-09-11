@@ -29,9 +29,11 @@ namespace Attest.Countries
             }
             else if (!Regex.IsMatch(ssn, @"^\d[0123]"))
             {
-                return ValidationResult.Invalid("Second digit must be between 4-9");
+                return ValidationResult.Invalid("Second digit must be between 0-3");
             }
-            else if (!ssn.Substring(0, 10).CheckLuhnDigit())
+            // The check digit is the 9th digit and covers the first 8.
+            // https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.id.npwp
+            else if (!ssn.Substring(0, 9).CheckLuhnDigit())
             {
                 return ValidationResult.InvalidChecksum();
             }
@@ -66,7 +68,9 @@ namespace Attest.Countries
             {
                 return ValidationResult.Invalid("Second digit must be between 4-9");
             }
-            else if (!id.Substring(0, 10).CheckLuhnDigit())
+            // The check digit is the 9th digit and covers the first 8.
+            // https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.id.npwp
+            else if (!id.Substring(0, 9).CheckLuhnDigit())
             {
                 return ValidationResult.InvalidChecksum();
             }

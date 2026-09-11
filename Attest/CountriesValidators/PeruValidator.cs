@@ -33,12 +33,15 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateNationalIdentity(string number)
         {
-            number = number.RemoveSpecialCharacthers();
+            // python-stdnum upper cases before validating, so a lower case check letter
+            // is accepted: https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/pe/cui.py
+            number = number.RemoveSpecialCharacthers().ToUpperInvariant();
             if (!(number.Length == 8 || number.Length == 9))
             {
                 return ValidationResult.InvalidLength();
             }
-            else if (!number.Substring(0, 8).All(char.IsDigit))
+            // [0-9] and not char.IsDigit: IsDigit also accepts non-ASCII Unicode digits.
+            else if (!Regex.IsMatch(number.Substring(0, 8), "^[0-9]+$"))
             {
                 return ValidationResult.InvalidFormat("12345678");
             }
@@ -84,7 +87,8 @@ namespace Attest.Countries
             {
                 return ValidationResult.InvalidLength();
             }
-            else if (!number.All(char.IsDigit))
+            // [0-9] and not char.IsDigit: IsDigit also accepts non-ASCII Unicode digits.
+            else if (!Regex.IsMatch(number, "^[0-9]{11}$"))
             {
                 return ValidationResult.InvalidFormat("12345678901");
             }
@@ -107,7 +111,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{5}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{5}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNN");
             }

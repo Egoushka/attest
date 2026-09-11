@@ -38,16 +38,22 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateVAT(string rut)
         {
-            rut = rut.RemoveSpecialCharacthers();
-            rut = rut.Replace("UY", string.Empty).Replace("uy", string.Empty);
+            rut = rut.RemoveSpecialCharacthers().ToUpperInvariant();
+            // Only a "UY" prefix is stripped, not every occurrence: "2110034UY20017" is not a RUT.
+            if (rut.StartsWith("UY"))
+            {
+                rut = rut.Substring(2);
+            }
 
             if (rut.Length != 12)
             {
                 return ValidationResult.InvalidLength();
             }
-            else if (!rut.All(char.IsDigit))
+            // [0-9] and not char.IsDigit: IsDigit also accepts non-ASCII Unicode digits,
+            // which the int.Parse below rejects with a FormatException.
+            else if (!Regex.IsMatch(rut, "^[0-9]{12}$"))
             {
-                return ValidationResult.InvalidFormat("0123456789012");
+                return ValidationResult.InvalidFormat("012345678901");
             }
             else if (int.Parse(rut.Substring(0, 2)) < 1 || int.Parse(rut.Substring(0, 2)) > 21)
             {
@@ -85,7 +91,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{5}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{5}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNN");
             }

@@ -119,7 +119,7 @@ namespace Attest.Countries
             postalCode = postalCode.RemoveSpecialCharacthers();
             if (!Regex.IsMatch(postalCode, "^\\d{7}$"))
             {
-                return ValidationResult.InvalidFormat("NNNNNNN or NNN-NNNNN");
+                return ValidationResult.InvalidFormat("NNNNNNN or NNN-NNNN");
             }
             return ValidationResult.Success();
         }

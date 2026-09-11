@@ -29,13 +29,15 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateIndividualTaxCode(string kimlik)
         {
-            if (!kimlik.All(char.IsDigit) || kimlik[0] == '0')
-            {
-                return ValidationResult.InvalidFormat("12345678901");
-            }
-            else if (kimlik.Length != 11)
+            kimlik = kimlik.RemoveSpecialCharacthers();
+
+            if (kimlik.Length != 11)
             {
                 return ValidationResult.InvalidLength();
+            }
+            else if (!kimlik.All(char.IsDigit) || kimlik[0] == '0')
+            {
+                return ValidationResult.InvalidFormat("12345678901");
             }
             else if (CalculatChecksumKimlik(kimlik.Substring(0, kimlik.Length - 2)) != kimlik.Substring(kimlik.Length - 2))
             {
@@ -95,7 +97,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateVAT(string vatId)
         {
-            vatId = vatId?.RemoveSpecialCharacthers().ToUpper().Replace("TR", string.Empty);
+            vatId = vatId.RemoveSpecialCharacthers().ToUpper().Replace("TR", string.Empty);
 
 
             if (!vatId.All(char.IsDigit))
