@@ -21,15 +21,40 @@ namespace Attest
             return digits.Reverse();
         }
 
+        /// <summary>
+        /// Strips separators and punctuation, keeping letters and ASCII digits. Null becomes an
+        /// empty string, which every validator then rejects on format or length.
+        /// </summary>
+        /// <remarks>
+        /// Digits outside 0-9 are dropped rather than kept. .NET's regex digit class and
+        /// char.IsDigit both match every Unicode decimal digit - Arabic-Indic, Devanagari,
+        /// fullwidth - while int.Parse accepts only ASCII, so a validator that guarded with one and
+        /// parsed with the other threw FormatException on input no identifier scheme allows.
+        /// Letters are kept whatever their script: a Belarusian UNP is written with Cyrillic
+        /// characters that BelarusValidator maps to their Latin look-alikes.
+        /// </remarks>
+        /// <summary>
+        /// Stands in for a decimal digit outside 0-9. Matches no format check in this library:
+        /// not a letter, not a digit, outside every character class the validators use.
+        /// </summary>
+        private const char NotAnIdentifierCharacter = '\uFFFD';
+
         public static string RemoveSpecialCharacthers(this string ssn)
         {
             StringBuilder sb = new StringBuilder();
 
             for (int i = 0; i < ssn?.Length; i++)
             {
-                if (char.IsLetterOrDigit(ssn[i]))
+                if (char.IsLetter(ssn[i]) || (ssn[i] >= '0' && ssn[i] <= '9'))
                 {
                     sb.Append(ssn[i]);
+                }
+                else if (char.IsDigit(ssn[i]))
+                {
+                    // A digit outside 0-9. Kept as a character no format check accepts, rather
+                    // than dropped: dropping it would validate the remaining digits and turn a
+                    // wrong number into a right one.
+                    sb.Append(NotAnIdentifierCharacter);
                 }
             }
             return sb.ToString();

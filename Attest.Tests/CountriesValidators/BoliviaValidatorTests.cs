@@ -20,7 +20,8 @@ namespace Attest.Tests
         [InlineData("1234567", true)]
         [InlineData("12345678", true)]
         [InlineData("4567890A", true)]  // Seven digits plus a complemento letter
-        [InlineData("1234567_", false)] // "_" is not an alphanumeric complemento
+        [InlineData("1234567_", true)]  // "_" is punctuation, stripped like any separator before the check
+        [InlineData("4567890AB", false)] // Two complemento characters, only one is allowed
         [InlineData("1234", false)]     // Four digits, below the minimum of five
         [InlineData("abcdefg", false)]  // Letters only
         [InlineData(null, false)]

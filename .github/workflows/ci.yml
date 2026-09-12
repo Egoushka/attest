@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+
+      - name: Restore
+        run: dotnet restore Attest.sln
+
+      - name: Build
+        run: dotnet build Attest.sln --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test Attest.Tests/Attest.Tests.csproj --configuration Release --no-build --verbosity normal
+
+      - name: Pack
+        run: dotnet pack Attest.sln --configuration Release --no-build --output ./artifacts
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: packages
+          path: ./artifacts/*.nupkg

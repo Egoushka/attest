@@ -19,7 +19,8 @@ namespace Attest.Countries
             // The complemento is alphanumeric (Reglamento del Registro Unico de Identificacion
             // Personal, articulo 40, aprobado por Resolucion Administrativa SEGIP/DGE 632/2017),
             // so \w - which also matches "_" and non ASCII word characters - is too wide.
-            if (string.IsNullOrWhiteSpace(ssn) || !Regex.IsMatch(ssn, @"^\d{5,8}[A-Za-z0-9]?$"))
+            ssn = ssn.RemoveSpecialCharacthers();
+            if (string.IsNullOrWhiteSpace(ssn) || !Regex.IsMatch(ssn, "^[0-9]{5,8}[A-Za-z0-9]?$"))
             {
                 return ValidationResult.InvalidFormat("1234567");
             }

@@ -25,7 +25,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateNationalIdentity(string ssn)
         {
-            ssn = ssn?.RemoveSpecialCharacthers();
+            ssn = ssn.RemoveSpecialCharacthers();
             if (ValidateIndividualTaxCode(ssn).IsValid)
             {
                 return ValidationResult.Success();

@@ -68,7 +68,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateVAT(string vatId)
         {
-            vatId = vatId?.RemoveSpecialCharacthers();
+            vatId = vatId.RemoveSpecialCharacthers();
             vatId = vatId?.Replace("SE", string.Empty).Replace("se", string.Empty);
 
             if (!Regex.IsMatch(vatId, @"^\d{10}01$"))

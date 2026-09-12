@@ -1,5 +1,7 @@
 # Attest
 
+[![CI](https://github.com/Egoushka/attest/actions/workflows/ci.yml/badge.svg)](https://github.com/Egoushka/attest/actions/workflows/ci.yml)
+
 Validates national identification numbers, tax identification numbers, VAT codes and postal codes
 for 80+ countries.
 

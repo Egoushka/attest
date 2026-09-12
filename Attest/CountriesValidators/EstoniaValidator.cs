@@ -17,6 +17,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateEntity(string id)
         {
+            id = id.RemoveSpecialCharacthers();
             if (!id.All(char.IsDigit))
             {
                 return ValidationResult.InvalidFormat("12345678");

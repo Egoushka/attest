@@ -8,6 +8,11 @@ First release under the name Attest, descended from CountryValidator 1.1.3.
 
 ### Added
 
+- Continuous integration: build, test and pack on every push and pull request, plus a release
+  workflow that publishes to NuGet when a `v*` tag is pushed (needs a `NUGET_API_KEY` secret).
+
+### Added
+
 - `CountryValidator.Validate(value, country, IdentifierKind kinds)` validates against a category of
   identifiers rather than one named method, so callers can ask for personal identifiers only,
   business identifiers only, or any of them, without knowing which of a country's five methods
@@ -30,6 +35,21 @@ First release under the name Attest, descended from CountryValidator 1.1.3.
   13 digits since 1 February 2012, so it now validates the 13 digit number and its check digit.
   Test data for the individual, entity and VAT cases was Swedish, and has been replaced.
 - **Thailand** — `ValidateNationalIdentity` accepted 13 characters of any kind; it now requires digits.
+
+### Fixed: digits outside ASCII
+
+.NET's regex digit class and `char.IsDigit` match every Unicode decimal digit, while `int.Parse`
+accepts only ASCII. A validator that guarded with one and parsed with the other threw
+`FormatException` on input no identifier scheme allows. The input sanitiser now keeps letters of any
+script — a Belarusian UNP is written in Cyrillic — and replaces a decimal digit outside 0-9 with a
+character that no format check accepts. Dropping such a digit instead would have been worse: it
+would validate the remaining digits and turn a wrong number into a right one.
+
+A sweep of all 87 countries against every public method found what was left, and fixed it: Estonia,
+the United States, Poland and Bolivia validated unsanitised input; Croatia threw
+`ArgumentNullException` from `ValidateVAT` by explicit design, against the library's own contract;
+Greece, Sweden and the United Kingdom preserved null through `?.` before dereferencing it. The sweep
+is now a test, so no country can regress into throwing on null, garbage or non-ASCII digits.
 
 ### Fixed in the third repair wave
 

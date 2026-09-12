@@ -23,6 +23,7 @@ namespace Attest.Countries
             List<int> peselList;
             int peselMonth, peselDay, peselYear, peselChecksum;
 
+            pesel = pesel.RemoveSpecialCharacthers();
             if (string.IsNullOrWhiteSpace(pesel) || pesel.Length != 11 || !pesel.All(char.IsDigit))
             {
                 return ValidationResult.InvalidFormat("12345678901");

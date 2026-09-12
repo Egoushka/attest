@@ -24,7 +24,8 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateEntity(string ein)
         {
-            if (!Regex.IsMatch(ein, @"^\d{2}[-]{0,1}\d{7}$"))
+            ein = ein.RemoveSpecialCharacthers();
+            if (!Regex.IsMatch(ein, "^[0-9]{9}$"))
             {
                 return ValidationResult.InvalidFormat("12-1234567");
             }
@@ -109,8 +110,9 @@ namespace Attest.Countries
 
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
-            postalCode = postalCode.Trim();
-            if (!Regex.IsMatch(postalCode, @"^(?:(\d{5})(?:[ \-](\d{4}))?)$"))
+            // Not RemoveSpecialCharacthers: the separator is part of the ZIP+4 format
+            postalCode = postalCode == null ? string.Empty : postalCode.Trim();
+            if (!Regex.IsMatch(postalCode, "^(?:([0-9]{5})(?:[ \\-]([0-9]{4}))?)$"))
             {
                 return ValidationResult.InvalidFormat("NNNNN OR  NNNNN-NNNN");
             }
