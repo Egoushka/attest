@@ -1,0 +1,112 @@
+name: Missing country or missing identifier kind
+description: A country this library does not cover, or a kind of identifier that country has no rule for.
+title: "[NEW] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Two different requests use this form.
+
+        A **missing country** is one with no validator class in `Attest/CountriesValidators/`.
+
+        A **missing kind** is a country that is covered but has no rule for one of its five
+        methods. 33 of the 435 country/kind pairs have no rule, and a kind with no rule reports
+        every value invalid — which is not a verdict on the value. `Supports(country, kind)` tells
+        you which case you are in; check it before filing a wrong-verdict bug.
+
+        Do not paste a real person's number in the worked example. Compute one, or cite a
+        published example.
+
+  - type: input
+    id: country
+    attributes:
+      label: Country
+      description: Name and ISO alpha-2 code.
+      placeholder: "Georgia (GE)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kinds
+    attributes:
+      label: Identifier kinds
+      description: The members of IdentifierKind this request covers. Pick more than one if the country issues one number for several roles.
+      multiple: true
+      options:
+        - PersonalId (national identity number of a natural person)
+        - PersonalTaxCode (tax number of a natural person)
+        - CompanyNumber (registration number of a legal entity)
+        - Vat (VAT registration number)
+        - PostalCode
+    validations:
+      required: true
+
+  - type: input
+    id: identifier-name
+    attributes:
+      label: What the identifier is called
+      description: Local name and the usual abbreviation, as the README's country table lists them.
+      placeholder: "Payer's account number (UNP)"
+    validations:
+      required: true
+
+  - type: input
+    id: spec
+    attributes:
+      label: Published specification
+      description: >-
+        A URL to the tax authority, the OECD TIN country sheet, or python-stdnum's module. Without
+        one this cannot be implemented — not because of process, but because a rule nobody
+        published cannot be checked, and a guessed check digit rejects live numbers. That is why
+        Armenia's TIN check digit and Bahrain's CPR check digit are still unimplemented.
+      placeholder: "https://www.oecd.org/tax/automatic-exchange/crs-implementation-and-assistance/tax-identification-numbers/"
+    validations:
+      required: true
+
+  - type: textarea
+    id: rule
+    attributes:
+      label: The rule
+      description: Length, allowed characters, any structure the digits encode (birth date, holder type, issuing office), and the check-digit algorithm with its weights.
+      placeholder: |
+        9 characters. First two are digits, or two letters from ABCEHKMOPT; remaining seven digits.
+        Ninth digit is the check digit, weighted ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: holder-type
+    attributes:
+      label: Does the number say whether the holder is a person or a company?
+      description: >-
+        Most do, somewhere: Peru's RUC has a prefix (10 and 15 natural persons, 20 legal
+        entities), Andorra's NRT a letter, Iceland's kennitala adds 40 to the day field for an
+        organisation, Thailand encodes the taxpayer type in digit 4. All four were once assumed
+        ambiguous and were not. If the country genuinely issues one indistinguishable number for
+        both, say so and cite it — that becomes IdentifierResult.IsAmbiguous, as for Armenia and
+        Nigeria.
+    validations:
+      required: true
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Worked examples
+      description: >-
+        At least one valid number with its check digit shown as computed, and at least one number
+        that differs only in the check digit and must be rejected. Say for each where it came
+        from — computed by you, or published at the URL above.
+      placeholder: |
+        200988541 — valid, check digit 1 computed as ...; python-stdnum by/unp.py doctest
+        200988542 — invalid, check digit off by one
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Before you submit
+      options:
+        - label: No number here belongs to a real person — it is constructed or published.
+          required: true

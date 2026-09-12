@@ -1,0 +1,14 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Already-known weakness
+    url: https://github.com/Egoushka/attest/blob/main/KNOWN-ISSUES.md
+    about: Around 60 validators check less than their country publishes. Each entry says why it was left alone — usually that the rule is not published anywhere. Read this before reporting a missing check.
+  - name: What has already been fixed
+    url: https://github.com/Egoushka/attest/blob/main/CHANGELOG.md
+    about: 197 defects fixed since the fork, listed by country. If a number used to get the wrong verdict, the fix may already be here and unreleased.
+  - name: How to contribute a rule change
+    url: https://github.com/Egoushka/attest/blob/main/CONTRIBUTING.md
+    about: What a change has to cite, and why every test number must be computed rather than copied.
+  - name: Question about a country's rule
+    url: https://github.com/Egoushka/attest/issues/new
+    about: Open a plain issue. There is no mailing list and no chat — the issue tracker is the only channel.

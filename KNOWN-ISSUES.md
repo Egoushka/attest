@@ -8,11 +8,6 @@ publishes, or that are stricter than the spec in a narrow case.
 Anyone picking one of these up: confirm the rule from an official source or python-stdnum first, and
 add the test before the fix.
 
-## ALL (blocker for a green suite)
-
-- /Users/yehorhrabovskyi/Projects/personal/attest/Attest.Tests/CountriesValidators/CountryValidatorTests.cs has 4 rows that assert CountryValidator returns ErrorMessage 'Not supported' for Montenegro, which was only true because MontenegroValidator threw. They will now fail (they get InvalidFormat instead). The rows to delete are line 23 [InlineData("123456789", Country.ME)] with its trailing comment, line 27 [InlineData("---", Country.ME)], line 39 [InlineData("123456789", Country.ME)] in TestEntityOfCountryWithoutEntityCode, and line 52 [InlineData("123456789", Country.ME)] in TestIndividualTaxCodeOfCountryWithoutOne. Each theory keeps meaningful rows (US/AE/HK/XX) after the deletion.
-  - *Not fixed:* The file is outside my assigned file list and both my edit attempts were refused by the permission system. Someone who owns that file must delete those 4 rows before the central run; nothing else in the repo references Country.ME.
-
 ## Armenia
 
 - The 8th digit of the TIN is a check digit, but only the length is validated.
@@ -131,7 +126,7 @@ add the test before the fix.
 ## Korea, Pakistan
 
 - ValidateEntity and ValidateVAT still throw NotSupportedException instead of returning ValidationResult.Invalid("Not supported"), which the hard rules require.
-  - *Not fixed:* I made the change, then found the caller that breaks and reverted it. Attest/CountryValidator.cs:290 (Supports) uses the throw as its ONLY signal for "this country has no rule for this kind": it calls ValidateOnValidator inside a try and returns false only from `catch (Exception e) when (e is NotSupportedException || e is NotImplementedException)`. Converting two of the 14 throwing validators would make Supports(Country.KR, IdentifierKind.CompanyNumber) return true - a wrong answer from a public API documented as "Whether this country has a rule for the given kind" - and the fix lives in CountryValidator.cs, a forbidden shared file. Nothing escapes to facade callers today: ValidateEntity/ValidateVAT/Validate all catch the throw and return exactly Invalid("Not supported"). This needs a wave that can change all 14 validators and Supports together. I pinned the current behaviour with Assert.Throws tests instead, matching UnitedStatesValidatorTests.cs:45.
+  - *Not fixed:* I made the change, then found the caller that breaks and reverted it. Attest/CountryValidator.cs:290 (Supports) uses the throw as its ONLY signal for "this country has no rule for this kind": it calls ValidateOnValidator inside a try and returns false only from `catch (Exception e) when (e is NotSupportedException || e is NotImplementedException)`. Converting two of the 11 throwing validators would make Supports(Country.KR, IdentifierKind.CompanyNumber) return true - a wrong answer from a public API documented as "Whether this country has a rule for the given kind" - and the fix lives in CountryValidator.cs, a forbidden shared file. Nothing escapes to facade callers today: ValidateEntity/ValidateVAT/Validate all catch the throw and return exactly Invalid("Not supported"). This needs a wave that can change all 11 validators and Supports together. I pinned the current behaviour with Assert.Throws tests instead, matching UnitedStatesValidatorTests.cs:45.
 
 ## Macedonia
 
@@ -249,4 +244,4 @@ add the test before the fix.
 ## Uzbekistan
 
 - ValidateEntity and ValidateVAT still throw NotSupportedException instead of returning ValidationResult.Invalid("Not supported").
-  - *Not fixed:* This is a deliberate repo-wide design, not a local defect: 13 validators in Attest/CountriesValidators throw, CountryValidator.cs catches NotSupportedException/NotImplementedException at seven call sites and maps them to Invalid("Not supported"), and Attest.Tests/CountriesValidators/CountryValidatorTests.cs tests exactly that contract with a comment saying a throwing validator 'must be answered exactly like an unregistered country (XX), not escape the facade'. Changing only Uzbekistan would break that consistency without fixing anything the facade does not already handle. Note also that Uzbek legal entities do have a 9-digit INN/STIR, but I found no published check digit for it, so implementing the methods would be unsourced new functionality.
+  - *Not fixed:* This is a deliberate repo-wide design, not a local defect: 11 validators in Attest/CountriesValidators throw, CountryValidator.cs catches NotSupportedException/NotImplementedException at seven call sites and maps them to Invalid("Not supported"), and Attest.Tests/CountriesValidators/CountryValidatorTests.cs tests exactly that contract with a comment saying a throwing validator 'must be answered exactly like an unregistered country (XX), not escape the facade'. Changing only Uzbekistan would break that consistency without fixing anything the facade does not already handle. Note also that Uzbek legal entities do have a 9-digit INN/STIR, but I found no published check digit for it, so implementing the methods would be unsourced new functionality.

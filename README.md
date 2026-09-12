@@ -181,6 +181,21 @@ public IActionResult ValidateSSN([Required, SSNAttribute(Country.US)] string ssn
 
 <a href="https://buymeacoffee.com/egoushka" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
 
+## Contributing
+
+[CONTRIBUTING.md](CONTRIBUTING.md) has the rules this project runs on — every one of them exists
+because a validator here was wrong for years without anyone noticing. The short version: cite a
+published source for any rule you change, compute your own test numbers rather than copying them,
+and never write a test that asserts behaviour you believe is wrong.
+
+[docs/adding-a-country.md](docs/adding-a-country.md) walks through adding or fixing a country.
+
+[KNOWN-ISSUES.md](KNOWN-ISSUES.md) is the backlog: weaknesses found and deliberately left alone,
+each with the reason. Most are one validator and its test file, which makes them the natural place
+to start.
+
+Security reports go through [SECURITY.md](SECURITY.md). Conduct: [Contributor Covenant](CODE_OF_CONDUCT.md).
+
 ### License
 
 Apache License, Version 2.0 — see [LICENSE](LICENSE).

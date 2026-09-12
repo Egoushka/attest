@@ -1,0 +1,114 @@
+name: Wrong verdict or crash
+description: A number that validates when it should not, is rejected when it should not be, or makes a validator throw.
+title: "[BUG] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not paste a real person's identification number. Give a number you constructed —
+        one whose check digit you computed yourself — or an example the tax authority or
+        python-stdnum publishes. Published examples are already public; a live number is not, and
+        this issue is.
+
+        Before filing, check [KNOWN-ISSUES.md](https://github.com/Egoushka/attest/blob/main/KNOWN-ISSUES.md).
+        Roughly 60 weaknesses are recorded there with the reason each one was left alone — usually
+        that the country's real rule is not published anywhere.
+
+  - type: input
+    id: country
+    attributes:
+      label: Country
+      description: ISO alpha-2 code and the validator class, so there is no doubt which file this is about.
+      placeholder: "BY — BelarusValidator"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: method
+    attributes:
+      label: Method
+      description: >-
+        The facade method on CountryValidator, or the one on the country's own validator class —
+        the two have slightly different names for the same rule.
+      options:
+        - ValidateIndividualTaxCode
+        - ValidateEntity
+        - ValidateVAT
+        - ValidateNationalIdentityCode / ValidateNationalIdentity
+        - ValidateZIPCode / ValidatePostalCode
+        - Validate(value, country, IdentifierKind)
+        - Supports(country, kind)
+    validations:
+      required: true
+
+  - type: input
+    id: input
+    attributes:
+      label: Exact input
+      description: >-
+        Character for character, including separators and letter case. Several past defects were
+        only in the punctuated or lowercase form — Chile rejected a lowercase "k" check digit,
+        Malta rejected mixed-case "mt" prefixes.
+      placeholder: "MA1953684"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: symptom
+    attributes:
+      label: Symptom
+      options:
+        - A real number is reported invalid
+        - A number no registry issues is reported valid
+        - The call throws instead of returning a ValidationResult
+        - The verdict is right but ErrorMessage names the wrong reason
+        - IsAmbiguous is wrong for this country
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened
+      description: IsValid, ErrorMessage, or the exception type and the line it came from.
+      placeholder: |
+        ValidateEntity("MA1953684") returns IsValid false, ErrorMessage "Invalid format..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What should happen
+    validations:
+      required: true
+
+  - type: textarea
+    id: source
+    attributes:
+      label: Source that says so
+      description: >-
+        The part that decides the issue. Link the country's tax authority, its OECD TIN country
+        sheet, or python-stdnum's module for that country (for example stdnum/by/unp.py). Quote
+        the sentence or the rule if the page is long. No rule goes into this library from memory:
+        the Belarus validator demanded two leading letters that no UNP has, and rejected every
+        genuine Belarusian company number for years, because nobody checked a source.
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Attest version
+      placeholder: "1.0.0"
+
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Before you submit
+      options:
+        - label: No number in this report belongs to a real person — it is constructed or published.
+          required: true
+        - label: I checked KNOWN-ISSUES.md and this is not already recorded there.
+          required: true

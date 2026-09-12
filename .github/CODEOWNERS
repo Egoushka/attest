@@ -1,0 +1,10 @@
+# One maintainer, so one rule: @Egoushka owns every path in this repository.
+#
+# What this buys today is notification, not enforcement. GitHub requests a review from the owner on
+# any pull request that touches a matching path and shows the ownership in the file view; the pull
+# request can still be merged without that review.
+#
+# It becomes a merge gate only if branch protection on the default branch enables "Require review
+# from Code Owners". That is a repository setting — nothing in this file turns it on.
+
+* @Egoushka

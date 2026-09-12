@@ -1,0 +1,49 @@
+# Dependabot for a repository with one maintainer: monthly, grouped and capped, so a
+# month of updates arrives as one or two pull requests instead of a queue nobody
+# reads.  Every one still has to pass ci.yml, which builds the solution against
+# netstandard2.0 and net8.0 and runs the full test suite -- including
+# Attest.Tests/UnicodeDigitSweepTests.cs, which is the thing that would actually
+# catch a dependency bump breaking the never-throw contract across all 87 countries.
+version: 2
+
+updates:
+  # NuGet.  The library itself carries almost nothing: Attest.csproj has no package
+  # references at all, and Attest.DataAnnotations.csproj has exactly one
+  # (System.ComponentModel.Annotations).  Nearly everything below is test tooling
+  # pinned in Attest.Tests.csproj.  All three project directories are listed anyway
+  # so a reference added to the library later is watched without editing this file.
+  - package-ecosystem: nuget
+    directories:
+      - /Attest
+      - /Attest.DataAnnotations
+      - /Attest.Tests
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 2
+    commit-message:
+      prefix: deps
+    groups:
+      # xunit, xunit.runner.visualstudio, Microsoft.NET.Test.Sdk and
+      # coverlet.collector move together and only affect how the tests run, never
+      # what they assert.  One PR a month for the lot of them.
+      test-tooling:
+        patterns:
+          - xunit*
+          - Microsoft.NET.Test.Sdk
+          - coverlet.*
+
+  # GitHub Actions.  ci.yml and release.yml between them pin actions/checkout,
+  # actions/setup-dotnet and actions/upload-artifact, all at v4.  Grouped into a
+  # single PR -- but read it rather than merging on green, because release.yml is
+  # what pushes the package to NuGet on a v* tag and it handles NUGET_API_KEY.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 1
+    commit-message:
+      prefix: ci
+    groups:
+      actions:
+        patterns:
+          - "*"

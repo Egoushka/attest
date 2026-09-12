@@ -1,0 +1,136 @@
+# EditorConfig for Attest.  https://editorconfig.org
+#
+# This file records what the code in this repository already does, not what a
+# greenfield .NET project would do.  Attest carries 87 validators inherited from
+# CountryValidator and reworked over three repair waves; a setting that disagrees
+# with the existing files makes every contributor's IDE reformat lines nobody
+# touched.  That is not cosmetic here.  The changes that matter in this repo are
+# single characters -- a \d that should have been [0-9], a weight in a checksum
+# array, a check digit in an InlineData row -- and they disappear in a diff that
+# also reflows 200 lines of whitespace.
+#
+# The counts in the comments below were measured across the 190 .cs files in the
+# tree.  If you change a rule, re-measure first.
+
+root = true
+
+[*]
+end_of_line = lf
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
+# charset is deliberately not set here.  It is set per file type below, because
+# the .cs files carry a BOM and the Markdown and YAML files do not.
+
+# -----------------------------------------------------------------------------
+# C#
+# -----------------------------------------------------------------------------
+[*.cs]
+indent_size = 4
+tab_width = 4
+
+# 159 of 190 .cs files carry a UTF-8 BOM -- 78 of the 87 validators and 71 of the
+# 88 test files.  The majority setting wins so that saving an untouched file does
+# not strip byte 0 and show up as a change.  The BOM is a useful accident besides:
+# several validators hold non-ASCII literals (BelarusValidator.cs maps the Cyrillic
+# АВЕКМНОРСТ onto the Latin look-alikes ABEKMHOPCT, because that is how a UNP is
+# printed), and a BOM stops an editor guessing a legacy code page and mangling them.
+charset = utf-8-bom
+
+# Braces: Allman, on their own line.  565 of 566 if statements in
+# Attest/CountriesValidators put the brace on the next line.
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_between_query_expression_clauses = true
+
+# Braces are written out even for a single-statement if.  One validator in 87 omits
+# them.  Keep it that way: the guard clauses in these methods are where the
+# never-throw contract (IdValidationAbstract, enforced by UnicodeDigitSweepTests)
+# is actually implemented, and a braceless guard invites a second statement that
+# silently falls outside it.
+csharp_prefer_braces = true:silent
+
+# Block namespaces with usings above them: 87 of 87 validators, System first
+# (162 files of the 167 with more than one using).  Do not let an IDE offer to
+# convert to file-scoped namespaces -- that rewrites the first and last line of
+# all 190 files for nothing.
+csharp_style_namespace_declarations = block_scoped:silent
+csharp_using_directive_placement = outside_namespace:silent
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = false
+
+# Folder and namespace disagree on purpose: every file under
+# Attest/CountriesValidators/ declares namespace Attest.Countries.  Renaming the
+# namespace would break every consumer's using statement, so silence the check
+# rather than acting on it.
+dotnet_style_namespace_match_folder = false
+dotnet_diagnostic.IDE0130.severity = none
+
+# Types: built-in types are spelled out (460 explicit int/string/char/bool locals
+# against 232 var).  var appears where the type comes off a LINQ chain.  All three
+# are silent because the split is real and neither side should be nagged into
+# converting the other.
+csharp_style_var_for_built_in_types = false:silent
+csharp_style_var_when_type_is_apparent = true:silent
+csharp_style_var_elsewhere = true:silent
+dotnet_style_predefined_type_for_locals_parameters_members = true:silent
+dotnet_style_predefined_type_for_member_access = true:silent
+
+# No this. qualification: one occurrence in the whole validator directory.
+dotnet_style_qualification_for_field = false:silent
+dotnet_style_qualification_for_property = false:silent
+dotnet_style_qualification_for_method = false:silent
+dotnet_style_qualification_for_event = false:silent
+
+# Accessibility is always stated.
+dotnet_style_require_accessibility_modifiers = for_non_interface_members:silent
+
+# Methods have statement bodies -- there is not one expression-bodied method in the
+# 87 validators, because each Validate* method normalises its input and then
+# branches.  Computed properties are the exception: IdentifierResult.IsValid and
+# IsAmbiguous are both expression-bodied.
+csharp_style_expression_bodied_methods = false:silent
+csharp_style_expression_bodied_constructors = false:silent
+csharp_style_expression_bodied_properties = true:silent
+
+# No naming rule is defined for private fields, and that is deliberate.  The tree
+# is genuinely split: 19 PascalCase (BelarusValidator.LetterPositions,
+# ItalyValidator.OmocodeChars) against 10 with a leading underscore
+# (ArgentinaValidator._cuitTypes, DominicanRepublicValidator._validRnc).  Picking a
+# side here would rename fields in a third of the validators in a single pass and
+# bury whatever real change shipped alongside it.
+
+# -----------------------------------------------------------------------------
+# Project files
+# -----------------------------------------------------------------------------
+# charset is left unset: Attest.csproj and Attest.DataAnnotations.csproj have a BOM,
+# Attest.Tests.csproj does not, and three files are not worth churning either way.
+[*.{csproj,props,targets}]
+indent_size = 2
+
+# The solution file is written by Visual Studio, which uses tabs and a BOM.
+[*.sln]
+indent_style = tab
+charset = utf-8-bom
+
+# -----------------------------------------------------------------------------
+# Everything else
+# -----------------------------------------------------------------------------
+[*.{yml,yaml}]
+indent_size = 2
+charset = utf-8
+
+[*.json]
+indent_size = 2
+charset = utf-8
+
+[*.md]
+indent_size = 2
+charset = utf-8
+# Trailing spaces are a hard line break in Markdown.  CHANGELOG.md and
+# KNOWN-ISSUES.md are the files contributors edit most and both are deep nested
+# lists; do not let a save silently reflow an entry.
+trim_trailing_whitespace = false

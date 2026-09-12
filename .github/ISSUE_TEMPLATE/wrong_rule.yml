@@ -1,0 +1,103 @@
+name: Rule has changed
+description: The validator implements a rule the country has since replaced — a new length, a new character set, a new separator, a new range.
+title: "[RULE] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is the failure mode a fork inherits. Attest descends from CountryValidator, which had
+        no release after 2023, so any rule that changed since then is wrong here until someone
+        reports it. Three that already did: Finland's HETU gained new century separators in 2023,
+        Indonesia's NPWP became 16 digits in 2024, and Brazil's CNPJ became alphanumeric in
+        July 2026.
+
+        Do not paste a real person's number. Construct the examples or cite published ones.
+
+  - type: input
+    id: country
+    attributes:
+      label: Country
+      description: ISO alpha-2 code and the validator class.
+      placeholder: "ID — IndonesiaValidator"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: method
+    attributes:
+      label: Methods affected
+      multiple: true
+      options:
+        - ValidateIndividualTaxCode
+        - ValidateEntity
+        - ValidateVAT
+        - ValidateNationalIdentityCode / ValidateNationalIdentity
+        - ValidateZIPCode / ValidatePostalCode
+    validations:
+      required: true
+
+  - type: textarea
+    id: change
+    attributes:
+      label: What changed
+      description: The old rule and the new one, stated precisely enough to implement.
+      placeholder: |
+        Old: 15 digits, Luhn over the first 9, taxpayer type in digit 2.
+        New: 16 digits, taxpayer type in digit 3.
+    validations:
+      required: true
+
+  - type: input
+    id: effective
+    attributes:
+      label: Effective date
+      description: When the new rule started to apply. If it was phased in, give both dates.
+      placeholder: "2024-07-01"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: old-numbers
+    attributes:
+      label: What happens to numbers issued under the old rule?
+      description: >-
+        This decides the fix. A validator that drops the old form starts rejecting every number
+        still in circulation, which is a worse defect than the one being reported.
+      options:
+        - Still valid — both forms must be accepted
+        - Withdrawn — the old form must now be rejected
+        - Reissued in the new format, old form no longer presented
+        - Unknown
+    validations:
+      required: true
+
+  - type: textarea
+    id: source
+    attributes:
+      label: Source
+      description: >-
+        The authority's own announcement or regulation, with a URL and the sentence that states
+        the change. A secondary summary is not enough on its own; where python-stdnum has already
+        implemented the change, link its module too.
+    validations:
+      required: true
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples under each rule
+      description: One number in the old form and one in the new, each with its check digit, and what Attest returns for them today.
+      placeholder: |
+        Old form: 01.234.567.8-901.000 — Attest returns valid
+        New form: 0012345678901000 — Attest returns InvalidFormat, should be valid
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Before you submit
+      options:
+        - label: No number here belongs to a real person — it is constructed or published.
+          required: true
