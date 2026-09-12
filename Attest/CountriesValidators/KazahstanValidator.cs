@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
@@ -37,6 +37,14 @@ namespace Attest.Countries
                 return ValidationResult.InvalidFormat("123456789012");
             }
 
+            // The first six digits are range-checked only and the 7th digit (century and sex) is
+            // not checked at all: постановление Правительства РК № 853 of 26.08.2013 struck the birth date, the
+            // century and the sex out of the Правила формирования идентификационного номера, so an issued IIN
+            // need not agree with any of them - "их несовпадение с датой рождения не является ошибкой" - and
+            // 0 is in any case a documented value of the 7th digit, for foreign nationals. A real
+            // calendar check on the first six digits, or a 0-6 range check on the 7th, would reject
+            // numbers the state does issue.
+            // https://ru.wikipedia.org/wiki/%D0%98%D0%BD%D0%B4%D0%B8%D0%B2%D0%B8%D0%B4%D1%83%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9_%D0%B8%D0%B4%D0%B5%D0%BD%D1%82%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D1%8B%D0%B9_%D0%BD%D0%BE%D0%BC%D0%B5%D1%80
             try
             {
                 int month = int.Parse(ssn.Substring(2, 2));

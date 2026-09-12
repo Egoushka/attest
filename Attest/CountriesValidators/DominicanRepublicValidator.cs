@@ -173,7 +173,9 @@ namespace Attest.Countries
         /// <returns></returns>
         public ValidationResult ValidateNCF(string number)
         {
-            number = number.RemoveSpecialCharacthers();
+            // stdnum's compact() upper-cases the number, so the series letter is not case-sensitive.
+            // https://raw.githubusercontent.com/arthurdejong/python-stdnum/master/stdnum/do/ncf.py
+            number = number.RemoveSpecialCharacthers().ToUpper();
             if (number.Length == 13)
             {
                 if (number[0] != 'E' || !number.Substring(1).All(char.IsDigit))

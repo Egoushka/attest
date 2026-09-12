@@ -20,11 +20,9 @@ namespace Attest.Tests
         [InlineData("123456789", Country.US)]   // UnitedStatesValidator.ValidateVAT throws NotSupportedException
         [InlineData("123456789", Country.AE)]
         [InlineData("123456789", Country.HK)]
-        [InlineData("123456789", Country.ME)]   // MontenegroValidator.ValidateVAT throws NotImplementedException
         [InlineData("123456789", Country.XX)]   // no validator registered
         [InlineData(null, Country.US)]
         [InlineData("", Country.AE)]
-        [InlineData("---", Country.ME)]
         public void TestVatOfCountryWithoutVat(string code, Country country)
         {
             var result = _countryValidator.ValidateVAT(code, country);
@@ -36,7 +34,6 @@ namespace Attest.Tests
         [Theory]
         [InlineData("123456789", Country.AE)]
         [InlineData("123456789", Country.HK)]   // HongKongValidator.ValidateEntity throws NotImplementedException
-        [InlineData("123456789", Country.ME)]
         [InlineData("123456789", Country.XX)]
         [InlineData(null, Country.AE)]
         public void TestEntityOfCountryWithoutEntityCode(string code, Country country)
@@ -47,9 +44,23 @@ namespace Attest.Tests
             Assert.Equal("Not supported", result.ErrorMessage);
         }
 
+        /// <summary>
+        /// Montenegro used to throw NotImplementedException from these three methods, so the facade
+        /// answered "Not supported". It has rules now, and must answer on the merits instead.
+        /// </summary>
+        [Fact]
+        public void MontenegroAnswersOnTheMeritsWhereItUsedToThrow()
+        {
+            Assert.True(_countryValidator.ValidateEntity("02655284", Country.ME).IsValid);
+            Assert.True(_countryValidator.ValidateVAT("02655284", Country.ME).IsValid);
+
+            var wrong = _countryValidator.ValidateEntity("02655285", Country.ME);
+            Assert.False(wrong.IsValid);
+            Assert.NotEqual("Not supported", wrong.ErrorMessage);
+        }
+
         [Theory]
         [InlineData("123456789", Country.AE)]
-        [InlineData("123456789", Country.ME)]
         [InlineData("123456789", Country.XX)]
         [InlineData(null, Country.AE)]
         public void TestIndividualTaxCodeOfCountryWithoutOne(string code, Country country)

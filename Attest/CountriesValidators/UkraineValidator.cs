@@ -75,6 +75,11 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateVAT(string vatId)
         {
+            // Twelve digits: for a legal entity the first seven are the ЄДРПОУ without its own
+            // check digit, then two for the oblast and two for the district; for an individual the
+            // first ten are the РНОКПП. The twelfth digit is a check digit whose algorithm the tax
+            // authority sets but does not publish, so only the format is validated.
+            // https://uk.wikipedia.org/wiki/Індивідуальний_податковий_номер_платника_ПДВ
             vatId = vatId.RemoveSpecialCharacthers();
             if (!Regex.IsMatch(vatId, @"^\d{12}$"))
             {

@@ -13,13 +13,19 @@ namespace Attest.Tests
         }
 
         // Since 2021 an individual is identified by the fourteen digit PINFL instead of a TIN: one
-        // digit for century and gender, six for the date of birth, then the serial number and a
-        // check digit whose algorithm is not published, so only the format is validated.
-        // https://taxid.pro/docs/countries/uzbekistan
+        // digit for century and gender, six for the date of birth, three for the district, three
+        // for the serial number and a check digit over the first thirteen, weights 7,3,1 repeated,
+        // modulus 10. 31210932040247 and 40201902050010 are the two worked examples of chapter 2,
+        // group 5 of Cabinet of Ministers regulation no. 177 of 12.04.2022.
+        // https://lex.uz/ru/docs/5955669
         [Theory]
-        [InlineData("31120798702393", true)]    // Example published by taxid.pro
-        [InlineData("41504658900162", true)]    // Female born 1965-04-15
-        [InlineData("311 207 987 023 93", true)]// Same number with separators
+        [InlineData("31210932040247", true)]    // Male born 1993-10-12, official example 1
+        [InlineData("40201902050010", true)]    // Female born 1990-01-02, official example 2
+        [InlineData("41504658900165", true)]    // Female born 1965-04-15, check digit computed
+        [InlineData("312 109 320 402 47", true)]// Same number with separators
+        [InlineData("31210932040240", false)]   // Wrong check digit
+        [InlineData("40201902050011", false)]   // Wrong check digit
+        [InlineData("31120798702393", false)]   // Fourteen digits, but the check digit has to be 2
         [InlineData("3112079870239", false)]    // Thirteen digits
         [InlineData("311207987023931", false)]  // Fifteen digits
         [InlineData("311207987", false)]        // The nine digit TIN of a legal entity is not a PINFL
@@ -35,8 +41,9 @@ namespace Attest.Tests
         }
 
         [Theory]
-        [InlineData("31120798702393", true)]
-        [InlineData("41504658900162", true)]
+        [InlineData("31210932040247", true)]
+        [InlineData("40201902050010", true)]
+        [InlineData("31210932040240", false)]   // Wrong check digit
         [InlineData("3112079870239", false)]    // Thirteen digits
         [InlineData("311207987023931", false)]  // Fifteen digits
         [InlineData("abc", false)]

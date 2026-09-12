@@ -32,8 +32,13 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
+            // Section II of the Faroese TIN sheet gives the P number's format as "Ddmmyyxxx
+            // (ddmmyy-xxx) 9 digits", so the first six digits are the date of birth: day 01-31
+            // and month 01-12. The century is not published, so the year is not resolved and
+            // 29 February is not checked against it.
+            // https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/faroe-islands-tin.pdf
             ssn = ssn.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(ssn, @"^\d{9}$"))
+            if (!Regex.IsMatch(ssn, @"^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])\d{5}$"))
             {
                 return ValidationResult.InvalidFormat("ddmmyyxxx");
             }
@@ -55,8 +60,11 @@ namespace Attest.Countries
 
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
+            // Three digits running from 100 (Torshavn) to 970 (Sumba) with large unassigned gaps,
+            // so only the impossible 000-099 block is rejected here.
+            // https://da.wikipedia.org/wiki/Postnumre_p%C3%A5_F%C3%A6r%C3%B8erne
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{3}$"))
+            if (!Regex.IsMatch(postalCode, "^[1-9]\\d{2}$"))
             {
                 return ValidationResult.InvalidFormat("NNN");
             }

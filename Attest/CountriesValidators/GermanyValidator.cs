@@ -302,13 +302,24 @@ namespace Attest.Countries
             }
 
             char[] digits = id.ToCharArray();
-            var first10Digits = digits.Take(10);
+            string first10Digits = id.Slice(0, 10);
 
-
-            var counts = first10Digits.GroupBy(x => x)
+            // Within the first ten digits exactly one digit occurs twice or three times and every
+            // other digit occurs at most once; since 2016 the threefold occurrence is allowed, but
+            // the three must not stand at directly consecutive positions ("bei drei gleichen Ziffern
+            // duerfen nur zwei unmittelbar hintereinander stehen, nicht jedoch alle drei").
+            // https://de.wikipedia.org/wiki/Steuerliche_Identifikationsnummer
+            // https://download.elster.de/download/schnittstellen/Pruefung_der_Steuer_und_Steueridentifikatsnummer.pdf
+            var repeated = first10Digits.GroupBy(x => x)
+                  .Where(g => g.Count() > 1)
                   .Select(g => new { Value = g.Key, Count = g.Count() }).ToList();
 
-            if (counts.Count != 9 && counts.Count != 8)
+            if (repeated.Count != 1 || repeated[0].Count > 3)
+            {
+                return ValidationResult.Invalid("Invalid");
+            }
+            else if (repeated[0].Count == 3
+                && first10Digits.Contains(new string(repeated[0].Value, 3)))
             {
                 return ValidationResult.Invalid("Invalid");
             }

@@ -1,4 +1,4 @@
-using Attest.Countries;
+﻿using Attest.Countries;
 using Xunit;
 
 namespace Attest.Tests
@@ -20,6 +20,7 @@ namespace Attest.Tests
         [InlineData("1234567", true)]
         [InlineData("12345678", true)]
         [InlineData("4567890A", true)]  // Seven digits plus a complemento letter
+        [InlineData("1234567_", false)] // "_" is not an alphanumeric complemento
         [InlineData("1234", false)]     // Four digits, below the minimum of five
         [InlineData("abcdefg", false)]  // Letters only
         [InlineData(null, false)]
@@ -31,11 +32,17 @@ namespace Attest.Tests
         }
 
         // NIT. Bolivia publishes no check digit for the NIT, so the validator only checks that the
-        // code is digits. Only cases that are wrong under every published description of the NIT
-        // are asserted here; see the audit notes for the disputed length bounds.
+        // code is seven to thirteen digits. The SIN builds a natural person's NIT from the Cedula
+        // de Identidad plus a three digit suffix, so the length is not fixed; the bounds here are
+        // the widest any published source describes, and no source puts a NIT outside them.
+        // https://siatinfo.impuestos.gob.bo/index.php/requisitos-para-la-inscripcion/conceptos-generales/generacion-del-nit
         [Theory]
         [InlineData("1023456789", true)]
         [InlineData("4567890123", true)]
+        [InlineData("1234567", true)]       // Seven digits, the shortest length any source reports
+        [InlineData("123456789", true)]     // Nine digit legacy NIT
+        [InlineData("123456", false)]       // Six digits, below every published length
+        [InlineData("12345678901234", false)]   // Fourteen digits, above every published length
         [InlineData("1", false)]            // A single digit is far below any published NIT length
         [InlineData("12345678ab", false)]   // Letters are not allowed
         [InlineData(null, false)]

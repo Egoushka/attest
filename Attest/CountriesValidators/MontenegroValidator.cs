@@ -78,17 +78,52 @@ namespace Attest.Countries
 
         public override ValidationResult ValidateEntity(string id)
         {
-            throw new NotImplementedException();
+            return ValidateVAT(id);
         }
 
+        /// <summary>
+        /// For natural persons the tax number assigned by the Poreska uprava is based on the
+        /// JMB, so the individual tax code is validated as a Montenegrin JMB.
+        /// </summary>
+        /// <param name="ssn"></param>
+        /// <returns></returns>
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
-            throw new NotImplementedException();
+            return ValidateNationalIdentity(ssn);
         }
 
+        /// <summary>
+        /// PIB (Poreski Identifikacioni Broj)
+        /// </summary>
+        /// <param name="vatId"></param>
+        /// <returns></returns>
         public override ValidationResult ValidateVAT(string vatId)
         {
-            throw new NotImplementedException();
+            vatId = vatId.RemoveSpecialCharacthers();
+
+            // [0-9] and not \d: in .NET \d also matches non-ASCII Unicode digits.
+            if (!Regex.IsMatch(vatId, "^[0-9]{8}$"))
+            {
+                return ValidationResult.InvalidFormat("12345678");
+            }
+
+            // The last digit is a modulus 11 check digit over the weights 8,7,6,5,4,3,2,
+            // a remainder of 10 is written as 0.
+            // https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.me.pib.html
+            int[] weights = new int[] { 8, 7, 6, 5, 4, 3, 2 };
+
+            int sum = 0;
+            for (int i = 0; i < weights.Length; i++)
+            {
+                sum += weights[i] * (int)char.GetNumericValue(vatId[i]);
+            }
+
+            if ((11 - sum % 11) % 11 % 10 != (int)char.GetNumericValue(vatId[7]))
+            {
+                return ValidationResult.InvalidChecksum();
+            }
+
+            return ValidationResult.Success();
         }
 
         public override ValidationResult ValidatePostalCode(string postalCode)

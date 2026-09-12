@@ -120,9 +120,18 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateVAT(string vatId)
         {
-            vatId = vatId.RemoveSpecialCharacthers();
-            vatId = vatId.Replace("NO", string.Empty).Replace("no", string.Empty)
-                .Replace("MVA", string.Empty).Replace("mva", string.Empty);
+            // python-stdnum strips the country code only from the start of the number and the
+            // MVA suffix only from the end, so neither is removed from the middle of the string.
+            // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/no/mva.py
+            vatId = vatId.RemoveSpecialCharacthers().ToUpper();
+            if (vatId.StartsWith("NO"))
+            {
+                vatId = vatId.Substring(2);
+            }
+            if (vatId.EndsWith("MVA"))
+            {
+                vatId = vatId.Substring(0, vatId.Length - 3);
+            }
 
             if (!Regex.IsMatch(vatId, @"^\d{9}$"))
             {

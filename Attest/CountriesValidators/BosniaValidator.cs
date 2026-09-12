@@ -83,9 +83,28 @@ namespace Attest.Countries
         }
 
 
+        /// <summary>
+        /// JIB (Jedinstveni identifikacioni broj)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public override ValidationResult ValidateEntity(string id)
         {
-            throw new NotSupportedException();
+            id = id.RemoveSpecialCharacthers();
+
+            // Thirteen digits, the first of which is the "4" common to every JIB issued by the
+            // entity tax administrations and by the Uprava za indirektno oporezivanje.
+            // Pravilnik o dodjeljivanju identifikacionih brojeva i poreznoj registraciji
+            // (Porezna uprava FBiH), clan 11 and 14:
+            // https://www.pufbih.ba/v1/public/upload/zakoni/96237-pravilnik-o-dodjeljivanju-id-brojeva.pdf
+            // Pravilnik o uslovima i nacinu registracije i identifikacije poreskih obveznika
+            // ("Sluzbeni glasnik RS" broj 4/13), clan 11 to 13.
+            if (!Regex.IsMatch(id, "^4[0-9]{12}$"))
+            {
+                return ValidationResult.InvalidFormat("4123456789012");
+            }
+
+            return ValidateJibChecksum(id);
         }
 
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
@@ -93,9 +112,51 @@ namespace Attest.Countries
             return ValidateNationalIdentity(ssn);
         }
 
+        /// <summary>
+        /// Identifikacioni broj of an indirect tax payer: the thirteen digit JIB with its
+        /// leading "4" removed, so twelve digits. Pravilnik o registraciji i upisu u Jedinstveni
+        /// registar obveznika indirektnih poreza ("Sluzbeni glasnik BiH" broj 51/12), clan 19 and 21:
+        /// https://www.uino.gov.ba/portal/wp-content/uploads/PROPISI/2_Porezi/1_PDV/2_Pravilnici/B/B-2-Pravilnik-o-registraciji-i-upisu-u-Jedinstveni-registar-obveznika-indirektnih-poreza-Sluzbeni-glasnik-BiH-broj-5112b.pdf
+        /// </summary>
+        /// <param name="vatId"></param>
+        /// <returns></returns>
         public override ValidationResult ValidateVAT(string vatId)
         {
-            throw new NotSupportedException();
+            vatId = vatId.RemoveSpecialCharacthers();
+
+            if (!Regex.IsMatch(vatId, "^[0-9]{12}$"))
+            {
+                return ValidationResult.InvalidFormat("123456789012");
+            }
+
+            // Only the leading digit is dropped, so the check digit is still the one calculated
+            // over the thirteen digit JIB.
+            return ValidateJibChecksum("4" + vatId);
+        }
+
+        private ValidationResult ValidateJibChecksum(string jib)
+        {
+            // Both rulebooks say the thirteenth digit is a check digit "po modulu 11" over the
+            // preceding twelve but neither prints the weights. The weights 7,6,5,4,3,2 twice,
+            // with a remainder of 10 written as 0, hold for 29318 of the 29319 JIBs in the
+            // Kanton Sarajevo taxpayer list published by the Porezna uprava FBiH
+            // (https://pufbih.ba/v1/public/upload/files/Kanton%20Sarajevo%202.pdf) and for every
+            // Republika Srpska JIB checked against it. It is the same calculation North Macedonia
+            // uses for the EDB.
+            int[] weights = new int[] { 7, 6, 5, 4, 3, 2, 7, 6, 5, 4, 3, 2 };
+
+            int sum = 0;
+            for (int i = 0; i < weights.Length; i++)
+            {
+                sum += weights[i] * (int)char.GetNumericValue(jib[i]);
+            }
+
+            if ((11 - sum % 11) % 11 % 10 != (int)char.GetNumericValue(jib[12]))
+            {
+                return ValidationResult.InvalidChecksum();
+            }
+
+            return ValidationResult.Success();
         }
 
         public override ValidationResult ValidatePostalCode(string postalCode)

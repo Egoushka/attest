@@ -55,7 +55,11 @@ namespace Attest.Countries
             {
                 return ValidationResult.InvalidFormat("012345678901");
             }
-            else if (int.Parse(rut.Substring(0, 2)) < 1 || int.Parse(rut.Substring(0, 2)) > 21)
+            // Registration numbers run 01 to 22: DGI's resolution of 14/10/2024 gives every
+            // taxpayer registered from 21 October 2024 the prefix 22 regardless of department,
+            // while earlier registrations keep their 01-21 prefixes.
+            // https://www.gub.uy/direccion-general-impositiva/comunicacion/noticias/nueva-numeracion-del-rut
+            else if (int.Parse(rut.Substring(0, 2)) < 1 || int.Parse(rut.Substring(0, 2)) > 22)
             {
                 return ValidationResult.Invalid("Invalid code");
             }

@@ -30,7 +30,7 @@ namespace Attest.Countries
                 return ValidationResult.InvalidFormat("1234567890123");
             }
 
-            string dateString; DateTime maxDate;
+            string dateString;
             string sDigit; // parse the date into 'YYYYMMDD' according to 'S' digit
 
             sDigit = ssn.Substring(6, 1);
@@ -58,10 +58,12 @@ namespace Attest.Countries
 
 
             dateString = yearPrefix + ssn.Substring(0, 6);
-            maxDate = DateTime.Now.AddYears(-17);
+            // The RRN is issued at birth registration, not at 17, so any past birth date is
+            // acceptable; python-stdnum kr.rrn rejects only dates in the future (allow_future=False).
+            // https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.kr.rrn
             if (DateTime.TryParseExact(dateString, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime datetime))
             {
-                if (datetime > maxDate)
+                if (datetime > DateTime.Now)
                 {
                     return ValidationResult.InvalidDate();
                 }
@@ -73,6 +75,13 @@ namespace Attest.Countries
             else
             {
                 return ValidationResult.InvalidDate();
+            }
+
+            // Digits 8 and 9 are the place of birth registration; python-stdnum kr.rrn rejects
+            // anything above 96 as an invalid component.
+            if (int.Parse(ssn.Substring(7, 2)) > 96)
+            {
+                return ValidationResult.Invalid("Invalid place of birth");
             }
 
             string char6; int index;

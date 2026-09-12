@@ -31,10 +31,10 @@ namespace Attest
 
         /// <summary>
         /// True when the value is valid both as a personal and as a business identifier, which
-        /// happens in countries that issue one number for both — Thailand, Russia, Iceland, Peru,
-        /// Andorra, Armenia and Nigeria among them. The country cannot tell the two apart, so
-        /// neither can this library: a caller who asked for one category only should decide for
-        /// itself whether an ambiguous match is good enough.
+        /// happens in countries that issue one number for both — Armenia and Nigeria here, and in
+        /// Russia where a sole trader files VAT under his personal number. The country cannot tell
+        /// the two apart, so neither can this library: a caller who asked for one category only
+        /// should decide for itself whether an ambiguous match is good enough.
         /// </summary>
         public bool IsAmbiguous => (Matched & IdentifierKind.Person) != 0 && (Matched & IdentifierKind.Business) != 0;
     }

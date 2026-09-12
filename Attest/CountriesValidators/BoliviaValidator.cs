@@ -16,7 +16,10 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateNationalIdentity(string ssn)
         {
-            if (string.IsNullOrWhiteSpace(ssn) || !Regex.IsMatch(ssn, @"^\d{5,8}\w?$"))
+            // The complemento is alphanumeric (Reglamento del Registro Unico de Identificacion
+            // Personal, articulo 40, aprobado por Resolucion Administrativa SEGIP/DGE 632/2017),
+            // so \w - which also matches "_" and non ASCII word characters - is too wide.
+            if (string.IsNullOrWhiteSpace(ssn) || !Regex.IsMatch(ssn, @"^\d{5,8}[A-Za-z0-9]?$"))
             {
                 return ValidationResult.InvalidFormat("1234567");
             }
@@ -32,7 +35,13 @@ namespace Attest.Countries
         public override ValidationResult ValidateEntity(string id)
         {
             id = id.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(id, @"^\d{10,}$"))
+            // Seven to thirteen digits. The SIN builds a natural person's NIT from the Cedula de
+            // Identidad followed by a taxpayer type code (01, 02 or 04) and a random digit 1-9, so
+            // the length tracks the CI rather than being fixed:
+            // https://siatinfo.impuestos.gob.bo/index.php/requisitos-para-la-inscripcion/conceptos-generales/generacion-del-nit
+            // No published source describes a NIT below seven or above thirteen digits, and no
+            // check digit is published, so the length is all that can be checked.
+            if (!Regex.IsMatch(id, @"^\d{7,13}$"))
             {
                 return ValidationResult.InvalidFormat("1234567890");
             }

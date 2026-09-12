@@ -45,7 +45,11 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateEntity(string id)
         {
-            id = id.RemoveSpecialCharacthers();
+            // stdnum's compact() upper cases the number and strips leading zeroes, so "576937-k"
+            // and "00576937K" are the same NIT as "576937-K". Leading zeroes carry a weight in the
+            // check sum but contribute nothing, so stripping them does not change the check digit.
+            // https://arthurdejong.org/nm/python-stdnum/doc/1.20/stdnum.gt.nit.html
+            id = id.RemoveSpecialCharacthers().ToUpperInvariant().TrimStart('0');
             if (id.Length < 2 || id.Length > 12)
             {
                 return ValidationResult.InvalidLength();
@@ -66,9 +70,13 @@ namespace Attest.Countries
 
         }
 
+        /// <summary>
+        /// Not supported: Guatemala has no separate personal tax code, and the NIT is validated by
+        /// <see cref="ValidateEntity"/>.
+        /// </summary>
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
-            throw new NotSupportedException();
+            return ValidationResult.Invalid("Not supported");
         }
 
         /// <summary>

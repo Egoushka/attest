@@ -26,6 +26,12 @@ namespace Attest.Countries
         /// <summary>
         /// Registro Unico de Contribuyentes (RUC)  
         /// </summary>
+        /// <remarks>
+        /// The third digit picks the taxpayer class, but two classes overlap: a third digit of 6
+        /// falls back to the natural RUC when the public check sum fails, and a third digit of 9
+        /// is tried as a public RUC before the juridical check sum is applied.
+        /// https://arthurdejong.org/nm/python-stdnum/doc/1.20/stdnum.ec.ruc.html
+        /// </remarks>
         /// <param name="ruc"></param>
         /// <returns></returns>
         public override ValidationResult ValidateEntity(string ruc)
@@ -46,39 +52,66 @@ namespace Attest.Countries
             }
             else if (int.Parse(ruc.Substring(2, 1)) < 6) // 0..5 = natural RUC: CI plus establishment number
             {
-                if (ruc.Substring(ruc.Length - 3) == "000")
-                {
-                    return ValidationResult.Invalid("Invalid code");
-                }
-                return ValidateCI(ruc.Substring(0, 10));
+                return ValidateNatural(ruc);
             }
-            else if (ruc[2] == '6')   // 6 = public RUC
+            else if (ruc[2] == '6')   // 6 = public RUC, or a natural RUC when the public check sum fails
             {
-                // A public RUC carries a four digit establishment number, so the guard compares
-                // four characters. https://arthurdejong.org/nm/python-stdnum/doc/1.20/stdnum.ec.ruc.html
-                if (ruc.Substring(ruc.Length - 4) == "0000")
-                {
-                    return ValidationResult.Invalid("Invalid code");
-                }
-                else if (Checksum(ruc.Substring(0, 9), new int[] { 3, 2, 7, 6, 5, 4, 3, 2, 1 }) != 0)
-                {
-                    return ValidationResult.InvalidChecksum();
-                }
+                ValidationResult result = ValidatePublic(ruc);
+                return result.IsValid ? result : ValidateNatural(ruc);
             }
-            else if (ruc[2] == '9') // 9 = juridical RUC
+            else if (ruc[2] == '9') // 9 = juridical RUC, but the public check sum is tried first
             {
-                if (ruc.Substring(ruc.Length - 3) == "000")
-                {
-                    return ValidationResult.Invalid("Establishment Number Wrong");
-                }
-                if (Checksum(ruc.Substring(0, 10), new int[] { 4, 3, 2, 7, 6, 5, 4, 3, 2, 1 }) != 0)
-                {
-                    return ValidationResult.InvalidChecksum();
-                }
+                ValidationResult result = ValidatePublic(ruc);
+                return result.IsValid ? result : ValidateJuridical(ruc);
             }
             else
             {
                 return ValidationResult.Invalid("Third digit is wrong");
+            }
+        }
+
+        /// <summary>
+        /// Natural RUC: a CI followed by a three digit establishment number.
+        /// </summary>
+        private ValidationResult ValidateNatural(string ruc)
+        {
+            if (ruc.Substring(ruc.Length - 3) == "000")
+            {
+                return ValidationResult.Invalid("Invalid code");
+            }
+            return ValidateCI(ruc.Substring(0, 10));
+        }
+
+        /// <summary>
+        /// Public RUC: nine digits checked against 3,2,7,6,5,4,3,2,1 plus a four digit
+        /// establishment number.
+        /// </summary>
+        private ValidationResult ValidatePublic(string ruc)
+        {
+            if (ruc.Substring(ruc.Length - 4) == "0000")
+            {
+                return ValidationResult.Invalid("Invalid code");
+            }
+            else if (Checksum(ruc.Substring(0, 9), new int[] { 3, 2, 7, 6, 5, 4, 3, 2, 1 }) != 0)
+            {
+                return ValidationResult.InvalidChecksum();
+            }
+            return ValidationResult.Success();
+        }
+
+        /// <summary>
+        /// Juridical RUC: ten digits checked against 4,3,2,7,6,5,4,3,2,1 plus a three digit
+        /// establishment number.
+        /// </summary>
+        private ValidationResult ValidateJuridical(string ruc)
+        {
+            if (ruc.Substring(ruc.Length - 3) == "000")
+            {
+                return ValidationResult.Invalid("Establishment Number Wrong");
+            }
+            if (Checksum(ruc.Substring(0, 10), new int[] { 4, 3, 2, 7, 6, 5, 4, 3, 2, 1 }) != 0)
+            {
+                return ValidationResult.InvalidChecksum();
             }
             return ValidationResult.Success();
         }
@@ -140,7 +173,10 @@ namespace Attest.Countries
             {
                 return ValidationResult.Invalid("Invalid province code");
             }
-            else if (Char.GetNumericValue(number[2]) > 5)
+            // The tipo de cedula digit runs 0 to 6: 6 is what lets a RUC whose public check sum
+            // fails fall back to the natural RUC above.
+            // https://arthurdejong.org/nm/python-stdnum/doc/1.20/stdnum.ec.ci.html
+            else if (Char.GetNumericValue(number[2]) > 6)
             {
                 return ValidationResult.Invalid("Third digit is wrong");
             }

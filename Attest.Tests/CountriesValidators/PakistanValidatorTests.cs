@@ -1,4 +1,5 @@
 ﻿using Attest.Countries;
+using System;
 using Xunit;
 
 namespace Attest.Tests
@@ -19,9 +20,12 @@ namespace Attest.Tests
         [InlineData("34201-0891231-8", true)]    // python-stdnum pk.cnic example
         [InlineData("42201-0397640-8", true)]    // python-stdnum pk.cnic example
         [InlineData("3420108912318", true)]      // same number without separators
+        [InlineData("54201-0891231-8", true)]    // province code 5, Balochistan
+        [InlineData("74201-0891231-8", true)]    // province code 7, Gilgit-Baltistan
         [InlineData("84201-0891231-8", false)]   // province code 8 does not exist
         [InlineData("04201-0891231-8", false)]   // province code 0 does not exist
         [InlineData("34201-0891231-0", false)]   // gender digit is never 0
+        [InlineData("3420A0891231-8", false)]    // a letter survives separator stripping
         [InlineData("34201-089123-8", false)]    // 12 digits
         [InlineData("34201-08912311-8", false)]  // 14 digits
         [InlineData("abc", false)]
@@ -40,6 +44,25 @@ namespace Attest.Tests
         public void TestNationalId(string code, bool isValid)
         {
             Assert.Equal(isValid, _pakistanValidator.ValidateNationalIdentity(code).IsValid);
+        }
+
+        // The FBR publishes no format or check rule for the National Tax Number, so this
+        // validator has no rule for entity or VAT codes; CountryValidator turns the throw into
+        // Invalid("Not supported"), and CountryValidator.Supports reads it as "no rule".
+        [Theory]
+        [InlineData("3420108912318")]
+        [InlineData(null)]
+        public void TestEntityIsNotSupported(string code)
+        {
+            Assert.Throws<NotSupportedException>(() => _pakistanValidator.ValidateEntity(code));
+        }
+
+        [Theory]
+        [InlineData("3420108912318")]
+        [InlineData(null)]
+        public void TestVatIsNotSupported(string code)
+        {
+            Assert.Throws<NotSupportedException>(() => _pakistanValidator.ValidateVAT(code));
         }
 
         [Theory]

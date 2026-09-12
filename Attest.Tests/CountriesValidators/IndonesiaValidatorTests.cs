@@ -13,7 +13,9 @@ namespace Attest.Tests
         }
 
         // NPWP: 15 digits, the 9th digit is a Luhn check digit over the first 8. The second
-        // digit is the taxpayer type: 0-3 for organisations, 4-9 for individuals.
+        // digit is the taxpayer type: 0-3 for organisations, 4-9 for individuals. Since 2024 the
+        // number is 16 digits: the same number with a leading 0, which moves the check digit to
+        // the 10th position, or - for a citizen - the NIK.
         // https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.id.npwp
         [Theory]
         [InlineData("013121660091000", true)]    // python-stdnum id.npwp example
@@ -21,10 +23,15 @@ namespace Attest.Tests
         [InlineData("016090524017000", true)]    // python-stdnum id.npwp example
         [InlineData("013000666091000", true)]    // python-stdnum id.npwp example
         [InlineData("013121660091", true)]       // 12 digits, the branch code defaults to 000
+        [InlineData("0013121660091000", true)]   // 2024 form of the same number
+        [InlineData("0016090524017000", true)]   // 2024 form of the same number
         [InlineData("013121661091000", false)]   // wrong check digit
+        [InlineData("0013121661091000", false)]  // 2024 form, wrong check digit
         [InlineData("053121661091000", false)]   // taxpayer type 5 is an individual
+        [InlineData("0053121661091000", false)]  // 2024 form, taxpayer type 5 is an individual
+        [InlineData("3174012501900001", false)]  // a NIK identifies a person, not an organisation
         [InlineData("01312166009100", false)]    // 14 digits
-        [InlineData("0131216600910001", false)]  // 16 digits
+        [InlineData("0131216600910001", false)]  // 16 digits, but the check digit is the 10th
         [InlineData("abc", false)]
         [InlineData("", false)]
         [InlineData(null, false)]
@@ -37,8 +44,15 @@ namespace Attest.Tests
         [InlineData("053121661091000", true)]    // check digit 1 computed from the published rule
         [InlineData("041234568091000", true)]    // check digit 8 computed from the published rule
         [InlineData("079998886091000", true)]    // check digit 6 computed from the published rule
+        [InlineData("0053121661091000", true)]   // 2024 form of the same number
+        [InlineData("3174012501900001", true)]   // NIK, born 25-01-1990
+        [InlineData("3174016501900001", true)]   // NIK of a woman: 40 is added to the day
         [InlineData("053121660091000", false)]   // wrong check digit
+        [InlineData("0053121660091000", false)]  // 2024 form, wrong check digit
         [InlineData("013121660091000", false)]   // taxpayer type 1 is an organisation
+        [InlineData("0013121660091000", false)]  // 2024 form, taxpayer type 1 is an organisation
+        [InlineData("3174013201900001", false)]  // NIK with day 32
+        [InlineData("3174012513900001", false)]  // NIK with month 13
         [InlineData("05312166109100", false)]    // 14 digits
         [InlineData("abc", false)]
         [InlineData("", false)]
@@ -50,6 +64,7 @@ namespace Attest.Tests
 
         [Theory]
         [InlineData("053121661091000", true)]
+        [InlineData("3174012501900001", true)]
         [InlineData("053121660091000", false)]
         [InlineData("abc", false)]
         [InlineData(null, false)]
@@ -61,7 +76,9 @@ namespace Attest.Tests
         [Theory]
         [InlineData("013121660091000", true)]
         [InlineData("016090524017000", true)]
+        [InlineData("0013121660091000", true)]   // 2024 form of the same number
         [InlineData("013121661091000", false)]   // wrong check digit
+        [InlineData("3174012501900001", false)]  // a NIK identifies a person, not an organisation
         [InlineData("01312166009100", false)]    // 14 digits
         [InlineData("abc", false)]
         [InlineData("", false)]

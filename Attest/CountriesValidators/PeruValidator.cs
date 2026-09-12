@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -52,6 +52,20 @@ namespace Attest.Countries
             return ValidationResult.Success();
         }
 
+        // The first two digits of a RUC say who holds it, so a company number and a personal one
+        // are told apart by them. SUNAT's own account of the structure, Section II of the OECD TIN
+        // sheet it authored: "(a) Individuals identified with DNI: Prefix 10 + DNI + verification
+        // digit. b) Individuals identified with another type of identity document: Prefix 15 +
+        // random number + verification digit. c) Legal entities: Prefix 20 + random number +
+        // verification digit."
+        // https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/peru-tin.pdf
+        // "17" is the odd one out: python-stdnum accepts it as a RUC type but SUNAT does not list
+        // it, and no source says which of the two it belongs to, so it stays valid as both rather
+        // than being assigned to one on a guess.
+        // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/pe/ruc.py
+        private static readonly string[] _personTypes = new string[] { "10", "15", "17" };
+        private static readonly string[] _entityTypes = new string[] { "20", "17" };
+
         /// <summary>
         /// RUC Peruvian company tax number
         /// </summary>
@@ -59,7 +73,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateEntity(string id)
         {
-            return ValidateIndividualTaxCode(id);
+            return ValidateRuc(id, _entityTypes);
         }
 
         private int CalculateChecksum(string number)
@@ -81,8 +95,12 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateIndividualTaxCode(string number)
         {
+            return ValidateRuc(number, _personTypes);
+        }
+
+        private ValidationResult ValidateRuc(string number, string[] allowedTypes)
+        {
             number = number.RemoveSpecialCharacthers();
-            string[] validNumbers = new string[] { "10", "15", "17", "20" };
             if (number.Length != 11)
             {
                 return ValidationResult.InvalidLength();
@@ -92,9 +110,9 @@ namespace Attest.Countries
             {
                 return ValidationResult.InvalidFormat("12345678901");
             }
-            else if (!validNumbers.Contains(number.Substring(0, 2)))
+            else if (!allowedTypes.Contains(number.Substring(0, 2)))
             {
-                return ValidationResult.Invalid("Invalid");
+                return ValidationResult.Invalid("Invalid taxpayer type");
             }
             else if (!number.EndsWith(CalculateChecksum(number).ToString()))
             {
@@ -103,6 +121,13 @@ namespace Attest.Countries
             return ValidationResult.Success();
         }
 
+        /// <summary>
+        /// Peru has no separate VAT number: IGV is filed under the RUC. This overload keeps the
+        /// business reading of <see cref="IdentifierKind.Vat"/>, so a natural person's RUC is
+        /// validated by <see cref="ValidateIndividualTaxCode"/> instead.
+        /// </summary>
+        /// <param name="vatId"></param>
+        /// <returns></returns>
         public override ValidationResult ValidateVAT(string vatId)
         {
             return ValidateEntity(vatId);

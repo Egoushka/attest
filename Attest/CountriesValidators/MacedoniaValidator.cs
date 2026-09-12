@@ -82,9 +82,17 @@ namespace Attest.Countries
             return ValidateVAT(id);
         }
 
+        /// <summary>
+        /// The EMBG of a citizen of North Macedonia is also his tax number, so the individual
+        /// tax code is validated as an EMBG (JMBG). Pravilnik za postapkata, nacinot i rokovite
+        /// za dodeluvanje na edinstven danocen broj ("Sluzben vesnik na RM" br. 161/2009), clen 2(4).
+        /// https://www.ujp.gov.mk/files/attachment/0000/0154/Pravilnik_za_postapkata_nacinot_i_rokovite_za_dodeluvanje_na_edinstven_danocen_broj_161_09__od_31.12.2009.pdf
+        /// </summary>
+        /// <param name="ssn"></param>
+        /// <returns></returns>
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
-            throw new NotImplementedException();
+            return ValidateNationalIdentity(ssn);
         }
 
         /// <summary>
@@ -95,8 +103,13 @@ namespace Attest.Countries
         public override ValidationResult ValidateVAT(string vatId)
         {
             vatId = vatId.RemoveSpecialCharacthers();
-            vatId = vatId.Replace("MK", string.Empty).Replace("mk", string.Empty);
-            if (!Regex.IsMatch(vatId, @"^\d{13}$"))
+            // The prefix is written with either Latin or Cyrillic letters.
+            vatId = vatId.Replace("MK", string.Empty).Replace("mk", string.Empty)
+                         .Replace("МК", string.Empty).Replace("мк", string.Empty);
+
+            // [0-9] and not \d: in .NET \d also matches non-ASCII Unicode digits, which
+            // char.GetNumericValue below would happily read as a number no register issued.
+            if (!Regex.IsMatch(vatId, "^[0-9]{13}$"))
             {
                 return ValidationResult.InvalidFormat("MK1234567890123");
             }

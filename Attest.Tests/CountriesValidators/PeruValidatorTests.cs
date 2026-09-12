@@ -1,4 +1,5 @@
-﻿using Attest.Countries;
+using Attest;
+using Attest.Countries;
 using Xunit;
 
 namespace Attest.Tests
@@ -37,16 +38,31 @@ namespace Attest.Tests
         }
 
         [Theory]
-        // RUC. https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/pe/ruc.py
-        [InlineData("20512333797", true)]
+        // RUC of a natural person. The first two digits carry the holder type: SUNAT's own
+        // description of the structure is "(a) Individuals identified with DNI: Prefix 10 + DNI +
+        // verification digit. b) Individuals identified with another type of identity document:
+        // Prefix 15 + random number + verification digit. c) Legal entities: Prefix 20 + random
+        // number + verification digit."
+        // https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/peru-tin.pdf
+        // 10054148289 is python-stdnum's doctest for to_dni(), which yields DNI 05414828.
+        // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/pe/ruc.py
         [InlineData("10054148289", true)]
+        // Prefix 15, same eight digit body, check digit recomputed with weights 5,4,3,2,7,6,5,4,3,2.
+        [InlineData("15054148281", true)]
+        // Prefix 17 is accepted by python-stdnum but absent from SUNAT's list, so it is left valid
+        // for both a person and a company rather than assigned to one without a source.
+        [InlineData("17054148283", true)]
+        // Prefix 20 is a legal entity, not a natural person. Both are real numbers with a correct
+        // check digit, so only the taxpayer type tells them apart.
+        [InlineData("20512333797", false)]
+        [InlineData("20054148284", false)]
         // python-stdnum doctest: wrong check digit.
-        [InlineData("20512333798", false)]
+        [InlineData("10054148288", false)]
         // 30 is not one of the 10, 15, 17, 20 taxpayer types.
         [InlineData("30512333797", false)]
-        [InlineData("2051233379", false)]
-        [InlineData("205123337971", false)]
-        [InlineData("2051233379A", false)]
+        [InlineData("1005414828", false)]
+        [InlineData("100541482891", false)]
+        [InlineData("1005414828A", false)]
         [InlineData("abc", false)]
         [InlineData("", false)]
         [InlineData(null, false)]
@@ -56,11 +72,20 @@ namespace Attest.Tests
         }
 
         [Theory]
-        // Companies use the same RUC.
+        // Companies use the same RUC format, under taxpayer type 20.
         [InlineData("20512333797", true)]
-        [InlineData("10054148289", true)]
+        [InlineData("20054148284", true)]
+        // Type 17 is unassigned by SUNAT, so it stays valid here too.
+        [InlineData("17054148283", true)]
+        // Types 10 and 15 belong to natural persons, so a company number is never one of them.
+        [InlineData("10054148289", false)]
+        [InlineData("15054148281", false)]
+        // python-stdnum doctest: wrong check digit.
         [InlineData("20512333798", false)]
         [InlineData("30512333797", false)]
+        [InlineData("2051233379", false)]
+        [InlineData("205123337971", false)]
+        [InlineData("2051233379A", false)]
         [InlineData("abc", false)]
         [InlineData("", false)]
         [InlineData(null, false)]
@@ -70,8 +95,10 @@ namespace Attest.Tests
         }
 
         [Theory]
+        // Peru has no separate VAT number; IGV is filed under the RUC, and this overload keeps the
+        // business reading of the identifier, so a natural person's RUC is rejected here.
         [InlineData("20512333797", true)]
-        [InlineData("10054148289", true)]
+        [InlineData("10054148289", false)]
         [InlineData("20512333798", false)]
         [InlineData("2051233379", false)]
         [InlineData("abc", false)]
@@ -80,6 +107,18 @@ namespace Attest.Tests
         public void TestCorrectVatCode(string code, bool isValid)
         {
             Assert.Equal(isValid, _peruValidator.ValidateVAT(code).IsValid);
+        }
+
+        [Theory]
+        // The taxpayer type makes the two categories disjoint, so neither number is ambiguous.
+        [InlineData("10054148289", IdentifierKind.PersonalTaxCode)]
+        [InlineData("20512333797", IdentifierKind.CompanyNumber | IdentifierKind.Vat)]
+        public void TestKindIsUnambiguous(string code, IdentifierKind expectedMatch)
+        {
+            IdentifierResult result = new CountryValidator().Validate(code, Country.PE);
+
+            Assert.Equal(expectedMatch, result.Matched);
+            Assert.False(result.IsAmbiguous);
         }
 
         [Theory]

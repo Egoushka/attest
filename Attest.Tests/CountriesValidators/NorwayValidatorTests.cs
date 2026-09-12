@@ -47,12 +47,18 @@ namespace Attest.Tests
             Assert.Equal(isValid, _norwayValidator.ValidateEntity(code).IsValid);
         }
 
+        // python-stdnum strips the country code only from the start and the MVA suffix only from
+        // the end, so neither is removed from the middle of the number.
+        // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/no/mva.py
         [Theory]
         [InlineData("988077917", true)]
         [InlineData("NO 988 077 917 MVA", true)]
+        [InlineData("no988077917", true)]
         [InlineData("812345672", true)]     // check digit computed from the mod-11 rule
         [InlineData("988077918", false)]    // wrong check digit
         [InlineData("98807791", false)]     // 8 digits
+        [InlineData("98NO8077917", false)]  // NO is only a country prefix, not a separator
+        [InlineData("988MVA077917", false)] // MVA is only a suffix, not a separator
         [InlineData(null, false)]
         [InlineData("", false)]
         [InlineData("abc", false)]

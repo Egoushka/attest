@@ -89,8 +89,12 @@ namespace Attest.Countries
 
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
+            // Four digits running from 1000 to 9999, allocated by district: Nicosia 1000-2999,
+            // Limassol 3000-4999, Famagusta 5000-5999, Larnaca 6000-7999, Paphos 8000-8999 and
+            // Kyrenia 9000-9999. No code begins with a zero.
+            // https://en.wikipedia.org/wiki/Postal_codes_in_Cyprus
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{4}$"))
+            if (!Regex.IsMatch(postalCode, "^[1-9]\\d{3}$"))
             {
                 return ValidationResult.InvalidFormat("NNNN");
             }

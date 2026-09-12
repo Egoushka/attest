@@ -38,7 +38,11 @@ namespace Attest.Tests
         [InlineData("4020990116747", true)]
         [InlineData("MK4057009501106", true)]
         [InlineData("mk4057009501106", true)]
+        [InlineData("МК 4020990116747", true)]  // Cyrillic prefix, python-stdnum doctest
         [InlineData("4030000375890", false)]    // Wrong check digit
+        // Eastern Arabic digits: .NET \d would match them and char.GetNumericValue would
+        // then read them as the check digit of a number no register issued.
+        [InlineData("٤٠٣٠٠٠٠٣٧٥٨٩٧", false)]
         [InlineData("403000037589", false)]     // Twelve digits
         [InlineData("MK40300003758970", false)] // Fourteen digits
         [InlineData(null, false)]
@@ -60,6 +64,22 @@ namespace Attest.Tests
         public void TestCorrectEntityCode(string code, bool isValid)
         {
             Assert.Equal(isValid, _macedoniaValidator.ValidateEntity(code).IsValid);
+        }
+
+        // The EMBG of a Macedonian citizen is also his tax number, so this is the JMBG rule.
+        // https://www.ujp.gov.mk/files/attachment/0000/0154/Pravilnik_za_postapkata_nacinot_i_rokovite_za_dodeluvanje_na_edinstven_danocen_broj_161_09__od_31.12.2009.pdf
+        [Theory]
+        [InlineData("0101990410004", true)]
+        [InlineData("0403981447899", true)]
+        [InlineData("0101990410005", false)]    // Wrong check digit
+        [InlineData("0101990330000", false)]    // Valid check digit, region 33 is Croatia
+        [InlineData("010199041000", false)]     // Twelve digits
+        [InlineData(null, false)]
+        [InlineData("", false)]
+        [InlineData("abc", false)]
+        public void TestIndividualCode(string code, bool isValid)
+        {
+            Assert.Equal(isValid, _macedoniaValidator.ValidateIndividualTaxCode(code).IsValid);
         }
 
         [Theory]

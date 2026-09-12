@@ -9,9 +9,14 @@ namespace Attest.Countries
         {
             CountryCode = nameof(Country.IS);
         }
+        /// <summary>
+        /// Kennitala issued to an organisation
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public override ValidationResult ValidateEntity(string id)
         {
-            return ValidateIndividualTaxCode(id);
+            return ValidateKennitala(id, isOrganisation: true);
         }
 
 
@@ -21,6 +26,17 @@ namespace Attest.Countries
         /// <param name="value"></param>
         /// <returns></returns>
         public override ValidationResult ValidateIndividualTaxCode(string value)
+        {
+            return ValidateKennitala(value, isOrganisation: false);
+        }
+
+        /// <summary>
+        /// A kennitala encodes the holder type in its day field: an individual carries the day of
+        /// birth (01-31), while an organisation carries its day of registration with 40 added to it
+        /// (41-71). The two ranges cannot overlap, so the number itself says which one it belongs to.
+        /// https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/is_/kennitala.py
+        /// </summary>
+        private ValidationResult ValidateKennitala(string value, bool isOrganisation)
         {
             value = value.RemoveSpecialCharacthers();
             if (!Regex.IsMatch(value, "^[0-9]{6}[0-9]{4}$"))
@@ -33,6 +49,19 @@ namespace Attest.Countries
                 var month = int.Parse(value.Substring(2, 2));
                 var year = int.Parse(value.Substring(4, 2));
                 var century = (int)char.GetNumericValue(value[9]);
+
+                if (isOrganisation)
+                {
+                    if (day < 41 || day > 71)
+                    {
+                        return ValidationResult.Invalid("The code does not belong to an organisation");
+                    }
+                    day -= 40;
+                }
+                else if (day > 31)
+                {
+                    return ValidationResult.Invalid("The code does not belong to an individual");
+                }
 
                 year = (century == 9) ? (1900 + year) : ((20 + century) * 100 + year);
                 DateTime date = new DateTime(year, month, day);

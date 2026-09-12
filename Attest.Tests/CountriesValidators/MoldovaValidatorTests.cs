@@ -29,12 +29,18 @@ namespace Attest.Tests
             Assert.Equal(isValid, _moldovaValidator.ValidateEntity(code).IsValid);
         }
 
-        // IDNP, thirteen digits shaped 2TTTXXXYYYYYK. The check digit algorithm is not published,
-        // so only the format is validated here; both valid samples also satisfy the IDNO weights.
+        // IDNP, thirteen digits shaped 2TTTXXXYYYYYK. K closes the number with the same check digit
+        // as the IDNO: the two are one state identifier scheme, separated only by the leading
+        // registry digit (1 legal entity, 2 natural person, 3 vehicle).
         // https://ro.wikipedia.org/wiki/Identificator_numeric_personal_(Moldova)
+        // https://github.com/iAsig/idnx-validator/blob/main/src/index.ts
         [Theory]
         [InlineData("2003600000391", true)]
         [InlineData("2014001234568", true)]
+        [InlineData("200 360 000 039 1", true)] // Same number with separators
+        [InlineData("2003600000390", false)]    // Wrong check digit
+        [InlineData("2014001234561", false)]    // Wrong check digit
+        [InlineData("9999999999999", false)]    // Thirteen digits, but the check digit has to be 6
         [InlineData("200360000039", false)]     // Twelve digits
         [InlineData("20036000003910", false)]   // Fourteen digits
         [InlineData(null, false)]
@@ -48,6 +54,7 @@ namespace Attest.Tests
         [Theory]
         [InlineData("2003600000391", true)]
         [InlineData("2014001234568", true)]
+        [InlineData("2003600000390", false)]    // Wrong check digit
         [InlineData("200360000039", false)]     // Twelve digits
         [InlineData(null, false)]
         [InlineData("", false)]

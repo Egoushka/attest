@@ -51,7 +51,15 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateIndividualTaxCode(string id)
         {
-            id = id.RemoveSpecialCharacthers();
+            id = id.RemoveSpecialCharacthers().ToUpperInvariant();
+            // stdnum's compact() drops a leading "SV" country prefix, so "SV 0614-050707-104-8" is
+            // a documented valid input. Only a leading prefix is stripped, not every occurrence.
+            // https://arthurdejong.org/nm/python-stdnum/doc/1.20/stdnum.sv.nit.html
+            if (id.StartsWith("SV"))
+            {
+                id = id.Substring(2);
+            }
+
             if (id.Length != 14)
             {
                 return ValidationResult.InvalidLength();

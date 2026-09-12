@@ -32,6 +32,15 @@ namespace Attest.Tests
         [InlineData("", false)]
         [InlineData("   ", false)]
         [InlineData("abcdefghijk", false)]
+        // Repetition rule: within the first ten digits exactly one digit may repeat, twice or three
+        // times, and three identical digits must not stand at directly consecutive positions.
+        // https://de.wikipedia.org/wiki/Steuerliche_Identifikationsnummer
+        // All four carry the check digit the ISO 7064 MOD 11,10 procedure produces, so only the
+        // repetition rule decides the verdict.
+        [InlineData("84090153608", true)]   // 0 three times, non-consecutive: allowed since 2016
+        [InlineData("68109522236", false)]  // 2 three times, all three consecutive
+        [InlineData("37406812415", false)]  // two digits repeated (4 and 1), only one may repeat
+        [InlineData("81909378658", false)]  // two digits repeated (8 and 9)
         public void TestIndividualCode(string code, bool isValid)
         {
             Assert.Equal(isValid, _germanyValidator.ValidateIndividualTaxCode(code).IsValid);

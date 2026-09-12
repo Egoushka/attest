@@ -97,8 +97,14 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateVAT(string vatId)
         {
-            vatId = vatId.RemoveSpecialCharacthers().ToUpper().Replace("TR", string.Empty);
-
+            // The country code is only ever a prefix, so it is stripped from the start of the
+            // number rather than from anywhere in it.
+            // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/tr/vkn.py
+            vatId = vatId.RemoveSpecialCharacthers().ToUpper();
+            if (vatId.StartsWith("TR"))
+            {
+                vatId = vatId.Substring(2);
+            }
 
             if (!vatId.All(char.IsDigit))
             {
@@ -117,8 +123,12 @@ namespace Attest.Countries
 
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
+            // Five digits opening with the two digit licence plate code of one of the 81 provinces,
+            // 01 Adana to 81 Duzce, followed by three digits for the district.
+            // https://en.wikipedia.org/wiki/Postal_codes_in_Turkey
+            // https://en.wikipedia.org/wiki/Provinces_of_Turkey
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{5}$"))
+            if (!Regex.IsMatch(postalCode, "^(0[1-9]|[1-7]\\d|8[01])\\d{3}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNN");
             }

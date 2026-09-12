@@ -173,16 +173,11 @@ namespace Attest.Countries
                 return false;
             }
 
+            // The 31-day months need no check at all: the guard above has already rejected
+            // PESELDay > 31. Only the 30-day months (4, 6, 9, 11, offset by the century encoding
+            // of +20, +40, +60, +80 on the month) and February constrain the day further.
             for (int i = 0; i <= 80; i += 20)
             {
-                for (int j = 1 + i; j <= 7 + i ? j <= 7 + i : j <= 12 + i; j += 2)
-                {
-                    if (PESELMonth == j && PESELDay > 31)
-                    {
-                        return false;
-                    }
-                }
-
                 for (int j = 4 + i; j <= 6 + i; j += 2)
                 {
                     if (PESELMonth == j && PESELDay > 30)

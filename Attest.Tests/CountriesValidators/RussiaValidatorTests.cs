@@ -34,20 +34,24 @@ namespace Attest.Tests
             Assert.Equal(isValid, _russiaValidator.ValidateNationalIdentity(code).IsValid);
         }
 
-        // ИНН check digits, see https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/ru/inn.py
+        // The personal ИНН is the 12 digit one: two check digits over the weights
+        // [7,2,4,10,3,5,9,4,6,8] and [3,7,2,4,10,3,5,9,4,6,8]. The 10 digit form is the ИНН of a
+        // legal entity and is never issued to a natural person, so it is rejected here.
+        // https://www.kholenkov.ru/data-validation/inn/
+        // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/ru/inn.py
         [Theory]
-        [InlineData("7707083893", true)]        // Sberbank
-        [InlineData("7736207543", true)]        // Gazprom
-        [InlineData("1234567894", true)]        // python-stdnum example
-        [InlineData("7707 083 893", true)]      // Same number with separators
         [InlineData("123456789047", true)]      // python-stdnum example of the 12 digit personal ИНН
         [InlineData("500100732259", true)]      // Personal ИНН, both check digits computed
-        [InlineData("1234567895", false)]       // Wrong check digit
-        [InlineData("123456789037", false)]     // Wrong check digits on the personal form
+        [InlineData("770712345633", true)]      // Check digits computed from the rule above
+        [InlineData("1234 5678 9047", true)]    // Same number with separators
+        [InlineData("123456789037", false)]     // First check digit wrong
         [InlineData("123456789040", false)]     // Second check digit wrong
-        [InlineData("770708389", false)]        // Nine digits
-        [InlineData("77070838931", false)]      // Eleven digits
-        [InlineData("770708389x", false)]
+        [InlineData("7707083893", false)]       // Sberbank: ten digits is a legal entity, not a person
+        [InlineData("7736207543", false)]       // Gazprom, likewise
+        [InlineData("1234567894", false)]       // python-stdnum's ten digit example, a company number
+        [InlineData("12345678904", false)]      // Eleven digits
+        [InlineData("1234567890477", false)]    // Thirteen digits
+        [InlineData("12345678904x", false)]
         [InlineData("abc", false)]
         [InlineData("   ", false)]
         [InlineData("", false)]
@@ -57,12 +61,19 @@ namespace Attest.Tests
             Assert.Equal(isValid, _russiaValidator.ValidateIndividualTaxCode(code).IsValid);
         }
 
+        // The entity ИНН is the 10 digit one, a single check digit over the weights
+        // [2,4,10,3,5,9,4,6,8]. The 12 digit personal form is rejected.
         [Theory]
         [InlineData("7707083893", true)]        // Sberbank
         [InlineData("7736207543", true)]        // Gazprom
+        [InlineData("1234567894", true)]        // python-stdnum example
         [InlineData("7707 083 893", true)]      // Same number with separators
         [InlineData("1234567895", false)]       // Wrong check digit
         [InlineData("123456789047", false)]     // The 12 digit form belongs to a person, not a company
+        [InlineData("500100732259", false)]     // Personal ИНН, valid as a person and still not a company
+        [InlineData("770708389", false)]        // Nine digits
+        [InlineData("77070838931", false)]      // Eleven digits
+        [InlineData("770708389x", false)]
         [InlineData("abc", false)]
         [InlineData("   ", false)]
         [InlineData("", false)]
@@ -72,6 +83,9 @@ namespace Attest.Tests
             Assert.Equal(isValid, _russiaValidator.ValidateEntity(code).IsValid);
         }
 
+        // НДС is filed under the ИНН and both forms qualify, because organisations and individual
+        // entrepreneurs are both НДС payers (ст. 143 НК РФ) and an entrepreneur files under his own
+        // 12 digit personal number. This is the only method where both lengths are accepted.
         [Theory]
         [InlineData("7707083893", true)]
         [InlineData("RU7707083893", true)]
@@ -163,6 +177,23 @@ namespace Attest.Tests
         public void TestPostalCode(string code, bool isValid)
         {
             Assert.Equal(isValid, _russiaValidator.ValidatePostalCode(code).IsValid);
+        }
+
+        // The two ИНН forms are different numbers, so the length discriminates the holder and a
+        // company number is no longer reported as a person's tax code.
+        [Fact]
+        public void TheTwoInnFormsAreNotInterchangeable()
+        {
+            var validator = new CountryValidator();
+
+            var company = validator.Validate("7707083893", Country.RU, IdentifierKind.Business);
+            Assert.True(company.IsValid);
+            Assert.False(company.IsAmbiguous);
+            Assert.False(validator.Validate("7707083893", Country.RU, IdentifierKind.Person).IsValid);
+
+            var person = validator.Validate("123456789047", Country.RU, IdentifierKind.Person);
+            Assert.True(person.IsValid);
+            Assert.False(validator.Validate("123456789047", Country.RU, IdentifierKind.CompanyNumber).IsValid);
         }
     }
 }

@@ -53,10 +53,12 @@ personal and business identifiers but not postal codes).
 
 Two things the result tells you that a plain boolean cannot:
 
-- **`IsAmbiguous`** — some countries issue one number that serves as both a personal and a business
-  identifier. Thailand, Russia, Iceland, Peru, Andorra, Armenia and Nigeria are the ones in this
-  library. There, a value asked about as a business identifier can be valid and indistinguishable at
-  the same time, and the flag says so instead of guessing.
+- **`IsAmbiguous`** — a few countries issue one number that serves as both a personal and a business
+  identifier. Armenia (the 8 digit ՀՎՀՀ, whose digits carry no meaning by the State Revenue
+  Committee's own account) and Nigeria are the two here, and in Russia a sole trader files VAT under
+  his personal number, so that one number is both. There, a value asked about as a business
+  identifier can be valid and indistinguishable at the same time, and the flag says so instead of
+  guessing.
 - **`Supports(country, kind)`** — whether the country has a rule for that kind at all. A kind with no
   rule reports every value invalid, which is not a verdict on the value. 33 of the 435 country/kind
   pairs in this library have no rule.

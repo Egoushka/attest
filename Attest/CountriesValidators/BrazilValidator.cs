@@ -22,7 +22,10 @@ namespace Attest.Countries
 
             for (int i = 0; i < numbers.Length; i++)
             {
-                sum += int.Parse(numbers[i].ToString()) * index;
+                // Alphanumeric CNPJ (issued from July 2026): every character contributes its
+                // ASCII code minus 48, so '0'-'9' keep their value and 'A'-'Z' become 17-42.
+                // https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/publicacoes/documentos-tecnicos/cnpj/manual-dv-cnpj.pdf
+                sum += (numbers[i] - '0') * index;
 
                 index = index == 9 ? 2 : index + 1;
             }
@@ -39,12 +42,16 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateEntity(string id)
         {
-            id = id.RemoveSpecialCharacthers();
-            // [0-9] and not \d: in .NET \d also matches non-ASCII Unicode digits,
-            // which int.Parse in DigitChecksum rejects with a FormatException.
-            // A CNPJ whose first twelve digits are zero has valid check digits but is not issued.
+            // Both reference implementations upper-case before mapping characters to values.
+            id = id.RemoveSpecialCharacthers().ToUpperInvariant();
+            // From July 2026 the twelve positions before the check digits may hold A-Z as well
+            // as 0-9; the two check digits stay numeric and existing numeric CNPJs are unchanged.
+            // [0-9] and not \d: in .NET \d also matches non-ASCII Unicode digits, which are
+            // not CNPJ characters but would pass a \d guard and then be scored as garbage.
+            // A CNPJ whose first twelve characters are zero has valid check digits but is not issued.
+            // https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/publicacoes/documentos-tecnicos/cnpj/manual-dv-cnpj.pdf
             // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/br/cnpj.py
-            if (!Regex.IsMatch(id, @"^[0-9]{14}$") || id.StartsWith("000000000000"))
+            if (!Regex.IsMatch(id, @"^[0-9A-Z]{12}[0-9]{2}$") || id.StartsWith("000000000000"))
             {
                 return ValidationResult.InvalidFormat("12345678901234");
             }
@@ -68,9 +75,13 @@ namespace Attest.Countries
             cpf = cpf.RemoveSpecialCharacthers();
             var regex = @"^[0-9]{11}$";
 
-            // A CPF of all zeros satisfies both check digits; python-stdnum rejects it explicitly.
-            // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/br/cpf.py
-            if (!Regex.IsMatch(cpf, regex) || cpf == "00000000000")
+            // All ten repeated-digit CPFs ("00000000000".."99999999999") satisfy both check
+            // digits arithmetically, but none was ever issued; Brazilian implementations treat
+            // them as reserved numbers and reject them. python-stdnum rejects only the all-zero
+            // case (int(number) <= 0), which is why the checksum alone is not enough here.
+            // https://github.com/brazilian-utils/brazilian-utils/blob/main/src/is-valid-cpf/constants.ts
+            // https://github.com/alvarofpp/validate-docbr/blob/master/validate_docbr/CPF.py
+            if (!Regex.IsMatch(cpf, regex) || cpf.All(c => c == cpf[0]))
             {
                 return ValidationResult.InvalidFormat("12345678901");
 

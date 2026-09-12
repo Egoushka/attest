@@ -44,8 +44,9 @@ namespace Attest.Tests
         [Fact]
         public void CountriesThatIssueOneNumberForBothReportAmbiguity()
         {
-            // Thailand uses the same 13 digit number for a person and for a juristic person
-            var result = _validator.Validate("0107537001510", Country.TH, IdentifierKind.Business);
+            // Armenia issues one 8 digit TIN to people and to companies alike, and the State
+            // Revenue Committee states that no meaning is carried by the digits
+            var result = _validator.Validate("02618169", Country.AM, IdentifierKind.Business);
 
             Assert.True(result.IsValid);
             Assert.True(result.IsAmbiguous);

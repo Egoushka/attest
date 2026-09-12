@@ -27,6 +27,14 @@ namespace Attest.Tests
         [InlineData("40012253112", true)]  // Born 2000-12-25, female, leading 4 means 20xx
         [InlineData("19803120075", false)] // 1998 birth carrying the pre-1997 check digit
         [InlineData("18509151232", false)] // 1985 birth carrying the post-1996 check digit
+        // The leading digit carries the century: 1, 2, 5 and 6 are 19xx, 7 and 8 are 18xx, and
+        // 3 and 4 are 18xx or 20xx - so a leading 3 or 4 whose 20xx reading is still in the future
+        // has to be read as 18xx, which puts it on the pre-1997 weights.
+        [InlineData("78501011237", true)]   // Leading 7: born 1850-01-01, 1..10 weights
+        [InlineData("78501011234", false)]  // Same birth carrying the reversed-weights check digit
+        [InlineData("39901011236", true)]   // Leading 3: 2099 is in the future, so born 1899-01-01
+        [InlineData("39901011235", false)]  // Same birth carrying the reversed-weights check digit
+        [InlineData("49906150073", true)]   // Leading 4: born 1899-06-15, female
         [InlineData(null, false)]
         [InlineData("", false)]
         [InlineData("abc", false)]
@@ -53,10 +61,20 @@ namespace Attest.Tests
         }
 
         [Theory]
+        // BB-FF-NNNNNN: the registering court runs 01 (Budapest) to 20 and the cegforma 01 to 23.
+        // https://hu.wikipedia.org/wiki/C%C3%A9gjegyz%C3%A9ksz%C3%A1m
         [InlineData("13-09-189347", true)]
         [InlineData("01-10-042595", true)]
+        [InlineData("20-23-189347", true)]   // Both codes at their upper bound
+        [InlineData("00-09-189347", false)]  // There is no court 00
+        [InlineData("13-00-189347", false)]  // There is no cegforma 00
+        [InlineData("21-09-189347", false)]  // Court codes stop at 20
+        [InlineData("13-24-189347", false)]  // Cegforma codes stop at 23
         [InlineData("10949621-2-44", false)]
         [InlineData("13-9-189347", false)]
+        [InlineData(null, false)]
+        [InlineData("", false)]
+        [InlineData("   ", false)]
         public void TestCorrectEntityCode(string code, bool isValid)
         {
             Assert.Equal(isValid, _hungaryValidator.ValidateEntity(code).IsValid);

@@ -31,6 +31,122 @@ First release under the name Attest, descended from CountryValidator 1.1.3.
   Test data for the individual, entity and VAT cases was Swedish, and has been replaced.
 - **Thailand** — `ValidateNationalIdentity` accepted 13 characters of any kind; it now requires digits.
 
+### Fixed in the third repair wave
+
+Settles which countries genuinely cannot tell a personal identifier from a business one, and closes
+the tractable half of the known-issues list. 65 defects fixed, 364 test cases added.
+
+Four countries the library reported as indistinguishable turned out to be defects rather than facts:
+
+- **Russia** issues a 10-digit ИНН to companies and a 12-digit one to people, with different check
+  digits. Both algorithms were present, but behind one method that accepted either, so every company
+  number also validated as a person's tax code. Four existing test rows asserted Sberbank's and
+  Gazprom's numbers were valid personal tax codes.
+- **Peru**'s RUC carries a holder-type prefix (10 and 15 natural persons, 20 legal entities).
+- **Andorra**'s NRT carries a holder-type letter, which the Andorran tax authority documents openly.
+- **Iceland**'s kennitala adds 40 to the day field for an organisation, so the ranges cannot overlap.
+- **Thailand** encodes the issuing agency in digits 1-3 and the taxpayer type in digit 4.
+
+Armenia and Nigeria really do issue one number for both roles, so `IsAmbiguous` still reports them,
+as it does for a Russian sole trader filing VAT under his personal number.
+
+- **Andorra**
+  - ValidateEntity delegated to ValidateIndividualTaxCode, so every NRT validated as both a personal and a company identifier despite the leading letter encoding holder type
+  - No lower bound on E numbers, so a non-resident legal entity's E number below 800000 validated as a natural person
+  - Four existing test rows asserted the buggy behaviour: U-132950-X and D059888N (a parapublic entity and a public body) were asserted valid as ValidateNationalIdentity and ValidateIndividualTaxCode
+- **Armenia**
+  - ValidateNationalIdentity was not overridden, so IdentifierKind.PersonalId fell through to the 8-digit TIN: every real 10-digit public services number was rejected and every company TIN was accepted…
+  - Nothing recorded, in code or tests, that the ValidateEntity -> ValidateIndividualTaxCode delegation is deliberate rather than an oversight.
+- **Bolivia**
+  - ValidateEntity used an unbounded `^\d{10,}$`: a 30-digit string passed and every 7-9 digit legacy NIT was rejected.
+  - ValidateNationalIdentity's complemento pattern `\w?` accepted an underscore (and non-ASCII word characters).
+- **Bosnia**
+  - ValidateEntity threw NotSupportedException, so Bosnia had no company-number validation despite the JIB being a real 13-digit identifier.
+  - ValidateVAT threw NotSupportedException.
+- **Brazil**
+  - All ten repeated-digit CPFs (00000000000 .. 99999999999) satisfy both mod-11 check digits; only the all-zero case was rejected, so 11111111111, 22222222222, ... were reported valid.
+  - Alphanumeric CNPJ unsupported: the format guard was ^[0-9]{14}$ and DigitChecksum used int.Parse, so every CNPJ containing a letter returned InvalidFormat.
+- **Cyprus**
+  - ValidatePostalCode accepted "0000" — the Cypriot range is 1000-9999, allocated by district (Nicosia 1000-2999 … Kyrenia 9000-9999), so no code begins with 0.
+- **Ecuador**
+  - ValidateEntity missed stdnum's two RUC fallbacks: a third digit of 6 never fell back to natural-RUC validation when the public check sum failed, and a third digit of 9 never tried the public check…
+  - ValidateCI rejected a third digit of 6 (`Char.GetNumericValue(number[2]) > 5`).
+- **ElSalvador**
+  - The documented "SV" country prefix was not stripped, so stdnum's own valid input "SV 0614-050707-104-8" was rejected as InvalidLength (RemoveSpecialCharacthers keeps letters).
+- **FaroeIslands**
+  - ValidateIndividualTaxCode checked only ^\d{9}$, so the DDMMYY part was never validated: "999999999", "000000000", "320785123" (day 32) and "151385123" (month 13) were all accepted as P-numbers.
+  - ValidatePostalCode accepted any three digits, including "000" and "099".
+- **Guatemala**
+  - ValidateEntity's compaction lacked stdnum's `.upper()` and `.lstrip('0')`, so "576937-k" and "00576937K" were rejected.
+  - ValidateIndividualTaxCode threw NotSupportedException, and the inherited IdValidationAbstract.ValidateNationalIdentity delegates to it, so ValidateNationalIdentity(anything) threw instead of…
+- **Iceland**
+  - ValidateEntity delegated verbatim to ValidateIndividualTaxCode, so (a) every real company kennitala was rejected — day 41-71 blew up DateTime(year, month, day) and returned InvalidDate — and (b)…
+  - Test row TestEntity("1207742209", true) asserted that a person's kennitala is a valid company identifier.
+- **Indonesia**
+  - Only the legacy 15-digit NPWP was supported; the 2024 16-digit NPWP was rejected as InvalidFormat.
+  - The taxpayer-type error message said "Second digit must be between 0-3", which is wrong for the 16-digit form where the type digit is the third character.
+- **Kazakhstan**
+  - KNOWN-ISSUES: the 7th digit (century/sex, documented values 0-6) is never validated.
+  - Two BIN rows in KazahstanValidatorTests.cs carried comments that contradict each other and the published BIN structure: 120741000014 (5th digit 4) was labelled "Individual entrepreneur" and…
+- **Korea**
+  - ValidateIndividualTaxCode rejected any RRN whose birth date was less than 17 years ago, so every minor's RRN was reported InvalidDate.
+  - The place-of-birth component (digits 8-9) was not checked, so 97-99 were accepted.
+- **Macedonia**
+  - ValidateIndividualTaxCode threw NotImplementedException; the earlier wave left it because it could not tell whether the method means the EDB or the EMBG.
+  - ValidateVAT rejected the Cyrillic prefix form (МК4020990116747), which is one of python-stdnum's own doctests, and its ^\d{13}$ guard matched non-ASCII Unicode digits that char.GetNumericValue then…
+- **Mauritius**
+  - ValidateDate rejected only day > 31 and month > 12, so day 00, month 00, 31 February and 31 April all passed; the parsed year was assigned but never used (CS0219).
+  - ValidateEntity threw NotImplementedException.
+  - ValidateVAT threw NotImplementedException.
+- **Moldova**
+  - ValidateIndividualTaxCode (IDNP) and the inherited ValidateNationalIdentity checked only ^\d{13}$, so e.g. 9999999999999 passed.
+- **Montenegro**
+  - ValidateVAT threw NotImplementedException for every input including null.
+  - ValidateEntity threw NotImplementedException.
+  - ValidateIndividualTaxCode threw NotImplementedException.
+- **Nigeria**
+  - ValidateIndividualTaxCode (and, through delegation, ValidateEntity and ValidateVAT) accepted only the 10-digit JTB TIN.
+  - ValidateEntity delegated to ValidateIndividualTaxCode as a bare one-liner with no explanation, which reads like an unfinished stub and invites a future wave to 'fix' it by inventing a discriminator.
+  - ValidateVAT delegated to the TIN rule under a comment reading "JBT TIN" — a typo, and no source for why VAT and TIN share a number.
+- **Norway**
+  - ValidateVAT stripped "NO"/"no"/"MVA"/"mva" with unanchored String.Replace.
+- **Pakistan**
+  - No defect found - reported for completeness.
+- **Peru**
+  - ValidateEntity delegated to ValidateIndividualTaxCode, so every valid RUC validated as both a personal and a company identifier and CountryValidator.Validate reported IsAmbiguous for all of them.
+  - ValidationResult.Invalid("Invalid") gave no indication why a well-formed RUC was rejected — now the message a caller sees when the holder type is wrong for the method called.
+  - Three existing test rows asserted the bug: TestIndividualCode accepted the company RUC 20512333797, TestCorrectEntityCode and TestCorrectVatCode accepted the personal RUC 10054148289.
+  - Nothing pinned the caller-visible symptom: IdentifierResult.IsAmbiguous on the new CountryValidator.Validate API.
+- **Philippines**
+  - ValidateEntity and ValidateIndividualTaxCode required exactly 12 digits, rejecting the bare 9-digit BIR TIN and the 14-digit form BIR returns now print.
+  - ValidateVAT required a literal trailing V, so a VAT-registered taxpayer's plain TIN failed VAT validation while passing entity validation.
+- **Portugal**
+  - ValidatePostalCode accepted "0000000" — the leading digit is one of nine postal regions, 1 Lisboa through 9 Madeira/Açores; there is no 0 range.
+  - ValidateCartaoCidadao had no format guard: only a length-12 check plus the implicit 'first 9 are digits' from CalculateSum.
+- **Russia**
+  - ValidateIndividualTaxCode accepted the 10-digit legal-entity ИНН, so every company number was also reported as a natural person's tax code and CountryValidator.Validate flagged IsAmbiguous for it.
+  - KNOWN-ISSUES: ValidateIndividualTaxCode returned ErrorMessage "Invalid length" when a 10-digit ИНН failed its check digit, because the if/else chain fell through to the `else if (id.Length != 12)`…
+  - ValidateVAT delegated to ValidateIndividualTaxCode and would have broken for 10-digit company VAT numbers once that method was narrowed.
+- **Taiwan**
+  - ValidateEntity threw NotImplementedException; the 8-digit Unified Business Number (統一編號) has a published checksum.
+  - ValidateVAT threw NotSupportedException.
+  - The resident branch matched only the pre-2021 ARC form ^[A-Z][A-D][0-9]{8}$, so every certificate issued since 2021-01-02 was rejected outright.
+  - ValidatePostalCode required exactly 5 digits, rejecting the bare 3-digit district code and the 3+3 form.
+- **Thailand**
+  - ValidateEntity delegated to ValidateIndividualTaxCode, so every personal number validated as a company number and every company number validated as a personal one; the library reported IsAmbiguous…
+  - A number with a valid check digit but an unissued agency prefix (e.g. 009x, 097x) was accepted by every method.
+  - ValidateVAT delegated to ValidateIndividualTaxCode.
+  - Existing test rows asserted incorrect behaviour: TestNationalId asserted 0105-515-004-336, 0107537001510 and 0107537001706 were valid *national identity* numbers, and TestIndividualCode asserted…
+- **Turkey**
+  - ValidatePostalCode accepted any five digits, including "00000" and "99999".
+  - ValidateVAT stripped "TR" with an unanchored String.Replace, removing those letters from anywhere in the string.
+- **Ukraine**
+  - None — the assignment brief said ValidateEntity 'just delegates to the 12-digit VAT method', but that is stale: a prior wave already implemented the 8-digit ЄДРПОУ and the 10-digit РНОКПП check…
+- **Uruguay**
+  - Registration-number range was 01-21, so a real RUT beginning with 22 was rejected.
+- **Uzbekistan**
+  - ValidateIndividualTaxCode (and ValidateNationalIdentity through it) accepted any 14 digits; the 14th digit of a PINFL is a check digit.
+
 ### Fixed in the first repair wave
 
 An audit of all 87 validators found that 22 of them threw instead of returning a result, and that

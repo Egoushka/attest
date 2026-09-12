@@ -110,6 +110,12 @@ namespace Attest.Tests
         [InlineData("A020010219900000005", false)]    // 99 is not an NCF document type
         [InlineData("Z020010210100000005", false)]    // 19 chars must start with A or P
         [InlineData("B01000000051", false)]           // no NCF is 12 characters long
+        // stdnum's compact() upper-cases the number, so the series letter is not case-sensitive.
+        [InlineData("e310000000005", true)]           // lowercase e-CF series letter
+        [InlineData("b0100000005", true)]             // lowercase B series letter
+        [InlineData("a020010210100000005", true)]     // lowercase A series letter
+        [InlineData("p020010210100000005", true)]     // lowercase P series letter
+        [InlineData("z0100000005", false)]            // Z is not a series letter in either case
         [InlineData("", false)]
         [InlineData("   ", false)]
         [InlineData("not a receipt", false)]

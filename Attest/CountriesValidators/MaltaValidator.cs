@@ -57,7 +57,14 @@ namespace Attest.Countries
 
 
         /// <summary>
-        /// VAT Number (VAT)
+        /// VAT Number (VAT). Eight digits, the last two of which are the check value
+        /// 37 - (weighted sum of the first six mod 37). That value is a two digit number in
+        /// 01-37, so when the weighted sum is an exact multiple of 37 the check digits are "37"
+        /// and not "00" - vat-validator codes the same case explicitly as "(r == 0 and c7_c8 == 37)".
+        /// python-stdnum instead weights all eight digits by 3,4,6,7,8,9,10,1 and asks for a
+        /// multiple of 37, which is the same test loosened to also accept the check value plus 37
+        /// or plus 74 (so "00" and "74" here, and 49 and 86 wherever 12 is correct).
+        /// https://vat-validator.readthedocs.io/en/latest/_modules/vat_validator/countries.html
         /// </summary>
         /// <param name="vatId"></param>
         /// <returns></returns>

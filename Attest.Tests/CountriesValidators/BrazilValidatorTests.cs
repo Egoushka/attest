@@ -37,6 +37,13 @@ namespace Attest.Tests
         [InlineData("39053344704", false)]
         // All zeros satisfies both check digits but is not an issued CPF.
         [InlineData("00000000000", false)]
+        // So do the other nine repeated-digit CPFs; all ten are reserved and never issued.
+        // https://github.com/brazilian-utils/brazilian-utils/blob/main/src/is-valid-cpf/constants.ts
+        [InlineData("11111111111", false)]
+        [InlineData("55555555555", false)]
+        [InlineData("99999999999", false)]
+        // Separators are stripped first, so the formatted form is rejected too.
+        [InlineData("111.111.111-11", false)]
         [InlineData("3905334470", false)]
         [InlineData("390533447A5", false)]
         [InlineData("abc", false)]
@@ -57,9 +64,23 @@ namespace Attest.Tests
         [InlineData("16727230000198", false)]
         // All zeros satisfies both check digits but is not an issued CNPJ.
         [InlineData("00000000000000", false)]
+        // Alphanumeric CNPJ, issued from July 2026: the twelve characters before the check
+        // digits may be A-Z, each scored as its ASCII code minus 48 (A=17, B=18, ...), while
+        // the two check digits stay numeric. Check digits taken from the Receita Federal
+        // reference implementation (python/cnpj.py -dv "12.ABC.345/01DE" -> 35).
+        // https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/publicacoes/documentos-tecnicos/cnpj/manual-dv-cnpj.pdf
+        [InlineData("12ABC34501DE35", true)]
+        [InlineData("12.ABC.345/01DE-35", true)]
+        [InlineData("A1B2C3D4E5F668", true)]
+        // Both reference implementations upper-case before scoring the characters.
+        [InlineData("12abc34501de35", true)]
+        // Second check digit changed from 5 to 4.
+        [InlineData("12ABC34501DE34", false)]
+        // Letters are not allowed in the two check-digit positions.
+        [InlineData("12ABC34501D3E5", false)]
         [InlineData("1672723000019", false)]
         [InlineData("1672723000019X", false)]
-        // Eastern Arabic digits: .NET \d would match them and int.Parse would then throw.
+        // Eastern Arabic digits: .NET \d would match them, but they are not CNPJ characters.
         [InlineData("\u0661\u0666\u0667\u0662\u0667\u0662\u0663\u0660\u0660\u0660\u0660\u0661\u0669\u0667", false)]
         [InlineData("abc", false)]
         [InlineData("", false)]
@@ -73,6 +94,8 @@ namespace Attest.Tests
         // The VAT number is the CNPJ.
         [InlineData("16.727.230/0001-97", true)]
         [InlineData("11222333000181", true)]
+        // The alphanumeric form reaches ValidateVAT too.
+        [InlineData("12.ABC.345/01DE-35", true)]
         [InlineData("16727230000198", false)]
         [InlineData("1672723000019", false)]
         [InlineData("abc", false)]

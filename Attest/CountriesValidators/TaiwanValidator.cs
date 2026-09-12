@@ -9,9 +9,33 @@ namespace Attest.Countries
         {
             CountryCode = nameof(Country.TW);
         }
+        /// <summary>
+        /// Unified Business Number (統一編號): eight digits weighted 1,2,1,2,1,2,4,1, where the
+        /// digits of every product are added together. Since 2023-04-01 the Ministry of Finance
+        /// requires that total to be divisible by 5 instead of 10 to widen the pool of free
+        /// numbers; when the seventh digit is 7 the total may also be one short of a multiple.
+        /// https://www.mof.gov.tw/singlehtml/384fb3077bb349ea973e7fc6f13b6974?cntId=8d164b10f20042b9ab9864b51b20f0c2
+        /// https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.tw.ubn.html
+        /// </summary>
         public override ValidationResult ValidateEntity(string id)
         {
-            throw new NotImplementedException();
+            id = id.RemoveSpecialCharacthers();
+            if (!Regex.IsMatch(id, "^[0-9]{8}$"))
+            {
+                return ValidationResult.InvalidFormat("NNNNNNNN");
+            }
+
+            int[] weights = { 1, 2, 1, 2, 1, 2, 4, 1 };
+            int sum = 0;
+            for (int i = 0; i < weights.Length; i++)
+            {
+                int product = id[i].ToInt() * weights[i];
+                sum += product / 10 + product % 10;
+            }
+
+            int remainder = sum % 5;
+            bool isValid = remainder == 0 || (remainder == 4 && id[6] == '7');
+            return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
         /// <summary>
@@ -27,7 +51,7 @@ namespace Attest.Countries
             {
                 return ValidateLocalSSN(ssn);
             }
-            else if (Regex.IsMatch(ssn, "^[A-Z][A-D][0-9]{8}$"))
+            else if (Regex.IsMatch(ssn, "^[A-Z][A-D89][0-9]{8}$"))
             {
                 return ValidateResidentSSN(ssn);
             }
@@ -76,7 +100,7 @@ namespace Attest.Countries
         public ValidationResult ValidateResidentSSN(string ssn)
         {
             ssn = ssn.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(ssn, "^[A-Z][A-D][0-9]{8}$"))
+            if (!Regex.IsMatch(ssn, "^[A-Z][A-D89][0-9]{8}$"))
             {
                 return ValidationResult.InvalidFormat("AB12345677");
             }
@@ -86,7 +110,12 @@ namespace Attest.Countries
             string letters = "ABCDEFGHJKLMNPQRSTUVXYWZIO";
             int letterIndex = letters.IndexOf(ssn[0]);
             decimal weightedSum = Math.Floor((decimal)letterIndex / 10 + 1) + letterIndex * (idLen - 1);
-            weightedSum += letters.IndexOf(ssn[1]) * (idLen - 2);
+            // Resident certificates issued from 2021-01-02 carry one letter and nine digits, the
+            // second being 8 (male) or 9 (female) and entering the sum as a plain digit; the
+            // pre-2021 form has a second letter A-D worth its position in the table above, which
+            // is the units digit of its code (A=10 -> 0 ... D=13 -> 3).
+            // https://www.cna.com.tw/news/asoc/202012160106.aspx (worked example A800000014)
+            weightedSum += (char.IsDigit(ssn[1]) ? ssn[1].ToInt() : letters.IndexOf(ssn[1])) * (idLen - 2);
             string idTail = ssn.Substring(2);
 
             int weight = idLen - 3;
@@ -104,17 +133,24 @@ namespace Attest.Countries
 
         }
 
+        /// <summary>
+        /// Business tax (VAT) is charged against the same Unified Business Number.
+        /// https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.tw.ubn.html
+        /// </summary>
         public override ValidationResult ValidateVAT(string vatId)
         {
-            throw new NotSupportedException();
+            return ValidateEntity(vatId);
         }
 
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
+            // The three digit district code stands on its own; Chunghwa Post extended the
+            // delivery segment from two to three digits on 2020-03-03 and all three lengths
+            // remain in use. https://www.cna.com.tw/news/firstnews/202003020346.aspx
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{5}$"))
+            if (!Regex.IsMatch(postalCode, "^\\d{3}(\\d{2,3})?$"))
             {
-                return ValidationResult.InvalidFormat("NNNNN");
+                return ValidationResult.InvalidFormat("NNN, NNNNN or NNNNNN");
             }
             return ValidationResult.Success();
         }

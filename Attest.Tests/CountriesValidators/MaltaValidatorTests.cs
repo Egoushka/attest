@@ -64,6 +64,9 @@ namespace Attest.Tests
         [InlineData("mt11679112", true)]
         [InlineData("Mt 1167-9112", true)]   // Prefix stripped regardless of case
         [InlineData("12345634", true)]       // 3+8+18+28+40+54 = 151, 37 - 151 % 37 = 34
+        // 3+0+0+0+8+63 = 74, an exact multiple of 37, so the check value is 37 rather than 00.
+        // https://vat-validator.readthedocs.io/en/latest/_modules/vat_validator/countries.html
+        [InlineData("10001737", true)]
         [InlineData("11679113", false)]
         [InlineData("1167MT9112", false)]    // MT is only a prefix, not a separator
         [InlineData("01679112", false)]      // Must not start with zero

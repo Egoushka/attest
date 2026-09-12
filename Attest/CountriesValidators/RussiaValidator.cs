@@ -1,10 +1,21 @@
-﻿using System;
+using System;
 using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
     public class RussiaValidator : IdValidationAbstract
     {
+        // ИНН. Russia issues two different numbers, not two formats of one: a legal entity gets a
+        // 10 digit ИНН with a single check digit, a natural person a 12 digit one with two, and
+        // neither length is ever issued to the other kind of holder. An individual entrepreneur
+        // keeps his personal 12 digit number, so length alone tells person from company.
+        // Приказ ФНС России от 29.06.2012 № ММВ-7-6/435@ fixed the two lengths and the order that
+        // replaces it on 01.01.2026 (Приказ ФНС России от 26.06.2025 № ЕД-7-14/559@) keeps them.
+        // Weights: https://www.kholenkov.ru/data-validation/inn/
+        // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/ru/inn.py
+        private static readonly int[] _companyWeights = new int[] { 2, 4, 10, 3, 5, 9, 4, 6, 8 };
+        private static readonly int[] _personalWeights1 = new int[] { 7, 2, 4, 10, 3, 5, 9, 4, 6, 8 };
+        private static readonly int[] _personalWeights2 = new int[] { 3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8 };
 
         public RussiaValidator()
         {
@@ -12,87 +23,83 @@ namespace Attest.Countries
         }
 
         /// <summary>
-        /// Validate Taxpayer Personal Identification Number (INN) 
+        /// Validate the ИНН of a natural person, which is the 12 digit form. The 10 digit form
+        /// belongs to a legal entity and is rejected here, see <see cref="ValidateEntity"/>.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         public override ValidationResult ValidateIndividualTaxCode(string id)
         {
             id = id.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(id, @"^\d{10}$") && !Regex.IsMatch(id, @"^\d{12}$"))
+            if (!Regex.IsMatch(id, @"^\d{12}$"))
             {
-                return ValidationResult.InvalidFormat("123456789");
-            }
-            else if ((id.Length == 10)
-            && (int.Parse(id[9].ToString()) ==
-            ((2 * int.Parse(id[0].ToString()) + 4 * int.Parse(id[1].ToString()) + 10 * int.Parse(id[2].ToString()) + 3 * int.Parse(id[3].ToString()) + 5 * int.Parse(id[4].ToString())
-            + 9 * int.Parse(id[5].ToString()) + 4 * int.Parse(id[6].ToString()) + 6 * int.Parse(id[7].ToString()) + 8 * int.Parse(id[8].ToString())) % 11) % 10))
-            {
-                return ValidationResult.Success();
-            }
-            else if (id.Length != 12)
-            {
-                return ValidationResult.Invalid("Invalid length");
+                return ValidationResult.InvalidFormat("123456789012");
             }
 
-            int checkDigit10 = int.Parse(id[10].ToString());
-            int calculatedDigit10 = ((7 * int.Parse(id[0].ToString())
-                + 2 * int.Parse(id[1].ToString())
-                + 4 * int.Parse(id[2].ToString())
-                + 10 * int.Parse(id[3].ToString())
-                + 3 * int.Parse(id[4].ToString())
-                + 5 * int.Parse(id[5].ToString())
-                + 9 * int.Parse(id[6].ToString())
-                + 4 * int.Parse(id[7].ToString())
-                + 6 * int.Parse(id[8].ToString())
-                + 8 * int.Parse(id[9].ToString())) % 11) % 10;
-
-            int checkDigit11 = int.Parse(id[11].ToString());
-            int calculatedDigit11 = (
-                (
-                  3 * int.Parse(id[0].ToString())
-                + 7 * int.Parse(id[1].ToString())
-                + 2 * int.Parse(id[2].ToString())
-                + 4 * int.Parse(id[3].ToString())
-               + 10 * int.Parse(id[4].ToString())
-                + 3 * int.Parse(id[5].ToString())
-                + 5 * int.Parse(id[6].ToString())
-                + 9 * int.Parse(id[7].ToString())
-                + 4 * int.Parse(id[8].ToString())
-                + 6 * int.Parse(id[9].ToString())
-                + 8 * int.Parse(id[10].ToString())) % 11) % 10;
-
-            bool isValid = checkDigit10 == calculatedDigit10 && checkDigit11 == calculatedDigit11;
-
-            return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
+            return ValidatePersonalInn(id);
         }
 
         /// <summary>
-        /// Validate Entity
+        /// Validate the ИНН of a legal entity, which is the 10 digit form. A 12 digit personal
+        /// number is rejected here.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         public override ValidationResult ValidateEntity(string id)
         {
-            // Organisations carry the 10 digit INN, persons the 12 digit one, so the length is
-            // measured after the separators are dropped like everywhere else in this class.
             id = id.RemoveSpecialCharacthers();
-            if (id.Length != 10)
+            if (!Regex.IsMatch(id, @"^\d{10}$"))
             {
-                return ValidationResult.Invalid("Invalid length");
-
+                return ValidationResult.InvalidFormat("1234567890");
             }
-            return ValidateIndividualTaxCode(id);
 
+            return ValidateCompanyInn(id);
         }
 
+        /// <summary>
+        /// Validate the ИНН a НДС return is filed under. Both forms qualify: organisations and
+        /// individual entrepreneurs are both НДС payers (ст. 143 НК РФ) and an entrepreneur files
+        /// under his own 12 digit personal ИНН, so this is the one place the two meet.
+        /// </summary>
+        /// <param name="vatId"></param>
+        /// <returns></returns>
         public override ValidationResult ValidateVAT(string vatId)
         {
             vatId = vatId.RemoveSpecialCharacthers();
-            vatId = vatId?.Replace("RU", string.Empty).Replace("ru", string.Empty);
-            return ValidateIndividualTaxCode(vatId);
+            vatId = vatId.Replace("RU", string.Empty).Replace("ru", string.Empty);
+            if (Regex.IsMatch(vatId, @"^\d{10}$"))
+            {
+                return ValidateCompanyInn(vatId);
+            }
+            if (Regex.IsMatch(vatId, @"^\d{12}$"))
+            {
+                return ValidatePersonalInn(vatId);
+            }
+            return ValidationResult.InvalidFormat("1234567890");
         }
 
+        private static ValidationResult ValidateCompanyInn(string id)
+        {
+            bool isValid = int.Parse(id[9].ToString()) == CheckDigit(id, _companyWeights);
+            return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
+        }
+
+        private static ValidationResult ValidatePersonalInn(string id)
+        {
+            bool isValid = int.Parse(id[10].ToString()) == CheckDigit(id, _personalWeights1)
+                && int.Parse(id[11].ToString()) == CheckDigit(id, _personalWeights2);
+            return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
+        }
+
+        private static int CheckDigit(string id, int[] weights)
+        {
+            int total = 0;
+            for (int i = 0; i < weights.Length; i++)
+            {
+                total += int.Parse(id[i].ToString()) * weights[i];
+            }
+            return total % 11 % 10;
+        }
 
         /// <summary>
         /// Validate SNILS

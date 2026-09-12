@@ -41,6 +41,15 @@ namespace Attest.Countries
             {
                 return ValidationResult.InvalidFormat("1234567890123");
             }
+            // The IDNP is the same thirteen digit state identifier as the IDNO; only the leading
+            // registry digit differs (1 legal entity, 2 natural person, 3 vehicle), so it closes
+            // with the same check digit over the weights 7,3,1 repeated, modulus 10.
+            // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/md/idno.py
+            // https://github.com/iAsig/idnx-validator/blob/main/src/index.ts
+            else if (ssn[ssn.Length - 1].ToInt() != CalculateChecksum(ssn.Substring(0, ssn.Length - 1)))
+            {
+                return ValidationResult.InvalidChecksum();
+            }
             return ValidationResult.Success();
         }
 

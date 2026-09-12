@@ -11,6 +11,11 @@ namespace Attest.Countries
             CountryCode = nameof(Country.PK);
         }
 
+        /// <summary>
+        /// The FBR issues a National Tax Number to companies, but publishes no format or check
+        /// rule for it, so there is no rule to apply here. CountryValidator answers the caller
+        /// with Invalid("Not supported").
+        /// </summary>
         public override ValidationResult ValidateEntity(string id)
         {
             throw new NotSupportedException();

@@ -33,14 +33,19 @@ namespace Attest.Tests
         [InlineData("UY 21 140634 001 1", true)]
         [InlineData("uy 21 140634 001 1", true)]
         [InlineData("211406340011", true)]
+        // Registration number 22, assigned to every taxpayer registered from 21 October 2024 by
+        // DGI's resolution of 14/10/2024.
+        // https://www.gub.uy/direccion-general-impositiva/comunicacion/noticias/nueva-numeracion-del-rut
+        [InlineData("221003420014", true)]
         // python-stdnum doctest: wrong check digit.
         [InlineData("210303670014", false)]
         // Check digit changed from 7 to 8.
         [InlineData("211003420018", false)]
         // Positions 9 to 11 must be 001.
         [InlineData("211003420027", false)]
-        // Registration number 00 is out of the 01 to 21 range.
+        // Registration numbers 00 and 23 are out of the 01 to 22 range; both check digits are correct.
         [InlineData("001003420017", false)]
+        [InlineData("231003420011", false)]
         // Six zero sequence number.
         [InlineData("210000000017", false)]
         // python-stdnum doctest: too short.
@@ -60,6 +65,7 @@ namespace Attest.Tests
         [Theory]
         [InlineData("211003420017", true)]
         [InlineData("211406340011", true)]
+        [InlineData("221406340019", true)]
         [InlineData("210303670014", false)]
         [InlineData("12345678", false)]
         [InlineData("abc", false)]

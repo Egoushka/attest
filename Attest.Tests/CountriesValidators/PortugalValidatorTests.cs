@@ -17,6 +17,12 @@ namespace Attest.Tests
         [InlineData("900000006", false)]
         [InlineData("000000000ZZ4", true)]
         [InlineData("000000000ZZ3", false)]
+        // A Cartao de Cidadao is nine digits, a two character document version and a check digit,
+        // and python-stdnum upper cases the input before matching ^\d*[A-Z0-9]{2}\d$ against it.
+        // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/pt/cc.py
+        [InlineData("000000000zz4", true)]   // Same card number in lowercase
+        [InlineData("00000000000A", false)]  // The check digit must be a digit, not a letter
+        [InlineData("00000000AZZ4", false)]  // The civil number part must be nine digits
         [InlineData("100000003", false)]  // Bilhete de Identidade with a wrong check digit
         [InlineData("12345678", false)]   // Neither 9 nor 12 characters
         [InlineData("abcdefghi", false)]
@@ -105,9 +111,15 @@ namespace Attest.Tests
             Assert.Equal(isValid, _portugalValidator.ValidateVAT(code).IsValid);
         }
 
+        // The first digit is one of the nine postal regions, 1 Lisboa through 9 Madeira e Acores,
+        // so there is no 0 range.
+        // https://en.wikipedia.org/wiki/Postal_codes_in_Portugal
         [Theory]
         [InlineData("2725-079", true)]
         [InlineData("1208-148", true)]
+        [InlineData("1000-205", true)]      // Region 1, Lisboa
+        [InlineData("9000-100", true)]      // Region 9, Madeira e Acores
+        [InlineData("0000000", false)]      // The 0 range is not a postal region
         [InlineData("2312321q", false)]
         [InlineData("1208148", true)]       // Separator is optional
         [InlineData("1208-14", false)]      // Too short

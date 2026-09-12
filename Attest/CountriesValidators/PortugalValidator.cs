@@ -163,12 +163,20 @@ namespace Attest.Countries
         /// <returns></returns>
         public ValidationResult ValidateCartaoCidadao(string value)
         {
-            value = value.RemoveSpecialCharacthers();
-            if (value?.Length != 12)
+            // The card number is the nine digit numero de identificacao civil, a two character
+            // document version and a final check digit. python-stdnum upper cases the input in
+            // compact() and matches it against ^\d*[A-Z0-9]{2}\d$, so the trailing character is a
+            // digit and a lowercase version is accepted.
+            // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/pt/cc.py
+            value = value.RemoveSpecialCharacthers().ToUpper();
+            if (value.Length != 12)
             {
                 return ValidationResult.InvalidLength();
             }
-
+            else if (!Regex.IsMatch(value, @"^\d{9}[A-Z0-9]{2}\d$"))
+            {
+                return ValidationResult.InvalidFormat("123456789ZZ1");
+            }
 
             return CalculateSum(value) == 0 ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
@@ -224,8 +232,12 @@ namespace Attest.Countries
 
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
+            // The first digit designates one of the nine postal regions - 1 Lisboa, 2 Estremadura
+            // e Ribatejo, 3 Beira Litoral, 4 Minho e Douro Litoral, 5 Tras-os-Montes e Alto Douro,
+            // 6 Beira Interior, 7 Alentejo, 8 Algarve, 9 Madeira e Acores - so there is no 0 range.
+            // https://en.wikipedia.org/wiki/Postal_codes_in_Portugal
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{7}$"))
+            if (!Regex.IsMatch(postalCode, "^[1-9]\\d{6}$"))
             {
                 return ValidationResult.InvalidFormat("NNNN-NNN");
             }
