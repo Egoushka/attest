@@ -8,6 +8,16 @@ publishes, or that are stricter than the spec in a narrow case.
 Anyone picking one of these up: confirm the rule from an official source or python-stdnum first, and
 add the test before the fix.
 
+## ALL (documentation)
+
+- 44 validators carry XML `<param>` tags inherited from upstream that name a parameter the method
+  does not have, or omit the one it does — `NorwayValidator.ValidateIndividualTaxCode` documents
+  `id` where the parameter is `number`, and so on. The compiler reports these as CS1572 and CS1573;
+  both are suppressed in `Directory.Build.props` so the build stays readable.
+  - *Not fixed:* Mechanical and safe, but it touches 44 files and would bury any real change it was
+    committed alongside. A good first contribution: fix the tags, then delete CS1572 and CS1573
+    from the `NoWarn` list so they cannot come back.
+
 ## Armenia
 
 - The 8th digit of the TIN is a check digit, but only the length is validated.

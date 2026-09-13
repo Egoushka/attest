@@ -1,6 +1,7 @@
 # Attest
 
 [![CI](https://github.com/Egoushka/attest/actions/workflows/ci.yml/badge.svg)](https://github.com/Egoushka/attest/actions/workflows/ci.yml)
+[![NuGet](https://img.shields.io/nuget/v/Attest.svg)](https://www.nuget.org/packages/Attest)
 
 Validates national identification numbers, tax identification numbers, VAT codes and postal codes
 for 80+ countries.
