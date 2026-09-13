@@ -1,0 +1,43 @@
+<Project>
+
+  <!--
+    Shared package metadata. The version here is a placeholder for local builds only: the
+    release workflow passes -p:Version from the git tag, so the tag is the single source of
+    truth and the two projects cannot drift apart. See RELEASING.md.
+  -->
+  <PropertyGroup>
+    <Version>1.0.0-dev</Version>
+    <Authors>Anghel Valentin, Yehor Hrabovskyi</Authors>
+    <Copyright>Copyright 2020 Anghel Valentin, 2026 Yehor Hrabovskyi</Copyright>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Egoushka/attest</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Egoushka/attest</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>VAT, SSN, TIN, tax identification number, national identification number, validation</PackageTags>
+  </PropertyGroup>
+
+  <!--
+    Debugging into the package from a consumer's IDE. SourceLink ships in the .NET 8 SDK, so
+    these are properties rather than a PackageReference.
+  -->
+  <PropertyGroup Condition="'$(IsPackable)' != 'false'">
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!--
+      CS1591: not every public member carries XML docs yet.
+      CS1572/CS1573: 44 validators inherited <param> tags from upstream that name parameters the
+      method does not have, or miss the one it does. They are wrong documentation rather than wrong
+      code; tracked in KNOWN-ISSUES.md instead of blocking the build.
+    -->
+    <NoWarn>$(NoWarn);CS1591;CS1572;CS1573</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(IsPackable)' != 'false'">
+    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" Visible="false" />
+  </ItemGroup>
+
+</Project>
