@@ -51,7 +51,7 @@ namespace Attest.Countries
             // A CNPJ whose first twelve characters are zero has valid check digits but is not issued.
             // https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/publicacoes/documentos-tecnicos/cnpj/manual-dv-cnpj.pdf
             // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/br/cnpj.py
-            if (!Regex.IsMatch(id, @"^[0-9A-Z]{12}[0-9]{2}$") || id.StartsWith("000000000000"))
+            if (!Regex.IsMatch(id, @"^[0-9A-Z]{12}[0-9]{2}$") || id.StartsWith("000000000000", StringComparison.Ordinal))
             {
                 return ValidationResult.InvalidFormat("12345678901234");
             }

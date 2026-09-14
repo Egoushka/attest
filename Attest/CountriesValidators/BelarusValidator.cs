@@ -117,9 +117,7 @@ namespace Attest.Countries
         private static string Normalize(string number)
         {
             number = (number ?? string.Empty)
-                .ToUpperInvariant()
-                .Replace("УНП", string.Empty)
-                .Replace("UNP", string.Empty)
+                .ToUpperInvariant().StripPrefix("УНП").StripPrefix("UNP")
                 .RemoveSpecialCharacthers();
 
             char[] characters = number.ToCharArray();

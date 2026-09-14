@@ -97,7 +97,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateVAT(string vatId)
         {
             vatId = vatId.RemoveSpecialCharacthers();
-            vatId = vatId.Replace("ee", string.Empty).Replace("EE", string.Empty);
+            vatId = vatId.StripPrefix("EE");
             if (!Regex.IsMatch(vatId, @"^10\d{7}$"))
             {
                 return ValidationResult.Invalid("");

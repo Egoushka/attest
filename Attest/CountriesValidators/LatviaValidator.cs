@@ -80,7 +80,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateVAT(string vatId)
         {
             vatId = vatId.RemoveSpecialCharacthers();
-            vatId = vatId.Replace("LV", string.Empty).Replace("lv", string.Empty);
+            vatId = vatId.StripPrefix("LV");
 
             if (!Regex.IsMatch(vatId, @"^\d{11}$"))
             {
@@ -127,7 +127,7 @@ namespace Attest.Countries
 
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
-            postalCode = postalCode.RemoveSpecialCharacthers().ToUpperInvariant().Replace("LV", string.Empty);
+            postalCode = postalCode.RemoveSpecialCharacthers().ToUpperInvariant().StripPrefix("LV");
             if (!Regex.IsMatch(postalCode, "^\\d{4}$"))
             {
                 return ValidationResult.InvalidFormat("LV-NNNN");

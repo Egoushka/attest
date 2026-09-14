@@ -90,7 +90,7 @@ namespace Attest.Countries
 
         private static string Compact(string id)
         {
-            return id.RemoveSpecialCharacthers().Replace("AD", string.Empty).Replace("ad", string.Empty);
+            return id.RemoveSpecialCharacthers().StripPrefix("AD");
         }
 
         private static ValidationResult ValidateNrt(string id, string letters, string letterError)

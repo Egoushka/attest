@@ -83,7 +83,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateVAT(string vatId)
         {
             vatId = vatId.RemoveSpecialCharacthers();
-            vatId = vatId.Replace("gb", string.Empty).Replace("GB", string.Empty);
+            vatId = vatId.StripPrefix("GB");
             var multipliers = new int[] { 8, 7, 6, 5, 4, 3, 2 };
 
             //GD + 3 digits for government departments, HA + 3 digits for health authorities,

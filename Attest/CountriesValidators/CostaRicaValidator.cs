@@ -21,7 +21,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateEntity(string number)
         {
             number = number.RemoveSpecialCharacthers();
-            number = number.Replace("cr", string.Empty).Replace("CR", string.Empty);
+            number = number.StripPrefix("CR");
             var class_three_types = new string[]{"002", "003", "004", "005", "006", "007", "008",
                      "009", "010", "011", "012", "013", "014", "101",
                      "102", "103", "104", "105", "106", "107", "108",

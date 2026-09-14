@@ -78,7 +78,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateVAT(string vatId)
         {
-            vatId = vatId.RemoveSpecialCharacthers().ToUpperInvariant().Replace("FI", string.Empty);
+            vatId = vatId.RemoveSpecialCharacthers().ToUpperInvariant().StripPrefix("FI");
             int[] multipliers = { 7, 9, 10, 5, 8, 4, 2 };
 
             if (!Regex.IsMatch(vatId, @"^\d{8}$"))

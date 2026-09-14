@@ -102,7 +102,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateVAT(string vatId)
         {
             vatId = vatId.RemoveSpecialCharacthers();
-            vatId = vatId.Replace("PL", string.Empty).Replace("pl", string.Empty);
+            vatId = vatId.StripPrefix("PL");
 
             if (!Regex.IsMatch(vatId, @"^\d{10}$"))
             {
