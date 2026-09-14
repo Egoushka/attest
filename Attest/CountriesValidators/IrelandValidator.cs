@@ -17,7 +17,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateEntity(string id)
         {
-            id = id.RemoveSpecialCharacthers().ToUpper();
+            id = id.RemoveSpecialCharacthers().ToUpperInvariant();
 
             if (!Regex.IsMatch(id, @"^(\d{7})([A-Za-z]{1,2})$"))
             {
@@ -41,7 +41,7 @@ namespace Attest.Countries
 
             if (checksumCharacter.Length > 1)
             {
-                sum += (checksumCharacter[1].ToString().ToUpper()[0] - 64) * 9;
+                sum += (checksumCharacter[1].ToString().ToUpperInvariant()[0] - 64) * 9;
             }
 
             var checksum = sum % 23;
@@ -56,7 +56,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
-            ssn = ssn.RemoveSpecialCharacthers().ToUpper();
+            ssn = ssn.RemoveSpecialCharacthers().ToUpperInvariant();
 
             if (!Regex.IsMatch(ssn, @"^(\d{7})([A-Za-z]{1,2})$"))
             {
@@ -80,7 +80,7 @@ namespace Attest.Countries
 
             if (checksumCharacter.Length > 1)
             {
-                sum += (checksumCharacter[1].ToString().ToUpper()[0] - 64) * 9;
+                sum += (checksumCharacter[1].ToString().ToUpperInvariant()[0] - 64) * 9;
             }
 
             var checksum = sum % 23;
@@ -128,7 +128,7 @@ namespace Attest.Countries
 
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
-            postalCode = postalCode.RemoveSpecialCharacthers().ToUpper();
+            postalCode = postalCode.RemoveSpecialCharacthers().ToUpperInvariant();
             if (!Regex.IsMatch(postalCode, "^[\\dA-Z]{3}[\\dA-Z]{4}$"))
             {
                 return ValidationResult.InvalidFormat("WDD WDWD");

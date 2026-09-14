@@ -175,7 +175,7 @@ namespace Attest.Countries
         {
             // stdnum's compact() upper-cases the number, so the series letter is not case-sensitive.
             // https://raw.githubusercontent.com/arthurdejong/python-stdnum/master/stdnum/do/ncf.py
-            number = number.RemoveSpecialCharacthers().ToUpper();
+            number = number.RemoveSpecialCharacthers().ToUpperInvariant();
             if (number.Length == 13)
             {
                 if (number[0] != 'E' || !number.Substring(1).All(char.IsDigit))

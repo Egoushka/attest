@@ -127,7 +127,7 @@ namespace Attest.Countries
 
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
-            postalCode = postalCode.RemoveSpecialCharacthers().ToUpper().Replace("LV", string.Empty);
+            postalCode = postalCode.RemoveSpecialCharacthers().ToUpperInvariant().Replace("LV", string.Empty);
             if (!Regex.IsMatch(postalCode, "^\\d{4}$"))
             {
                 return ValidationResult.InvalidFormat("LV-NNNN");

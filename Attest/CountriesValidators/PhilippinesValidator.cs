@@ -21,7 +21,7 @@ namespace Attest.Countries
 
         public override ValidationResult ValidateEntity(string id)
         {
-            id = id.RemoveSpecialCharacthers().ToUpper();
+            id = id.RemoveSpecialCharacthers().ToUpperInvariant();
             if (!Regex.IsMatch(id, TinPattern + "[VN]?$"))
             {
                 return ValidationResult.InvalidFormat("123456789012");
@@ -31,7 +31,7 @@ namespace Attest.Countries
 
         public override ValidationResult ValidateIndividualTaxCode(string id)
         {
-            id = id.RemoveSpecialCharacthers().ToUpper();
+            id = id.RemoveSpecialCharacthers().ToUpperInvariant();
             if (!Regex.IsMatch(id, TinPattern + "[VN]?$"))
             {
                 return ValidationResult.InvalidFormat("1234-5678901-2");
@@ -51,7 +51,7 @@ namespace Attest.Countries
 
         public override ValidationResult ValidateVAT(string vatId)
         {
-            vatId = vatId.RemoveSpecialCharacthers().ToUpper();
+            vatId = vatId.RemoveSpecialCharacthers().ToUpperInvariant();
             // A number written with the non VAT marker is not a VAT number; without a marker it
             // is the plain TIN, which a VAT registered taxpayer uses unchanged.
             if (!Regex.IsMatch(vatId, TinPattern + "V?$"))

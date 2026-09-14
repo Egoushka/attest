@@ -92,7 +92,7 @@ namespace Attest.Countries
 
         private string CalculatChecksum(string number)
         {
-            number = number.ToUpper();
+            number = number.ToUpperInvariant();
             string alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             int[] weights = new int[] { 29, 23, 19, 17, 13, 7, 5, 3 };
             if (!number.All(char.IsDigit))
@@ -117,7 +117,7 @@ namespace Attest.Countries
         private static string Normalize(string number)
         {
             number = (number ?? string.Empty)
-                .ToUpper()
+                .ToUpperInvariant()
                 .Replace("УНП", string.Empty)
                 .Replace("UNP", string.Empty)
                 .RemoveSpecialCharacthers();
