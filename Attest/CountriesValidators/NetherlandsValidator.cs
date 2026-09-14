@@ -136,7 +136,7 @@ namespace Attest.Countries
 
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
-            postalCode = postalCode.RemoveSpecialCharacthers().ToUpper();
+            postalCode = postalCode.RemoveSpecialCharacthers().ToUpperInvariant();
             if (!Regex.IsMatch(postalCode, "^\\d{4}[A-Z]{2}$"))
             {
                 return ValidationResult.InvalidFormat("NNNN WW");

@@ -49,7 +49,7 @@ namespace Attest.Countries
         private char GetControlChar(string f15)
         {
             int tot = 0;
-            byte[] arrCode = Encoding.UTF8.GetBytes(f15.ToUpper());
+            byte[] arrCode = Encoding.UTF8.GetBytes(f15.ToUpperInvariant());
             for (int i = 0; i < f15.Length; i++)
             {
                 if ((i + 1) % 2 == 0) tot += (char.IsLetter(f15, i))
@@ -67,7 +67,7 @@ namespace Attest.Countries
         private string Normalize(string s, bool normalizeDiacritics)
         {
             if (String.IsNullOrEmpty(s)) return s;
-            s = s.Trim().ToUpper();
+            s = s.Trim().ToUpperInvariant();
             if (normalizeDiacritics)
             {
                 string src = "ÀÈÉÌÒÙàèéìòù";

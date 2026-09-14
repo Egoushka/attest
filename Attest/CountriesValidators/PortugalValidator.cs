@@ -168,7 +168,7 @@ namespace Attest.Countries
             // compact() and matches it against ^\d*[A-Z0-9]{2}\d$, so the trailing character is a
             // digit and a lowercase version is accepted.
             // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/pt/cc.py
-            value = value.RemoveSpecialCharacthers().ToUpper();
+            value = value.RemoveSpecialCharacthers().ToUpperInvariant();
             if (value.Length != 12)
             {
                 return ValidationResult.InvalidLength();

@@ -100,7 +100,7 @@ namespace Attest.Countries
             // The country code is only ever a prefix, so it is stripped from the start of the
             // number rather than from anywhere in it.
             // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/tr/vkn.py
-            vatId = vatId.RemoveSpecialCharacthers().ToUpper();
+            vatId = vatId.RemoveSpecialCharacthers().ToUpperInvariant();
             if (vatId.StartsWith("TR"))
             {
                 vatId = vatId.Substring(2);
