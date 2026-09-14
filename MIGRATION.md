@@ -11,8 +11,12 @@ entry, with the source for each rule.
 The baseline is tagged, so you can always see the whole difference yourself:
 
 ```
-git diff upstream-1.1.3..v1.0.0 -- Attest/CountriesValidators/NetherlandsValidator.cs
+git diff -M upstream-1.1.3..v1.0.1 -- \
+  CountryValidator/CountriesValidators/NetherlandsValidator.cs \
+  Attest/CountriesValidators/NetherlandsValidator.cs
 ```
+
+The fork renamed the source directory, so both paths are needed and `-M` is what pairs them up.
 
 ## The mechanical part
 
@@ -104,7 +108,7 @@ facade converts that to `Invalid("Not supported")`, so it never escapes if you c
   a country issues one number for both roles, which Armenia and Nigeria genuinely do.
 - `Supports(country, kind)` distinguishes "this country has no rule for this" from "this value is
   wrong". 33 of the 435 country/kind pairs have no rule.
-- [KNOWN-ISSUES.md](KNOWN-ISSUES.md): 66 remaining gaps, by country, each with the reason. Mostly
+- [KNOWN-ISSUES.md](KNOWN-ISSUES.md): 65 remaining gaps, by country, each with the reason. Mostly
   check digits no authority publishes.
 
 ## Suggested upgrade path

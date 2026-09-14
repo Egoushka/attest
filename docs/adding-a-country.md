@@ -265,8 +265,7 @@ Ambiguity is reported, not guessed. Where a country really does issue one number
 Armenia and Nigeria — both methods accept it, `IdentifierResult.IsAmbiguous` says so, and the doc
 comment carries the source that says the number has no holder-type field ("TIN consists of 8 digits
 ... No meaning is given to the numbers", Armenia's OECD sheet). If you make a country unambiguous,
-update the country list in the `IsAmbiguous` doc comment in `Attest/IdentifierResult.cs`; it still
-names Iceland, which has been wrong since Iceland was fixed.
+update the country list in the `IsAmbiguous` doc comment in `Attest/IdentifierResult.cs`.
 
 ## Before you open the PR
 
@@ -277,4 +276,5 @@ names Iceland, which has been wrong since Iceland was fixed.
 - [ ] `RemoveSpecialCharacthers` is the first line of every method; `[0-9]` anywhere a parse follows
       an unsanitised guard.
 - [ ] Registered in `Country.cs` and in `CountryValidator.Load()`, plus a README table row.
-- [ ] A CHANGELOG.md entry naming the country, what was wrong and what the caller-visible symptom was.
+- [ ] The commit body names the country, what was wrong and what the caller-visible symptom was.
+      `CHANGELOG.md` is written by the maintainer at release time -- do not edit it.
