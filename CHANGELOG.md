@@ -12,7 +12,8 @@ First release under the name Attest, descended from CountryValidator 1.1.3.
   package metadata and a `1.0.0-dev` placeholder; the release workflow overrides it with the version
   read from the tag, so the two packages cannot drift apart or disagree with what was tagged. The
   workflow refuses to publish a version that `CHANGELOG.md` does not document, and uses that section
-  as the release notes. Packages now carry the README, XML documentation, and symbol packages for
+  as the release notes. Publishing authenticates through nuget.org trusted publishing, so there is no
+  long-lived API key in the repository at all. Packages now carry the README, XML documentation, and symbol packages for
   debugging into them.
 
 

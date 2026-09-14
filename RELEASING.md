@@ -33,21 +33,43 @@ prerelease on GitHub. Use one when a wave has changed many verdicts at once.
 
 ## Before the first release
 
-The `NUGET_API_KEY` secret does not exist yet, so pushing a tag today builds, tests, packs, and then
-fails at the push step having shipped nothing.
+Publishing uses **trusted publishing**, so there is no API key anywhere in this repository. The
+workflow asks GitHub for a short-lived OIDC token, nuget.org checks it against a policy that names
+this repository and this workflow file, and returns an API key valid for one hour. Nothing to
+rotate, nothing to leak.
 
-1. Sign in at nuget.org, then **API Keys → Create**. Scope it to **Push** and, for the first
-   release, glob pattern `Attest*` so one key covers both packages.
-2. Add it to the repository. Either paste it at
-   `https://github.com/Egoushka/attest/settings/secrets/actions/new` as `NUGET_API_KEY`, or run:
+1. Create a nuget.org account if you do not have one, and note your **profile name** — not the email
+   address you sign in with. That is what the login step needs.
+2. On nuget.org: your username → **Trusted Publishing** → add a policy.
+
+   | Field | Value |
+   |---|---|
+   | Repository owner | `Egoushka` |
+   | Repository | `attest` |
+   | Workflow file | `release.yml` (file name only, no path) |
+   | Environment | leave empty |
+
+3. Set the policy **scope** to allow publishing new packages, with the glob `Attest*`. Neither
+   `Attest` nor `Attest.DataAnnotations` exists on nuget.org yet, so a policy scoped only to new
+   versions of existing packages would reject the first release.
+4. Add your nuget.org profile name to the repository:
 
    ```
-   gh secret set NUGET_API_KEY -R Egoushka/attest
+   gh secret set NUGET_USER -R Egoushka/attest
    ```
 
-   which prompts for the value so it never appears in your shell history.
-3. NuGet keys expire — a year at most. Put the expiry in your calendar; a release that fails at the
-   push step with a 401 is almost always an expired key.
+   It is a username rather than a credential, but it lives in a secret because the NuGet
+   documentation recommends it and it keeps the workflow file free of personal details.
+
+Two things to know about the policy:
+
+- **It is bound to the workflow file name.** Renaming `.github/workflows/release.yml` breaks
+  publishing until you update the policy to match.
+- **A new policy can start out temporarily active for seven days**, mostly on private repositories.
+  nuget.org needs the GitHub repository and owner IDs, which arrive with the first successful
+  publish, to pin the policy against someone deleting the repo and recreating it under the same
+  name. If nothing is published in that window the policy goes inactive, and you can restart the
+  window whenever you like.
 
 ## Releasing
 
