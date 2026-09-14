@@ -29,12 +29,10 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <!--
-      CS1591: not every public member carries XML docs yet.
-      CS1572/CS1573: 44 validators inherited <param> tags from upstream that name parameters the
-      method does not have, or miss the one it does. They are wrong documentation rather than wrong
-      code; tracked in KNOWN-ISSUES.md instead of blocking the build.
+      CS1591: not every public member carries XML docs yet. 2884 warnings across 98 files; the
+      docs are written country by country as each validator is revisited.
     -->
-    <NoWarn>$(NoWarn);CS1591;CS1572;CS1573</NoWarn>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(IsPackable)' != 'false'">

@@ -16,7 +16,7 @@ namespace Attest.Countries
         /// tax code. "TIN consists of 8 digits ... No meaning is given to the numbers."
         /// https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/armenia-tin.pdf
         /// </summary>
-        /// <param name="ssn"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         public override ValidationResult ValidateEntity(string id)
         {
@@ -92,7 +92,7 @@ namespace Attest.Countries
         /// <summary>
         /// TIN Number
         /// </summary>
-        /// <param name="ssn"></param>
+        /// <param name="vatId"></param>
         /// <returns></returns>
         public override ValidationResult ValidateVAT(string vatId)
         {

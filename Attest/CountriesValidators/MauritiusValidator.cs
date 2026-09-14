@@ -33,7 +33,7 @@ namespace Attest.Countries
         /// <summary>
         /// ID number (Mauritian national identifier)
         /// </summary>
-        /// <param name="ssn"></param>
+        /// <param name="number"></param>
         /// <returns></returns>
         public override ValidationResult ValidateIndividualTaxCode(string number)
         {

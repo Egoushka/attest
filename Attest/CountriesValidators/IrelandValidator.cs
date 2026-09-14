@@ -13,7 +13,7 @@ namespace Attest.Countries
         /// <summary>
         /// PPS No (Personal Public Service Number, Irish personal number).
         /// </summary>
-        /// <param name="ssn"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         public override ValidationResult ValidateEntity(string id)
         {
