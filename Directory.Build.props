@@ -15,7 +15,10 @@
     <RepositoryType>git</RepositoryType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageTags>VAT, SSN, TIN, tax identification number, national identification number, validation</PackageTags>
+    <!-- Space separated: NuGet treats a comma-joined list as a single tag, so "tax identification
+         number" was one token nobody searches for. -->
+    <PackageTags>vat ssn tin tax-id national-id personal-id company-number postal-code zipcode validation checksum country iso3166 dataannotations</PackageTags>
+    <PackageReleaseNotes>See CHANGELOG.md at https://github.com/Egoushka/attest/blob/main/CHANGELOG.md</PackageReleaseNotes>
   </PropertyGroup>
 
   <!--

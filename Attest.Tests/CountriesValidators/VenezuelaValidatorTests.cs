@@ -3,11 +3,11 @@ using Xunit;
 
 namespace Attest.Tests
 {
-    public class VenezuelaAfricaValidatorTests
+    public class VenezuelaValidatorTests
     {
         private readonly VenezuelaValidator _venezuelaValidator;
 
-        public VenezuelaAfricaValidatorTests()
+        public VenezuelaValidatorTests()
         {
             _venezuelaValidator = new VenezuelaValidator();
         }
