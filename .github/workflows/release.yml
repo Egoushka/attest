@@ -43,12 +43,15 @@ jobs:
             exit 1
           fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
+          # A prerelease documents the same changes as the release it leads to, so the
+          # changelog is looked up under the base version: v1.0.0-rc.1 reads ## 1.0.0.
+          echo "changelog=${version%%-*}" >> "$GITHUB_OUTPUT"
 
       - name: Require a changelog entry
         run: |
           # A release nobody documented is a release nobody can audit later.
-          if ! grep -q "^## ${{ steps.version.outputs.version }}\b" CHANGELOG.md; then
-            echo "CHANGELOG.md has no '## ${{ steps.version.outputs.version }}' section." >&2
+          if ! grep -q "^## ${{ steps.version.outputs.changelog }}\b" CHANGELOG.md; then
+            echo "CHANGELOG.md has no '## ${{ steps.version.outputs.changelog }}' section." >&2
             exit 1
           fi
 
@@ -79,7 +82,7 @@ jobs:
       - name: Create the GitHub release
         run: |
           # The changelog section for this version becomes the release notes.
-          awk -v v="## ${{ steps.version.outputs.version }}" '
+          awk -v v="## ${{ steps.version.outputs.changelog }}" '
             $0 ~ "^" v { found = 1; next }
             found && /^## / { exit }
             found { print }
