@@ -18,6 +18,20 @@ jobs:
             8.0.x
             9.0.x
 
+      # The README table is the first thing an evaluating consumer reads, and it ships inside both
+      # packages. It has drifted before: five countries were registered, tested and missing from it.
+      - name: Every registered country is in the README table
+        run: |
+          missing=""
+          for code in $(grep -oE 'Country\.[A-Z]{2},' Attest/CountryValidator.cs | grep -oE '[A-Z]{2}' | sort -u); do
+            grep -qE "^\| .*\| +$code +\|" README.md || missing="$missing $code"
+          done
+          if [ -n "$missing" ]; then
+            echo "Registered in CountryValidator.Load() but absent from the README table:$missing" >&2
+            exit 1
+          fi
+          echo "All registered countries are in the README table."
+
       - name: Restore
         run: dotnet restore Attest.sln
 
