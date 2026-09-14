@@ -74,7 +74,7 @@ jobs:
             found && /^## / { exit }
             found { print }
           ' CHANGELOG.md > notes.md
-          if [ ! -s notes.md ]; then
+          if ! grep -q '[^[:space:]]' notes.md; then
             echo "The '## ${{ steps.version.outputs.changelog }}' section is empty." >&2
             exit 1
           fi

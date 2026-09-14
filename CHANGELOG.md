@@ -77,6 +77,9 @@ case — `PL8567346215` and `pl8567346215` both still pass.
   The suite is 4,026 cases, up from 3,593.
 - `AGENTS.md`, for coding agents: the short list of things not to do, pointing at `CONTRIBUTING.md`
   for why each one exists.
+- `KNOWN-ISSUES.md` is 48 entries, down from 66. Fifteen described work that is now done or was
+  already done when they were written, and the two headings that named a repair wave's file
+  assignment rather than a country are gone.
 - Continuous integration asserts that every country registered in `CountryValidator.Load()` has a row
   in the README table, and the release workflow refuses a tag that is not on `main`.
 
