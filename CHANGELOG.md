@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.0.1
+
+Documentation only. No validator behaviour changed, so nothing a caller can observe is different
+from 1.0.0.
+
+- [MIGRATION.md](MIGRATION.md): every verdict that changes against CountryValidator 1.1.3, in both
+  directions, so an upgrading consumer can see which of their stored numbers are affected before
+  they ship it.
+- The README says what the fork actually fixed, and points at MIGRATION.md and KNOWN-ISSUES.md.
+
 ## 1.0.0
 
 First release under the name Attest, descended from CountryValidator 1.1.3.
