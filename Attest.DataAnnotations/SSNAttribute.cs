@@ -41,7 +41,7 @@ namespace Attest.DataAnnotations
                 return System.ComponentModel.DataAnnotations.ValidationResult.Success;
             }
 
-            validationContext.Items.Add("Error", result.ErrorMessage);
+            validationContext.Items["Error"] = result.ErrorMessage;
 
             IEnumerable<string> memberNames = null;
             if (validationContext.MemberName != null)
