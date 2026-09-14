@@ -18,7 +18,7 @@ namespace Attest.Countries
                 return ValidationResult.Invalid("Invalid length");
             }
 
-            if (!Regex.IsMatch(ssn, @"^\d{9,10}$"))
+            if (!Regex.IsMatch(ssn, @"^[0-9]{9,10}$"))
             {
                 return ValidationResult.InvalidFormat("YYMMDDNNN(N)");
             }
@@ -144,7 +144,7 @@ namespace Attest.Countries
         {
             vatId = vatId.RemoveSpecialCharacthers();
             vatId = vatId.StripPrefix("SK");
-            if (!Regex.IsMatch(vatId, @"^[1-9]\d[2346-9]\d{7}$"))
+            if (!Regex.IsMatch(vatId, @"^[1-9][0-9][2346-9][0-9]{7}$"))
             {
                 return ValidationResult.InvalidFormat("1234567890");
             }
@@ -158,7 +158,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{5}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{5}$"))
             {
                 return ValidationResult.InvalidFormat("NNN NN");
             }

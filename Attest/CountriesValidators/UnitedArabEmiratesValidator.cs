@@ -10,6 +10,12 @@ namespace Attest.Countries
             CountryCode = nameof(Country.AE);
         }
 
+        /// <summary>The kinds AE has no published rule for.</summary>
+        internal override IdentifierKind UnsupportedKinds
+        {
+            get { return IdentifierKind.CompanyNumber | IdentifierKind.PersonalTaxCode | IdentifierKind.PostalCode | IdentifierKind.Vat; }
+        }
+
         /*
          * 
          *     "784-1980-1234567-9",
@@ -30,22 +36,22 @@ namespace Attest.Countries
 
         public override ValidationResult ValidateEntity(string id)
         {
-            throw new NotSupportedException();
+            return ValidationResult.Invalid("Not supported");
         }
 
         public override ValidationResult ValidateIndividualTaxCode(string id)
         {
-            throw new NotSupportedException();
+            return ValidationResult.Invalid("Not supported");
         }
 
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
-            throw new NotSupportedException();
+            return ValidationResult.Invalid("Not supported");
         }
 
         public override ValidationResult ValidateVAT(string vatId)
         {
-            throw new NotSupportedException();
+            return ValidationResult.Invalid("Not supported");
         }
     }
 }

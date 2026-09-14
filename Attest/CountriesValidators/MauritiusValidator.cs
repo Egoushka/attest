@@ -10,6 +10,12 @@ namespace Attest.Countries
             CountryCode = nameof(Country.MU);
         }
 
+        /// <summary>The kinds MU has no published rule for.</summary>
+        internal override IdentifierKind UnsupportedKinds
+        {
+            get { return IdentifierKind.PostalCode; }
+        }
+
         /// <summary>
         /// Business Registration Number issued by the Corporate and Business Registration
         /// Department: a letter for the entity type (C company, I individual, P partnership, and
@@ -92,6 +98,11 @@ namespace Attest.Countries
         /// </summary>
         public char CalculateChecksum(string number)
         {
+            if (number == null)
+            {
+                return '\0';
+            }
+
             string _alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
             int sum = 0;
@@ -127,7 +138,7 @@ namespace Attest.Countries
         /// </summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
-            throw new NotSupportedException();
+            return ValidationResult.Invalid("Not supported");
         }
     }
 }

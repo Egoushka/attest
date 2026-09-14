@@ -12,7 +12,7 @@ namespace Attest.Countries
 
         private static bool IsValidDate(string dateString)
         {
-            if (!Regex.IsMatch(dateString, @"^\d{1,2}\.\d{1,2}\.\d{4}$"))
+            if (!Regex.IsMatch(dateString, @"^[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{4}$"))
             {
                 return false;
             }
@@ -39,7 +39,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateIndividualTaxCode(string identificationCode)
         {
             identificationCode = identificationCode.RemoveSpecialCharacthers();
-            var match = Regex.Match(identificationCode, "([0-2]\\d|[3][0-1])([0]\\d|[1][0-2])(\\d{2})([0-2])(\\d{3})(\\d)");
+            var match = Regex.Match(identificationCode, "([0-2][0-9]|[3][0-1])([0][0-9]|[1][0-2])([0-9]{2})([0-2])([0-9]{3})([0-9])");
             if (!match.Success)
             {
                 return ValidationResult.Invalid("Invalid format");
@@ -82,7 +82,7 @@ namespace Attest.Countries
             vatId = vatId.RemoveSpecialCharacthers();
             vatId = vatId.StripPrefix("LV");
 
-            if (!Regex.IsMatch(vatId, @"^\d{11}$"))
+            if (!Regex.IsMatch(vatId, @"^[0-9]{11}$"))
             {
                 return ValidationResult.InvalidFormat("12345678901");
             }
@@ -128,7 +128,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers().ToUpperInvariant().StripPrefix("LV");
-            if (!Regex.IsMatch(postalCode, "^\\d{4}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{4}$"))
             {
                 return ValidationResult.InvalidFormat("LV-NNNN");
             }

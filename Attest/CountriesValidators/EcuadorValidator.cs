@@ -42,7 +42,7 @@ namespace Attest.Countries
             {
                 return ValidationResult.InvalidLength();
             }
-            else if (!ruc.All(char.IsDigit))
+            else if (!ruc.IsAsciiDigits())
             {
                 return ValidationResult.InvalidFormat("1234567890123");
             }
@@ -139,6 +139,11 @@ namespace Attest.Countries
 
         public int Checksum(string number)
         {
+            if (number == null)
+            {
+                return -1;
+            }
+
             int sum = 0;
             for (int i = 0; i < number.Length; i++)
             {
@@ -165,7 +170,7 @@ namespace Attest.Countries
             {
                 return ValidationResult.InvalidLength();
             }
-            else if (!number.All(char.IsDigit))
+            else if (!number.IsAsciiDigits())
             {
                 return ValidationResult.InvalidFormat("1234567890");
             }
@@ -192,7 +197,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{6}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{6}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNNN");
             }

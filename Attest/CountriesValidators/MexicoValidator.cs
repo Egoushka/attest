@@ -7,6 +7,11 @@ namespace Attest.Countries
 {
     public class MexicoValidator : IdValidationAbstract
     {
+        public MexicoValidator()
+        {
+            CountryCode = nameof(Country.MX);
+        }
+
         private static int DigitVerification(string curp17)
         {
             var dictionary = "0123456789ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
@@ -33,7 +38,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateNationalIdentity(string ssn)
         {
             ssn = ssn.RemoveSpecialCharacthers();
-            var match = Regex.Match(ssn, @"^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$");
+            var match = Regex.Match(ssn, @"^([A-Z][AEIOUX][A-Z]{2}[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12][0-9]|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z0-9])([0-9])$");
 
             if (!match.Success)
             {
@@ -172,7 +177,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{5}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{5}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNN");
             }

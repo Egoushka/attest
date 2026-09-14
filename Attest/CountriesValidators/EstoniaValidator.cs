@@ -18,7 +18,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateEntity(string id)
         {
             id = id.RemoveSpecialCharacthers();
-            if (!id.All(char.IsDigit))
+            if (!id.IsAsciiDigits())
             {
                 return ValidationResult.InvalidFormat("12345678");
             }
@@ -47,7 +47,7 @@ namespace Attest.Countries
         {
             id = id.RemoveSpecialCharacthers();
 
-            if (!Regex.IsMatch(id, @"^\d{11}$"))
+            if (!Regex.IsMatch(id, @"^[0-9]{11}$"))
             {
                 return ValidationResult.InvalidFormat("12345678901");
             }
@@ -98,9 +98,9 @@ namespace Attest.Countries
         {
             vatId = vatId.RemoveSpecialCharacthers();
             vatId = vatId.StripPrefix("EE");
-            if (!Regex.IsMatch(vatId, @"^10\d{7}$"))
+            if (!Regex.IsMatch(vatId, @"^10[0-9]{7}$"))
             {
-                return ValidationResult.Invalid("");
+                return ValidationResult.InvalidFormat("EE100931558");
             }
 
             int[] Multipliers = { 3, 7, 1, 3, 7, 1, 3, 7 };
@@ -121,7 +121,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{5}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{5}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNN");
             }

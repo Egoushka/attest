@@ -61,7 +61,7 @@ namespace Attest.Countries
             {
                 return ValidationResult.InvalidLength();
             }
-            else if (!id.All(char.IsDigit))
+            else if (!id.IsAsciiDigits())
             {
                 return ValidationResult.InvalidFormat("12345678901234");
             }

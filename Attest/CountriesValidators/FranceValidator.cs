@@ -21,7 +21,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateEntity(string number)
         {
             number = number.RemoveSpecialCharacthers().ToUpperInvariant().StripPrefix("FR");
-            if (!number.All(char.IsDigit))
+            if (!number.IsAsciiDigits())
             {
                 return ValidationResult.InvalidFormat("123456789");
             }
@@ -40,7 +40,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateIndividualTaxCode(string number)
         {
             number = number.RemoveSpecialCharacthers().ToUpperInvariant().StripPrefix("FR");
-            if (!number.All(char.IsDigit))
+            if (!number.IsAsciiDigits())
             {
                 return ValidationResult.InvalidFormat("1234567890123");
             }
@@ -63,7 +63,7 @@ namespace Attest.Countries
             {
                 return ValidationResult.Invalid("Invalid length");
             }
-            var pattern = @"^([1278])(\d{2})(0[1-9]|1[0-2]|20)(\d{2}|2[AB])(\d{3})(\d{3})(\d{2})$";
+            var pattern = @"^([1278])([0-9]{2})(0[1-9]|1[0-2]|20)([0-9]{2}|2[AB])([0-9]{3})([0-9]{3})([0-9]{2})$";
             var match = Regex.Match(value, pattern);
             if (!match.Success)
             {
@@ -142,7 +142,7 @@ namespace Attest.Countries
             {
                 return ValidationResult.Invalid("Invalid format");
             }
-            else if (!number.Substring(2).All(char.IsDigit))
+            else if (!number.Substring(2).IsAsciiDigits())
             {
                 return ValidationResult.InvalidFormat("A1234567890");
             }
@@ -158,7 +158,7 @@ namespace Attest.Countries
             }
 
             // Key algorithm: https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/fr/tva.py
-            if (number.All(char.IsDigit))
+            if (number.IsAsciiDigits())
             {
                 if (int.Parse(number.Substring(0, 2)) != (long.Parse(number.Substring(2) + "12") % 97))
                 {
@@ -168,7 +168,7 @@ namespace Attest.Countries
             else
             {
                 int check = 0;
-                if (char.IsDigit(number[0]))
+                if (number[0].IsAsciiDigit())
                 {
                     check =
                         (_alphabet.IndexOf(number[0]) * 24) +
@@ -191,7 +191,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{5}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{5}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNN");
             }

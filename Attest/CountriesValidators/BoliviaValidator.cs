@@ -42,7 +42,7 @@ namespace Attest.Countries
             // https://siatinfo.impuestos.gob.bo/index.php/requisitos-para-la-inscripcion/conceptos-generales/generacion-del-nit
             // No published source describes a NIT below seven or above thirteen digits, and no
             // check digit is published, so the length is all that can be checked.
-            if (!Regex.IsMatch(id, @"^\d{7,13}$"))
+            if (!Regex.IsMatch(id, @"^[0-9]{7,13}$"))
             {
                 return ValidationResult.InvalidFormat("1234567890");
             }
@@ -63,7 +63,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{4}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{4}$"))
             {
                 return ValidationResult.InvalidFormat("NNNN");
             }

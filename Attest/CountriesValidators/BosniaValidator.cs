@@ -20,7 +20,7 @@ namespace Attest.Countries
         {
             value = value.RemoveSpecialCharacthers();
 
-            if (!Regex.IsMatch(value, @"^\d{13}$"))
+            if (!Regex.IsMatch(value, @"^[0-9]{13}$"))
             {
                 return ValidationResult.InvalidFormat("1234567890123");
             }
@@ -162,7 +162,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{5}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{5}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNN");
             }

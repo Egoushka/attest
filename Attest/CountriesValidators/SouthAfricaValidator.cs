@@ -15,7 +15,7 @@ namespace Attest.Countries
         {
             number = number.RemoveSpecialCharacthers();
 
-            if (!number.All(char.IsDigit))
+            if (!number.IsAsciiDigits())
             {
                 return ValidationResult.InvalidFormat("1234567890123");
             }
@@ -76,7 +76,7 @@ namespace Attest.Countries
             number = number.RemoveSpecialCharacthers();
             number = number?.StripPrefix("ZA");
 
-            if (!Regex.IsMatch(number, @"^[01239]\d{9}$"))
+            if (!Regex.IsMatch(number, @"^[01239][0-9]{9}$"))
             {
                 return ValidationResult.InvalidFormat("012391239");
             }
@@ -88,7 +88,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{4}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{4}$"))
             {
                 return ValidationResult.InvalidFormat("NNNN");
             }

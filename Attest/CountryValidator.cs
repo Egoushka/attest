@@ -280,6 +280,7 @@ namespace Attest
                 return false;
             }
 
+            var validator = _supportedCountries[country];
             var asked = false;
             foreach (var single in _allKinds)
             {
@@ -289,13 +290,7 @@ namespace Attest
                 }
 
                 asked = true;
-                try
-                {
-                    // The validators that have no rule for a kind throw before looking at the
-                    // input, so any value answers the question.
-                    ValidateOnValidator(_supportedCountries[country], string.Empty, single);
-                }
-                catch (Exception e) when (e is NotSupportedException || e is NotImplementedException)
+                if ((validator.UnsupportedKinds & single) != 0)
                 {
                     return false;
                 }
@@ -311,14 +306,13 @@ namespace Attest
                 return ValidationResult.Invalid("Not supported");
             }
 
-            try
-            {
-                return ValidateOnValidator(_supportedCountries[country], value, kind);
-            }
-            catch (Exception e) when (e is NotSupportedException || e is NotImplementedException)
+            var validator = _supportedCountries[country];
+            if ((validator.UnsupportedKinds & kind) != 0)
             {
                 return ValidationResult.Invalid("Not supported");
             }
+
+            return ValidateOnValidator(validator, value, kind);
         }
 
         private static ValidationResult ValidateOnValidator(IdValidationAbstract validator, string value, IdentifierKind kind)

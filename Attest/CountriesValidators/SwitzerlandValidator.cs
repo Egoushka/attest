@@ -48,7 +48,7 @@ namespace Attest.Countries
 
             // AHV/AVS is exactly 13 digits: the fixed 756 country prefix plus 9 digits and an EAN-13 check digit.
             // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/ch/ssn.py
-            if (!Regex.IsMatch(id, "^756\\d{10}$"))
+            if (!Regex.IsMatch(id, "^756[0-9]{10}$"))
             {
                 return ValidationResult.InvalidFormat("7561234567897");
             }
@@ -73,7 +73,7 @@ namespace Attest.Countries
             {
                 return ValidationResult.Invalid("Invalid company. First 3 letters must be 'CHE'");
             }
-            else if (!id.Substring(3).All(char.IsDigit))
+            else if (!id.Substring(3).IsAsciiDigits())
             {
                 return ValidationResult.InvalidFormat("CHE123456789");
             }
@@ -139,7 +139,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{4}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{4}$"))
             {
                 return ValidationResult.InvalidFormat("NNNN");
             }

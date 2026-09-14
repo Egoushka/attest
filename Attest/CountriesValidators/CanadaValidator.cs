@@ -58,7 +58,7 @@ namespace Attest.Countries
             sin = sin.RemoveSpecialCharacthers();
 
             var chardDigits = sin.ToCharArray();
-            if (!Regex.IsMatch(sin, @"^\d{9}$"))
+            if (!Regex.IsMatch(sin, @"^[0-9]{9}$"))
             {
                 return ValidationResult.InvalidFormat("123-456-789");
             }
@@ -97,7 +97,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\s{0,1}\\d(?=[^DdFfIiOoQqUu\\d\\s])[A-Za-z]\\d$"))
+            if (!Regex.IsMatch(postalCode, "^(?=[^DdFfIiOoQqUu0-9\\s])[A-Za-z][0-9](?=[^DdFfIiOoQqUu0-9\\s])[A-Za-z]\\s{0,1}[0-9](?=[^DdFfIiOoQqUu0-9\\s])[A-Za-z][0-9]$"))
             {
                 return ValidationResult.InvalidFormat("ANA NAN");
             }

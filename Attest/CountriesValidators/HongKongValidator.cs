@@ -5,9 +5,20 @@ namespace Attest.Countries
 {
     public class HongKongValidator : IdValidationAbstract
     {
+        public HongKongValidator()
+        {
+            CountryCode = nameof(Country.HK);
+        }
+
+        /// <summary>The kinds HK has no published rule for.</summary>
+        internal override IdentifierKind UnsupportedKinds
+        {
+            get { return IdentifierKind.CompanyNumber | IdentifierKind.PostalCode | IdentifierKind.Vat; }
+        }
+
         public override ValidationResult ValidateEntity(string id)
         {
-            throw new NotImplementedException();
+            return ValidationResult.Invalid("Not supported");
         }
 
         public override ValidationResult ValidateIndividualTaxCode(string id)
@@ -63,7 +74,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
-            throw new NotSupportedException();
+            return ValidationResult.Invalid("Not supported");
         }
 
         /// <summary>
@@ -74,7 +85,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateVAT(string vatId)
         {
-            throw new NotSupportedException();
+            return ValidationResult.Invalid("Not supported");
         }
     }
 }

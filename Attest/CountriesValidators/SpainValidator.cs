@@ -5,9 +5,9 @@ namespace Attest.Countries
 {
     public class SpainValidator : IdValidationAbstract
     {
-        readonly string DNI_REGEX = @"^(([KLM]\d{7})|(\d{8}))([A-Z])$";
-        readonly string CIF_REGEX = @"^([ABCDEFGHJNPQRSUVW])(\d{7})([0-9A-J])$";
-        readonly string NIE_REGEX = @"^[XYZ]\d{7,8}[A-Z]$";
+        readonly string DNI_REGEX = @"^(([KLM][0-9]{7})|([0-9]{8}))([A-Z])$";
+        readonly string CIF_REGEX = @"^([ABCDEFGHJNPQRSUVW])([0-9]{7})([0-9A-J])$";
+        readonly string NIE_REGEX = @"^[XYZ][0-9]{7,8}[A-Z]$";
 
         public SpainValidator()
         {
@@ -64,7 +64,7 @@ namespace Attest.Countries
             {
                 dni = dni.Substring(1);
             }
-            string dniNumber = Regex.Match(dni, @"\d+").Value;
+            string dniNumber = Regex.Match(dni, @"[0-9]+").Value;
             var letter = dni_letters[(int.Parse(dniNumber) % 23)];
 
             bool isValid = letter == dni[dni.Length - 1];
@@ -151,7 +151,7 @@ namespace Attest.Countries
             var multipliers = new int[] { 2, 1, 2, 1, 2, 1, 2 };
 
             int temp;
-            if (Regex.IsMatch(id, @"^[A-H|J|U|V]\d{8}$"))
+            if (Regex.IsMatch(id, @"^[A-H|J|U|V][0-9]{8}$"))
             {
 
                 for (int i = 0; i < 7; i++)
@@ -178,7 +178,7 @@ namespace Attest.Countries
                     return ValidationResult.InvalidChecksum();
                 }
             }
-            else if (Regex.IsMatch(id, @"^[A-H|N-S|W]\d{7}[A-J]$"))
+            else if (Regex.IsMatch(id, @"^[A-H|N-S|W][0-9]{7}[A-J]$"))
             {
                 for (int i = 0; i < 7; i++)
                 {
@@ -217,7 +217,7 @@ namespace Attest.Countries
             {
                 return ValidationResult.Success();
             }
-            else if (Regex.IsMatch(vatId, @"^[0-9|Y|Z]\d{7}[A-Z]$"))
+            else if (Regex.IsMatch(vatId, @"^[0-9|Y|Z][0-9]{7}[A-Z]$"))
             {
                 var tempnumber = vatId;
                 if (tempnumber[0] == 'Y')
@@ -232,7 +232,7 @@ namespace Attest.Countries
                 bool isValid = tempnumber[8] == "TRWAGMYFPDXBNJZSQVHLCKE"[int.Parse(tempnumber.Substring(0, 8)) % 23];
                 return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
             }
-            else if (Regex.IsMatch(vatId, @"^[K|L|M|X]\d{7}[A-Z]$"))
+            else if (Regex.IsMatch(vatId, @"^[K|L|M|X][0-9]{7}[A-Z]$"))
             {
                 bool isValid = vatId[8] == "TRWAGMYFPDXBNJZSQVHLCKE"[int.Parse(vatId.Substring(1, 7)) % 23];
                 return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
@@ -245,7 +245,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{5}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{5}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNN");
             }

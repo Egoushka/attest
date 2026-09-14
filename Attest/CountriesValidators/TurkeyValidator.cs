@@ -35,7 +35,7 @@ namespace Attest.Countries
             {
                 return ValidationResult.InvalidLength();
             }
-            else if (!kimlik.All(char.IsDigit) || kimlik[0] == '0')
+            else if (!kimlik.IsAsciiDigits() || kimlik[0] == '0')
             {
                 return ValidationResult.InvalidFormat("12345678901");
             }
@@ -103,7 +103,7 @@ namespace Attest.Countries
             vatId = vatId.RemoveSpecialCharacthers().ToUpperInvariant();
             vatId = vatId.StripPrefix("TR");
 
-            if (!vatId.All(char.IsDigit))
+            if (!vatId.IsAsciiDigits())
             {
                 return ValidationResult.InvalidFormat("1234567890");
             }
@@ -125,7 +125,7 @@ namespace Attest.Countries
             // https://en.wikipedia.org/wiki/Postal_codes_in_Turkey
             // https://en.wikipedia.org/wiki/Provinces_of_Turkey
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^(0[1-9]|[1-7]\\d|8[01])\\d{3}$"))
+            if (!Regex.IsMatch(postalCode, "^(0[1-9]|[1-7][0-9]|8[01])[0-9]{3}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNN");
             }
