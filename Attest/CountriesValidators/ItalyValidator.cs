@@ -6,9 +6,6 @@ namespace Attest.Countries
 {
     public class ItalyValidator : IdValidationAbstract
     {
-        private static readonly string Months = "ABCDEHLMPRST";
-        private static readonly string Vocals = "AEIOU";
-        private static readonly string Consonants = "BCDFGHJKLMNPQRSTVWXYZ";
         private static readonly string OmocodeChars = "LMNPQRSTUV";
         private static readonly int[] ControlCodeArray = new[] { 1, 0, 5, 7, 9, 13, 15, 17, 19, 21, 2, 4, 18, 20, 11, 3, 6, 8, 12, 14, 16, 10, 22, 25, 24, 23 };
         private static readonly Regex CheckRegex = new Regex(@"^[A-Z]{6}[\d]{2}[A-Z][\d]{2}[A-Z][\d]{3}[A-Z]$");
