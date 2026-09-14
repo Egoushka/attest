@@ -6,14 +6,19 @@ name: Release
 #
 # The tag is the single source of truth for the version — nothing in the repository
 # records it, so the two packages cannot drift apart or disagree with the tag.
-# Requires a NUGET_API_KEY repository secret; see RELEASING.md.
+# Publishing uses nuget.org trusted publishing: the job asks GitHub for a short-lived
+# OIDC token, nuget.org validates it against a policy naming this repository and THIS
+# WORKFLOW FILE, and hands back an API key valid for one hour. There is no long-lived
+# secret to leak or rotate. Renaming this file breaks publishing until the policy is
+# updated to match. See RELEASING.md.
 
 on:
   push:
     tags: ['v*']
 
 permissions:
-  contents: write
+  contents: write   # create the GitHub release
+  id-token: write   # request the OIDC token trusted publishing exchanges for an API key
 
 jobs:
   publish:
@@ -56,11 +61,19 @@ jobs:
       - name: Pack
         run: dotnet pack Attest.sln --configuration Release --no-build -p:Version=${{ steps.version.outputs.version }} --output ./artifacts
 
+      # Immediately before the push: the key nuget.org returns lives for one hour, and
+      # each OIDC token buys exactly one key.
+      - name: Exchange the OIDC token for a NuGet API key
+        uses: NuGet/login@v1.2.0
+        id: nuget-login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
       - name: Push to NuGet
         run: |
           dotnet nuget push "./artifacts/*.nupkg" \
             --source https://api.nuget.org/v3/index.json \
-            --api-key "${{ secrets.NUGET_API_KEY }}" \
+            --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}" \
             --skip-duplicate
 
       - name: Create the GitHub release

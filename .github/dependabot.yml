@@ -35,7 +35,7 @@ updates:
   # GitHub Actions.  ci.yml and release.yml between them pin actions/checkout,
   # actions/setup-dotnet and actions/upload-artifact, all at v4.  Grouped into a
   # single PR -- but read it rather than merging on green, because release.yml is
-  # what pushes the package to NuGet on a v* tag and it handles NUGET_API_KEY.
+  # what pushes the package to NuGet on a v* tag, using an OIDC token rather than a stored key.
   - package-ecosystem: github-actions
     directory: /
     schedule:
