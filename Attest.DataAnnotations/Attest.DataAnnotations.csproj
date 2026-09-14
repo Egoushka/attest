@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
-    <Description>DataAnnotations to validate VAT codes, social security numbers or tin numbers.</Description>
+    <Description>DataAnnotations attributes for Attest: validate a national identification number, tax identification number or VAT code on a model property.</Description>
     <PackageId>Attest.DataAnnotations</PackageId>
   </PropertyGroup>
 

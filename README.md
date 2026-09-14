@@ -4,19 +4,47 @@
 [![NuGet](https://img.shields.io/nuget/v/Attest.svg)](https://www.nuget.org/packages/Attest)
 
 Validates national identification numbers, tax identification numbers, VAT codes and postal codes
-for 80+ countries.
+for 87 countries.
 
 Attest started as a fork of [CountryValidator](https://github.com/anghelvalentin/CountryValidator)
-by Anghel Valentin, which has had no release since 1.1.3 and a number of open validation bugs. The
-country rules and coverage come from that project; see [CHANGELOG.md](CHANGELOG.md) for what has
-been fixed since, and [NOTICE](NOTICE) for attribution.
+by Anghel Valentin, which has had no release since 1.1.3. The country coverage comes from that
+project; 197 defects in it have been fixed since, each against the rule the country actually
+publishes. See [NOTICE](NOTICE) for attribution and [CHANGELOG.md](CHANGELOG.md) for the detail.
 
 ## Install
 
 ```
-Install-Package Attest
-Install-Package Attest.DataAnnotations
+dotnet add package Attest
+dotnet add package Attest.DataAnnotations
 ```
+
+Targets `netstandard2.0` and `net8.0`.
+
+**Coming from CountryValidator?** [MIGRATION.md](MIGRATION.md) lists every verdict that changes,
+in both directions. Read the section on numbers that used to be accepted and now are not before
+you upgrade anything that stores what it validated.
+
+## What is different from upstream
+
+The short version of three repair waves, all of it verified by running the code rather than reading
+it:
+
+- **Hungary** accepted none of 181,677 valid tax ids. Its checksum summed UTF-16 code units instead
+  of digit values, which shifted every result by a constant.
+- **22 of 87 validators threw** instead of returning a result — on `null`, on short input, on a
+  letter where a digit belonged. A sweep over every country and every method now proves none does.
+- **Mexico and South Africa** could never validate anything: their date helpers always returned
+  false. **Malaysia, Canada and San Marino** had inverted guards, so they accepted everything,
+  including the empty string, and rejected the real formats.
+- **Test data was fiction.** Thailand's tax-code tests used a Swedish personnummer; Cyprus's only
+  national-id test was a Czech rodné číslo copied from the Czech file. Both passed for years.
+- Six of the seven bug reports left open upstream are fixed: Netherlands post-2020
+  btw-identificatienummer, Finland's 2023 HETU separators, Mexico, Paraguay, India, France and
+  Switzerland.
+
+The test suite went from 586 cases to 3593, and every validator now has one. What is still weak is
+written down rather than hidden: [KNOWN-ISSUES.md](KNOWN-ISSUES.md) lists 66 gaps by country, each
+with the reason it was left — mostly check digits no authority publishes.
 
 ## Use
 
@@ -93,7 +121,7 @@ public IActionResult ValidateSSN([Required, SSNAttribute(Country.US)] string ssn
 }
 ```
 
-### Supported Countries
+## Supported countries
 |   Supported Country  | Alpha Code 2 |                        National Identification Number Name                        |                                   VAT Code                                  | Entity code                                            | Postal Code        |
 |:--------------------:|:------------:|:---------------------------------------------------------------------------------:|:---------------------------------------------------------------------------:|--------------------------------------------------------|--------------------|
 | Andorra              | AD           | NRT (Número de Registre Tributari, Andorra tax number)                            | NRT (Número de Registre Tributari, Andorra tax number)                      | NRT (Número de Registre Tributari, Andorra tax number) | :heavy_check_mark: |
@@ -197,12 +225,14 @@ to start.
 
 Security reports go through [SECURITY.md](SECURITY.md). Conduct: [Contributor Covenant](CODE_OF_CONDUCT.md).
 
-### License
+Upgrading from CountryValidator: [MIGRATION.md](MIGRATION.md).
+
+## License
 
 Apache License, Version 2.0 — see [LICENSE](LICENSE).
 
 Copyright 2020 Anghel Valentin (original work)
 Copyright 2026 Yehor Hrabovskyi (changes)
 
-##### Special thanks
+## Special thanks
 [Python Stdnum](https://github.com/arthurdejong/python-stdnum)

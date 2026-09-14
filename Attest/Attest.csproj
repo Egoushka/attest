@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>Validates VAT codes, social security numbers and tax identification numbers for individuals and companies in 80+ countries. Started as a fork of CountryValidator by Anghel Valentin.</Description>
+    <Description>Validates national identification numbers, tax identification numbers, VAT codes and postal codes for 87 countries, against the rule each country publishes. Started as a fork of CountryValidator by Anghel Valentin, with 197 defects in it fixed.</Description>
     <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
     <RootNamespace>Attest</RootNamespace>
     <AssemblyName>Attest</AssemblyName>
