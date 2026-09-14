@@ -16,7 +16,7 @@ namespace Attest.Countries
         /// <summary>
         /// SIREN (a French company identification number)
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="number"></param>
         /// <returns></returns>
         public override ValidationResult ValidateEntity(string number)
         {
@@ -35,7 +35,7 @@ namespace Attest.Countries
         /// <summary>
         /// NIF (Numéro d'Immatriculation Fiscale, French tax identification number).
         /// </summary>
-        /// <param name="ssn"></param>
+        /// <param name="number"></param>
         /// <returns></returns>
         public override ValidationResult ValidateIndividualTaxCode(string number)
         {
@@ -129,7 +129,7 @@ namespace Attest.Countries
         /// <summary>
         /// Taxe sur la Valeur Ajoutee (TVA)  
         /// </summary>
-        /// <param name="vatId"></param>
+        /// <param name="number"></param>
         /// <returns></returns>
         public override ValidationResult ValidateVAT(string number)
         {

@@ -19,7 +19,7 @@ namespace Attest.Countries
         /// <summary>
         /// Fødselsnummer 
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="number"></param>
         /// <returns></returns>
         public override ValidationResult ValidateIndividualTaxCode(string number)
         {

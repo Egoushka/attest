@@ -119,7 +119,7 @@ namespace Attest.Countries
         /// <summary>
         /// Registro Unico de Contribuyentes (RUC) 
         /// </summary>
-        /// <param name="ruc"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         public override ValidationResult ValidateIndividualTaxCode(string id)
         {
