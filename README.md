@@ -18,7 +18,11 @@ dotnet add package Attest
 dotnet add package Attest.DataAnnotations
 ```
 
-Targets `netstandard2.0` and `net8.0`.
+Targets `netstandard2.0` and `net8.0`. The newest minor is the supported line — fixes ship forward
+rather than being backported — and `netstandard2.0` stays until keeping it costs something.
+
+A verdict change is never a patch here, so a minor release can change the answer for numbers you have
+already stored. [CHANGELOG.md](CHANGELOG.md) says which, in both directions, for every release.
 
 **Coming from CountryValidator?** [MIGRATION.md](MIGRATION.md) lists every verdict that changes,
 in both directions. Read the section on numbers that used to be accepted and now are not before

@@ -1,5 +1,97 @@
 # Changelog
 
+## 1.1.0
+
+Verdicts change in both directions, so this is a minor release rather than a patch even though every
+new answer is the correct one. Two classes of defect are closed: identifiers that were wrongly
+rejected depending on the caller's machine, and malformed values that were wrongly accepted.
+
+**Re-validate anything you stored between 1.0.0 and 1.0.1 before you upgrade.** The set that changes
+is small and knowable, and much better found by a query than by a support ticket.
+
+### Numbers that were rejected and now pass
+
+Case was folded with `String.ToUpper()`, which uses the thread's culture. In Turkish and Azeri a
+lowercase `i` uppercases to the dotted `İ`, which then fails the `[A-Z]` format checks this library
+is written with. A service running on a `tr-TR` or `az-AZ` thread rejected valid identifiers that it
+accepted everywhere else, and the defect was invisible on any other machine.
+
+| Input | What it is |
+|---|---|
+| `1234ij` | Dutch postcode — `IJ` is a Dutch digraph, not a typo |
+| `IV1 1AA` | United Kingdom postcode — Inverness |
+| `IMD1234` | Maltese postcode — Imdina |
+| `SI-1000` | Slovenian postcode |
+
+38 call sites across 24 validators now use `ToUpperInvariant()`. No string comparison anywhere in
+the library reads the culture any more.
+
+### Numbers that were accepted and now fail
+
+40 validators stripped the country prefix with `String.Replace`, which removes those characters
+wherever they appear rather than only at the front. Two characters that happened to spell the country
+turned a number nobody was issued into a valid one: `85PL67346215` normalised to the Polish NIP
+`8567346215` and passed its checksum. Every country tested accepted the spliced form and the
+appended form.
+
+The prefix is anchored to the start now. The printed form carrying its prefix stays valid in either
+case — `PL8567346215` and `pl8567346215` both still pass.
+
+### Fixed
+
+- `Supports(Country.GT, IdentifierKind.PersonalTaxCode)` reported that Guatemala had a rule for a
+  personal tax code while the method rejected every value with "Not supported". `Supports` is the
+  API for telling "this country has no rule" from "this value is wrong", so a wrong answer there is
+  worse than no answer.
+- Eleven validators signalled an unsupported kind by throwing `NotSupportedException`. The facade
+  caught it, but it escaped to anyone calling a validator class directly — which the README
+  documents as a supported entry point. Nothing throws now; the kinds a country has no rule for are
+  declared, and every `Validate*` method returns a `ValidationResult`.
+- Six public methods threw on `null`: `AustriaValidator.CalculateChecksumTaxCode`,
+  `EcuadorValidator.Checksum`, `GuatemalaValidator.CalculateChecksum`,
+  `MauritiusValidator.CalculateChecksum`, `PortugalValidator.CheckSum` and
+  `UnitedStatesValidator.ValidateITIN`.
+- `EstoniaValidator.ValidateVAT` and `ItalyValidator.ValidateNationalIdentity` rejected values with
+  an empty `ErrorMessage`, telling a caller nothing about why.
+- `CountryCode` was `null` on `ChinaValidator`, `HongKongValidator` and `MexicoValidator`.
+- The DataAnnotations attributes threw `ArgumentException` when one `ValidationContext` saw two
+  failed validations, because each recorded its reason under the same key with `Add`.
+- 226 regular-expression digit classes and 56 `char.IsDigit` calls matched every Unicode decimal
+  digit while `int.Parse` accepts only ASCII. No input reached a parse through them — the
+  normaliser already substitutes a sentinel — but the guard and the parse disagreed in 130 methods.
+
+### Changed
+
+- `Country`'s members carry explicit values. They are unchanged from the numbers the compiler was
+  assigning, so nothing a caller stored means anything different; adding a country mid-alphabet no
+  longer renumbers the members after it.
+- `PackageTags` is space-separated, so the individual tags are searchable on nuget.org, and the
+  packages carry release notes.
+
+### Added
+
+- `ValidatorClassSweepTests` calls all 87 validator classes directly rather than through the facade,
+  which is where the throwing methods above were hiding. `CultureSweepTests` runs every country
+  under the invariant, `tr-TR` and `az-AZ` cultures. `PrefixStripTests` asserts the prefix contract
+  in both directions. `IdExtensionsTests` pins the normaliser that 276 call sites depend on.
+  The suite is 4,026 cases, up from 3,593.
+- `AGENTS.md`, for coding agents: the short list of things not to do, pointing at `CONTRIBUTING.md`
+  for why each one exists.
+- Continuous integration asserts that every country registered in `CountryValidator.Load()` has a row
+  in the README table, and the release workflow refuses a tag that is not on `main`.
+
+### Documentation
+
+- The supported-countries table was five countries short: Georgia, Mexico, Malaysia, Nigeria and
+  Uzbekistan were registered and tested but absent from it, while the same README advertised fixing
+  Mexico and Malaysia.
+- Eleven XML `<param>` tags named a parameter their method does not have. Fixing them let `CS1572`
+  and `CS1573` come out of the `NoWarn` list, so the build now reports them if they come back.
+- `CONTRIBUTING.md`, `docs/adding-a-country.md` and the pull-request template gave three different
+  instructions about `CHANGELOG.md`; the rule lives in `CONTRIBUTING.md` and the other two point at
+  it. Several counts that had drifted are corrected, and `MIGRATION.md`'s reproduction command works
+  again — the fork renamed the source directory, so the diff it printed came back empty.
+
 ## 1.0.1
 
 Documentation only. No validator behaviour changed, so nothing a caller can observe is different
