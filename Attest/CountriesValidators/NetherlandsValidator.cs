@@ -79,7 +79,7 @@ namespace Attest.Countries
             {
                 return ValidationResult.InvalidFormat("1034.56.789");
             }
-            else if (!number.StartsWith("10"))
+            else if (!number.StartsWith("10", StringComparison.Ordinal))
             {
                 return ValidationResult.InvalidFormat("1034.56.789");
             }
@@ -113,7 +113,7 @@ namespace Attest.Countries
         {
 
             vatId = vatId.RemoveSpecialCharacthers();
-            vatId = vatId?.Replace("nl", string.Empty).Replace("NL", string.Empty);
+            vatId = vatId?.StripPrefix("NL");
 
             if (!Regex.IsMatch(vatId, @"^\d{9}B\d{2}$"))
             {

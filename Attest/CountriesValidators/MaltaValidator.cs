@@ -71,10 +71,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateVAT(string vatId)
         {
             vatId = vatId.RemoveSpecialCharacthers().ToUpperInvariant();
-            if (vatId.StartsWith("MT"))
-            {
-                vatId = vatId.Substring(2);
-            }
+            vatId = vatId.StripPrefix("MT");
             if (!Regex.IsMatch(vatId, @"^[1-9]\d{7}$"))
             {
                 return ValidationResult.InvalidFormat("12345678");

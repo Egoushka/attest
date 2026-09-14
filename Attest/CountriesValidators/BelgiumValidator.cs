@@ -62,7 +62,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateVAT(string id)
         {
             id = id.RemoveSpecialCharacthers();
-            id = id.Replace("be", string.Empty).Replace("BE", string.Empty);
+            id = id.StripPrefix("BE");
 
             if (id.Length == 9)
             {

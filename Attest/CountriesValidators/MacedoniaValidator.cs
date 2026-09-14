@@ -104,8 +104,7 @@ namespace Attest.Countries
         {
             vatId = vatId.RemoveSpecialCharacthers();
             // The prefix is written with either Latin or Cyrillic letters.
-            vatId = vatId.Replace("MK", string.Empty).Replace("mk", string.Empty)
-                         .Replace("МК", string.Empty).Replace("мк", string.Empty);
+            vatId = vatId.StripPrefix("MK").StripPrefix("МК");
 
             // [0-9] and not \d: in .NET \d also matches non-ASCII Unicode digits, which
             // char.GetNumericValue below would happily read as a number no register issued.

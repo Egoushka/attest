@@ -69,7 +69,7 @@ namespace Attest.Countries
             {
                 return ValidationResult.InvalidLength();
             }
-            else if (!id.StartsWith("CHE"))
+            else if (!id.StartsWith("CHE", StringComparison.Ordinal))
             {
                 return ValidationResult.Invalid("Invalid company. First 3 letters must be 'CHE'");
             }
@@ -104,7 +104,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateVAT(string value)
         {
             value = value.RemoveSpecialCharacthers().ToUpperInvariant();
-            value = value.Replace("CH", string.Empty);
+            value = value.StripPrefix("CH");
             value = value.RemoveSpecialCharacthers();
 
             if (!Regex.IsMatch(value, "^E?[0-9]{9}(MWST|IVA|TVA)?$"))

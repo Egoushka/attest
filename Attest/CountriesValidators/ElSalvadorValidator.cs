@@ -55,10 +55,7 @@ namespace Attest.Countries
             // stdnum's compact() drops a leading "SV" country prefix, so "SV 0614-050707-104-8" is
             // a documented valid input. Only a leading prefix is stripped, not every occurrence.
             // https://arthurdejong.org/nm/python-stdnum/doc/1.20/stdnum.sv.nit.html
-            if (id.StartsWith("SV"))
-            {
-                id = id.Substring(2);
-            }
+            id = id.StripPrefix("SV");
 
             if (id.Length != 14)
             {

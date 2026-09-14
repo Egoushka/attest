@@ -23,7 +23,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateVAT(string number)
         {
             number = number.RemoveSpecialCharacthers();
-            number = number.Replace("FR", string.Empty).Replace("fr", string.Empty).Replace("mc", string.Empty).Replace("MC", string.Empty);
+            number = number.StripPrefix("FR").StripPrefix("MC");
 
 
             if (number.Length != 11)

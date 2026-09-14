@@ -40,10 +40,7 @@ namespace Attest.Countries
         {
             rut = rut.RemoveSpecialCharacthers().ToUpperInvariant();
             // Only a "UY" prefix is stripped, not every occurrence: "2110034UY20017" is not a RUT.
-            if (rut.StartsWith("UY"))
-            {
-                rut = rut.Substring(2);
-            }
+            rut = rut.StripPrefix("UY");
 
             if (rut.Length != 12)
             {
