@@ -34,6 +34,18 @@ jobs:
             8.0.x
             9.0.x
 
+      - name: Require the tag to be on main
+        run: |
+          # A v* tag pushed from a branch would publish code that never reached main and never passed
+          # its required check. main is fetched explicitly rather than assumed: a tag push checks out
+          # the tag, and relying on actions/checkout to have created refs/remotes/origin/main would
+          # make every release depend on that action's refspec.
+          git fetch --quiet --no-tags origin main
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" FETCH_HEAD; then
+            echo "Tag $GITHUB_REF_NAME is not an ancestor of main; refusing to publish it." >&2
+            exit 1
+          fi
+
       - name: Read the version from the tag
         id: version
         run: |
@@ -47,11 +59,23 @@ jobs:
           # changelog is looked up under the base version: v1.0.0-rc.1 reads ## 1.0.0.
           echo "changelog=${version%%-*}" >> "$GITHUB_OUTPUT"
 
-      - name: Require a changelog entry
+      - name: Require a changelog entry, and build the release notes from it
         run: |
-          # A release nobody documented is a release nobody can audit later.
+          # A release nobody documented is a release nobody can audit later. The notes are extracted
+          # here rather than after the push, because everything before the push is still reversible.
           if ! grep -q "^## ${{ steps.version.outputs.changelog }}\b" CHANGELOG.md; then
             echo "CHANGELOG.md has no '## ${{ steps.version.outputs.changelog }}' section." >&2
+            exit 1
+          fi
+          # The heading match is anchored on a space or end of line so that "## 1.0.1" does not also
+          # match "## 1.0.10", and the exit rule stops at the next section.
+          awk -v v="## ${{ steps.version.outputs.changelog }}" '
+            $0 ~ "^" v "( |$)" { found = 1; next }
+            found && /^## / { exit }
+            found { print }
+          ' CHANGELOG.md > notes.md
+          if [ ! -s notes.md ]; then
+            echo "The '## ${{ steps.version.outputs.changelog }}' section is empty." >&2
             exit 1
           fi
 
@@ -73,20 +97,19 @@ jobs:
           user: ${{ secrets.NUGET_USER }}
 
       - name: Push to NuGet
+        env:
+          NUGET_API_KEY: ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
         run: |
+          # Through the environment rather than interpolated into the command, so the key is never
+          # part of a shell line that could be echoed or logged.
           dotnet nuget push "./artifacts/*.nupkg" \
             --source https://api.nuget.org/v3/index.json \
-            --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}" \
+            --api-key "$NUGET_API_KEY" \
             --skip-duplicate
 
       - name: Create the GitHub release
         run: |
-          # The changelog section for this version becomes the release notes.
-          awk -v v="## ${{ steps.version.outputs.changelog }}" '
-            $0 ~ "^" v { found = 1; next }
-            found && /^## / { exit }
-            found { print }
-          ' CHANGELOG.md > notes.md
+          # notes.md was written and checked before the push.
           gh release create "$GITHUB_REF_NAME" ./artifacts/*.nupkg \
             --title "$GITHUB_REF_NAME" --notes-file notes.md \
             ${{ contains(steps.version.outputs.version, '-') && '--prerelease' || '' }}
