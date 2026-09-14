@@ -19,7 +19,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateEntity(string id)
         {
             id = id.RemoveSpecialCharacthers();
-            if (!id.All(char.IsDigit))
+            if (!id.IsAsciiDigits())
             {
                 return ValidationResult.InvalidFormat("1234567890");
             }
@@ -42,7 +42,7 @@ namespace Attest.Countries
             {
                 return ValidationResult.InvalidLength();
             }
-            else if (!id.All(char.IsDigit))
+            else if (!id.IsAsciiDigits())
             {
                 return ValidationResult.Invalid("Only numbers are allowed");
             }
@@ -71,7 +71,7 @@ namespace Attest.Countries
             vatId = vatId.RemoveSpecialCharacthers();
             vatId = vatId?.StripPrefix("SE");
 
-            if (!Regex.IsMatch(vatId, @"^\d{10}01$"))
+            if (!Regex.IsMatch(vatId, @"^[0-9]{10}01$"))
             {
                 return ValidationResult.InvalidFormat("123456789001");
             }
@@ -99,7 +99,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{5}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{5}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNN or NNN NN");
             }

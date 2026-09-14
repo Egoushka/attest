@@ -31,7 +31,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateIndividualTaxCode(string id)
         {
             id = id.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(id, @"^\d{12}$"))
+            if (!Regex.IsMatch(id, @"^[0-9]{12}$"))
             {
                 return ValidationResult.InvalidFormat("123456789012");
             }
@@ -48,7 +48,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateEntity(string id)
         {
             id = id.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(id, @"^\d{10}$"))
+            if (!Regex.IsMatch(id, @"^[0-9]{10}$"))
             {
                 return ValidationResult.InvalidFormat("1234567890");
             }
@@ -67,11 +67,11 @@ namespace Attest.Countries
         {
             vatId = vatId.RemoveSpecialCharacthers();
             vatId = vatId.StripPrefix("RU");
-            if (Regex.IsMatch(vatId, @"^\d{10}$"))
+            if (Regex.IsMatch(vatId, @"^[0-9]{10}$"))
             {
                 return ValidateCompanyInn(vatId);
             }
-            if (Regex.IsMatch(vatId, @"^\d{12}$"))
+            if (Regex.IsMatch(vatId, @"^[0-9]{12}$"))
             {
                 return ValidatePersonalInn(vatId);
             }
@@ -109,7 +109,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateNationalIdentity(string snils)
         {
             snils = snils.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(snils, @"^\d{11}$"))
+            if (!Regex.IsMatch(snils, @"^[0-9]{11}$"))
             {
                 return ValidationResult.InvalidFormat("12345678901");
             }
@@ -138,7 +138,7 @@ namespace Attest.Countries
         public ValidationResult ValidateBIK(string bik)
         {
             bik = bik.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(bik, @"^\d{9}$"))
+            if (!Regex.IsMatch(bik, @"^[0-9]{9}$"))
             {
                 return ValidationResult.InvalidFormat("123456789");
             }
@@ -160,7 +160,7 @@ namespace Attest.Countries
         public ValidationResult ValidateOGRN(string ogrn)
         {
             ogrn = ogrn.RemoveSpecialCharacthers();
-            if (!(Regex.IsMatch(ogrn, @"^\d{13}$")))
+            if (!(Regex.IsMatch(ogrn, @"^[0-9]{13}$")))
             {
                 return ValidationResult.InvalidFormat("123456789");
             }
@@ -178,7 +178,7 @@ namespace Attest.Countries
         public ValidationResult ValidateOGRNIP(string ogrnip)
         {
             ogrnip = ogrnip.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(ogrnip, @"^\d{15}$"))
+            if (!Regex.IsMatch(ogrnip, @"^[0-9]{15}$"))
             {
                 return ValidationResult.InvalidFormat("123456789012345");
             }
@@ -190,7 +190,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{6}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{6}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNNN");
             }

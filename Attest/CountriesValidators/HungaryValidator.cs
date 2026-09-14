@@ -123,7 +123,7 @@ namespace Attest.Countries
         {
             vatId = vatId.RemoveSpecialCharacthers();
             vatId = vatId.StripPrefix("HU");
-            if (!Regex.IsMatch(vatId, @"^\d{8}$"))
+            if (!Regex.IsMatch(vatId, @"^[0-9]{8}$"))
             {
                 return ValidationResult.InvalidFormat("12345678");
             }
@@ -144,7 +144,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{4}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{4}$"))
             {
                 return ValidationResult.InvalidFormat("NNNN");
             }

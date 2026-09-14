@@ -47,7 +47,7 @@ namespace Attest.Countries
             }
 
             id = id.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(id, @"^\d{1,9}$"))
+            if (!Regex.IsMatch(id, @"^[0-9]{1,9}$"))
             {
                 return ValidationResult.InvalidFormat("123456789");
             }
@@ -68,7 +68,7 @@ namespace Attest.Countries
             {
                 return ValidationResult.InvalidLength();
             }
-            else if (!coe.All(char.IsDigit))
+            else if (!coe.IsAsciiDigits())
             {
                 return ValidationResult.InvalidFormat("1234");
             }
@@ -82,7 +82,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^4789\\d$"))
+            if (!Regex.IsMatch(postalCode, "^4789[0-9]$"))
             {
                 return ValidationResult.InvalidFormat("4789N");
             }

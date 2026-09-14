@@ -38,7 +38,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateNationalIdentity(string ssn)
         {
             ssn = ssn.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(ssn, @"^\d{10}$"))
+            if (!Regex.IsMatch(ssn, @"^[0-9]{10}$"))
             {
                 return ValidationResult.InvalidFormat("1234567890");
             }
@@ -82,7 +82,7 @@ namespace Attest.Countries
             // The ՀՎՀՀ is eight digits: a seven digit serial number and a check digit whose
             // algorithm is not published.
             // https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/armenia-tin.pdf
-            if (!Regex.IsMatch(ssn, @"^\d{8}$"))
+            if (!Regex.IsMatch(ssn, @"^[0-9]{8}$"))
             {
                 return ValidationResult.InvalidFormat("12345678");
             }
@@ -103,7 +103,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{4}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{4}$"))
             {
                 return ValidationResult.InvalidFormat("NNNN");
             }

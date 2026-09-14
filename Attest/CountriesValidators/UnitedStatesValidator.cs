@@ -12,6 +12,12 @@ namespace Attest.Countries
             CountryCode = nameof(Country.US);
         }
 
+        /// <summary>The kinds US has no published rule for.</summary>
+        internal override IdentifierKind UnsupportedKinds
+        {
+            get { return IdentifierKind.Vat; }
+        }
+
         static readonly string[] campuses = new string[]{"10", "12", "60", "67", "50", "53", "01", "02", "03", "04", "05", "06", "11", "13", "14", "16", "21", "22", "23", "25", "34", "51", "52", "54", "55",
             "56", "57", "58", "59", "65","30", "32", "35","36", "37", "38", "61","15", "24","20", "26", "27", "45", "46", "47","40", "44","94",
             "95","80", "90","33", "39", "41", "42", "43", "46", "48", "62", "63", "64", "66", "68",
@@ -42,7 +48,9 @@ namespace Attest.Countries
         /// <returns></returns>
         public ValidationResult ValidateITIN(string fiscalCode)
         {
-            bool isValid = Regex.IsMatch(fiscalCode, @"^(9\d{2})[- ]{0,1}((7[0-9]{1}|8[0-8]{1})|(9[0-2]{1})|(9[4-9]{1}))[- ]{0,1}(\d{4})$");
+            fiscalCode = fiscalCode.RemoveSpecialCharacthers();
+
+            bool isValid = Regex.IsMatch(fiscalCode, @"^(9[0-9]{2})[- ]{0,1}((7[0-9]{1}|8[0-8]{1})|(9[0-2]{1})|(9[4-9]{1}))[- ]{0,1}([0-9]{4})$");
             return isValid ? ValidationResult.Success() : ValidationResult.Invalid("Invalid code");
 
         }
@@ -105,7 +113,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateVAT(string vatId)
         {
-            throw new NotSupportedException($"{CountryCode} doesn't have VAT");
+            return ValidationResult.Invalid("Not supported");
         }
 
         public override ValidationResult ValidatePostalCode(string postalCode)

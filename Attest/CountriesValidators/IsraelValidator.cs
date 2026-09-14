@@ -16,12 +16,12 @@ namespace Attest.Countries
             // A company number is always exactly nine digits starting with 5, so zero padding a
             // shorter string only ever produced numbers that cannot be issued.
             // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/il/hp.py
-            if (ssn?.Length != 9 || !ssn.All(char.IsDigit))
+            if (ssn?.Length != 9 || !ssn.IsAsciiDigits())
             {
                 return ValidationResult.Invalid("Invalid length. The code must have 9 digits");
             }
 
-            if (!Regex.IsMatch(ssn, @"^5\d{8}$"))
+            if (!Regex.IsMatch(ssn, @"^5[0-9]{8}$"))
             {
                 return ValidationResult.Invalid("For companies the first digit must be 5");
             }
@@ -40,7 +40,7 @@ namespace Attest.Countries
             {
                 return ValidationResult.Invalid("Invalid length. The code must have 9 digits");
             }
-            else if (!ssn.All(char.IsDigit))
+            else if (!ssn.IsAsciiDigits())
             {
                 return ValidationResult.InvalidFormat("123456789");
             }
@@ -74,7 +74,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{7}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{7}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNNNN");
             }

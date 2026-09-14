@@ -18,7 +18,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateEntity(string id)
         {
             id = id.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(id, @"^\d{6}$"))
+            if (!Regex.IsMatch(id, @"^[0-9]{6}$"))
             {
                 return ValidationResult.InvalidFormat("123 456");
             }
@@ -38,7 +38,7 @@ namespace Attest.Countries
             // 29 February is not checked against it.
             // https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/faroe-islands-tin.pdf
             ssn = ssn.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(ssn, @"^(0[1-9]|[12]\d|3[01])(0[1-9]|1[0-2])\d{5}$"))
+            if (!Regex.IsMatch(ssn, @"^(0[1-9]|[12][0-9]|3[01])(0[1-9]|1[0-2])[0-9]{5}$"))
             {
                 return ValidationResult.InvalidFormat("ddmmyyxxx");
             }
@@ -64,7 +64,7 @@ namespace Attest.Countries
             // so only the impossible 000-099 block is rejected here.
             // https://da.wikipedia.org/wiki/Postnumre_p%C3%A5_F%C3%A6r%C3%B8erne
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^[1-9]\\d{2}$"))
+            if (!Regex.IsMatch(postalCode, "^[1-9][0-9]{2}$"))
             {
                 return ValidationResult.InvalidFormat("NNN");
             }
