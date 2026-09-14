@@ -9,7 +9,11 @@
 
 
   <ItemGroup>
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+    <!-- ValidationAttribute and ValidationContext are in-box from net8.0 onwards, so the package is
+         only needed for the netstandard2.0 leg. Declaring it for both put a redundant dependency in
+         every net8.0 consumer's graph. -->
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0"
+                      Condition="'$(TargetFramework)' == 'netstandard2.0'" />
   </ItemGroup>
 
 
