@@ -78,11 +78,10 @@ namespace Attest.Countries
         }
 
         /// <summary>
-        /// 
+        /// Hong Kong levies no value added tax, so there is no number to validate.
         /// </summary>
-        /// <param name="vatId"></param>
-        /// <exception cref="System.NotSupportedException">VAT is not supported in Hong Kong</exception>
-        /// <returns></returns>
+        /// <param name="vatId">Ignored.</param>
+        /// <returns>Always invalid, with the reason "Not supported".</returns>
         public override ValidationResult ValidateVAT(string vatId)
         {
             return ValidationResult.Invalid("Not supported");

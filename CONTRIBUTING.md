@@ -159,17 +159,17 @@ find. "Unsourced" without the search behind it just makes the next person repeat
 
 ## Where to start
 
-[KNOWN-ISSUES.md](KNOWN-ISSUES.md) is the contribution funnel. It has 63 entries across 35 headings,
+[KNOWN-ISSUES.md](KNOWN-ISSUES.md) is the contribution funnel. It has 48 entries across 29 headings,
 each one a gap someone found, verified and deliberately left, with the reason it was left. Most are a
 single validator plus its test file.
 
 Read the `*Not fixed:*` line first, because it tells you which kind of entry you have:
 
-- **"Outside my file list" / "belongs to another wave"** — tractable, and the best place to start.
-  The largest one left is `\d` before a parse, which still exists in validators nobody has swept
-  (see the OTHER COUNTRIES entry). The other sweep of this kind is done: every country prefix is now
-  stripped through `IdExtensions.StripPrefix`, which anchors it to the start, so `76086CL4285` no
-  longer validates as the Chilean RUT `76086428-5`.
+- **A country gap you can close on its own** — one validator and its test file, which is what most
+  of the remaining entries are. The cross-cutting sweeps that used to head this list are finished:
+  every country prefix goes through `IdExtensions.StripPrefix`, which anchors it to the start, so
+  `76086CL4285` no longer validates as the Chilean RUT `76086428-5`; case is folded with
+  `ToUpperInvariant`; and no digit class in the library matches a non-ASCII digit any more.
 - **"No algorithm is published"** — Armenia's TIN check digit, Nigeria's NIN, the UAE's 15-digit ID.
   These are closed until a source appears. Open them only if you have found that source.
 - **"Behaviour change" / "product decision"** — Peru's `ValidateVAT`, Indonesia's `ValidateVAT`,

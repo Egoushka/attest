@@ -47,7 +47,7 @@ it:
   Switzerland.
 
 The test suite went from 586 cases to 3,765, and every validator now has one. What is still weak is
-written down rather than hidden: [KNOWN-ISSUES.md](KNOWN-ISSUES.md) lists 63 gaps by country, each
+written down rather than hidden: [KNOWN-ISSUES.md](KNOWN-ISSUES.md) lists 48 gaps by country, each
 with the reason it was left — mostly check digits no authority publishes.
 
 ## Use
@@ -95,7 +95,7 @@ Two things the result tells you that a plain boolean cannot:
   identifier can be valid and indistinguishable at the same time, and the flag says so instead of
   guessing.
 - **`Supports(country, kind)`** — whether the country has a rule for that kind at all. A kind with no
-  rule reports every value invalid, which is not a verdict on the value. 33 of the 435 country/kind
+  rule reports every value invalid, which is not a verdict on the value. 25 of the 435 country/kind
   pairs in this library have no rule.
 
 `Matched` lists every kind the value is valid as, and `Details` carries the individual

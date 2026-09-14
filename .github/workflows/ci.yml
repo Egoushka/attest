@@ -22,8 +22,15 @@ jobs:
       # packages. It has drifted before: five countries were registered, tested and missing from it.
       - name: Every registered country is in the README table
         run: |
+          codes=$(grep -oE 'Country\.[A-Z]{2},' Attest/CountryValidator.cs | grep -oE '[A-Z]{2}' | sort -u)
+          # A check that cannot fail is worse than no check: if the scan ever finds nothing, because
+          # Load() was reformatted or the file moved, say so instead of reporting success.
+          if [ "$(printf '%s\n' "$codes" | grep -c .)" -lt 50 ]; then
+            echo "Found only $(printf '%s\n' "$codes" | grep -c .) countries in CountryValidator.Load(); the scan is broken." >&2
+            exit 1
+          fi
           missing=""
-          for code in $(grep -oE 'Country\.[A-Z]{2},' Attest/CountryValidator.cs | grep -oE '[A-Z]{2}' | sort -u); do
+          for code in $codes; do
             grep -qE "^\| .*\| +$code +\|" README.md || missing="$missing $code"
           done
           if [ -n "$missing" ]; then

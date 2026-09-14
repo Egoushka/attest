@@ -97,9 +97,10 @@ fixed everywhere, and a sweep across all 87 countries and all five methods now e
 
 **Any `try`/`catch` you wrapped around these calls is now dead code.** Check `IsValid` instead.
 
-Eleven validators still throw `NotSupportedException` for a kind their country has no rule for. The
-facade converts that to `Invalid("Not supported")`, so it never escapes if you call through
-`CountryValidator`; it still escapes if you call the validator class directly.
+Eleven validators used to throw `NotSupportedException` for a kind their country has no rule for,
+which escaped if you called the validator class directly rather than through `CountryValidator`.
+Since 1.1.0 nothing throws: those kinds are declared, and both the facade and the validator class
+return `Invalid("Not supported")`.
 
 ## What you gain
 
@@ -107,8 +108,8 @@ facade converts that to `Invalid("Not supported")`, so it never escapes if you c
   `Any` — instead of you picking one of five methods. `IdentifierResult.IsAmbiguous` tells you when
   a country issues one number for both roles, which Armenia and Nigeria genuinely do.
 - `Supports(country, kind)` distinguishes "this country has no rule for this" from "this value is
-  wrong". 33 of the 435 country/kind pairs have no rule.
-- [KNOWN-ISSUES.md](KNOWN-ISSUES.md): 63 remaining gaps, by country, each with the reason. Mostly
+  wrong". 25 of the 435 country/kind pairs have no rule.
+- [KNOWN-ISSUES.md](KNOWN-ISSUES.md): 48 remaining gaps, by country, each with the reason. Mostly
   check digits no authority publishes.
 
 ## Suggested upgrade path
