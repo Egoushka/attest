@@ -18,7 +18,8 @@ First release under the name Attest, descended from CountryValidator 1.1.3.
 
 
 - Continuous integration: build, test and pack on every push and pull request, plus a release
-  workflow that publishes to NuGet when a `v*` tag is pushed (needs a `NUGET_API_KEY` secret).
+  workflow that publishes to NuGet when a `v*` tag is pushed, authenticating through trusted
+  publishing rather than a stored API key.
 
 ### Added
 
