@@ -31,7 +31,12 @@ namespace Attest.DataAnnotations
 
             if (!(value is string ssn))
             {
-                return base.IsValid(value, validationContext);
+                // base.IsValid(object) is not implemented by ValidationAttribute, so
+                // deferring to it threw NotImplementedException. A value that is not a
+                // string is not a valid code, and saying so beats throwing.
+                return new System.ComponentModel.DataAnnotations.ValidationResult(
+                    FormatErrorMessage(validationContext.DisplayName),
+                    validationContext.MemberName != null ? new[] { validationContext.MemberName } : null);
             }
 
             CountryValidator taxValidator = new CountryValidator();

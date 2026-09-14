@@ -55,7 +55,11 @@ case — `PL8567346215` and `pl8567346215` both still pass.
   an empty `ErrorMessage`, telling a caller nothing about why.
 - `CountryCode` was `null` on `ChinaValidator`, `HongKongValidator` and `MexicoValidator`.
 - The DataAnnotations attributes threw `ArgumentException` when one `ValidationContext` saw two
-  failed validations, because each recorded its reason under the same key with `Add`.
+  failed validations, because each recorded its reason under the same key with `Add`. They also
+  threw `NotImplementedException` for a value that is not a string, by deferring to a base method
+  `ValidationAttribute` does not implement; a non-string value is reported invalid now.
+- `Attest.DataAnnotations` no longer carries `System.ComponentModel.Annotations` on `net8.0`, where
+  those types are in-box. The dependency remains on the `netstandard2.0` target, which needs it.
 - 226 regular-expression digit classes and 56 `char.IsDigit` calls matched every Unicode decimal
   digit while `int.Parse` accepts only ASCII. No input reached a parse through them — the
   normaliser already substitutes a sentinel — but the guard and the parse disagreed in 130 methods.
@@ -77,6 +81,7 @@ case — `PL8567346215` and `pl8567346215` both still pass.
   The suite is 4,026 cases, up from 3,593.
 - `AGENTS.md`, for coding agents: the short list of things not to do, pointing at `CONTRIBUTING.md`
   for why each one exists.
+- `Attest.DataAnnotations` has tests for the first time. They found the non-string crash above.
 - `KNOWN-ISSUES.md` is 48 entries, down from 66. Fifteen described work that is now done or was
   already done when they were written, and the two headings that named a repair wave's file
   assignment rather than a country are gone.

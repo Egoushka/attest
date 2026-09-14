@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Attest\Attest.csproj" />
+    <ProjectReference Include="..\Attest.DataAnnotations\Attest.DataAnnotations.csproj" />
   </ItemGroup>
 
 </Project>
