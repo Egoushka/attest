@@ -34,6 +34,7 @@ genuine Belarusian company number for years, because nobody checked.
       and reported through `IdentifierResult.IsAmbiguous`, not a silent delegation from
       `ValidateEntity` to `ValidateIndividualTaxCode`. Peru, Andorra, Iceland and Thailand all
       looked ambiguous and were bugs — each encodes the holder type.
-- [ ] `CHANGELOG.md` has an entry if a caller can see the difference.
+- [ ] **Release class**, if a caller can see the difference: patch (nothing observable) / minor (a
+      verdict changes) / major (API shape changes). The maintainer writes `CHANGELOG.md` at release.
 - [ ] `dotnet test Attest.Tests/Attest.Tests.csproj` passes locally.
 - [ ] No number in the diff or in this description belongs to a real person.

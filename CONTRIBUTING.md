@@ -7,7 +7,7 @@ country. Everything below exists because that already happened here.
 
 The library is a fork of [CountryValidator](https://github.com/anghelvalentin/CountryValidator),
 unmaintained since 2023. Three repair waves fixed 197 defects across the 87 validators and took the
-test suite from 586 cases to roughly 3,400. The rules in this document were learned from those
+test suite from 586 cases to 3,593. The rules in this document were learned from those
 defects. [CHANGELOG.md](CHANGELOG.md) lists them one by one if you want the evidence.
 
 ## Build and test
@@ -74,8 +74,9 @@ Every public `Validate*` method returns a `ValidationResult` for any input, incl
 `"   "`, `"---"`, `"abc"` and digits from any script. 22 of the 87 validators used to throw —
 `NullReferenceException` from Belarus and Poland, `IndexOutOfRangeException` from Bulgaria,
 `FormatException` from India, `ArgumentOutOfRangeException` from Monaco's `Substring(2, 3)` before
-any length guard. `Attest.Tests/UnicodeDigitSweepTests.cs` now sweeps all 87 countries across all
-five facade methods and will fail your PR if you reintroduce one. Do not weaken it to make a change
+any length guard. `Attest.Tests/UnicodeDigitSweepTests.cs` now sweeps all 87 countries across six
+entry points -- the five `Validate*` methods plus `Validate(value, country, kind)` -- and will fail
+your PR if you reintroduce one. Do not weaken it to make a change
 pass.
 
 One exception, and do not "fix" it locally: eleven validators still throw `NotSupportedException`
@@ -158,7 +159,7 @@ find. "Unsourced" without the search behind it just makes the next person repeat
 
 ## Where to start
 
-[KNOWN-ISSUES.md](KNOWN-ISSUES.md) is the contribution funnel. It has 66 entries across 37 headings,
+[KNOWN-ISSUES.md](KNOWN-ISSUES.md) is the contribution funnel. It has 65 entries across 36 headings,
 each one a gap someone found, verified and deliberately left, with the reason it was left. Most are a
 single validator plus its test file.
 
@@ -174,9 +175,9 @@ Read the `*Not fixed:*` line first, because it tells you which kind of entry you
 - **"Behaviour change" / "product decision"** — Peru's `ValidateVAT`, Indonesia's `ValidateVAT`,
   Kazakhstan's birth-date gate. Open an issue and argue the reading before writing code.
 
-The `## ALL` entry at the top is a blocker rather than a project: four `Country.ME` rows in
-`Attest.Tests/CountriesValidators/CountryValidatorTests.cs` assert an error message that only held
-while `MontenegroValidator` threw.
+Entries leave this file when they are fixed, not when they are argued about. The XML `<param>` tags
+that used to head it are gone, and CS1572 and CS1573 came out of the `NoWarn` list in
+`Directory.Build.props` in the same change, so they cannot come back.
 
 ## Commit messages
 
