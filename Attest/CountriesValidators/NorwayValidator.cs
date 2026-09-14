@@ -124,11 +124,8 @@ namespace Attest.Countries
             // MVA suffix only from the end, so neither is removed from the middle of the string.
             // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/no/mva.py
             vatId = vatId.RemoveSpecialCharacthers().ToUpperInvariant();
-            if (vatId.StartsWith("NO"))
-            {
-                vatId = vatId.Substring(2);
-            }
-            if (vatId.EndsWith("MVA"))
+            vatId = vatId.StripPrefix("NO");
+            if (vatId.EndsWith("MVA", StringComparison.Ordinal))
             {
                 vatId = vatId.Substring(0, vatId.Length - 3);
             }

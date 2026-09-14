@@ -136,7 +136,7 @@ namespace Attest.Countries
 
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
-            postalCode = postalCode.RemoveSpecialCharacthers().ToUpperInvariant().Replace("LT", string.Empty);
+            postalCode = postalCode.RemoveSpecialCharacthers().ToUpperInvariant().StripPrefix("LT");
             if (!Regex.IsMatch(postalCode, "^\\d{5}$"))
             {
                 return ValidationResult.InvalidFormat("LT-NNNNN");

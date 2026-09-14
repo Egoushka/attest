@@ -35,7 +35,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateNationalIdentity(string number)
         {
             number = number.RemoveSpecialCharacthers();
-            if (!number.All(char.IsDigit) || number.StartsWith("0"))
+            if (!number.All(char.IsDigit) || number.StartsWith("0", StringComparison.Ordinal))
             {
                 return ValidationResult.InvalidFormat("1234567890");
             }
@@ -57,7 +57,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateEntity(string id)
         {
-            id = id.RemoveSpecialCharacthers().Replace("FN", string.Empty).Replace("fn", string.Empty);
+            id = id.RemoveSpecialCharacthers().StripPrefix("FN");
 
             if (!Regex.IsMatch(id, "^[0-9]+[a-z]$"))
             {
@@ -116,7 +116,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateVAT(string vatId)
         {
             vatId = vatId.RemoveSpecialCharacthers();
-            vatId = vatId.Replace("AT", string.Empty).Replace("at", string.Empty);
+            vatId = vatId.StripPrefix("AT");
 
             if (!Regex.IsMatch(vatId, @"^U\d{8}$"))
             {

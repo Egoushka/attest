@@ -20,7 +20,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateEntity(string ird)
         {
             ird = ird.RemoveSpecialCharacthers();
-            ird = ird.Replace("NZ", string.Empty).Replace("nz", string.Empty);
+            ird = ird.StripPrefix("NZ");
             if (ird.Length != 8 && ird.Length != 9)
             {
                 return ValidationResult.InvalidLength();

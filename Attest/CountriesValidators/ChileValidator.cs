@@ -47,10 +47,7 @@ namespace Attest.Countries
             // is accepted: https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/cl/rut.py
             // Only a "CL" prefix is stripped, not every occurrence: "76086CL4285" is not a RUT.
             number = number.ToUpperInvariant();
-            if (number.StartsWith("CL"))
-            {
-                number = number.Substring(2);
-            }
+            number = number.StripPrefix("CL");
 
             if (!(number.Length == 8 || number.Length == 9))
             {

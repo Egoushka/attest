@@ -20,7 +20,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateEntity(string number)
         {
-            number = number.RemoveSpecialCharacthers().ToUpperInvariant().Replace("FR", string.Empty);
+            number = number.RemoveSpecialCharacthers().ToUpperInvariant().StripPrefix("FR");
             if (!number.All(char.IsDigit))
             {
                 return ValidationResult.InvalidFormat("123456789");
@@ -39,7 +39,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateIndividualTaxCode(string number)
         {
-            number = number.RemoveSpecialCharacthers().ToUpperInvariant().Replace("FR", string.Empty);
+            number = number.RemoveSpecialCharacthers().ToUpperInvariant().StripPrefix("FR");
             if (!number.All(char.IsDigit))
             {
                 return ValidationResult.InvalidFormat("1234567890123");
@@ -133,7 +133,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateVAT(string number)
         {
-            number = number.RemoveSpecialCharacthers().ToUpperInvariant().Replace("FR", string.Empty);
+            number = number.RemoveSpecialCharacthers().ToUpperInvariant().StripPrefix("FR");
             if (number.Length != 11)
             {
                 return ValidationResult.InvalidLength();

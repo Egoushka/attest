@@ -91,7 +91,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateVAT(string vat)
         {
             vat = vat.RemoveSpecialCharacthers();
-            vat = vat.Replace("IT", string.Empty).Replace("it", string.Empty);
+            vat = vat.StripPrefix("IT");
 
             if (!Regex.IsMatch(vat, @"^\d{11}$"))
             {

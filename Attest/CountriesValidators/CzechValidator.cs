@@ -136,7 +136,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateVAT(string vatId)
         {
             vatId = vatId.RemoveSpecialCharacthers();
-            vatId = vatId.Replace("cz", string.Empty).Replace("CZ", string.Empty);
+            vatId = vatId.StripPrefix("CZ");
 
             int total = 0;
             var multipliers = new int[] { 8, 7, 6, 5, 4, 3, 2 };

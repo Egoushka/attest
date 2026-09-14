@@ -74,7 +74,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateVAT(string number)
         {
             number = number.RemoveSpecialCharacthers();
-            number = number?.Replace("ZA", string.Empty).Replace("za", string.Empty);
+            number = number?.StripPrefix("ZA");
 
             if (!Regex.IsMatch(number, @"^[01239]\d{9}$"))
             {

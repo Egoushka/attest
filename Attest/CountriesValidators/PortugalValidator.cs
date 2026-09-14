@@ -95,7 +95,7 @@ namespace Attest.Countries
         private ValidationResult ValidateNif(string nif, string allowedPrefixes, string prefixError)
         {
             nif = nif.RemoveSpecialCharacthers();
-            nif = nif.Replace("PT", string.Empty).Replace("pt", string.Empty);
+            nif = nif.StripPrefix("PT");
             int[] multipliers = { 9, 8, 7, 6, 5, 4, 3, 2 };
 
             if (!Regex.IsMatch(nif, @"^\d{9}$"))

@@ -97,7 +97,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateVAT(string vatId)
         {
-            vatId = vatId.RemoveSpecialCharacthers().ToUpperInvariant().Replace("RS", string.Empty);
+            vatId = vatId.RemoveSpecialCharacthers().ToUpperInvariant().StripPrefix("RS");
             if (!Regex.IsMatch(vatId, @"^\d{9}$"))
             {
                 return ValidationResult.InvalidFormat("123456789");

@@ -59,7 +59,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateVAT(string nipt)
         {
             nipt = nipt.RemoveSpecialCharacthers();
-            nipt = nipt.Replace("AL", string.Empty).Replace("al", string.Empty);
+            nipt = nipt.StripPrefix("AL");
 
             if (nipt.Length != 10)
             {

@@ -38,10 +38,7 @@ namespace Attest.Countries
         {
             number = number.RemoveSpecialCharacthers().ToUpperInvariant();
             // Only a "CO" prefix is stripped, not every occurrence: "213CO1234321" is not a NIT.
-            if (number.StartsWith("CO"))
-            {
-                number = number.Substring(2);
-            }
+            number = number.StripPrefix("CO");
             if (!(8 <= number.Length && number.Length <= 16))
             {
                 return ValidationResult.InvalidLength();

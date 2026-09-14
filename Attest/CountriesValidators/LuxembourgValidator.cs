@@ -156,7 +156,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateVAT(string vatId)
         {
             vatId = vatId.RemoveSpecialCharacthers();
-            vatId = vatId.Replace("lu", string.Empty).Replace("LU", string.Empty);
+            vatId = vatId.StripPrefix("LU");
 
             if (!Regex.IsMatch(vatId, @"^\d{8}$"))
             {

@@ -62,7 +62,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateVAT(string coe)
         {
             coe = coe.RemoveSpecialCharacthers();
-            coe = coe.Replace("SM", string.Empty).Replace("sm", string.Empty);
+            coe = coe.StripPrefix("SM");
 
             if (coe.Length > 5 || coe.Length == 0)
             {

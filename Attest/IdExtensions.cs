@@ -60,6 +60,28 @@ namespace Attest
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Removes <paramref name="prefix"/> from the start of the value, and only from the start.
+        /// </summary>
+        /// <remarks>
+        /// A country code is a prefix. Stripping it with String.Replace removed it wherever it
+        /// appeared, so "76086CL4285" normalised to the Chilean RUT 76086428-5 and validated: a
+        /// number nobody was ever issued, accepted because two of its characters spelled the
+        /// country. The comparison is ordinal so that it does not depend on the thread culture,
+        /// and case-insensitive because a prefix is written either way on an invoice.
+        /// </remarks>
+        internal static string StripPrefix(this string value, string prefix)
+        {
+            if (value == null)
+            {
+                return string.Empty;
+            }
+
+            return value.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)
+                ? value.Substring(prefix.Length)
+                : value;
+        }
+
         public static int ToInt(this char c)
         {
             return Convert.ToInt32(c) - Convert.ToInt32('0');

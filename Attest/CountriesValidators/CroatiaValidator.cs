@@ -40,7 +40,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateVAT(string vatId)
         {
-            vatId = vatId.RemoveSpecialCharacthers().ToUpperInvariant().Replace("HR", string.Empty);
+            vatId = vatId.RemoveSpecialCharacthers().ToUpperInvariant().StripPrefix("HR");
             if (!Regex.IsMatch(vatId, @"^\d{11}$"))
             {
                 return ValidationResult.InvalidFormat("12345678901");

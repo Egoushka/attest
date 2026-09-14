@@ -101,10 +101,7 @@ namespace Attest.Countries
             // number rather than from anywhere in it.
             // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/tr/vkn.py
             vatId = vatId.RemoveSpecialCharacthers().ToUpperInvariant();
-            if (vatId.StartsWith("TR"))
-            {
-                vatId = vatId.Substring(2);
-            }
+            vatId = vatId.StripPrefix("TR");
 
             if (!vatId.All(char.IsDigit))
             {
