@@ -46,7 +46,7 @@ namespace Attest.Countries
         /// <summary>
         /// Burgerservicenummer (BSN) - Citizen Service Number
         /// </summary>
-        /// <param name="ssn"></param>
+        /// <param name="number"></param>
         /// <returns></returns>
         public override ValidationResult ValidateIndividualTaxCode(string number)
         {
@@ -69,7 +69,7 @@ namespace Attest.Countries
         /// <summary>
         /// Onderwijsnummer (the Dutch student identification number for students without BSN).
         /// </summary>
-        /// <param name="ssn"></param>
+        /// <param name="number"></param>
         /// <returns></returns>
         public ValidationResult ValidateOnderwijsnummer(string number)
         {
