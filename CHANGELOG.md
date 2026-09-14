@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.0 (unreleased)
+## 1.0.0
 
 First release under the name Attest, descended from CountryValidator 1.1.3.
 
