@@ -123,7 +123,7 @@ namespace Attest.Countries
             // python-stdnum strips the country code only from the start of the number and the
             // MVA suffix only from the end, so neither is removed from the middle of the string.
             // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/no/mva.py
-            vatId = vatId.RemoveSpecialCharacthers().ToUpper();
+            vatId = vatId.RemoveSpecialCharacthers().ToUpperInvariant();
             if (vatId.StartsWith("NO"))
             {
                 vatId = vatId.Substring(2);

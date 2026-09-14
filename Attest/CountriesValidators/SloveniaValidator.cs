@@ -130,7 +130,7 @@ namespace Attest.Countries
 
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
-            postalCode = postalCode.RemoveSpecialCharacthers().ToUpper().Replace("SI", string.Empty);
+            postalCode = postalCode.RemoveSpecialCharacthers().ToUpperInvariant().Replace("SI", string.Empty);
             if (!Regex.IsMatch(postalCode, "^\\d{4}$"))
             {
                 return ValidationResult.InvalidFormat("NNNN");

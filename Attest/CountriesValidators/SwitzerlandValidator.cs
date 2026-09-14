@@ -64,7 +64,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateEntity(string id)
         {
-            id = id.RemoveSpecialCharacthers().ToUpper();
+            id = id.RemoveSpecialCharacthers().ToUpperInvariant();
             if (id.Length != 12)
             {
                 return ValidationResult.InvalidLength();
@@ -103,7 +103,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateVAT(string value)
         {
-            value = value.RemoveSpecialCharacthers().ToUpper();
+            value = value.RemoveSpecialCharacthers().ToUpperInvariant();
             value = value.Replace("CH", string.Empty);
             value = value.RemoveSpecialCharacthers();
 

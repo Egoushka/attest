@@ -27,7 +27,7 @@ namespace Attest.Countries
             // Tax Identification Code / VAT number: 8 digits plus a mod 26 check letter.
             // Numbers starting with "12" are reserved and are never issued.
             // https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.cy.vat.html
-            id = id.RemoveSpecialCharacthers().ToUpper().Replace("CY", string.Empty);
+            id = id.RemoveSpecialCharacthers().ToUpperInvariant().Replace("CY", string.Empty);
 
             if (!Regex.IsMatch(id, @"^\d{8}[A-Z]$"))
             {

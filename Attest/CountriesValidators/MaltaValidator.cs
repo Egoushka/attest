@@ -17,7 +17,7 @@ namespace Attest.Countries
         /// </summary>
         public override ValidationResult ValidateEntity(string id)
         {
-            id = id.RemoveSpecialCharacthers().ToUpper();
+            id = id.RemoveSpecialCharacthers().ToUpperInvariant();
             if (id.Length != 9)
             {
                 return ValidationResult.InvalidLength();
@@ -37,7 +37,7 @@ namespace Attest.Countries
         /// </summary>
         public override ValidationResult ValidateIndividualTaxCode(string id)
         {
-            id = id.RemoveSpecialCharacthers().ToUpper();
+            id = id.RemoveSpecialCharacthers().ToUpperInvariant();
             if (Regex.IsMatch(id, @"^\d{9}$"))
             {
                 return ValidationResult.Success();
@@ -70,7 +70,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateVAT(string vatId)
         {
-            vatId = vatId.RemoveSpecialCharacthers().ToUpper();
+            vatId = vatId.RemoveSpecialCharacthers().ToUpperInvariant();
             if (vatId.StartsWith("MT"))
             {
                 vatId = vatId.Substring(2);
@@ -95,7 +95,7 @@ namespace Attest.Countries
         /// </summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
-            postalCode = postalCode.RemoveSpecialCharacthers().ToUpper();
+            postalCode = postalCode.RemoveSpecialCharacthers().ToUpperInvariant();
             if (!Regex.IsMatch(postalCode, @"^[A-Z]{3}\d{4}$"))
             {
                 return ValidationResult.InvalidFormat("AAANNNN OR (AAA NNNN)");

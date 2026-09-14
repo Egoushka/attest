@@ -12,7 +12,7 @@ namespace Attest.Countries
 
         public override ValidationResult ValidateIndividualTaxCode(string id)
         {
-            id = id.RemoveSpecialCharacthers().ToUpper();
+            id = id.RemoveSpecialCharacthers().ToUpperInvariant();
 
             int getLetterValue(string letter)
             {
