@@ -42,8 +42,8 @@ it:
   btw-identificatienummer, Finland's 2023 HETU separators, Mexico, Paraguay, India, France and
   Switzerland.
 
-The test suite went from 586 cases to 3593, and every validator now has one. What is still weak is
-written down rather than hidden: [KNOWN-ISSUES.md](KNOWN-ISSUES.md) lists 65 gaps by country, each
+The test suite went from 586 cases to 3,765, and every validator now has one. What is still weak is
+written down rather than hidden: [KNOWN-ISSUES.md](KNOWN-ISSUES.md) lists 63 gaps by country, each
 with the reason it was left — mostly check digits no authority publishes.
 
 ## Use

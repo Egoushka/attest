@@ -108,7 +108,7 @@ facade converts that to `Invalid("Not supported")`, so it never escapes if you c
   a country issues one number for both roles, which Armenia and Nigeria genuinely do.
 - `Supports(country, kind)` distinguishes "this country has no rule for this" from "this value is
   wrong". 33 of the 435 country/kind pairs have no rule.
-- [KNOWN-ISSUES.md](KNOWN-ISSUES.md): 65 remaining gaps, by country, each with the reason. Mostly
+- [KNOWN-ISSUES.md](KNOWN-ISSUES.md): 63 remaining gaps, by country, each with the reason. Mostly
   check digits no authority publishes.
 
 ## Suggested upgrade path

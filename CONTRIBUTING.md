@@ -7,7 +7,7 @@ country. Everything below exists because that already happened here.
 
 The library is a fork of [CountryValidator](https://github.com/anghelvalentin/CountryValidator),
 unmaintained since 2023. Three repair waves fixed 197 defects across the 87 validators and took the
-test suite from 586 cases to 3,593. The rules in this document were learned from those
+test suite from 586 cases to 3,765. The rules in this document were learned from those
 defects. [CHANGELOG.md](CHANGELOG.md) lists them one by one if you want the evidence.
 
 ## Build and test
@@ -159,17 +159,17 @@ find. "Unsourced" without the search behind it just makes the next person repeat
 
 ## Where to start
 
-[KNOWN-ISSUES.md](KNOWN-ISSUES.md) is the contribution funnel. It has 65 entries across 36 headings,
+[KNOWN-ISSUES.md](KNOWN-ISSUES.md) is the contribution funnel. It has 63 entries across 35 headings,
 each one a gap someone found, verified and deliberately left, with the reason it was left. Most are a
 single validator plus its test file.
 
 Read the `*Not fixed:*` line first, because it tells you which kind of entry you have:
 
 - **"Outside my file list" / "belongs to another wave"** — tractable, and the best place to start.
-  The two largest are cross-cutting sweeps: about twenty validators still strip a country prefix with
-  an unanchored `.Replace("XX", "")`, so `76086CL4285` validated as the Chilean RUT `76086428-5`
-  (see the Norway entry); and `\d` before a parse still exists in validators nobody has swept (see
-  the OTHER COUNTRIES entry). Norway, Turkey, Malta and Chile show the fixed form.
+  The largest one left is `\d` before a parse, which still exists in validators nobody has swept
+  (see the OTHER COUNTRIES entry). The other sweep of this kind is done: every country prefix is now
+  stripped through `IdExtensions.StripPrefix`, which anchors it to the start, so `76086CL4285` no
+  longer validates as the Chilean RUT `76086428-5`.
 - **"No algorithm is published"** — Armenia's TIN check digit, Nigeria's NIN, the UAE's 15-digit ID.
   These are closed until a source appears. Open them only if you have found that source.
 - **"Behaviour change" / "product decision"** — Peru's `ValidateVAT`, Indonesia's `ValidateVAT`,

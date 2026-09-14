@@ -37,8 +37,6 @@ add the test before the fix.
 
 - IdExtensions.Translit() is dead code (BelarusValidator was its only caller and now uses its own Cyrillic look-alike map instead).
   - *Not fixed:* Attest/IdExtensions.cs is on the forbidden shared-file list. Confirmed the situation is unchanged: grep for Translit() across Attest/CountriesValidators returns zero hits, and BelarusValidator.Normalize() does the mapping inline (А->A, В->B, Н->H, Р->P, С->C) precisely because transliteration is wrong for these numbers. Unchanged, reported only.
-- Normalize() strips "УНП"/"UNP" anywhere in the input, where stdnum's compact() strips it only as a leading prefix - so "200988541UNP" validates here and is rejected by the reference implementation.
-  - *Not fixed:* Over-acceptance of malformed input only (U and N are not in the letter alphabet ABCEHKMOPT, so the token cannot occur inside a well-formed UNP), not in my assignment, and no test asserts either way. One-line fix if wanted: replace the two .Replace() calls with a StartsWith/Substring prefix strip before RemoveSpecialCharacthers. https://raw.githubusercontent.com/arthurdejong/python-stdnum/master/stdnum/by/unp.py
 
 ## Bolivia
 
@@ -165,11 +163,6 @@ add the test before the fix.
   - *Not fixed:* The OECD profile literally writes the structure as "eight digits, a hyphen then the 0001" but never explains the suffix. Branch/office TINs with other suffixes are widely reported and taxid.pro gives the pattern as \d{8}-\d{4}. Constraining to 0001 on an unexplained example would reject live branch numbers, which is the costly direction.
 - ValidateEntity does not validate a CAC RC/BN company registration number.
   - *Not fixed:* Out of scope for this assignment and arguably for the method: the CAC number is a company-register identifier, not a tax identifier, and under the 2025 Act it is the input from which the corporate Tax ID is generated rather than the Tax ID itself. Adding it would change what ValidateEntity means for NG relative to every other country.
-
-## Norway
-
-- The unanchored-prefix-strip pattern still exists in roughly twenty other validators (France, Latvia, Lithuania, Slovenia and others).
-  - *Not fixed:* Those files belong to other agents in this shared working tree and the hard rules forbid touching them. I fixed both instances that fell inside my assignment — Norway and Turkey, which KNOWN-ISSUES had filed together under the Norway entry — so the two are now consistent with each other and with MaltaValidator, which already used the anchored StartsWith/Substring form. Suggest a sweep replacing `.Replace("XX", string.Empty)` with that form across the remaining validators.
 
 ## OTHER COUNTRIES (codebase-wide pattern, outside my files)
 
