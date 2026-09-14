@@ -48,7 +48,10 @@ namespace Attest.Countries
         /// <returns></returns>
         public ValidationResult ValidateITIN(string fiscalCode)
         {
-            fiscalCode = fiscalCode.RemoveSpecialCharacthers();
+            if (string.IsNullOrEmpty(fiscalCode))
+            {
+                return ValidationResult.Invalid("Invalid code");
+            }
 
             bool isValid = Regex.IsMatch(fiscalCode, @"^(9[0-9]{2})[- ]{0,1}((7[0-9]{1}|8[0-8]{1})|(9[0-2]{1})|(9[4-9]{1}))[- ]{0,1}([0-9]{4})$");
             return isValid ? ValidationResult.Success() : ValidationResult.Invalid("Invalid code");
