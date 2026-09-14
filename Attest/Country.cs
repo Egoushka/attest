@@ -1,5 +1,15 @@
 ﻿namespace Attest
 {
+    /// <summary>
+    /// ISO 3166-1 alpha-2 country codes, with an explicit value on every member.
+    /// </summary>
+    /// <remarks>
+    /// The values are stated rather than implied because the members are in alphabetical order by
+    /// code, and this library grows by adding countries. An implied value means inserting one
+    /// mid-list renumbers every member after it, which silently changes what a stored integer means
+    /// for any consumer that persisted one. A new country takes the next free number, wherever its
+    /// code sorts.
+    /// </remarks>
     public enum Country
     {
         /// <summary>
@@ -10,350 +20,350 @@
         /// <summary>
         /// Andorra
         /// </summary>
-        AD,
+        AD = 1,
         /// <summary>
         /// United Arab Erimates
         /// </summary>
-        AE,
+        AE = 2,
         /// <summary>
         /// Albania
         /// </summary>
-        AL,
+        AL = 3,
         /// <summary>
         /// Armenia
         /// </summary>
-        AM,
+        AM = 4,
         /// <summary>
         /// Argentina
         /// </summary>
-        AR,
+        AR = 5,
         /// <summary>
         /// Austria
         /// </summary>
-        AT,
+        AT = 6,
         /// <summary>
         /// Australia
         /// </summary>
-        AU,
+        AU = 7,
         /// <summary>
         /// Azerbaijan
         /// </summary>
-        AZ,
+        AZ = 8,
         /// <summary>
         /// Bosnia and Herzegovina
         /// </summary>
-        BA,
+        BA = 9,
         /// <summary>
         /// Belgium
         /// </summary>
-        BE,
+        BE = 10,
         /// <summary>
         /// Bulgaria
         /// </summary>
-        BG,
+        BG = 11,
         /// <summary>
         /// Bahrain
         /// </summary>
-        BH,
+        BH = 12,
         /// <summary>
         /// Bolivia
         /// </summary>
-        BO,
+        BO = 13,
         /// <summary>
         /// Brazil
         /// </summary>
-        BR,
+        BR = 14,
         /// <summary>
         /// Belarus
         /// </summary>
-        BY,
+        BY = 15,
         /// <summary>
         /// Canada
         /// </summary>
-        CA,
+        CA = 16,
         /// <summary>
         /// Switzerland
         /// </summary>
-        CH,
+        CH = 17,
         /// <summary>
         /// Chile
         /// </summary>
-        CL,
+        CL = 18,
         /// <summary>
         /// China
         /// </summary>
-        CN,
+        CN = 19,
         /// <summary>
         /// Columbia
         /// </summary>
-        CO,
+        CO = 20,
         /// <summary>
         /// Costa Rica
         /// </summary>
-        CR,
+        CR = 21,
         /// <summary>
         /// Cuba
         /// </summary>
-        CU,
+        CU = 22,
         /// <summary>
         /// Cyprus
         /// </summary>
-        CY,
+        CY = 23,
         /// <summary>
         /// Czech Republic
         /// </summary>
-        CZ,
+        CZ = 24,
         /// <summary>
         /// Germany
         /// </summary>
-        DE,
+        DE = 25,
         /// <summary>
         /// Denmark
         /// </summary>
-        DK,
+        DK = 26,
         /// <summary>
         /// Dominica Republic
         /// </summary>
-        DO,
+        DO = 27,
         /// <summary>
         /// Ecuador
         /// </summary>
-        EC,
+        EC = 28,
         /// <summary>
         /// Estonia
         /// </summary>
-        EE,
+        EE = 29,
         /// <summary>
         /// Spain
         /// </summary>
-        ES,
+        ES = 30,
         /// <summary>
         /// Finland
         /// </summary>
-        FI,
+        FI = 31,
         /// <summary>
         /// Faroe Islands
         /// </summary>
-        FO,
+        FO = 32,
         /// <summary>
         /// France
         /// </summary>
-        FR,
+        FR = 33,
         /// <summary>
         /// Great Britain
         /// </summary>
-        GB,
+        GB = 34,
         /// <summary>
         /// Georgia
         /// </summary>
-        GE,
+        GE = 35,
         /// <summary>
         /// Greece
         /// </summary>
-        GR,
+        GR = 36,
         /// <summary>
         /// Guatemala
         /// </summary>
-        GT,
+        GT = 37,
         /// <summary>
         /// Hong Kong
         /// </summary>
-        HK,
+        HK = 38,
         /// <summary>
         /// Croatia
         /// </summary>
-        HR,
+        HR = 39,
         /// <summary>
         /// Hungary
         /// </summary>
-        HU,
+        HU = 40,
         /// <summary>
         /// Indonesia
         /// </summary>
-        ID,
+        ID = 41,
         /// <summary>
         /// Ireland
         /// </summary>
-        IE,
+        IE = 42,
         /// <summary>
         /// Israel
         /// </summary>
-        IL,
+        IL = 43,
         /// <summary>
         /// India
         /// </summary>
-        IN,
+        IN = 44,
         /// <summary>
         /// Iceland
         /// </summary>
-        IS,
+        IS = 45,
         /// <summary>
         /// Italy
         /// </summary>
-        IT,
+        IT = 46,
         /// <summary>
         /// Japan
         /// </summary>
-        JP,
+        JP = 47,
         /// <summary>
         /// Korea
         /// </summary>
-        KR,
+        KR = 48,
         /// <summary>
         /// Kazahstan
         /// </summary>
-        KZ,
+        KZ = 49,
         /// <summary>
         /// Lithuania
         /// </summary>
-        LT,
+        LT = 50,
         /// <summary>
         /// Luxembourg
         /// </summary>
-        LU,
+        LU = 51,
         /// <summary>
         /// Latvia
         /// </summary>
-        LV,
+        LV = 52,
         /// <summary>
         /// Monaco
         /// </summary>
-        MC,
+        MC = 53,
         /// <summary>
         /// Moldova
         /// </summary>
-        MD,
+        MD = 54,
         /// <summary>
         /// Montenegro
         /// </summary>
-        ME,
+        ME = 55,
         /// <summary>
         /// North Macedonia
         /// </summary>
-        MK,
+        MK = 56,
         /// <summary>
         /// Malta
         /// </summary>
-        MT,
+        MT = 57,
         /// <summary>
         /// Mauritius
         /// </summary>
-        MU,
+        MU = 58,
         /// <summary>
         /// summary
         /// </summary>
-        MX,
+        MX = 59,
         /// <summary>
         /// Malaysia
         /// </summary>
-        MY,
+        MY = 60,
         /// <summary>
         /// Nigeria
         /// </summary>
-        NG,
+        NG = 61,
         /// <summary>
         /// Netherlands
         /// </summary>
-        NL,
+        NL = 62,
         /// <summary>
         /// Norway
         /// </summary>
-        NO,
+        NO = 63,
         /// <summary>
         /// New Zealand
         /// </summary>
-        NZ,
+        NZ = 64,
         /// <summary>
         /// Peru
         /// </summary>
-        PE,
+        PE = 65,
         /// <summary>
         /// Philippines
         /// </summary>
-        PH,
+        PH = 66,
         /// <summary>
         /// Pakistan
         /// </summary>
-        PK,
+        PK = 67,
         /// <summary>
         /// Poland
         /// </summary>
-        PL,
+        PL = 68,
         /// <summary>
         /// Portugal
         /// </summary>
-        PT,
+        PT = 69,
         /// <summary>
         /// Paraguay
         /// </summary>
-        PY,
+        PY = 70,
         /// <summary>
         /// Romania
         /// </summary>
-        RO,
+        RO = 71,
         /// <summary>
         /// Serbia
         /// </summary>
-        RS,
+        RS = 72,
         /// <summary>
         /// Russia
         /// </summary>
-        RU,
+        RU = 73,
         /// <summary>
         /// Sweden
         /// </summary>
-        SE,
+        SE = 74,
         /// <summary>
         /// Slovenia
         /// </summary>
-        SI,
+        SI = 75,
         /// <summary>
         /// Slovakia
         /// </summary>
-        SK,
+        SK = 76,
         /// <summary>
         /// San Marino
         /// </summary>
-        SM,
+        SM = 77,
         /// <summary>
         /// El Salvador
         /// </summary>
-        SV,
+        SV = 78,
         /// <summary>
         /// Thailand
         /// </summary>
-        TH,
+        TH = 79,
         /// <summary>
         /// Turkey
         /// </summary>
-        TR,
+        TR = 80,
         /// <summary>
         /// Taiwan
         /// </summary>
-        TW,
+        TW = 81,
         /// <summary>
         /// Ukraine
         /// </summary>
-        UA,
+        UA = 82,
         /// <summary>
         /// United States
         /// </summary>
-        US,
+        US = 83,
         /// <summary>
         /// Uruguay
         /// </summary>
-        UY,
+        UY = 84,
         /// <summary>
         /// Uzbekistan
         /// </summary>
-        UZ,
+        UZ = 85,
         /// <summary>
         /// Venezuela
         /// </summary>
-        VE,
+        VE = 86,
         /// <summary>
         /// South Africa
         /// </summary>
-        ZA,
+        ZA = 87,
     }
 }
