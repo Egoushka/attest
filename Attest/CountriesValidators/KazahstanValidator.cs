@@ -17,7 +17,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateEntity(string id)
         {
             id = id.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(id, @"^\d{12}$"))
+            if (!Regex.IsMatch(id, @"^[0-9]{12}$"))
             {
                 return ValidationResult.InvalidFormat("123456789012");
             }
@@ -32,7 +32,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
             ssn = ssn.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(ssn, @"^\d{12}$"))
+            if (!Regex.IsMatch(ssn, @"^[0-9]{12}$"))
             {
                 return ValidationResult.InvalidFormat("123456789012");
             }
@@ -97,7 +97,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{6}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{6}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNNN");
             }

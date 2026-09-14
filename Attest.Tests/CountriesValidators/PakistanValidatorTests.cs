@@ -1,5 +1,6 @@
 ﻿using Attest.Countries;
 using System;
+using Attest;
 using Xunit;
 
 namespace Attest.Tests
@@ -54,7 +55,7 @@ namespace Attest.Tests
         [InlineData(null)]
         public void TestEntityIsNotSupported(string code)
         {
-            Assert.Throws<NotSupportedException>(() => _pakistanValidator.ValidateEntity(code));
+            AssertNotSupported(_pakistanValidator.ValidateEntity(code));
         }
 
         [Theory]
@@ -62,7 +63,7 @@ namespace Attest.Tests
         [InlineData(null)]
         public void TestVatIsNotSupported(string code)
         {
-            Assert.Throws<NotSupportedException>(() => _pakistanValidator.ValidateVAT(code));
+            AssertNotSupported(_pakistanValidator.ValidateVAT(code));
         }
 
         [Theory]
@@ -78,5 +79,16 @@ namespace Attest.Tests
         {
             Assert.Equal(isValid, _pakistanValidator.ValidatePostalCode(code).IsValid);
         }
+
+        /// <summary>
+        /// A kind the country has no rule for is answered, not thrown at. It used to throw
+        /// NotSupportedException, which escaped to anyone calling the validator class directly.
+        /// </summary>
+        private static void AssertNotSupported(ValidationResult result)
+        {
+            Assert.False(result.IsValid);
+            Assert.Equal("Not supported", result.ErrorMessage);
+        }
+
     }
 }

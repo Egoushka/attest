@@ -49,7 +49,7 @@ namespace Attest.Countries
             num = num.RemoveSpecialCharacthers();
             // Aadhaar is 12 digits, never starts with 0 or 1, and ends with a Verhoeff check digit.
             // https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.in_.aadhaar.html
-            if (!Regex.IsMatch(num, @"^[2-9]\d{11}$"))
+            if (!Regex.IsMatch(num, @"^[2-9][0-9]{11}$"))
             {
                 return ValidationResult.InvalidFormat("234123412346");
             }
@@ -134,7 +134,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateVAT(string vatId)
         {
             vatId = vatId.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(vatId, @"^\d{11}[CcVv]$"))
+            if (!Regex.IsMatch(vatId, @"^[0-9]{11}[CcVv]$"))
             {
                 return ValidationResult.InvalidFormat("12345678901C");
             }
@@ -155,7 +155,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{6}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{6}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNNN or NNN NNN");
             }

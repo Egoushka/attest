@@ -72,7 +72,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateEntity(string id)
         {
             id = id.RemoveSpecialCharacthers();
-            if (string.IsNullOrEmpty(id) || !id.All(char.IsDigit))
+            if (string.IsNullOrEmpty(id) || !id.IsAsciiDigits())
             {
                 return ValidationResult.Invalid("Invalid format. Only numbers are allowed");
             }
@@ -291,7 +291,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateIndividualTaxCode(string id)
         {
             id = id.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(id, @"^\d{11}$"))
+            if (!Regex.IsMatch(id, @"^[0-9]{11}$"))
             {
                 return ValidationResult.InvalidFormat("01234567890");
             }
@@ -353,7 +353,7 @@ namespace Attest.Countries
         {
             vatId = vatId.RemoveSpecialCharacthers();
             vatId = vatId.StripPrefix("DE");
-            if (!Regex.IsMatch(vatId, @"^[1-9]\d{8}$"))
+            if (!Regex.IsMatch(vatId, @"^[1-9][0-9]{8}$"))
             {
                 return ValidationResult.InvalidFormat("123456789");
             }
@@ -382,7 +382,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{5}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{5}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNN");
             }

@@ -13,7 +13,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateEntity(string number)
         {
             number = number.RemoveSpecialCharacthers();
-            if (!number.All(char.IsDigit))
+            if (!number.IsAsciiDigits())
             {
                 return ValidationResult.InvalidFormat("1234567890123");
             }
@@ -37,7 +37,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
             ssn = ssn.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(ssn, @"^\d{13}$"))
+            if (!Regex.IsMatch(ssn, @"^[0-9]{13}$"))
             {
                 return ValidationResult.InvalidFormat("1234567890123");
             }
@@ -63,7 +63,7 @@ namespace Attest.Countries
             // Seven digits, optionally prefixed with MD, for example MD9234564.
             // https://www.vatify.eu/moldova-vat-number.html
             vatId = vatId.RemoveSpecialCharacthers().ToUpperInvariant().StripPrefix("MD");
-            if (!Regex.IsMatch(vatId, @"^\d{7}$"))
+            if (!Regex.IsMatch(vatId, @"^[0-9]{7}$"))
             {
                 return ValidationResult.InvalidFormat("1234567");
             }
@@ -88,7 +88,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^[Mm][Dd][-]{0,1}\\d{4}$"))
+            if (!Regex.IsMatch(postalCode, "^[Mm][Dd][-]{0,1}[0-9]{4}$"))
             {
                 return ValidationResult.InvalidFormat("CCNNNN CC-NNNN");
             }

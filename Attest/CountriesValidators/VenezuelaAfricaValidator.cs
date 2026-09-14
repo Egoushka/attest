@@ -70,7 +70,7 @@ namespace Attest.Countries
             postalCode = postalCode.RemoveSpecialCharacthers();
             // Four digits plus the optional letter that marks a sub area, as in 1010-A. The
             // separator is already gone by this point, so the pattern must not ask for one.
-            if (!Regex.IsMatch(postalCode, "^\\d{4}[a-zA-Z]?$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{4}[a-zA-Z]?$"))
             {
                 return ValidationResult.InvalidFormat("NNNN or NNNN A");
             }

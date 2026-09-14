@@ -51,7 +51,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateIndividualTaxCode(string number)
         {
             number = number.RemoveSpecialCharacthers();
-            if (!(number.All(char.IsDigit) || !int.TryParse(number, out var parsedNum) || parsedNum <= 0 ))
+            if (!(number.IsAsciiDigits() || !int.TryParse(number, out var parsedNum) || parsedNum <= 0 ))
             {
                 return ValidationResult.Invalid("Invalid format. Only digits are allowed");
             }
@@ -75,7 +75,7 @@ namespace Attest.Countries
         {
             number = number.RemoveSpecialCharacthers();
 
-            if (!number.All(char.IsDigit) || !int.TryParse(number, out var parsedNum) || parsedNum <= 0)
+            if (!number.IsAsciiDigits() || !int.TryParse(number, out var parsedNum) || parsedNum <= 0)
             {
                 return ValidationResult.InvalidFormat("1034.56.789");
             }
@@ -115,7 +115,7 @@ namespace Attest.Countries
             vatId = vatId.RemoveSpecialCharacthers();
             vatId = vatId?.StripPrefix("NL");
 
-            if (!Regex.IsMatch(vatId, @"^\d{9}B\d{2}$"))
+            if (!Regex.IsMatch(vatId, @"^[0-9]{9}B[0-9]{2}$"))
             {
                 return ValidationResult.Invalid("Invalid format");
             }
@@ -137,7 +137,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers().ToUpperInvariant();
-            if (!Regex.IsMatch(postalCode, "^\\d{4}[A-Z]{2}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{4}[A-Z]{2}$"))
             {
                 return ValidationResult.InvalidFormat("NNNN WW");
             }

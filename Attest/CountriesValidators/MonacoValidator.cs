@@ -10,14 +10,20 @@ namespace Attest.Countries
             CountryCode = nameof(Country.MC);
         }
 
+        /// <summary>The kinds MC has no published rule for.</summary>
+        internal override IdentifierKind UnsupportedKinds
+        {
+            get { return IdentifierKind.CompanyNumber | IdentifierKind.PersonalId | IdentifierKind.PersonalTaxCode; }
+        }
+
         public override ValidationResult ValidateEntity(string id)
         {
-            throw new NotSupportedException();
+            return ValidationResult.Invalid("Not supported");
         }
 
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
-            throw new NotSupportedException();
+            return ValidationResult.Invalid("Not supported");
         }
 
         public override ValidationResult ValidateVAT(string number)
@@ -43,7 +49,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^980\\d{2}$"))
+            if (!Regex.IsMatch(postalCode, "^980[0-9]{2}$"))
             {
                 return ValidationResult.InvalidFormat("980NN");
             }

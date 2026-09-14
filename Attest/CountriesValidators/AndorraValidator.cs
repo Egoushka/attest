@@ -81,7 +81,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^[Aa][Dd]\\d{3}$"))
+            if (!Regex.IsMatch(postalCode, "^[Aa][Dd][0-9]{3}$"))
             {
                 return ValidationResult.InvalidFormat("CCNNN");
             }
@@ -106,7 +106,7 @@ namespace Attest.Countries
             {
                 return ValidationResult.Invalid("Invalid format. First and last character must be letters");
             }
-            else if (!id.Substring(1, 6).All(char.IsDigit))
+            else if (!id.Substring(1, 6).IsAsciiDigits())
             {
                 return ValidationResult.InvalidFormat("F-123456-Z");
             }

@@ -81,7 +81,7 @@ namespace Attest.Countries
             vatId = vatId.RemoveSpecialCharacthers().ToUpperInvariant().StripPrefix("FI");
             int[] multipliers = { 7, 9, 10, 5, 8, 4, 2 };
 
-            if (!Regex.IsMatch(vatId, @"^\d{8}$"))
+            if (!Regex.IsMatch(vatId, @"^[0-9]{8}$"))
             {
                 return ValidationResult.InvalidFormat("12345678");
             }
@@ -108,7 +108,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{5}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{5}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNN");
             }

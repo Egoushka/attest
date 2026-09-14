@@ -19,7 +19,7 @@ namespace Attest.Countries
         {
             value = value.RemoveSpecialCharacthers();
 
-            if (!Regex.IsMatch(value, @"^\d{13}$"))
+            if (!Regex.IsMatch(value, @"^[0-9]{13}$"))
             {
                 return ValidationResult.InvalidFormat("1234567890123");
             }
@@ -104,7 +104,7 @@ namespace Attest.Countries
             vatId = vatId.RemoveSpecialCharacthers();
             vatId = vatId.StripPrefix("SI");
 
-            if (!Regex.IsMatch(vatId, @"^[1-9]\d{7}$"))
+            if (!Regex.IsMatch(vatId, @"^[1-9][0-9]{7}$"))
             {
                 return ValidationResult.InvalidFormat("12345678");
             }
@@ -131,7 +131,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers().ToUpperInvariant().StripPrefix("SI");
-            if (!Regex.IsMatch(postalCode, "^\\d{4}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{4}$"))
             {
                 return ValidationResult.InvalidFormat("NNNN");
             }

@@ -40,7 +40,7 @@ namespace Attest.Countries
             {
                 return ValidationResult.InvalidLength();
             }
-            else if (!number.All(char.IsDigit))
+            else if (!number.IsAsciiDigits())
             {
                 return ValidationResult.InvalidFormat("1234567890123");
             }
@@ -61,7 +61,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
             ssn = ssn.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(ssn, @"^\d{12}$"))
+            if (!Regex.IsMatch(ssn, @"^[0-9]{12}$"))
             {
                 return ValidationResult.InvalidFormat("123456789012");
             }
@@ -117,7 +117,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{7}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{7}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNNNN or NNN-NNNN");
             }

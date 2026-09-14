@@ -4,7 +4,7 @@ namespace Attest.Countries
 {
     public class BulgariaValidator : IdValidationAbstract
     {
-        private static readonly Regex RegexPhysicalPerson = new Regex(@"^\d\d[0-5]\d[0-3]\d\d{4}$");
+        private static readonly Regex RegexPhysicalPerson = new Regex(@"^[0-9][0-9][0-5][0-9][0-3][0-9][0-9]{4}$");
         private static readonly int[] _multipliersPhysicalPerson = { 2, 4, 8, 5, 10, 9, 7, 3, 6 };
         private static readonly int[] MultipliersForeignPhysicalPerson = { 21, 19, 17, 13, 11, 9, 7, 3, 1 };
         private static readonly int[] MultipliersMiscellaneous = { 4, 3, 2, 7, 6, 5, 4, 3, 2 };
@@ -67,7 +67,7 @@ namespace Attest.Countries
         {
             vatId = vatId.RemoveSpecialCharacthers();
             vatId = vatId.StripPrefix("BG");
-            if (!Regex.IsMatch(vatId, @"^\d{9,10}$"))
+            if (!Regex.IsMatch(vatId, @"^[0-9]{9,10}$"))
             {
                 return ValidationResult.InvalidFormat("123456789, 1234567890");
             }
@@ -174,7 +174,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{4}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{4}$"))
             {
                 return ValidationResult.InvalidFormat("NNNN");
             }

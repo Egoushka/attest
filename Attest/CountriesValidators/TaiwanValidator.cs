@@ -115,7 +115,7 @@ namespace Attest.Countries
             // pre-2021 form has a second letter A-D worth its position in the table above, which
             // is the units digit of its code (A=10 -> 0 ... D=13 -> 3).
             // https://www.cna.com.tw/news/asoc/202012160106.aspx (worked example A800000014)
-            weightedSum += (char.IsDigit(ssn[1]) ? ssn[1].ToInt() : letters.IndexOf(ssn[1])) * (idLen - 2);
+            weightedSum += (ssn[1].IsAsciiDigit() ? ssn[1].ToInt() : letters.IndexOf(ssn[1])) * (idLen - 2);
             string idTail = ssn.Substring(2);
 
             int weight = idLen - 3;
@@ -148,7 +148,7 @@ namespace Attest.Countries
             // delivery segment from two to three digits on 2020-03-03 and all three lengths
             // remain in use. https://www.cna.com.tw/news/firstnews/202003020346.aspx
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{3}(\\d{2,3})?$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{3}([0-9]{2,3})?$"))
             {
                 return ValidationResult.InvalidFormat("NNN, NNNNN or NNNNNN");
             }

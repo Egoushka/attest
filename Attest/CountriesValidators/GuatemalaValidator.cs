@@ -11,8 +11,19 @@ namespace Attest.Countries
             CountryCode = nameof(Country.GT);
         }
 
+        /// <summary>The kinds GT has no published rule for.</summary>
+        internal override IdentifierKind UnsupportedKinds
+        {
+            get { return IdentifierKind.PersonalId | IdentifierKind.PersonalTaxCode; }
+        }
+
         public string CalculateChecksum(string number)
         {
+            if (number == null)
+            {
+                return string.Empty;
+            }
+
             int sum = 0;
 
             char[] charArray = number.ToCharArray();
@@ -54,11 +65,11 @@ namespace Attest.Countries
             {
                 return ValidationResult.InvalidLength();
             }
-            else if (!id.Substring(0, id.Length - 1).All(char.IsDigit))
+            else if (!id.Substring(0, id.Length - 1).IsAsciiDigits())
             {
                 return ValidationResult.Invalid("Invalid format");
             }
-            else if (id[id.Length - 1] != 'K' && !char.IsDigit(id[id.Length - 1]))
+            else if (id[id.Length - 1] != 'K' && !id[id.Length - 1].IsAsciiDigit())
             {
                 return ValidationResult.Invalid("Invalid format");
             }
@@ -95,7 +106,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{5}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{5}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNN");
             }

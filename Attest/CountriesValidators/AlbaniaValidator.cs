@@ -33,7 +33,7 @@ namespace Attest.Countries
             {
                 return ValidationResult.InvalidLength();
             }
-            else if (!Regex.IsMatch(ssn, @"^[A-O]\d(0[1-9]|1[0-2]|5[1-9]|6[0-2])(0?[1-9]|[1-3][0-9]|4[0-2])\d{3}\w$"))
+            else if (!Regex.IsMatch(ssn, @"^[A-O][0-9](0[1-9]|1[0-2]|5[1-9]|6[0-2])(0?[1-9]|[1-3][0-9]|4[0-2])[0-9]{3}\w$"))
             {
                 return ValidationResult.InvalidFormat("YYMMDDSSSC");
             }
@@ -75,7 +75,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{4}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{4}$"))
             {
                 return ValidationResult.InvalidFormat("NNNN");
             }

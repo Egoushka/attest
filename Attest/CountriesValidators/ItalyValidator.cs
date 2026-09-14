@@ -8,7 +8,7 @@ namespace Attest.Countries
     {
         private static readonly string OmocodeChars = "LMNPQRSTUV";
         private static readonly int[] ControlCodeArray = new[] { 1, 0, 5, 7, 9, 13, 15, 17, 19, 21, 2, 4, 18, 20, 11, 3, 6, 8, 12, 14, 16, 10, 22, 25, 24, 23 };
-        private static readonly Regex CheckRegex = new Regex(@"^[A-Z]{6}[\d]{2}[A-Z][\d]{2}[A-Z][\d]{3}[A-Z]$");
+        private static readonly Regex CheckRegex = new Regex(@"^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$");
 
         public ItalyValidator()
         {
@@ -30,7 +30,7 @@ namespace Attest.Countries
                 string nonOmocodeFC = ReplaceOmocodeChars(ssn);
                 if (!CheckRegex.Match(nonOmocodeFC).Success)
                 {
-                    return ValidationResult.Invalid("");
+                    return ValidationResult.InvalidFormat("RCCMNL83S18D969H");
                 }
             }
             bool isValid = ssn[15] == GetControlChar(ssn.Substring(0, 15));
@@ -93,7 +93,7 @@ namespace Attest.Countries
             vat = vat.RemoveSpecialCharacthers();
             vat = vat.StripPrefix("IT");
 
-            if (!Regex.IsMatch(vat, @"^\d{11}$"))
+            if (!Regex.IsMatch(vat, @"^[0-9]{11}$"))
             {
                 return ValidationResult.InvalidFormat("12345678901");
             }
@@ -143,7 +143,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{5}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{5}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNN");
             }

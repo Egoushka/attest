@@ -7,6 +7,17 @@ namespace Attest.Countries
 {
     public class ChinaValidator : IdValidationAbstract
     {
+        public ChinaValidator()
+        {
+            CountryCode = nameof(Country.CN);
+        }
+
+        /// <summary>The kinds CN has no published rule for.</summary>
+        internal override IdentifierKind UnsupportedKinds
+        {
+            get { return IdentifierKind.Vat; }
+        }
+
         static readonly Dictionary<char, int> charToNumDict = new Dictionary<char, int>();
         static ChinaValidator()
         {
@@ -175,13 +186,13 @@ namespace Attest.Countries
 
         public override ValidationResult ValidateVAT(string vatId)
         {
-            throw new NotSupportedException();
+            return ValidationResult.Invalid("Not supported");
         }
 
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{6}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{6}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNNN");
             }

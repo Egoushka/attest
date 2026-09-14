@@ -19,7 +19,7 @@ namespace Attest.Countries
                 return ValidationResult.Invalid("Invalid length. The code must have 9 or 10 digits");
             }
 
-            if (!Regex.IsMatch(id, @"^\d{9,10}$"))
+            if (!Regex.IsMatch(id, @"^[0-9]{9,10}$"))
             {
                 return ValidationResult.InvalidFormat("YYMMDDNNN(N)");
             }
@@ -142,7 +142,7 @@ namespace Attest.Countries
             var multipliers = new int[] { 8, 7, 6, 5, 4, 3, 2 };
 
 
-            if (Regex.IsMatch(vatId, @"^\d{8}$"))
+            if (Regex.IsMatch(vatId, @"^[0-9]{8}$"))
             {
 
                 for (int i = 0; i < 7; i++)
@@ -163,7 +163,7 @@ namespace Attest.Countries
                     return ValidationResult.InvalidChecksum();
                 }
             }
-            else if (Regex.IsMatch(vatId, @"^[0-5][0-9][0|1|5|6][0-9][0-3][0-9]\d{3}$"))
+            else if (Regex.IsMatch(vatId, @"^[0-5][0-9][0|1|5|6][0-9][0-3][0-9][0-9]{3}$"))
             {
                 var temp = int.Parse(vatId.Substring(0, 2));
                 if (temp > 62)
@@ -173,7 +173,7 @@ namespace Attest.Countries
 
                 return ValidationResult.Success();
             }
-            else if (Regex.IsMatch(vatId, @"^6\d{8}$"))
+            else if (Regex.IsMatch(vatId, @"^6[0-9]{8}$"))
             {
 
                 for (int i = 0; i < 7; i++)
@@ -202,7 +202,7 @@ namespace Attest.Countries
                     return ValidationResult.InvalidChecksum();
                 }
             }
-            else if (Regex.IsMatch(vatId, @"^\d{2}[0-3|5-8][0-9][0-3][0-9]\d{4}$"))
+            else if (Regex.IsMatch(vatId, @"^[0-9]{2}[0-3|5-8][0-9][0-3][0-9][0-9]{4}$"))
             {
                 var temp = int.Parse(vatId.Substring(0, 2)) + int.Parse(vatId.Substring(2, 2))
                     + int.Parse(vatId.Substring(4, 2)) + int.Parse(vatId.Substring(6, 2))
@@ -224,7 +224,7 @@ namespace Attest.Countries
             postalCode = postalCode.RemoveSpecialCharacthers();
             // The Czech PSC is always five digits, written NNN NN.
             // https://en.wikipedia.org/wiki/Postal_codes_in_the_Czech_Republic
-            if (!Regex.IsMatch(postalCode, "^\\d{5}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{5}$"))
             {
                 return ValidationResult.InvalidFormat("NNN NN");
             }

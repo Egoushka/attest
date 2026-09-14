@@ -22,7 +22,7 @@ namespace Attest.Countries
             {
                 return ValidationResult.InvalidLength();
             }
-            if (!Regex.IsMatch(id, @"^\d{9}$"))
+            if (!Regex.IsMatch(id, @"^[0-9]{9}$"))
             {
                 return ValidationResult.InvalidFormat("123456789");
             }
@@ -38,7 +38,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateIndividualTaxCode(string id)
         {
             id = id.RemoveSpecialCharacthers().ToUpperInvariant();
-            if (Regex.IsMatch(id, @"^\d{9}$"))
+            if (Regex.IsMatch(id, @"^[0-9]{9}$"))
             {
                 return ValidationResult.Success();
             }
@@ -48,7 +48,7 @@ namespace Attest.Countries
             }
             // The first four digits may be omitted when they are zero, but the stored form is always 8 characters.
             id = id.PadLeft(8, '0');
-            if (!Regex.IsMatch(id, @"^\d{7}[MGAPLHBZ]$"))
+            if (!Regex.IsMatch(id, @"^[0-9]{7}[MGAPLHBZ]$"))
             {
                 return ValidationResult.InvalidFormat("1234567M");
             }
@@ -72,7 +72,7 @@ namespace Attest.Countries
         {
             vatId = vatId.RemoveSpecialCharacthers().ToUpperInvariant();
             vatId = vatId.StripPrefix("MT");
-            if (!Regex.IsMatch(vatId, @"^[1-9]\d{7}$"))
+            if (!Regex.IsMatch(vatId, @"^[1-9][0-9]{7}$"))
             {
                 return ValidationResult.InvalidFormat("12345678");
             }
@@ -93,7 +93,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers().ToUpperInvariant();
-            if (!Regex.IsMatch(postalCode, @"^[A-Z]{3}\d{4}$"))
+            if (!Regex.IsMatch(postalCode, @"^[A-Z]{3}[0-9]{4}$"))
             {
                 return ValidationResult.InvalidFormat("AAANNNN OR (AAA NNNN)");
             }

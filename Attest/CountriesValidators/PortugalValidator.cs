@@ -98,7 +98,7 @@ namespace Attest.Countries
             nif = nif.StripPrefix("PT");
             int[] multipliers = { 9, 8, 7, 6, 5, 4, 3, 2 };
 
-            if (!Regex.IsMatch(nif, @"^\d{9}$"))
+            if (!Regex.IsMatch(nif, @"^[0-9]{9}$"))
             {
                 return ValidationResult.InvalidFormat("123456789");
 
@@ -122,6 +122,11 @@ namespace Attest.Countries
 
         public int CheckSum(string value)
         {
+            if (value == null)
+            {
+                return -1;
+            }
+
             var sum = 0;
 
             for (var i = 0; i < value.Length; i++)
@@ -146,7 +151,7 @@ namespace Attest.Countries
             {
                 return ValidationResult.InvalidLength();
             }
-            else if (!value.All(char.IsDigit))
+            else if (!value.IsAsciiDigits())
             {
                 return ValidationResult.InvalidFormat("123456789");
             }
@@ -173,7 +178,7 @@ namespace Attest.Countries
             {
                 return ValidationResult.InvalidLength();
             }
-            else if (!Regex.IsMatch(value, @"^\d{9}[A-Z0-9]{2}\d$"))
+            else if (!Regex.IsMatch(value, @"^[0-9]{9}[A-Z0-9]{2}[0-9]$"))
             {
                 return ValidationResult.InvalidFormat("123456789ZZ1");
             }
@@ -237,7 +242,7 @@ namespace Attest.Countries
             // 6 Beira Interior, 7 Alentejo, 8 Algarve, 9 Madeira e Acores - so there is no 0 range.
             // https://en.wikipedia.org/wiki/Postal_codes_in_Portugal
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^[1-9]\\d{6}$"))
+            if (!Regex.IsMatch(postalCode, "^[1-9][0-9]{6}$"))
             {
                 return ValidationResult.InvalidFormat("NNNN-NNN");
             }

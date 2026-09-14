@@ -10,9 +10,15 @@ namespace Attest.Countries
         {
             CountryCode = nameof(Country.KR);
         }
+
+        /// <summary>The kinds KR has no published rule for.</summary>
+        internal override IdentifierKind UnsupportedKinds
+        {
+            get { return IdentifierKind.CompanyNumber | IdentifierKind.Vat; }
+        }
         public override ValidationResult ValidateEntity(string id)
         {
-            throw new NotSupportedException();
+            return ValidationResult.Invalid("Not supported");
 
         }
 
@@ -106,13 +112,13 @@ namespace Attest.Countries
 
         public override ValidationResult ValidateVAT(string vatId)
         {
-            throw new NotSupportedException();
+            return ValidationResult.Invalid("Not supported");
         }
 
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{5}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{5}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNN");
             }

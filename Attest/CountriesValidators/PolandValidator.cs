@@ -24,7 +24,7 @@ namespace Attest.Countries
             int peselMonth, peselDay, peselYear, peselChecksum;
 
             pesel = pesel.RemoveSpecialCharacthers();
-            if (string.IsNullOrWhiteSpace(pesel) || pesel.Length != 11 || !pesel.All(char.IsDigit))
+            if (string.IsNullOrWhiteSpace(pesel) || pesel.Length != 11 || !pesel.IsAsciiDigits())
             {
                 return ValidationResult.InvalidFormat("12345678901");
             }
@@ -74,7 +74,7 @@ namespace Attest.Countries
         public override ValidationResult ValidateEntity(string number)
         {
             number = number.RemoveSpecialCharacthers();
-            if (!number.All(char.IsDigit))
+            if (!number.IsAsciiDigits())
             {
                 return ValidationResult.InvalidFormat("Invalid code. Only numbers are allowed");
             }
@@ -104,7 +104,7 @@ namespace Attest.Countries
             vatId = vatId.RemoveSpecialCharacthers();
             vatId = vatId.StripPrefix("PL");
 
-            if (!Regex.IsMatch(vatId, @"^\d{10}$"))
+            if (!Regex.IsMatch(vatId, @"^[0-9]{10}$"))
             {
                 return ValidationResult.InvalidFormat("1234567890");
             }
@@ -225,7 +225,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{5}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{5}$"))
             {
                 return ValidationResult.InvalidFormat("NN-NNN");
             }

@@ -16,7 +16,7 @@ namespace Attest.Countries
             // so only the format can be verified.
             // https://learn.microsoft.com/en-us/purview/sit-defn-cyprus-identity-card
             ssn = ssn.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(ssn, @"^\d{10}$"))
+            if (!Regex.IsMatch(ssn, @"^[0-9]{10}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNNNNNNN");
             }
@@ -30,7 +30,7 @@ namespace Attest.Countries
             // https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.cy.vat.html
             id = id.RemoveSpecialCharacthers().ToUpperInvariant().StripPrefix("CY");
 
-            if (!Regex.IsMatch(id, @"^\d{8}[A-Z]$"))
+            if (!Regex.IsMatch(id, @"^[0-9]{8}[A-Z]$"))
             {
                 return ValidationResult.InvalidFormat("NNNNNNNNL");
             }
@@ -95,7 +95,7 @@ namespace Attest.Countries
             // Kyrenia 9000-9999. No code begins with a zero.
             // https://en.wikipedia.org/wiki/Postal_codes_in_Cyprus
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^[1-9]\\d{3}$"))
+            if (!Regex.IsMatch(postalCode, "^[1-9][0-9]{3}$"))
             {
                 return ValidationResult.InvalidFormat("NNNN");
             }

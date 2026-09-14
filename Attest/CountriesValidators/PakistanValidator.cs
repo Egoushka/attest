@@ -11,6 +11,12 @@ namespace Attest.Countries
             CountryCode = nameof(Country.PK);
         }
 
+        /// <summary>The kinds PK has no published rule for.</summary>
+        internal override IdentifierKind UnsupportedKinds
+        {
+            get { return IdentifierKind.CompanyNumber | IdentifierKind.Vat; }
+        }
+
         /// <summary>
         /// The FBR issues a National Tax Number to companies, but publishes no format or check
         /// rule for it, so there is no rule to apply here. CountryValidator answers the caller
@@ -18,7 +24,7 @@ namespace Attest.Countries
         /// </summary>
         public override ValidationResult ValidateEntity(string id)
         {
-            throw new NotSupportedException();
+            return ValidationResult.Invalid("Not supported");
         }
 
         /// <summary>
@@ -46,13 +52,13 @@ namespace Attest.Countries
 
         public override ValidationResult ValidateVAT(string vatId)
         {
-            throw new NotSupportedException();
+            return ValidationResult.Invalid("Not supported");
         }
 
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{5}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{5}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNN");
             }

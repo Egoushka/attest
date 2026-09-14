@@ -87,7 +87,7 @@ namespace Attest.Countries
 
             }
 
-            var strCPF = new string(cpf.Where(c => char.IsDigit(c)).ToArray());
+            var strCPF = new string(cpf.Where(c => c.IsAsciiDigit()).ToArray());
             int sum = 0;
 
             for (var i = 1; i <= 9; i++)

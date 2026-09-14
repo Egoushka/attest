@@ -19,7 +19,7 @@ namespace Attest.Countries
         {
             id = id.RemoveSpecialCharacthers().ToUpperInvariant();
 
-            if (!Regex.IsMatch(id, @"^(\d{7})([A-Za-z]{1,2})$"))
+            if (!Regex.IsMatch(id, @"^([0-9]{7})([A-Za-z]{1,2})$"))
             {
                 return ValidationResult.InvalidFormat("1234567AA or 1234567A");
             }
@@ -58,7 +58,7 @@ namespace Attest.Countries
         {
             ssn = ssn.RemoveSpecialCharacthers().ToUpperInvariant();
 
-            if (!Regex.IsMatch(ssn, @"^(\d{7})([A-Za-z]{1,2})$"))
+            if (!Regex.IsMatch(ssn, @"^([0-9]{7})([A-Za-z]{1,2})$"))
             {
                 return ValidationResult.InvalidFormat("1234567AA or 1234567A");
             }
@@ -93,12 +93,12 @@ namespace Attest.Countries
         public override ValidationResult ValidateVAT(string vatId)
         {
             int[] multipliers = { 8, 7, 6, 5, 4, 3, 2 };
-            if (string.IsNullOrWhiteSpace(vatId) || !Regex.IsMatch(vatId, @"^(?:\d{7}[A-W]|[7-9][A-Z\*\+]\d{5}[A-W]|\d{7}[A-W][AH])$"))
+            if (string.IsNullOrWhiteSpace(vatId) || !Regex.IsMatch(vatId, @"^(?:[0-9]{7}[A-W]|[7-9][A-Z\*\+][0-9]{5}[A-W]|[0-9]{7}[A-W][AH])$"))
             {
                 return ValidationResult.InvalidFormat("Invalid format");
             }
 
-            if (Regex.IsMatch(vatId, @"^\d[A-Z\*\+]"))
+            if (Regex.IsMatch(vatId, @"^[0-9][A-Z\*\+]"))
             {
                 vatId = "0" + vatId.Substring(2, 5)
                           + vatId.Substring(0, 1)
@@ -107,7 +107,7 @@ namespace Attest.Countries
 
             var sum = vatId.Sum(multipliers);
 
-            if (Regex.IsMatch(vatId, @"^\d{7}[A-Z][AH]$"))
+            if (Regex.IsMatch(vatId, @"^[0-9]{7}[A-Z][AH]$"))
             {
                 if (vatId[8] == 'H')
                 {
@@ -129,7 +129,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers().ToUpperInvariant();
-            if (!Regex.IsMatch(postalCode, "^[\\dA-Z]{3}[\\dA-Z]{4}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9A-Z]{3}[0-9A-Z]{4}$"))
             {
                 return ValidationResult.InvalidFormat("WDD WDWD");
             }

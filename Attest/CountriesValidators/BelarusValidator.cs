@@ -34,7 +34,7 @@ namespace Attest.Countries
             id = Normalize(id);
             // Organisations and sole traders are numbered with 9 digits; only individuals get
             // the letter form.
-            if (id.Length < 2 || !id.Substring(0, 2).All(char.IsDigit))
+            if (id.Length < 2 || !id.Substring(0, 2).IsAsciiDigits())
             {
                 return ValidationResult.InvalidFormat("123456789");
             }
@@ -70,11 +70,11 @@ namespace Attest.Countries
             {
                 return ValidationResult.InvalidLength();
             }
-            else if (!number.Substring(2).All(char.IsDigit))
+            else if (!number.Substring(2).IsAsciiDigits())
             {
                 return ValidationResult.InvalidFormat("AA1234567");
             }
-            else if (!number.Substring(0, 2).All(char.IsDigit)
+            else if (!number.Substring(0, 2).IsAsciiDigits()
                 && !number.Substring(0, 2).All(c => LetterPositions.IndexOf(c) >= 0))
             {
                 return ValidationResult.InvalidFormat("AA1234567");
@@ -95,7 +95,7 @@ namespace Attest.Countries
             number = number.ToUpperInvariant();
             string alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             int[] weights = new int[] { 29, 23, 19, 17, 13, 7, 5, 3 };
-            if (!number.All(char.IsDigit))
+            if (!number.IsAsciiDigits())
             {
                 number = string.Format("{0}{1}{2}", number[0], LetterPositions.IndexOf(number[1]), number.Substring(2));
             }
@@ -135,7 +135,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
-            if (!Regex.IsMatch(postalCode, "^\\d{6}$"))
+            if (!Regex.IsMatch(postalCode, "^[0-9]{6}$"))
             {
                 return ValidationResult.InvalidFormat("NNNNNN");
             }

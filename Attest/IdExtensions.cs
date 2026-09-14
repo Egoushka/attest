@@ -61,6 +61,40 @@ namespace Attest
         }
 
         /// <summary>
+        /// Whether every character is an ASCII digit. An empty string is vacuously true, which is
+        /// what <c>All(char.IsDigit)</c> returned; a null value is false rather than a throw.
+        /// </summary>
+        /// <remarks>
+        /// char.IsDigit matches every Unicode decimal digit — Arabic-Indic, Devanagari, fullwidth —
+        /// while int.Parse accepts only ASCII. A guard written with one and a parse written with the
+        /// other either throws or, where char.GetNumericValue follows instead, silently validates a
+        /// number no register ever issued.
+        /// </remarks>
+        internal static bool IsAsciiDigits(this string value)
+        {
+            if (value == null)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < value.Length; i++)
+            {
+                if (!value[i].IsAsciiDigit())
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>Whether the character is one of 0-9, and not merely a Unicode decimal digit.</summary>
+        internal static bool IsAsciiDigit(this char c)
+        {
+            return c >= '0' && c <= '9';
+        }
+
+        /// <summary>
         /// Removes <paramref name="prefix"/> from the start of the value, and only from the start.
         /// </summary>
         /// <remarks>

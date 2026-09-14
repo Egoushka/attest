@@ -50,7 +50,7 @@ namespace Attest.Countries
         public ValidationResult ValidateNHS(string ssn)
         {
             ssn = ssn.RemoveSpecialCharacthers();
-            if (ssn.Length != 10 || !ssn.All(char.IsDigit))
+            if (ssn.Length != 10 || !ssn.IsAsciiDigits())
             {
                 return ValidationResult.InvalidFormat("1234567890");
             }
@@ -88,7 +88,7 @@ namespace Attest.Countries
 
             //GD + 3 digits for government departments, HA + 3 digits for health authorities,
             //9 digits for everyone else. https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.gb.vat.html
-            if (!Regex.IsMatch(vatId, "^(GD|HA)\\d{3}$|^\\d{9}$"))
+            if (!Regex.IsMatch(vatId, "^(GD|HA)[0-9]{3}$|^[0-9]{9}$"))
             {
                 return ValidationResult.InvalidFormat("123456789");
             }
@@ -144,7 +144,7 @@ namespace Attest.Countries
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers().ToUpperInvariant();
-            if (!Regex.IsMatch(postalCode, "^(?:GIR0AA|(?:AB|AL|B|BA|BB|BD|BH|BL|BN|BR|BS|BT|BX|CA|CB|CF|CH|CM|CO|CR|CT|CV|CW|DA|DD|DE|DG|DH|DL|DN|DT|DY|E|EC|EH|EN|EX|FK|FY|G|GL|GY|GU|HA|HD|HG|HP|HR|HS|HU|HX|IG|IM|IP|IV|JE|KA|KT|KW|KY|L|LA|LD|LE|LL|LN|LS|LU|M|ME|MK|ML|N|NE|NG|NN|NP|NR|NW|OL|OX|PA|PE|PH|PL|PO|PR|RG|RH|RM|S|SA|SE|SG|SK|SL|SM|SN|SO|SP|SR|SS|ST|SW|SY|TA|TD|TF|TN|TQ|TR|TS|TW|UB|W|WA|WC|WD|WF|WN|WR|WS|WV|YO|ZE)\\d[\\dA-Z]?\\d[ABD-HJLN-UW-Z]{2}|BFPO\\d{1,4})$"))
+            if (!Regex.IsMatch(postalCode, "^(?:GIR0AA|(?:AB|AL|B|BA|BB|BD|BH|BL|BN|BR|BS|BT|BX|CA|CB|CF|CH|CM|CO|CR|CT|CV|CW|DA|DD|DE|DG|DH|DL|DN|DT|DY|E|EC|EH|EN|EX|FK|FY|G|GL|GY|GU|HA|HD|HG|HP|HR|HS|HU|HX|IG|IM|IP|IV|JE|KA|KT|KW|KY|L|LA|LD|LE|LL|LN|LS|LU|M|ME|MK|ML|N|NE|NG|NN|NP|NR|NW|OL|OX|PA|PE|PH|PL|PO|PR|RG|RH|RM|S|SA|SE|SG|SK|SL|SM|SN|SO|SP|SR|SS|ST|SW|SY|TA|TD|TF|TN|TQ|TR|TS|TW|UB|W|WA|WC|WD|WF|WN|WR|WS|WV|YO|ZE)[0-9][0-9A-Z]?[0-9][ABD-HJLN-UW-Z]{2}|BFPO[0-9]{1,4})$"))
             {
                 return ValidationResult.InvalidFormat("W(W)N(W/N)NWW OR (W[W]N[W/N] NWW)");
             }
