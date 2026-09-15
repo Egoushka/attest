@@ -1,5 +1,88 @@
 # Changelog
 
+## 1.2.0
+
+**Draft. Written by an agent from the commits on this branch; revise before release.**
+
+Verdicts change in both directions, so this is a minor release rather than a patch even though every
+new answer is the correct one. Sixteen entries in
+[KNOWN-ISSUES.md](KNOWN-ISSUES.md) are closed, one of them the last open bug report left on
+CountryValidator.
+
+**Re-validate anything you stored for India, Indonesia, Peru, Ukraine, Bolivia, Thailand, Iceland,
+Armenia, the Faroe Islands and Taiwan before you upgrade.** No other country's answers move.
+
+### Numbers that were rejected and now pass
+
+| Input | What it is |
+|---|---|
+| `27AAPFU0939F1ZV` | Indian GSTIN — the VAT number since GST replaced the state VAT and CST regimes on 1 July 2017 |
+| `3174012501900001` | Indonesian NIK, used as the NPWP of a VAT-registered sole proprietor |
+| `046090528017000` | Indonesian NPWP with an individual taxpayer type, held by a PKP |
+| `10054148289` | Peruvian personal RUC, asked about as a VAT number — IGV is filed under it |
+| `1759013776` | Ukrainian ten digit ІПН, kept by a sole trader registered for VAT before 09.03.2020 |
+| `4567890AB` | Bolivian cédula with the two character complemento SEGIP issues |
+| `12345675` | Taiwanese Unified Business Number — the table said Taiwan had no VAT rule; the validator always did |
+
+India's is the largest of these: every GSTIN in circulation was reported invalid. The state code is
+encoded as the published range 01-38 plus 97 and 99 rather than as python-stdnum's table, which
+stops at 37 and rejects every number issued in Ladakh.
+
+### Numbers that were accepted and now fail
+
+| Input | Why it is not valid |
+|---|---|
+| `4109900011` | Armenian public services number for 31 September; the month code carries the century, so the date resolves |
+| `3902900011` | The same, for 29 February 1990 |
+| `310422123` | Faroese P number for 31 April. 29 February still passes: that one needs a century the sheet does not publish |
+| `1207742208` | Icelandic kennitala with century digit 8, which decoded to 28yy. Only 9 and 0 are issued |
+| `6011234567899` | Thai personal number beginning 601, which the Revenue Department's own range excludes |
+| `17054148283` | Peruvian RUC of taxpayer type 17 asked about as a company; 17 is a natural person |
+| `AAAAA0000A` | Indian PAN with the 0000 serial, which is the documentation placeholder and not a number anyone holds |
+| `984` and `099` | Taiwanese postal codes outside the 100-983 districts |
+| `971` | Faroese postal code above 970, where the published list ends |
+| `3074012501900001` | Indonesian NIK opening with province code 30, which falls outside every allocated block |
+
+Three test rows had asserted the old answers and are flipped, each with the reason in place: a green
+test locking in a defect turns it into a specification.
+
+### Fixed
+
+- `PeruValidator` compared its check digit with `String.EndsWith(string)`, which folds with the
+  thread's culture — the same class of defect 1.1.0 closed for `ToUpper()`, in a file that sweep did
+  not reach. No verdict moves; the construct does. `SourceConventionSweepTests` now reads the source
+  for all four constructs AGENTS.md forbids, so the next one fails the build rather than waiting for
+  someone to assert the value that exposes it.
+- `PortugalValidator.CheckSum` weighted the character code rather than the digit. Harmless on the
+  eight character body its only caller passes, where the bias cancels mod 11, and wrong at every
+  other length a caller can reach this public method with. It returns -1 for a non-digit now instead
+  of scoring it.
+- `RussiaValidator.ValidateBIK` reported `InvalidChecksum` for a range violation on a number that
+  carries no check digit at all, and `ValidateOGRN` offered a nine digit hint for a thirteen digit
+  number.
+- `BrazilValidator.ValidateEntity`'s format hint was still the digits-only `12345678901234` after
+  letters became valid in the CNPJ.
+- The country table in README contradicted the validators in eight cells, including two that
+  reported Taiwan's Unified Business Number as unsupported while its validator and its tests were
+  both present. `ReadmeTableTests` checks the table against `Supports()` in both directions.
+
+### Changed
+
+- `Attest.DataAnnotations` and `Attest` ship XML documentation for every public member. `CS1591` is
+  no longer suppressed, so an undocumented public member fails the build.
+- `IdExtensions.Translit` is marked `[Obsolete]`. Nothing in the library calls it and no identifier
+  should — a Belarusian UNP is written with Cyrillic characters that are Latin look-alikes, not
+  sounds to spell out. It will be removed in the next major version.
+- `IdentifierResult.IsAmbiguous` is now reported for Peru, Indonesia and Ukraine as well as Russia:
+  in each, a sole trader files VAT under their personal number, so that number is a VAT identifier
+  as well as a personal one. The library does not guess which the caller meant.
+
+### Still open
+
+[KNOWN-ISSUES.md](KNOWN-ISSUES.md) lists 19 open gaps, sixteen of which are check digits the issuing
+authority does not publish. Inventing one rejects live numbers and nobody reports it, so the format
+and field ranges are validated and the gap is written down instead.
+
 ## 1.1.0
 
 Verdicts change in both directions, so this is a minor release rather than a patch even though every
