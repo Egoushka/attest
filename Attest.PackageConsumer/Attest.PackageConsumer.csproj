@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Not a test project and not in Attest.sln. It exists to be restored and compiled against the
+    packages ci.yml has just packed, which is the only thing in this repository that exercises the
+    netstandard2.0 asset: Attest.Tests targets net9.0, so it binds the net8.0 asset every time, and
+    nothing else ever resolves the System.ComponentModel.Annotations dependency that
+    Attest.DataAnnotations declares for netstandard2.0 alone.
+  -->
+  <PropertyGroup>
+    <TargetFrameworks>net472;netstandard2.0</TargetFrameworks>
+    <IsPackable>false</IsPackable>
+
+    <!-- Directory.Build.props turns the XML documentation file on, and its IsPackable condition
+         cannot see this property: props are imported before the project body runs. A test assembly
+         ships no documentation, so switch it off here or every test method wants a <summary>. -->
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+      The version is the Directory.Build.props placeholder, which is what `dotnet pack` without a
+      git tag produces. AGENTS.md rule 8 keeps that placeholder fixed, so this does not drift.
+    -->
+    <PackageReference Include="Attest" Version="1.0.0-dev" />
+    <PackageReference Include="Attest.DataAnnotations" Version="1.0.0-dev" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
+    <!-- Lets the net472 half compile on the Linux runner, and on the maintainer's Mac. -->
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>
