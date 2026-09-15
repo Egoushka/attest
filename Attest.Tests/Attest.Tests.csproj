@@ -4,6 +4,11 @@
     <TargetFramework>net9.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <!-- Directory.Build.props turns the XML documentation file on, and its IsPackable condition
+         cannot see this property: props are imported before the project body runs. A test assembly
+         ships no documentation, so switch it off here or every test method wants a <summary>. -->
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

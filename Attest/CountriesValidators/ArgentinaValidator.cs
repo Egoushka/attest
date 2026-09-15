@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Argentina.</summary>
     public class ArgentinaValidator : IdValidationAbstract
     {
         /// <summary>
@@ -17,6 +18,7 @@ namespace Attest.Countries
             "20", "23", "24", "27", "30", "33", "34", "50", "51", "55"
         };
 
+        /// <summary>Creates a validator for Argentina (AR).</summary>
         public ArgentinaValidator()
         {
             CountryCode = nameof(Country.AR);
@@ -154,6 +156,7 @@ namespace Attest.Countries
             return ValidationResult.Success();
         }
 
+        /// <summary>Validates a postal code issued by Argentina.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

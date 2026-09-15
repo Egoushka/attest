@@ -2,18 +2,22 @@
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Lithuania.</summary>
     public class LithuaniaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Lithuania (LT).</summary>
         public LithuaniaValidator()
         {
             CountryCode = nameof(Country.LT);
         }
 
+        /// <summary>Validates a company identifier issued by Lithuania.</summary>
         public override ValidationResult ValidateEntity(string id)
         {
             return ValidateVAT(id);
         }
 
+        /// <summary>Validates a natural person's tax code.</summary>
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
             ssn = ssn.RemoveSpecialCharacthers();
@@ -134,6 +138,7 @@ namespace Attest.Countries
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>Validates a postal code issued by Lithuania.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers().ToUpperInvariant().StripPrefix("LT");

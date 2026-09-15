@@ -4,8 +4,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Australia.</summary>
     public class AustraliaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Australia (AU).</summary>
         public AustraliaValidator()
         {
             CountryCode = nameof(Country.AU);
@@ -56,6 +58,10 @@ namespace Attest.Countries
         }
 
 
+        /// <summary>
+        /// Validates a TFN (Tax File Number), the eight or nine digit number the ATO issues to a
+        /// person or an entity.
+        /// </summary>
         public ValidationResult ValidateTFN(string number)
         {
             number = number.RemoveSpecialCharacthers();
@@ -88,6 +94,10 @@ namespace Attest.Countries
             return sum % 11;
         }
 
+        /// <summary>
+        /// Validates an ABN (Australian Business Number): eleven digits whose weighted sum is a
+        /// multiple of 89 once 1 is subtracted from the first.
+        /// </summary>
         public ValidationResult ValidateABN(string number)
         {
             number = number.RemoveSpecialCharacthers();
@@ -107,6 +117,10 @@ namespace Attest.Countries
         }
 
 
+        /// <summary>
+        /// Validates an ACN (Australian Company Number), the nine digit number ASIC issues to a
+        /// company. An ABN for that company embeds it.
+        /// </summary>
         public ValidationResult ValidateACN(string number)
         {
             number = number.RemoveSpecialCharacthers();
@@ -161,6 +175,7 @@ namespace Attest.Countries
             return s % 89 == 0;
         }
 
+        /// <summary>Validates a postal code issued by Australia.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

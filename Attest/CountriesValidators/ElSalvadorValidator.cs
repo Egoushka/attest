@@ -4,13 +4,16 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by El Salvador.</summary>
     public class ElSalvadorValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for El Salvador (SV).</summary>
         public ElSalvadorValidator()
         {
             CountryCode = nameof(Country.SV);
         }
 
+        /// <summary>Validates a company identifier issued by El Salvador.</summary>
         public override ValidationResult ValidateEntity(string id)
         {
             return ValidateVAT(id);
@@ -76,10 +79,12 @@ namespace Attest.Countries
             return ValidationResult.Success();
         }
 
+        /// <summary>Validates a VAT number issued by El Salvador.</summary>
         public override ValidationResult ValidateVAT(string vatId)
         {
             return ValidateIndividualTaxCode(vatId);
         }
+        /// <summary>Validates a postal code issued by El Salvador.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

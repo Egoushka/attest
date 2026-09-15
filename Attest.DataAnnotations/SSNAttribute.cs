@@ -10,6 +10,9 @@ namespace Attest.DataAnnotations
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Parameter)]
     public sealed class SSNAttribute : ValidationAttribute
     {
+        /// <summary>Validates a national identity number against <paramref name="countryCode"/>'s rule.</summary>
+        /// <param name="countryCode">The country whose rule to apply.</param>
+        /// <exception cref="System.ArgumentException">The country is not a defined <see cref="Country"/>.</exception>
         public SSNAttribute(Country countryCode)
         {
             if (!Enum.IsDefined(typeof(Country), countryCode))
@@ -20,8 +23,16 @@ namespace Attest.DataAnnotations
             CountryCode = countryCode;
         }
 
+        /// <summary>The country whose rule the annotated member is validated against.</summary>
         public Country CountryCode { get; set; }
 
+        /// <summary>
+        /// Defers to <see cref="CountryValidator.ValidateNationalIdentityCode"/>. Null passes, so that whether the
+        /// member is optional stays <c>RequiredAttribute</c>'s decision; a value that is not a
+        /// string fails rather than throwing; and the reason is recorded under
+        /// <c>validationContext.Items["Error"]</c>, overwriting whatever was there so that a context
+        /// used for a second value does not throw.
+        /// </summary>
         protected override System.ComponentModel.DataAnnotations.ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             if (value == null)

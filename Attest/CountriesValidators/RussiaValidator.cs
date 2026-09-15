@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Russia.</summary>
     public class RussiaValidator : IdValidationAbstract
     {
         // ИНН. Russia issues two different numbers, not two formats of one: a legal entity gets a
@@ -17,6 +18,7 @@ namespace Attest.Countries
         private static readonly int[] _personalWeights1 = new int[] { 7, 2, 4, 10, 3, 5, 9, 4, 6, 8 };
         private static readonly int[] _personalWeights2 = new int[] { 3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8 };
 
+        /// <summary>Creates a validator for Russia (RU).</summary>
         public RussiaValidator()
         {
             CountryCode = nameof(Country.RU);
@@ -192,6 +194,7 @@ namespace Attest.Countries
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>Validates a postal code issued by Russia.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

@@ -2,9 +2,11 @@
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Ireland.</summary>
     public class IrelandValidator : IdValidationAbstract
     {
 
+        /// <summary>Creates a validator for Ireland (IE).</summary>
         public IrelandValidator()
         {
             CountryCode = nameof(Country.IE);
@@ -90,6 +92,7 @@ namespace Attest.Countries
         }
 
 
+        /// <summary>Validates a VAT number issued by Ireland: Irish Tax Reference Number (VAT).</summary>
         public override ValidationResult ValidateVAT(string vatId)
         {
             int[] multipliers = { 8, 7, 6, 5, 4, 3, 2 };
@@ -126,6 +129,7 @@ namespace Attest.Countries
 
         }
 
+        /// <summary>Validates a postal code issued by Ireland.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers().ToUpperInvariant();

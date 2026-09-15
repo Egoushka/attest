@@ -2,8 +2,10 @@
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Faroe Islands.</summary>
     public class FaroeIslandsValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Faroe Islands (FO).</summary>
         public FaroeIslandsValidator()
         {
             CountryCode = nameof(Country.FO);

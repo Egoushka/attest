@@ -3,12 +3,15 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Slovakia.</summary>
     public class SlovakiaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Slovakia (SK).</summary>
         public SlovakiaValidator()
         {
             CountryCode = nameof(Country.SK);
         }
+        /// <summary>Validates a natural person's tax code.</summary>
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
             ssn = ssn.RemoveSpecialCharacthers();
@@ -129,6 +132,7 @@ namespace Attest.Countries
 
         }
 
+        /// <summary>Validates a company identifier issued by Slovakia.</summary>
         public override ValidationResult ValidateEntity(string id)
         {
             return ValidateVAT(id);
@@ -155,6 +159,7 @@ namespace Attest.Countries
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>Validates a postal code issued by Slovakia.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

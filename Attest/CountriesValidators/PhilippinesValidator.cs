@@ -2,6 +2,7 @@
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Philippines.</summary>
     public class PhilippinesValidator : IdValidationAbstract
     {
         // The BIR TIN is a nine digit core number followed, where the taxpayer has branches, by a
@@ -14,11 +15,13 @@ namespace Attest.Countries
         // on BIR forms, not part of the number itself. The BIR publishes no check digit.
         private const string TinPattern = @"^[0-9]{9}([0-9]{3}|[0-9]{5})?";
 
+        /// <summary>Creates a validator for Philippines (PH).</summary>
         public PhilippinesValidator()
         {
             CountryCode = nameof(Country.PH);
         }
 
+        /// <summary>Validates a company identifier issued by Philippines.</summary>
         public override ValidationResult ValidateEntity(string id)
         {
             id = id.RemoveSpecialCharacthers().ToUpperInvariant();
@@ -29,6 +32,7 @@ namespace Attest.Countries
             return ValidationResult.Success();
         }
 
+        /// <summary>Validates a natural person's tax code.</summary>
         public override ValidationResult ValidateIndividualTaxCode(string id)
         {
             id = id.RemoveSpecialCharacthers().ToUpperInvariant();
@@ -39,6 +43,7 @@ namespace Attest.Countries
             return ValidationResult.Success();
         }
 
+        /// <summary>Validates a postal code issued by Philippines.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
@@ -49,6 +54,7 @@ namespace Attest.Countries
             return ValidationResult.Success();
         }
 
+        /// <summary>Validates a VAT number issued by Philippines.</summary>
         public override ValidationResult ValidateVAT(string vatId)
         {
             vatId = vatId.RemoveSpecialCharacthers().ToUpperInvariant();

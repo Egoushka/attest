@@ -4,9 +4,11 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Peru.</summary>
     public class PeruValidator : IdValidationAbstract
     {
 
+        /// <summary>Creates a validator for Peru (PE).</summary>
         public PeruValidator()
         {
             CountryCode = nameof(Country.PE);

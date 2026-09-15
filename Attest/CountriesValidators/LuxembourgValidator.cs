@@ -5,13 +5,16 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Luxembourg.</summary>
     public class LuxembourgValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Luxembourg (LU).</summary>
         public LuxembourgValidator()
         {
             CountryCode = nameof(Country.LU);
         }
 
+        /// <summary>Validates a company identifier issued by Luxembourg.</summary>
         public override ValidationResult ValidateEntity(string id)
         {
             return ValidateVAT(id);
@@ -42,6 +45,9 @@ namespace Attest.Countries
     };
 
 
+        /// <summary>
+        /// Validates the eleven digit national number of a Luxembourg resident.
+        /// </summary>
         public ValidationResult ValidateResident(string ssn)
         {
             ssn = ssn.RemoveSpecialCharacthers();
@@ -83,6 +89,10 @@ namespace Attest.Countries
             return validationResult;
         }
 
+        /// <summary>
+        /// Validates the thirteen digit number Luxembourg issues to a natural person, which opens
+        /// with the date of birth.
+        /// </summary>
         public ValidationResult ValidateNaturalPersons(string ssn)
         {
             ssn = ssn.RemoveSpecialCharacthers();
@@ -167,6 +177,7 @@ namespace Attest.Countries
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>Validates a postal code issued by Luxembourg.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

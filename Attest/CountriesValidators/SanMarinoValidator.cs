@@ -4,8 +4,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by San Marino.</summary>
     public class SanMarinoValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for San Marino (SM).</summary>
         public SanMarinoValidator()
         {
             CountryCode = nameof(Country.SM);
@@ -79,6 +81,7 @@ namespace Attest.Countries
             return ValidationResult.Success();
         }
 
+        /// <summary>Validates a postal code issued by San Marino.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

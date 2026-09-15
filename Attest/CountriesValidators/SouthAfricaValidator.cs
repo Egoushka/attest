@@ -4,13 +4,18 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by South Africa.</summary>
     public class SouthAfricaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for South Africa (ZA).</summary>
         public SouthAfricaValidator()
         {
             CountryCode = nameof(Country.ZA);
         }
 
+        /// <summary>
+        /// Validates a national identification number issued by South Africa: Social Number.
+        /// </summary>
         public override ValidationResult ValidateNationalIdentity(string number)
         {
             number = number.RemoveSpecialCharacthers();
@@ -61,16 +66,22 @@ namespace Attest.Countries
 
         }
 
+        /// <summary>Validates a company identifier issued by South Africa: VAT Code.</summary>
         public override ValidationResult ValidateEntity(string id)
         {
             return ValidateVAT(id);
         }
 
+        /// <summary>
+        /// Validates a natural person's tax code, which here is the same number
+        /// <see cref="ValidateVAT"/> validates.
+        /// </summary>
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
             return ValidateVAT(ssn);
         }
 
+        /// <summary>Validates a VAT number issued by South Africa: VAT Code.</summary>
         public override ValidationResult ValidateVAT(string number)
         {
             number = number.RemoveSpecialCharacthers();
@@ -85,6 +96,7 @@ namespace Attest.Countries
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>Validates a postal code issued by South Africa.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

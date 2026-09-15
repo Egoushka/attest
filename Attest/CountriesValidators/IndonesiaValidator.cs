@@ -4,9 +4,11 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Indonesia.</summary>
     public class IndonesiaValidator : IdValidationAbstract
     {
 
+        /// <summary>Creates a validator for Indonesia (ID).</summary>
         public IndonesiaValidator()
         {
             CountryCode = nameof(Country.ID);
@@ -89,8 +91,9 @@ namespace Attest.Countries
         /// <summary>
         /// NIK (Nomor Induk Kependudukan), PPRRSSDDMMYYXXXX: 6 digits of registration place,
         /// then the birth date as DDMMYY with 40 added to the day for women, then a 4 digit
-        /// sequence number. There is no check digit. The registration place is not verified
-        /// here: python-stdnum checks it against a full province/regency/district table, which
+        /// sequence number. There is no check digit. The province the registration place opens
+        /// with is checked against the blocks Indonesia allocates them in; the regency and
+        /// district inside it are not, because python-stdnum checks those against a full table
         /// this library does not carry.
         /// The two digit year is resolved against the 2000s, as MexicoValidator does for the
         /// RFC: the century only changes the answer for 29 February of a century year, and 2000

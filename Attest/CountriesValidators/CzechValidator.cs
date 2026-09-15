@@ -3,13 +3,16 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Czechia.</summary>
     public class CzechValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Czechia (CZ).</summary>
         public CzechValidator()
         {
             CountryCode = nameof(Country.CZ);
         }
 
+        /// <summary>Validates a natural person's tax code.</summary>
         public override ValidationResult ValidateIndividualTaxCode(string id)
         {
             id = id.RemoveSpecialCharacthers();
@@ -122,6 +125,7 @@ namespace Attest.Countries
 
         }
 
+        /// <summary>Validates a company identifier issued by Czechia.</summary>
         public override ValidationResult ValidateEntity(string id)
         {
             return ValidateVAT(id);
@@ -219,6 +223,7 @@ namespace Attest.Countries
             return ValidationResult.Invalid("Invalid format");
         }
 
+        /// <summary>Validates a postal code issued by Czechia.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

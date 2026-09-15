@@ -3,8 +3,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Bosnia.</summary>
     public class BosniaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Bosnia (BA).</summary>
         public BosniaValidator()
         {
             CountryCode = nameof(Country.BA);
@@ -107,6 +109,10 @@ namespace Attest.Countries
             return ValidateJibChecksum(id);
         }
 
+        /// <summary>
+        /// Validates a natural person's tax code, which here is the same number
+        /// <see cref="ValidateNationalIdentity"/> validates.
+        /// </summary>
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
             return ValidateNationalIdentity(ssn);
@@ -159,6 +165,7 @@ namespace Attest.Countries
             return ValidationResult.Success();
         }
 
+        /// <summary>Validates a postal code issued by Bosnia.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

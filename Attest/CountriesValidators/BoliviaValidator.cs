@@ -2,8 +2,10 @@
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Bolivia.</summary>
     public class BoliviaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Bolivia (BO).</summary>
         public BoliviaValidator()
         {
             CountryCode = nameof(Country.BO);
@@ -57,16 +59,22 @@ namespace Attest.Countries
             return ValidationResult.Success();
         }
 
+        /// <summary>
+        /// Validates a natural person's tax code, which here is the same number
+        /// <see cref="ValidateEntity"/> validates.
+        /// </summary>
         public override ValidationResult ValidateIndividualTaxCode(string id)
         {
             return ValidateEntity(id);
         }
 
+        /// <summary>Validates a VAT number issued by Bolivia: Número de Identificación Tributaria.</summary>
         public override ValidationResult ValidateVAT(string vatId)
         {
             return ValidateEntity(vatId);
         }
 
+        /// <summary>Validates a postal code issued by Bolivia.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

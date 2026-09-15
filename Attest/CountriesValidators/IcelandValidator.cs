@@ -3,8 +3,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Iceland.</summary>
     public class IcelandValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Iceland (IS).</summary>
         public IcelandValidator()
         {
             CountryCode = nameof(Country.IS);
@@ -113,6 +115,7 @@ namespace Attest.Countries
             return ValidationResult.Invalid("The VAT code should have 5 or 6 digits  ");
         }
 
+        /// <summary>Validates a postal code issued by Iceland.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

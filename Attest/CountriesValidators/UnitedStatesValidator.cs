@@ -5,8 +5,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by United States.</summary>
     public class UnitedStatesValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for United States (US).</summary>
         public UnitedStatesValidator()
         {
             CountryCode = nameof(Country.US);
@@ -119,6 +121,7 @@ namespace Attest.Countries
             return ValidationResult.Invalid("Not supported");
         }
 
+        /// <summary>Validates a postal code issued by United States.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             // Not RemoveSpecialCharacthers: the separator is part of the ZIP+4 format

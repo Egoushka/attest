@@ -4,8 +4,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Guatemala.</summary>
     public class GuatemalaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Guatemala (GT).</summary>
         public GuatemalaValidator()
         {
             CountryCode = nameof(Country.GT);
@@ -17,6 +19,9 @@ namespace Attest.Countries
             get { return IdentifierKind.PersonalId | IdentifierKind.PersonalTaxCode; }
         }
 
+        /// <summary>
+        /// The check digit of a Guatemalan NIT, as a string, or an empty string for a null value.
+        /// </summary>
         public string CalculateChecksum(string number)
         {
             if (number == null)
@@ -103,6 +108,7 @@ namespace Attest.Countries
             return ValidateEntity(vatId);
         }
 
+        /// <summary>Validates a postal code issued by Guatemala.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

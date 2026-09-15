@@ -4,8 +4,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Sweden.</summary>
     public class SwedenValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Sweden (SE).</summary>
         public SwedenValidator()
         {
             CountryCode = nameof(Country.SE);
@@ -96,6 +98,7 @@ namespace Attest.Countries
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>Validates a postal code issued by Sweden.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

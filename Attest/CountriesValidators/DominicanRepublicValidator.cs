@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Dominican Republic.</summary>
     public class DominicanRepublicValidator : IdValidationAbstract
     {
         private readonly string[] _validRnc = new string[]
@@ -99,11 +100,16 @@ namespace Attest.Countries
 
 
 
+        /// <summary>Creates a validator for Dominican Republic (DO).</summary>
         public DominicanRepublicValidator()
         {
             CountryCode = nameof(Country.DO);
         }
 
+        /// <summary>
+        /// Validates a company identifier issued by Dominican Republic: RNC (Registro Nacional del
+        /// Contribuyente).
+        /// </summary>
         public override ValidationResult ValidateEntity(string id)
         {
             return ValidateVAT(id);
@@ -232,6 +238,7 @@ namespace Attest.Countries
             return ((10 - sum) % 9 + 1).ToString();
         }
 
+        /// <summary>Validates a postal code issued by Dominican Republic.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

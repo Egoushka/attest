@@ -4,8 +4,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Switzerland.</summary>
     public class SwitzerlandValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Switzerland (CH).</summary>
         public SwitzerlandValidator()
         {
             CountryCode = nameof(Country.CH);
@@ -136,6 +138,7 @@ namespace Attest.Countries
             return sum.ToString() == value.Substring(8, 1) ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>Validates a postal code issued by Switzerland.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

@@ -3,22 +3,32 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Spain.</summary>
     public class SpainValidator : IdValidationAbstract
     {
         readonly string DNI_REGEX = @"^(([KLM][0-9]{7})|([0-9]{8}))([A-Z])$";
         readonly string CIF_REGEX = @"^([ABCDEFGHJNPQRSUVW])([0-9]{7})([0-9A-J])$";
         readonly string NIE_REGEX = @"^[XYZ][0-9]{7,8}[A-Z]$";
 
+        /// <summary>Creates a validator for Spain (ES).</summary>
         public SpainValidator()
         {
             CountryCode = nameof(Country.ES);
         }
 
+        /// <summary>
+        /// Validates a natural person's tax code, which here is the same number
+        /// <see cref="ValidateSpanishID"/> validates.
+        /// </summary>
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
             return ValidateSpanishID(ssn);
         }
 
+        /// <summary>
+        /// Validates any Spanish identity document -- DNI, NIE, CIF or NIF -- by detecting which
+        /// one the value is and applying that rule.
+        /// </summary>
         public ValidationResult ValidateSpanishID(string str)
         {
             str = str.RemoveSpecialCharacthers();
@@ -144,6 +154,7 @@ namespace Attest.Countries
 
 
 
+        /// <summary>Validates a company identifier issued by Spain: NIF / CIF.</summary>
         public override ValidationResult ValidateEntity(string id)
         {
             id = id.RemoveSpecialCharacthers();
@@ -208,6 +219,7 @@ namespace Attest.Countries
             return ValidationResult.Invalid("Invalid");
         }
 
+        /// <summary>Validates a VAT number issued by Spain: NIF / CIF.</summary>
         public override ValidationResult ValidateVAT(string vatId)
         {
             vatId = vatId.RemoveSpecialCharacthers();
@@ -242,6 +254,7 @@ namespace Attest.Countries
             return ValidationResult.Invalid("Invalid");
         }
 
+        /// <summary>Validates a postal code issued by Spain.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

@@ -2,9 +2,11 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Malta.</summary>
     public class MaltaValidator : IdValidationAbstract
     {
 
+        /// <summary>Creates a validator for Malta (MT).</summary>
         public MaltaValidator()
         {
             CountryCode = nameof(Country.MT);

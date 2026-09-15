@@ -118,6 +118,7 @@ namespace Attest.Countries
         }
 
 
+        /// <summary>Validates a postal code issued by Armenia.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

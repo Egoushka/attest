@@ -4,17 +4,20 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Italy.</summary>
     public class ItalyValidator : IdValidationAbstract
     {
         private static readonly string OmocodeChars = "LMNPQRSTUV";
         private static readonly int[] ControlCodeArray = new[] { 1, 0, 5, 7, 9, 13, 15, 17, 19, 21, 2, 4, 18, 20, 11, 3, 6, 8, 12, 14, 16, 10, 22, 25, 24, 23 };
         private static readonly Regex CheckRegex = new Regex(@"^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$");
 
+        /// <summary>Creates a validator for Italy (IT).</summary>
         public ItalyValidator()
         {
             CountryCode = nameof(Country.IT);
         }
 
+        /// <summary>Validates a natural person's tax code.</summary>
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
             ssn = ssn.RemoveSpecialCharacthers();
@@ -78,6 +81,7 @@ namespace Attest.Countries
             return s;
         }
 
+        /// <summary>Validates a company identifier issued by Italy.</summary>
         public override ValidationResult ValidateEntity(string id)
         {
             return ValidateVAT(id);
@@ -140,6 +144,7 @@ namespace Attest.Countries
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>Validates a postal code issued by Italy.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

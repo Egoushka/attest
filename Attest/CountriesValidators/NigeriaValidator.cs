@@ -2,8 +2,10 @@
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Nigeria.</summary>
     public class NigeriaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Nigeria (NG).</summary>
         public NigeriaValidator()
         {
             CountryCode = nameof(Country.NG);
@@ -77,6 +79,7 @@ namespace Attest.Countries
         }
 
 
+        /// <summary>Validates a postal code issued by Nigeria.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

@@ -3,9 +3,11 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Pakistan.</summary>
     public class PakistanValidator : IdValidationAbstract
     {
 
+        /// <summary>Creates a validator for Pakistan (PK).</summary>
         public PakistanValidator()
         {
             CountryCode = nameof(Country.PK);
@@ -50,11 +52,16 @@ namespace Attest.Countries
             }
         }
 
+        /// <summary>
+        /// Pakistan has no VAT number rule here, so every value is reported invalid -- which is not a
+        /// verdict on the value. Ask <see cref="CountryValidator.Supports"/> first.
+        /// </summary>
         public override ValidationResult ValidateVAT(string vatId)
         {
             return ValidationResult.Invalid("Not supported");
         }
 
+        /// <summary>Validates a postal code issued by Pakistan.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

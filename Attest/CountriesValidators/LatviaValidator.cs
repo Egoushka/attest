@@ -3,8 +3,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Latvia.</summary>
     public class LatviaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Latvia (LV).</summary>
         public LatviaValidator()
         {
             CountryCode = nameof(Country.LV);
@@ -31,11 +33,16 @@ namespace Attest.Countries
             return day > 0 && day <= monthLength[month - 1];
         }
 
+        /// <summary>
+        /// Validates a company identifier issued by Latvia: PVN (Pievienotās vērtības nodokļa, Latvian VAT
+        /// number).
+        /// </summary>
         public override ValidationResult ValidateEntity(string id)
         {
             return ValidateVAT(id);
         }
 
+        /// <summary>Validates a natural person's tax code.</summary>
         public override ValidationResult ValidateIndividualTaxCode(string identificationCode)
         {
             identificationCode = identificationCode.RemoveSpecialCharacthers();
@@ -125,6 +132,7 @@ namespace Attest.Countries
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>Validates a postal code issued by Latvia.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers().ToUpperInvariant().StripPrefix("LV");

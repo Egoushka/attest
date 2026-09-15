@@ -3,8 +3,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Estonia.</summary>
     public class EstoniaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Estonia (EE).</summary>
         public EstoniaValidator()
         {
             CountryCode = nameof(Country.EE);
@@ -118,6 +120,7 @@ namespace Attest.Countries
 
         }
 
+        /// <summary>Validates a postal code issued by Estonia.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

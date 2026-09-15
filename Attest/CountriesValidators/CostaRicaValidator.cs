@@ -6,8 +6,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Costa Rica.</summary>
     public class CostaRicaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Costa Rica (CR).</summary>
         public CostaRicaValidator()
         {
             CountryCode = nameof(Country.CR);
@@ -78,6 +80,10 @@ namespace Attest.Countries
             return ValidationResult.Invalid("Invalid code");
         }
 
+        /// <summary>
+        /// Validates a cédula de persona física, the nine or ten digit number Costa Rica issues to a
+        /// natural person.
+        /// </summary>
         public ValidationResult ValidateCPF(string number)
         {
             number = number.RemoveSpecialCharacthers();
@@ -135,6 +141,7 @@ namespace Attest.Countries
             return ValidationResult.Success();
         }
 
+        /// <summary>Validates a postal code issued by Costa Rica.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

@@ -2,13 +2,19 @@
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Georgia.</summary>
     public class GeorgiaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Georgia (GE).</summary>
         public GeorgiaValidator()
         {
             CountryCode = nameof(Country.GE);
         }
 
+        /// <summary>
+        /// Validates a company identifier issued by Georgia: Identification Number (sakidentifikatsio
+        /// nomeri).
+        /// </summary>
         public override ValidationResult ValidateEntity(string ssn)
         {
             ssn = ssn.RemoveSpecialCharacthers();
@@ -20,6 +26,7 @@ namespace Attest.Countries
 
         }
 
+        /// <summary>Validates a natural person's tax code.</summary>
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
             ssn = ssn.RemoveSpecialCharacthers();
@@ -30,11 +37,13 @@ namespace Attest.Countries
             return ValidationResult.Success();
         }
 
+        /// <summary>Validates a VAT number issued by Georgia: VAT Number.</summary>
         public override ValidationResult ValidateVAT(string vatId)
         {
             return ValidateEntity(vatId);
         }
 
+        /// <summary>Validates a postal code issued by Georgia.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

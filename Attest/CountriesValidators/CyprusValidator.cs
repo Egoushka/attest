@@ -3,13 +3,16 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Cyprus.</summary>
     public class CyprusValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Cyprus (CY).</summary>
         public CyprusValidator()
         {
             CountryCode = nameof(Country.CY);
         }
 
+        /// <summary>Validates a national identification number issued by Cyprus: Identity Number.</summary>
         public override ValidationResult ValidateNationalIdentity(string ssn)
         {
             // Cypriot identity card number: 10 digits, no published check digit,
@@ -23,6 +26,7 @@ namespace Attest.Countries
             return ValidationResult.Success();
         }
 
+        /// <summary>Validates a company identifier issued by Cyprus.</summary>
         public override ValidationResult ValidateEntity(string id)
         {
             // Tax Identification Code / VAT number: 8 digits plus a mod 26 check letter.
@@ -77,17 +81,23 @@ namespace Attest.Countries
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>
+        /// Validates a natural person's tax code, which here is the same number
+        /// <see cref="ValidateEntity"/> validates.
+        /// </summary>
         public override ValidationResult ValidateIndividualTaxCode(string vatId)
         {
             return ValidateEntity(vatId);
         }
 
+        /// <summary>Validates a VAT number issued by Cyprus: ΦΠΑ.</summary>
         public override ValidationResult ValidateVAT(string vatId)
         {
             // The VAT number is the Tax Identification Code prefixed with CY.
             return ValidateEntity(vatId);
         }
 
+        /// <summary>Validates a postal code issued by Cyprus.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             // Four digits running from 1000 to 9999, allocated by district: Nicosia 1000-2999,

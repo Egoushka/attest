@@ -4,8 +4,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Paraguay.</summary>
     public class ParaguayValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Paraguay (PY).</summary>
         public ParaguayValidator()
         {
             CountryCode = nameof(Country.PY);
@@ -77,6 +79,7 @@ namespace Attest.Countries
             return rez.Mod(10);
         }
 
+        /// <summary>Validates a postal code issued by Paraguay.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

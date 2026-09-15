@@ -25,6 +25,11 @@
     Debugging into the package from a consumer's IDE. SourceLink ships in the .NET 8 SDK, so
     these are properties rather than a PackageReference.
   -->
+  <!--
+    The condition below cannot read IsPackable: this file is imported before the project body sets
+    it, so it is empty here and the group always applies. A project that ships nothing turns
+    GenerateDocumentationFile off itself.
+  -->
   <PropertyGroup Condition="'$(IsPackable)' != 'false'">
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
@@ -32,10 +37,10 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <!--
-      CS1591: not every public member carries XML docs yet. 2884 warnings across 98 files; the
-      docs are written country by country as each validator is revisited.
+      CS1591 was suppressed here while 417 public members had no XML doc. They all have one now, so
+      the warning is live again and the build says so the next time a public member ships without
+      one. ci.yml builds with -warnaserror, which makes that a failure rather than a note.
     -->
-    <NoWarn>$(NoWarn);CS1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(IsPackable)' != 'false'">

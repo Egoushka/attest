@@ -6,8 +6,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Colombia.</summary>
     public class ColombiaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Colombia (CO).</summary>
         public ColombiaValidator()
         {
             CountryCode = nameof(Country.CO);
@@ -34,6 +36,7 @@ namespace Attest.Countries
             return ValidateVAT(ssn);
         }
 
+        /// <summary>Validates a VAT number issued by Colombia: VAT.</summary>
         public override ValidationResult ValidateVAT(string number)
         {
             number = number.RemoveSpecialCharacthers().ToUpperInvariant();
@@ -77,6 +80,7 @@ namespace Attest.Countries
             return "01987654321"[s];
         }
 
+        /// <summary>Validates a postal code issued by Colombia.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

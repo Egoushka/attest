@@ -3,8 +3,10 @@
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Azerbaijan.</summary>
     public class AzerbaijanValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Azerbaijan (AZ).</summary>
         public AzerbaijanValidator()
         {
             CountryCode = nameof(Country.AZ);
@@ -66,6 +68,7 @@ namespace Attest.Countries
             return ValidateEntity(vatId);
         }
 
+        /// <summary>Validates a postal code issued by Azerbaijan.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

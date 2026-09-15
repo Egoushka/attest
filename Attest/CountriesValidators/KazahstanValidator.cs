@@ -2,8 +2,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Kazakhstan.</summary>
     public class KazahstanValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Kazakhstan (KZ).</summary>
         public KazahstanValidator()
         {
             CountryCode = nameof(Country.KZ);
@@ -94,6 +96,7 @@ namespace Attest.Countries
             return ValidateEntity(vatId);
         }
 
+        /// <summary>Validates a postal code issued by Kazakhstan.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

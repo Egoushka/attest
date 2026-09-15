@@ -2,8 +2,10 @@
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Ukraine.</summary>
     public class UkraineValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Ukraine (UA).</summary>
         public UkraineValidator()
         {
             CountryCode = nameof(Country.UA);

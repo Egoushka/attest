@@ -4,8 +4,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Portugal.</summary>
     public class PortugalValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Portugal (PT).</summary>
         public PortugalValidator()
         {
             CountryCode = nameof(Country.PT);
@@ -82,11 +84,13 @@ namespace Attest.Countries
         private const string EntityPrefixes = "^[5679]";
         private const string AnyPrefix = "^([12356789]|45)";
 
+        /// <summary>Validates a company identifier issued by Portugal.</summary>
         public override ValidationResult ValidateEntity(string id)
         {
             return ValidateNif(id, EntityPrefixes, "Invalid code. This is not a company nif.");
         }
 
+        /// <summary>Validates a natural person's tax code.</summary>
         public override ValidationResult ValidateIndividualTaxCode(string code)
         {
             return ValidateNif(code, IndividualPrefixes, "Invalid code. This is not a personal nif.");
@@ -247,6 +251,7 @@ namespace Attest.Countries
             return ValidateNif(vatId, AnyPrefix, "Invalid code. This is not a nif.");
         }
 
+        /// <summary>Validates a postal code issued by Portugal.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             // The first digit designates one of the nine postal regions - 1 Lisboa, 2 Estremadura
