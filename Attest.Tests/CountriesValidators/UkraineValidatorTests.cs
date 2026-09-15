@@ -66,6 +66,11 @@ namespace Attest.Tests
         [InlineData("123456789012", true)]
         [InlineData("143605704081", true)]
         [InlineData("123 456 789 012", true)]   // Same number with separators
+        // A sole trader registered for VAT before 09.03.2020 keeps their ten digit IPN, which is
+        // their RNOKPP and carries the published check digit.
+        [InlineData("1759013776", true)]        // Legacy ten digit IPN, python-stdnum's example
+        [InlineData("2530414071", true)]        // Another, check digit correct
+        [InlineData("1759013770", false)]       // Ten digits, wrong check digit
         [InlineData("12345678901", false)]      // Eleven digits
         [InlineData("1234567890123", false)]    // Thirteen digits
         [InlineData("12345678901x", false)]

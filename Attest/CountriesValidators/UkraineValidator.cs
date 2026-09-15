@@ -81,14 +81,28 @@ namespace Attest.Countries
             // authority sets but does not publish, so only the format is validated.
             // https://uk.wikipedia.org/wiki/Індивідуальний_податковий_номер_платника_ПДВ
             vatId = vatId.RemoveSpecialCharacthers();
+
+            // A sole trader registered for VAT before 09.03.2020 holds a ten digit IPN -- their
+            // RNOKPP -- and keeps it until the VAT registration is cancelled. Order 30 of the
+            // Ministry of Finance, of 29.01.2020, made the number twelve digits for registrations
+            // from that date on; it did not renumber the ones already issued. Rejecting the ten
+            // digit form was a false negative on a live registration, and unlike the twelve digit
+            // form its check digit is published, so this path validates more rather than less.
+            // https://obcity.gov.ua/2020/04/01/individualniy-podatkoviy-nomer-platnika-pdv-u-fop/
+            if (vatId.Length == 10)
+            {
+                return ValidateIndividualTaxCode(vatId);
+            }
+
             if (!Regex.IsMatch(vatId, @"^[0-9]{12}$"))
             {
-                return ValidationResult.InvalidFormat("123456789012");
+                return ValidationResult.InvalidFormat("123456789012 or 1234567890");
             }
 
             return ValidationResult.Success();
         }
 
+        /// <summary>Validates a postal code issued by Ukraine.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

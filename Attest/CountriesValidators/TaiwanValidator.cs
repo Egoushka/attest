@@ -152,6 +152,18 @@ namespace Attest.Countries
             {
                 return ValidationResult.InvalidFormat("NNN, NNNNN or NNNNNN");
             }
+
+            // The district code runs 100 (Taipei) to 983 (Hualien county, where zone 9 ends), so
+            // 000-099 and 984-999 are not codes at all. The assigned set inside that range is full
+            // of holes -- 368 of the 884 numbers are in use -- and those are deliberately not
+            // encoded: districts merge and the list drifts, while the bounds do not.
+            // https://en.wikipedia.org/wiki/Postal_codes_in_Taiwan
+            int district = int.Parse(postalCode.Substring(0, 3));
+            if (district < 100 || district > 983)
+            {
+                return ValidationResult.Invalid("No such postal district");
+            }
+
             return ValidationResult.Success();
         }
     }

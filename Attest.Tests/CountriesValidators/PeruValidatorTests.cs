@@ -49,8 +49,8 @@ namespace Attest.Tests
         [InlineData("10054148289", true)]
         // Prefix 15, same eight digit body, check digit recomputed with weights 5,4,3,2,7,6,5,4,3,2.
         [InlineData("15054148281", true)]
-        // Prefix 17 is accepted by python-stdnum but absent from SUNAT's list, so it is left valid
-        // for both a person and a company rather than assigned to one without a source.
+        // Prefix 17 is absent from SUNAT's list, and the RUC guides describe it as the persona
+        // natural no domiciliada -- an individual, not a company.
         [InlineData("17054148283", true)]
         // Prefix 20 is a legal entity, not a natural person. Both are real numbers with a correct
         // check digit, so only the taxpayer type tells them apart.
@@ -75,8 +75,9 @@ namespace Attest.Tests
         // Companies use the same RUC format, under taxpayer type 20.
         [InlineData("20512333797", true)]
         [InlineData("20054148284", true)]
-        // Type 17 is unassigned by SUNAT, so it stays valid here too.
-        [InlineData("17054148283", true)]
+        // Type 17 is a natural person, so it is not a company number. It used to be accepted as
+        // both, which made every 17 ambiguous.
+        [InlineData("17054148283", false)]
         // Types 10 and 15 belong to natural persons, so a company number is never one of them.
         [InlineData("10054148289", false)]
         [InlineData("15054148281", false)]
@@ -95,10 +96,13 @@ namespace Attest.Tests
         }
 
         [Theory]
-        // Peru has no separate VAT number; IGV is filed under the RUC, and this overload keeps the
-        // business reading of the identifier, so a natural person's RUC is rejected here.
+        // Peru has no separate VAT number: IGV is filed under the RUC, so every RUC is one --
+        // a sole trader's included. These rows asserted the opposite, which rejected a real
+        // registration because of who held it.
         [InlineData("20512333797", true)]
-        [InlineData("10054148289", false)]
+        [InlineData("10054148289", true)]
+        [InlineData("15054148281", true)]
+        [InlineData("17054148283", true)]
         [InlineData("20512333798", false)]
         [InlineData("2051233379", false)]
         [InlineData("abc", false)]
@@ -110,15 +114,20 @@ namespace Attest.Tests
         }
 
         [Theory]
-        // The taxpayer type makes the two categories disjoint, so neither number is ambiguous.
-        [InlineData("10054148289", IdentifierKind.PersonalTaxCode)]
-        [InlineData("20512333797", IdentifierKind.CompanyNumber | IdentifierKind.Vat)]
-        public void TestKindIsUnambiguous(string code, IdentifierKind expectedMatch)
+        // The taxpayer type keeps the company number disjoint from the personal one, so no value
+        // is valid as both a CompanyNumber and a PersonalTaxCode. VAT is the exception and it is
+        // Peru's, not this library's: IGV is filed under whichever RUC the taxpayer holds, so a
+        // sole trader's personal RUC is a VAT identifier too, and IsAmbiguous says so rather than
+        // this library picking a side. Type 17 is a natural person and no longer both.
+        [InlineData("10054148289", IdentifierKind.PersonalTaxCode | IdentifierKind.Vat, true)]
+        [InlineData("17054148283", IdentifierKind.PersonalTaxCode | IdentifierKind.Vat, true)]
+        [InlineData("20512333797", IdentifierKind.CompanyNumber | IdentifierKind.Vat, false)]
+        public void TestKindMatchesTheTaxpayerType(string code, IdentifierKind expectedMatch, bool ambiguous)
         {
             IdentifierResult result = new CountryValidator().Validate(code, Country.PE);
 
             Assert.Equal(expectedMatch, result.Matched);
-            Assert.False(result.IsAmbiguous);
+            Assert.Equal(ambiguous, result.IsAmbiguous);
         }
 
         [Theory]

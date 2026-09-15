@@ -78,7 +78,12 @@ namespace Attest.Tests
         [InlineData("016090524017000", true)]
         [InlineData("0013121660091000", true)]   // 2024 form of the same number
         [InlineData("013121661091000", false)]   // wrong check digit
-        [InlineData("3174012501900001", false)]  // a NIK identifies a person, not an organisation
+        // A PKP -- a taxpayer registered to collect VAT -- can be a sole proprietor, and since
+        // 2024 an Indonesian individual's NPWP is their NIK. This row asserted the opposite,
+        // which is what made every VAT registered sole proprietor invalid.
+        [InlineData("3174012501900001", true)]   // A person's NIK, and a person can be a PKP
+        [InlineData("046090528017000", true)]    // Taxpayer type 4, an individual entrepreneur
+        [InlineData("046090524017000", false)]   // Same number, check digit of the type 1 form
         [InlineData("01312166009100", false)]    // 14 digits
         [InlineData("abc", false)]
         [InlineData("", false)]

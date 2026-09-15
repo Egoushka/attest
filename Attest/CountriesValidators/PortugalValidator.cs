@@ -120,9 +120,21 @@ namespace Attest.Countries
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>
+        /// The check digit of a Portuguese identity card's eight digit body: each digit weighted by
+        /// its distance from the end, modulus 11. Returns -1 rather than throwing when the value is
+        /// null or holds anything but ASCII digits.
+        /// </summary>
+        /// <remarks>
+        /// This weighted the character CODE rather than the digit, adding a constant 48 per
+        /// position. On the eight character body its only caller passes, the bias cancels -- the
+        /// weights sum to 44 and 48 x 44 = 2112, which divides by 11 -- so the card verdict was
+        /// right and stayed right when this was corrected. At any other length the bias does not
+        /// cancel, and this is public surface that a caller can reach with any length at all.
+        /// </remarks>
         public int CheckSum(string value)
         {
-            if (value == null)
+            if (value == null || !value.IsAsciiDigits())
             {
                 return -1;
             }
@@ -131,7 +143,7 @@ namespace Attest.Countries
 
             for (var i = 0; i < value.Length; i++)
             {
-                sum += value[i] * (value.Length + 1 - i);
+                sum += value[i].ToInt() * (value.Length + 1 - i);
             }
 
             var mod = sum % 11;

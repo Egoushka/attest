@@ -63,7 +63,18 @@ namespace Attest.Countries
                     return ValidationResult.Invalid("The code does not belong to an individual");
                 }
 
-                year = (century == 9) ? (1900 + year) : ((20 + century) * 100 + year);
+                // Registers Iceland and Wikipedia both document exactly two values for the tenth
+                // digit -- 9 for 1900-1999 and 0 for 2000-2099 -- and python-stdnum's pattern is
+                // [09] for the same reason. The arithmetic that stood here read any digit as a
+                // century: 8 decoded to 28yy rather than 18yy, and 1 to 7 produced years 2100-2799,
+                // which no register issues. Anyone born in the 1800s would be 127 today.
+                // https://www.skra.is/english/people/my-registration/id-numbers/
+                if (century != 9 && century != 0)
+                {
+                    return ValidationResult.InvalidDate();
+                }
+
+                year = (century == 9) ? (1900 + year) : (2000 + year);
                 DateTime date = new DateTime(year, month, day);
             }
             catch

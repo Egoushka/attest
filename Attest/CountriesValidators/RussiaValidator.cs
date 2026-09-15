@@ -148,8 +148,12 @@ namespace Attest.Countries
             {
                 return ValidationResult.Success();
             }
+            // A range violation, not a failed checksum: the BIK carries no check digit at all, so
+            // reporting one told the caller to look for a typo in a number that had none.
             bool isValid = thirdPart >= 50 && thirdPart < 1000;
-            return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
+            return isValid
+                ? ValidationResult.Success()
+                : ValidationResult.Invalid("Invalid code. The last three digits are outside the assigned range.");
         }
 
         /// <summary>
@@ -162,7 +166,8 @@ namespace Attest.Countries
             ogrn = ogrn.RemoveSpecialCharacthers();
             if (!(Regex.IsMatch(ogrn, @"^[0-9]{13}$")))
             {
-                return ValidationResult.InvalidFormat("123456789");
+                // The hint showed nine digits for a thirteen digit number.
+                return ValidationResult.InvalidFormat("1234567890123");
             }
             long checkSUm = long.Parse(ogrn.Substring(0, ogrn.Length - 1)) % 11;
 

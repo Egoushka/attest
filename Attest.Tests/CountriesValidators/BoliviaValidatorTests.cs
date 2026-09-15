@@ -21,7 +21,11 @@ namespace Attest.Tests
         [InlineData("12345678", true)]
         [InlineData("4567890A", true)]  // Seven digits plus a complemento letter
         [InlineData("1234567_", true)]  // "_" is punctuation, stripped like any separator before the check
-        [InlineData("4567890AB", false)] // Two complemento characters, only one is allowed
+        // Articulo 40 says "caracteres alfanumericos", and SEGIP issues two character complements.
+        // This row asserted the opposite, which rejected every cedula carrying one.
+        [InlineData("4567890AB", true)] // Two complemento characters, as SEGIP issues
+        [InlineData("1234567-1A", true)] // The printed form, hyphen stripped before the check
+        [InlineData("4567890ABC", false)] // Three, which no source describes
         [InlineData("1234", false)]     // Four digits, below the minimum of five
         [InlineData("abcdefg", false)]  // Letters only
         [InlineData(null, false)]

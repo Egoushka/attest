@@ -81,6 +81,9 @@ namespace Attest.Tests
         [InlineData("1534050012", true)]        // June 2005: 21st century, month coded 34
         [InlineData("5192950010", true)]        // December 1895: 19th century, month coded 92
         [InlineData("11 01 85 0123", true)]     // Same number with separators
+        [InlineData("3902920011", true)]        // 29 February 1992, a leap year
+        [InlineData("4109900011", false)]       // 31 September: the month code carries the century,
+        [InlineData("3902900011", false)]       // and 29 February 1990 is not a real date either
         [InlineData("02618169", false)]         // TIN, which is not a public services number
         [InlineData("0101850123", false)]       // Day pair 01: below the male range
         [InlineData("4501850123", false)]       // Day pair 45: between the male and female ranges

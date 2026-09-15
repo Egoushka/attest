@@ -22,6 +22,12 @@ namespace Attest.Tests
         [InlineData("0105-515-004-336", false)] // Juristic person registered with the DBD
         [InlineData("0993000133978", false)]    // Juristic person registered with the Revenue Department
         [InlineData("0991000001239", false)]    // Foreign individual, has a TIN but no citizen number
+        // Check digits computed with the published weights, so each row turns on its first three
+        // digits rather than on the checksum. The TIN sheet writes the personal range as
+        // "Numbers 100-999 ... (except 601)".
+        [InlineData("6021234567899", true)]     // 602, inside the personal range
+        [InlineData("6001234567899", true)]     // 600, likewise
+        [InlineData("6011234567899", false)]    // 601, the range's own exception
         [InlineData(null, false)]
         [InlineData("", false)]
         public void TestNationalId(string code, bool isValid)
