@@ -53,6 +53,26 @@ namespace Attest.Tests
             Assert.Equal(IdentifierKind.PersonalTaxCode, result.Matched & IdentifierKind.PersonalTaxCode);
         }
 
+        /// <summary>
+        /// README and <see cref="IdentifierResult.IsAmbiguous"/> both name Russia here, and both
+        /// had to be narrowed once already: the ambiguity is the sole trader's, not every Russian
+        /// number's. A ten digit ИНН belongs to a legal entity and nobody else, so it is business
+        /// and unambiguous; the twelve digit form is a person's, and that same person files VAT
+        /// under it. Nothing tested the distinction, which is why the prose drifted from it.
+        /// </summary>
+        [Fact]
+        public void RussiaIsAmbiguousForTheSoleTraderAndNotForTheCompany()
+        {
+            var person = _validator.Validate("500100732259", Country.RU, IdentifierKind.Business);
+            var company = _validator.Validate("7707083893", Country.RU, IdentifierKind.Business);
+
+            Assert.True(person.IsValid);
+            Assert.True(person.IsAmbiguous);
+
+            Assert.True(company.IsValid);
+            Assert.False(company.IsAmbiguous);
+        }
+
         [Fact]
         public void PostalCodeIsOutsideAny()
         {

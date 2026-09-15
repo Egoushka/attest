@@ -11,7 +11,7 @@ entry, with the source for each rule.
 The baseline is tagged, so you can always see the whole difference yourself:
 
 ```
-git diff -M upstream-1.1.3..v1.0.1 -- \
+git diff -M upstream-1.1.3..v1.1.0 -- \
   CountryValidator/CountriesValidators/NetherlandsValidator.cs \
   Attest/CountriesValidators/NetherlandsValidator.cs
 ```

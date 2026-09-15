@@ -42,13 +42,18 @@ it:
   including the empty string, and rejected the real formats.
 - **Test data was fiction.** Thailand's tax-code tests used a Swedish personnummer; Cyprus's only
   national-id test was a Czech rodné číslo copied from the Czech file. Both passed for years.
-- Six of the seven bug reports left open upstream are fixed: Netherlands post-2020
-  btw-identificatienummer, Finland's 2023 HETU separators, Mexico, Paraguay, India, France and
-  Switzerland.
+- **Every bug report left open upstream is answered.** Ten of the twelve open issues report a
+  defect — the other two ask whether the project is maintained and what the four `Validate` methods
+  mean. The ten are the Netherlands' post-2020 btw-identificatienummer, Belgium's check number below
+  ten (reported twice), Belgian enterprise numbers starting with 1, Finland's 2023 HETU separators,
+  the printed Swiss TVA number, Mexico's unreachable company RFC, Chile, Paraguay and Uruguay, the
+  Indian Aadhaar validator throwing on a letter and the GSTIN that replaced the VAT TIN in 2017, and
+  the French VAT number capped at nine characters. Each is asserted with its reporter's own value in
+  [UpstreamReportTests.cs](Attest.Tests/UpstreamReportTests.cs).
 
-The test suite went from 586 cases to 3,765, and every validator now has one. What is still weak is
-written down rather than hidden: [KNOWN-ISSUES.md](KNOWN-ISSUES.md) lists 48 gaps by country, each
-with the reason it was left — mostly check digits no authority publishes.
+The test suite went from 586 cases to 4,212, and every validator now has one. What is still weak is
+written down rather than hidden: [KNOWN-ISSUES.md](KNOWN-ISSUES.md) lists 33 entries by country: 19
+still-open gaps, almost all of them check digits no authority publishes, and 14 the repair waves investigated and closed as decided rather than pending.
 
 ## Use
 
@@ -90,10 +95,11 @@ Two things the result tells you that a plain boolean cannot:
 
 - **`IsAmbiguous`** — a few countries issue one number that serves as both a personal and a business
   identifier. Armenia (the 8 digit ՀՎՀՀ, whose digits carry no meaning by the State Revenue
-  Committee's own account) and Nigeria are the two here, and in Russia a sole trader files VAT under
-  his personal number, so that one number is both. There, a value asked about as a business
-  identifier can be valid and indistinguishable at the same time, and the flag says so instead of
-  guessing.
+  Committee's own account) and Nigeria issue literally one number for both. In Russia, Peru,
+  Indonesia and Ukraine the overlap is narrower: a sole trader files VAT under their personal
+  number, so that number is a VAT identifier as well as a personal one. There, a value asked about
+  as a business identifier can be valid and indistinguishable at the same time, and the flag says so
+  instead of guessing.
 - **`Supports(country, kind)`** — whether the country has a rule for that kind at all. A kind with no
   rule reports every value invalid, which is not a verdict on the value. 25 of the 435 country/kind
   pairs in this library have no rule.
@@ -136,7 +142,7 @@ public IActionResult ValidateSSN([Required, SSNAttribute(Country.US)] string ssn
 | Austria              | AT           | Versicherungsnummer (VNR, SVNR, VSNR)                                             | UID (Umsatzsteuer-Identifikationsnummer)                                    |                                                        | :heavy_check_mark: |
 | Australia            | AU           | TFN                                                                               | ABN                                                                         | ABN/ACN/TFN                                            | :heavy_check_mark: |
 | Azerbaijan           | AZ           | PIN - Personal Identification Number                                              | VÖEN/TIN Number                                                             | VÖEN/TIN Number                                        | :heavy_check_mark: |
-| Bosnia               | BA           | Unique Master Citizen Number JMBG                                                 |                                                                             | :x:                                                    | :heavy_check_mark: |
+| Bosnia               | BA           | Unique Master Citizen Number JMBG                                                 |                                                                             | JIB (Jedinstveni identifikacioni broj)                 | :heavy_check_mark: |
 | Belgium              | BE           | Rijksregisternummer                                                               | BTW, TVA, NWSt, ondernemingsnummer (Belgian enterprise number).             |                                                        | :heavy_check_mark: |
 | Bulgaria             | BG           | Edinen grazhdanski nomer (EGN)                                                    | Идентификационен номер по ДДС                                               |                                                        | :heavy_check_mark: |
 | Bahrain              | BH           | Social security number                                                            | :x:                                                                         | :x:                                                    | :heavy_check_mark: |
@@ -169,30 +175,30 @@ public IActionResult ValidateSSN([Required, SSNAttribute(Country.US)] string ssn
 | Indonesia            | ID           | NPWP                                                                              | NPWP - Nomor Pokok Wajib Pajak                                              | NPWP                                                   | :heavy_check_mark: |
 | Ireland              | IE           | PPS No (Personal Public Service Number, Irish personal number).                   | Irish Tax Reference Number (VAT)                                            |                                                        | :heavy_check_mark: |
 | Israel               | IL           |                                                                                   |                                                                             |                                                        | :heavy_check_mark: |
-| India                | IN           | PAN (Permanent Account Number)                                                    | VAT TIN / CST TIN                                                           | PAN (Permanent Account Number)                         | :heavy_check_mark: |
+| India                | IN           | PAN (Permanent Account Number)                                                    | GSTIN (VAT TIN / CST TIN before 2017)                                       | PAN (Permanent Account Number)                         | :heavy_check_mark: |
 | Iceland              | IS           | Kennitala                                                                         | Virdisaukaskattsnumer (VSK)                                                 | Kennitala                                              | :heavy_check_mark: |
 | Italy                | IT           | Codice fiscale - Fiscal Code                                                      | Partita IVA                                                                 |                                                        | :heavy_check_mark: |
-| Japan                | JP           | Japan My Number                                                                   | Japan My Number                                                             | CN hōjin bangō, Japanese Corporate Number              | :heavy_check_mark: |
+| Japan                | JP           | Japan My Number                                                                   | Corporate Number (hōjin bangō)                                              | CN hōjin bangō, Japanese Corporate Number              | :heavy_check_mark: |
 | Korea                | KR           | Resident Registration Number (RRN)                                                | :x:                                                                         | :x:                                                    | :heavy_check_mark: |
 | Kazakhstan           | KZ           | PIN                                                                               | BIN                                                                         | BIN БСН – бизнес-сәйкестендіру нөмірі                  | :heavy_check_mark: |
 | Latvia               | LV           | Personal Code - Personas kods                                                     | PVN (Pievienotās vērtības nodokļa, Latvian VAT number)                      | PVN (Pievienotās vērtības nodokļa, Latvian VAT number) | :heavy_check_mark: |
 | Lithuania            | LT           | Personal Code - Asmens kodas                                                      | PVM (Pridėtinės vertės mokestis mokėtojo kodas, Lithuanian VAT number)      |                                                        | :heavy_check_mark: |
 | Luxembourg           | LU           | Personal identification code (PIC)                                                | TVA (taxe sur la valeur ajoutée, Luxembourgian VAT number)                  |                                                        | :heavy_check_mark: |
 | Malta                | MT           | Identity Card Number                                                              | VAT Number                                                                  |                                                        | :heavy_check_mark: |
-| Monaco               | MC           | :x:                                                                               | VAT Number                                                                  | VAT Number                                             | :heavy_check_mark: |
+| Monaco               | MC           | :x:                                                                               | VAT Number                                                                  | :x:                                                    | :heavy_check_mark: |
 | Mexico               | MX           | CURP (Clave Única de Registro de Población)                                       | RFC (Registro Federal de Contribuyentes)                                    | RFC (Registro Federal de Contribuyentes)               | :heavy_check_mark: |
 | Malaysia             | MY           | NRIC (National Registration Identity Card number)                                 | ITN (Income Tax Number)                                                     | ITN (Income Tax Number)                                | :heavy_check_mark: |
 | Moldova              | MD           | IDNP (Identification Number of Person)                                            | Validate VAT code (Nr. de Inregistrare TVA)                                 |                                                        | :heavy_check_mark: |
 | Montenegro           | ME           |                                                                                   |                                                                             |                                                        | :heavy_check_mark: |
 | Macedonia            | MK           |                                                                                   | Vat Number                                                                  |                                                        | :heavy_check_mark: |
-| Mauritius            | MU           | ID number (Mauritian national identifier)                                         |                                                                             |                                                        | :heavy_check_mark: |
+| Mauritius            | MU           | ID number (Mauritian national identifier)                                         |                                                                             |                                                        | :x:                |
 | Netherlands          | NL           | Burgerservicenummer (BSN) - Citizen Service Number or Onderwijsnummer             | Omzetbelastingnummer (BTW)                                                  |                                                        | :heavy_check_mark: |
 | Nigeria              | NG           | NIN (National Identification Number)                                              | TIN (Tax Identification Number)                                             | TIN (Tax Identification Number)                        | :heavy_check_mark: |
 | Norway               | NO           |                                                                                   |                                                                             |                                                        | :heavy_check_mark: |
 | New Zealand          | NZ           |                                                                                   |                                                                             |                                                        | :heavy_check_mark: |
 | Peru                 | PE           | RUC                                                                               | RUC Peruvian company tax number                                             | RUC Peruvian company tax number                        | :heavy_check_mark: |
 | Philippines          | PH           |                                                                                   |                                                                             |                                                        | :heavy_check_mark: |
-| Pakistan             | PK           | CNIC (Computerized National Identity Card)                                        |                                                                             |                                                        | :heavy_check_mark: |
+| Pakistan             | PK           | CNIC (Computerized National Identity Card)                                        | :x:                                                                         | :x:                                                    | :heavy_check_mark: |
 | Poland               | PL           | Polish National Identification Number (PESEL)                                     | Numer Identyfikacji Podatkowej (NIP)                                        |                                                        | :heavy_check_mark: |
 | Portugal             | PT           | Número de identificação civil - NIC                                               | Numero de Identificacao Fiscal (NIF)                                        |                                                        | :heavy_check_mark: |
 | Paraguay             | PY           | Registro Unico de Contribuyentes (RUC)                                            | Registro Unico de Contribuyentes (RUC)                                      | Registro Unico de Contribuyentes (RUC)                 | :heavy_check_mark: |
@@ -205,11 +211,11 @@ public IActionResult ValidateSSN([Required, SSNAttribute(Country.US)] string ssn
 | El Salvador          | SV           | NIT (Número de Identificación Tributaria, El Salvador tax number)                 |                                                                             |                                                        | :heavy_check_mark: |
 | Thailand             | TH           | Thailand citizen number                                                           |                                                                             |                                                        | :heavy_check_mark: |
 | Turkey               | TR           | T.C. Kimlik No. (Turkish personal identification number)                          | VKN (Vergi Kimlik Numarası, Turkish tax identification number)              | VKN (Vergi Kimlik Numarası)                            | :heavy_check_mark: |
-| Taiwan               | TW           | SSN                                                                               | :x:                                                                         | :x:                                                    | :heavy_check_mark: |
+| Taiwan               | TW           | SSN                                                                               | Unified Business Number (統一編號)                                              | Unified Business Number (統一編號)                         | :heavy_check_mark: |
 | Spain                | ES           | DNI/NIF/NIE                                                                       | NIF / CIF                                                                   | NIF / CIF                                              | :heavy_check_mark: |
 | Switzerland          | CH           | AHV (Sozialversicherungsnummer)                                                   | VAT, MWST, TVA, IVA, TPV (Mehrwertsteuernummer, the Swiss VAT number).      | UID Unternehmens-Identifikationsnummer                 | :heavy_check_mark: |
 | Sweden               | SE           | Personnummer - Personal Identity Number                                           | VAT-nummer or momsnummer                                                    | Orgnr (Organisationsnummer, Swedish company number)    | :heavy_check_mark: |
-| United States        | US           | Social Security Number                                                            | Not Supported                                                               | EIN                                                    | :heavy_check_mark: |
+| United States        | US           | Social Security Number                                                            | :x:                                                                         | EIN                                                    | :heavy_check_mark: |
 | Ukraine              | UA           | Social Number                                                                     | VAT                                                                         | VAT                                                    | :heavy_check_mark: |
 | Uzbekistan           | UZ           | PINFL (Personal Identification Number of a Physical Person)                       | :x:                                                                         | :x:                                                    | :heavy_check_mark: |
 | Uruguay              | UY           | RUT numbers                                                                       | RUT numbers                                                                 | RUT numbers                                            | :heavy_check_mark: |
