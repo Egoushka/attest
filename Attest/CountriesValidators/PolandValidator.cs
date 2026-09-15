@@ -5,9 +5,11 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Poland.</summary>
     public class PolandValidator : IdValidationAbstract
     {
 
+        /// <summary>Creates a validator for Poland (PL).</summary>
         public PolandValidator()
         {
             CountryCode = nameof(Country.PL);
@@ -71,6 +73,7 @@ namespace Attest.Countries
             return sum.Mod(11).Mod(10);
         }
 
+        /// <summary>Validates a company identifier issued by Poland.</summary>
         public override ValidationResult ValidateEntity(string number)
         {
             number = number.RemoveSpecialCharacthers();
@@ -222,6 +225,7 @@ namespace Attest.Countries
             return sum % 10;
         }
 
+        /// <summary>Validates a postal code issued by Poland.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

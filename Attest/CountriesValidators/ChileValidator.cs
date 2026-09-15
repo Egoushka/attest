@@ -5,8 +5,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Chile.</summary>
     public class ChileValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Chile (CL).</summary>
         public ChileValidator()
         {
             CountryCode = nameof(Country.CL);
@@ -91,6 +93,7 @@ namespace Attest.Countries
             return "0123456789K"[s % 11];
         }
 
+        /// <summary>Validates a postal code issued by Chile.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

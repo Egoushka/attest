@@ -4,8 +4,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Ecuador.</summary>
     public class EcuadorValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Ecuador (EC).</summary>
         public EcuadorValidator()
         {
             CountryCode = nameof(Country.EC);
@@ -137,6 +139,10 @@ namespace Attest.Countries
         }
 
 
+        /// <summary>
+        /// The weighted sum an Ecuadorian identifier's check digit is derived from, or -1 for a
+        /// null value.
+        /// </summary>
         public int Checksum(string number)
         {
             if (number == null)
@@ -194,6 +200,7 @@ namespace Attest.Countries
             return ValidationResult.Success();
         }
 
+        /// <summary>Validates a postal code issued by Ecuador.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

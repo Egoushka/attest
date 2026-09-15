@@ -6,8 +6,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Austria.</summary>
     public class AustriaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Austria (AT).</summary>
         public AustriaValidator()
         {
             CountryCode = nameof(Country.AT);
@@ -66,6 +68,10 @@ namespace Attest.Countries
             return ValidationResult.Success();
         }
 
+        /// <summary>
+        /// The check digit of an Austrian Steuernummer, or -1 when the value is null or shorter
+        /// than the eight digits the rule reads.
+        /// </summary>
         public int CalculateChecksumTaxCode(string number)
         {
             if (number == null || number.Length < 8)
@@ -149,6 +155,7 @@ namespace Attest.Countries
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>Validates a postal code issued by Austria.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

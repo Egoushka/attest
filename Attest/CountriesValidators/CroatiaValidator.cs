@@ -3,8 +3,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Croatia.</summary>
     public class CroatiaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Croatia (HR).</summary>
         public CroatiaValidator()
         {
             CountryCode = nameof(Country.HR);
@@ -67,6 +69,7 @@ namespace Attest.Countries
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>Validates a postal code issued by Croatia.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

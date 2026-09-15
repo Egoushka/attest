@@ -3,8 +3,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Serbia.</summary>
     public class SerbiaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Serbia (RS).</summary>
         public SerbiaValidator()
         {
             CountryCode = nameof(Country.RS);
@@ -80,11 +82,16 @@ namespace Attest.Countries
             return 70 <= rr && rr <= 89 ? ValidationResult.Success() : ValidationResult.Invalid("Invalid Region. Serbia region is between 70-89");
         }
 
+        /// <summary>Validates a company identifier issued by Serbia.</summary>
         public override ValidationResult ValidateEntity(string id)
         {
             return ValidateVAT(id);
         }
 
+        /// <summary>
+        /// Validates a natural person's tax code, which here is the same number
+        /// <see cref="ValidateNationalIdentity"/> validates.
+        /// </summary>
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
             return ValidateNationalIdentity(ssn);
@@ -116,6 +123,7 @@ namespace Attest.Countries
 
         }
 
+        /// <summary>Validates a postal code issued by Serbia.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

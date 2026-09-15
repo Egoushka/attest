@@ -4,8 +4,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Japan.</summary>
     public class JapanValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Japan (JP).</summary>
         public JapanValidator()
         {
             CountryCode = nameof(Country.JP);
@@ -109,11 +111,18 @@ namespace Attest.Countries
             }
         }
 
+        /// <summary>
+        /// Validates the number a Japanese business is identified by, which is the corporate number
+        /// <see cref="ValidateEntity"/> validates and not the individual My Number. Japan levies a
+        /// consumption tax rather than VAT, and a qualified invoice registration number is the
+        /// corporate number with a T in front.
+        /// </summary>
         public override ValidationResult ValidateVAT(string vatId)
         {
             return ValidateEntity(vatId);
         }
 
+        /// <summary>Validates a postal code issued by Japan.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

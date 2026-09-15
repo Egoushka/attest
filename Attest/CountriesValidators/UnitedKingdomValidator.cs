@@ -5,14 +5,19 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Great Britain.</summary>
     public class UnitedKingdomValidator : IdValidationAbstract
     {
 
+        /// <summary>Creates a validator for Great Britain (GB).</summary>
         public UnitedKingdomValidator()
         {
             CountryCode = nameof(Country.GB);
         }
 
+        /// <summary>
+        /// Validates a company identifier issued by Great Britain: Value added tax registration number.
+        /// </summary>
         public override ValidationResult ValidateEntity(string id)
         {
             return ValidateVAT(id);
@@ -37,6 +42,7 @@ namespace Attest.Countries
             return ValidationResult.Invalid("Invalid");
         }
 
+        /// <summary>Validates a natural person's tax code.</summary>
         public override ValidationResult ValidateIndividualTaxCode(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
@@ -47,6 +53,10 @@ namespace Attest.Countries
             return isValid ? ValidationResult.Success() : ValidationResult.Invalid("Invalid format");
         }
 
+        /// <summary>
+        /// Validates an NHS number, the ten digit identifier of a patient registered with the
+        /// National Health Service. Not a tax or company identifier.
+        /// </summary>
         public ValidationResult ValidateNHS(string ssn)
         {
             ssn = ssn.RemoveSpecialCharacthers();
@@ -141,6 +151,7 @@ namespace Attest.Countries
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>Validates a postal code issued by Great Britain.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers().ToUpperInvariant();

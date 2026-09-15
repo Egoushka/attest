@@ -2,8 +2,10 @@
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Malaysia.</summary>
     public class MalaysiaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Malaysia (MY).</summary>
         public MalaysiaValidator()
         {
             CountryCode = nameof(Country.MY);
@@ -60,6 +62,7 @@ namespace Attest.Countries
             return ValidateEntity(vatId);
         }
 
+        /// <summary>Validates a postal code issued by Malaysia.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

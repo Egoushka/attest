@@ -4,8 +4,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by New Zealand.</summary>
     public class NewZealandValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for New Zealand (NZ).</summary>
         public NewZealandValidator()
         {
             CountryCode = nameof(Country.NZ);
@@ -81,6 +83,7 @@ namespace Attest.Countries
         }
 
 
+        /// <summary>Validates a VAT number issued by New Zealand.</summary>
         public override ValidationResult ValidateVAT(string number)
         {
             return ValidateEntity(number);
@@ -92,6 +95,7 @@ namespace Attest.Countries
             return r < 0 ? r + m : r;
         }
 
+        /// <summary>Validates a postal code issued by New Zealand.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

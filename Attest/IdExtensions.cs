@@ -5,8 +5,16 @@ using System.Text;
 
 namespace Attest
 {
+    /// <summary>
+    /// The string and arithmetic helpers the country validators share. Public because the
+    /// validator classes are, and they are extension methods on <see cref="string"/>.
+    /// </summary>
     public static class IdExtensions
     {
+        /// <summary>
+        /// The decimal digits of a non-negative number, most significant first. Zero yields nothing,
+        /// and a negative number yields nothing.
+        /// </summary>
         public static IEnumerable<int> ToDigitEnumerable(this int number)
         {
             IList<int> digits = new List<int>();
@@ -117,6 +125,10 @@ namespace Attest
                 : value;
         }
 
+        /// <summary>
+        /// The value of an ASCII digit. Anything else returns its distance from '0' rather than
+        /// throwing, so guard with <c>IsAsciiDigits</c> before calling it on unchecked input.
+        /// </summary>
         public static int ToInt(this char c)
         {
             return Convert.ToInt32(c) - Convert.ToInt32('0');
@@ -124,6 +136,14 @@ namespace Attest
 
 
 
+        /// <summary>
+        /// The weighted sum of a number's digits: each character multiplied by the weight at the
+        /// same index. The caller is responsible for <paramref name="input"/> being at least as long
+        /// as <paramref name="multipliers"/>.
+        /// </summary>
+        /// <param name="input">The digits to weight.</param>
+        /// <param name="multipliers">One weight per position.</param>
+        /// <param name="start">The first position to include, for a rule that skips a prefix.</param>
         public static int Sum(this string input, int[] multipliers, int start = 0)
         {
             var sum = 0;
@@ -137,16 +157,22 @@ namespace Attest
             return sum;
         }
 
+        /// <summary>Everything from <paramref name="startIndex"/> onwards.</summary>
         public static string Slice(this string input, int startIndex)
         {
             return input.Substring(startIndex);
         }
 
+        /// <summary><paramref name="length"/> characters from <paramref name="startIndex"/>.</summary>
         public static string Slice(this string input, int startIndex, int length)
         {
             return input.Substring(startIndex, length);
         }
 
+        /// <summary>
+        /// Whether the last digit is the Luhn check digit of the ones before it. Base ten only; the
+        /// Indian GSTIN's base 36 variant is computed in its own validator.
+        /// </summary>
         public static bool CheckLuhnDigit(this string stringDigits)
         {
             int lastDigit = (int)Char.GetNumericValue(stringDigits[stringDigits.Length - 1]);
@@ -186,6 +212,10 @@ namespace Attest
             return str;
         }
 
+        /// <summary>
+        /// The remainder in 0..m-1, where C#'s own <c>%</c> keeps the sign of the dividend. Check
+        /// digit rules are written in terms of this one.
+        /// </summary>
         public static int Mod(this int x, int m)
         {
             int r = x % m;

@@ -4,8 +4,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Turkey.</summary>
     public class TurkeyValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Turkey (TR).</summary>
         public TurkeyValidator()
         {
             CountryCode = nameof(Country.TR);
@@ -118,6 +120,7 @@ namespace Attest.Countries
             return ValidationResult.Success();
         }
 
+        /// <summary>Validates a postal code issued by Turkey.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             // Five digits opening with the two digit licence plate code of one of the 81 provinces,

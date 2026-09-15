@@ -2,6 +2,7 @@
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Bulgaria.</summary>
     public class BulgariaValidator : IdValidationAbstract
     {
         private static readonly Regex RegexPhysicalPerson = new Regex(@"^[0-9][0-9][0-5][0-9][0-3][0-9][0-9]{4}$");
@@ -10,10 +11,12 @@ namespace Attest.Countries
         private static readonly int[] MultipliersMiscellaneous = { 4, 3, 2, 7, 6, 5, 4, 3, 2 };
 
 
+        /// <summary>Creates a validator for Bulgaria (BG).</summary>
         public BulgariaValidator()
         {
             CountryCode = nameof(Country.BG);
         }
+        /// <summary>Validates a company identifier issued by Bulgaria.</summary>
         public override ValidationResult ValidateEntity(string vat)
         {
             bool isValid;
@@ -45,6 +48,7 @@ namespace Attest.Countries
             return BgPhysicalPerson(number) ? ValidationResult.Success() : ValidationResult.Invalid("Invalid code");
         }
 
+        /// <summary>Validates a natural person's tax code.</summary>
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
             ssn = ssn.RemoveSpecialCharacthers();
@@ -131,6 +135,10 @@ namespace Attest.Countries
             return total == vat[9].ToInt();
         }
 
+        /// <summary>
+        /// Whether the value is a PNF, the personal number Bulgaria issues to a foreigner. Always
+        /// ten digits.
+        /// </summary>
         public static bool BgForeignerPhysicalPerson(string vat)
         {
             // Personal number of a foreigner (PNF) is always exactly 10 digits.
@@ -145,6 +153,10 @@ namespace Attest.Countries
             return total % 10 == vat[9].ToInt();
         }
 
+        /// <summary>
+        /// Whether the value satisfies the "other" BULSTAT checksum, which applies to the ten digit
+        /// form alone.
+        /// </summary>
         public static bool BgMiscellaneousVatNumber(string vat)
         {
             // The "other" BULSTAT checksum only applies to the 10 digit form.
@@ -171,6 +183,7 @@ namespace Attest.Countries
             return total == vat[9].ToInt();
         }
 
+        /// <summary>Validates a postal code issued by Bulgaria.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

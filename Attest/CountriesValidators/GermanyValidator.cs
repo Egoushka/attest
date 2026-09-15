@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Germany.</summary>
     public class GermanyValidator : IdValidationAbstract
     {
         // Steuernummer rules, formats and factors below follow the official ELSTER specification
@@ -40,6 +41,7 @@ namespace Attest.Countries
         readonly HashSet<string> bayerischerProgrammierverbund =
             new HashSet<string> { "9", "30", "40", "10", "32", "31", "41" };
 
+        /// <summary>Creates a validator for Germany (DE).</summary>
         public GermanyValidator()
         {
             CountryCode = nameof(Country.DE);
@@ -379,6 +381,7 @@ namespace Attest.Countries
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>Validates a postal code issued by Germany.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

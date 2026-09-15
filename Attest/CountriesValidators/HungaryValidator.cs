@@ -3,8 +3,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Hungary.</summary>
     public class HungaryValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Hungary (HU).</summary>
         public HungaryValidator()
         {
             CountryCode = nameof(Country.HU);
@@ -141,6 +143,7 @@ namespace Attest.Countries
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>Validates a postal code issued by Hungary.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

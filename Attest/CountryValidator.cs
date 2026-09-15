@@ -5,6 +5,16 @@ using System.Linq;
 
 namespace Attest
 {
+    /// <summary>
+    /// The entry point: one object that dispatches to the rules of 87 countries. Construct it once
+    /// and keep it -- the country table is built once per process, and nothing here holds state.
+    /// </summary>
+    /// <example>
+    /// <code>
+    /// var validator = new CountryValidator();
+    /// ValidationResult result = validator.ValidateIndividualTaxCode("93051822361", Country.BE);
+    /// </code>
+    /// </example>
     public class CountryValidator : ICountryValidator
     {
         static readonly Dictionary<Country, IdValidationAbstract> _supportedCountries;
@@ -23,11 +33,16 @@ namespace Attest
             _supportedCountries = Load();
         }
 
+        /// <summary>
+        /// Whether this library has any rules for the country. A country it does not know reports
+        /// every value invalid; ask <see cref="Supports"/> for a finer answer, kind by kind.
+        /// </summary>
         public static bool IsCountrySupported(Country country)
         {
             return _supportedCountries.ContainsKey(country);
         }
 
+        /// <summary>The alpha-2 code of every country this library has rules for.</summary>
         public static List<string> SupportedCountries
         {
             get
@@ -133,6 +148,10 @@ namespace Attest
             return ssnCountries;
         }
 
+        /// <summary>Validates a natural person's tax code.</summary>
+        /// <param name="ssn">The value to validate, with or without the separators it is printed with.</param>
+        /// <param name="country">The country whose rule to apply.</param>
+        /// <returns>Whether the value is valid, and if not, why.</returns>
         public ValidationResult ValidateIndividualTaxCode(string ssn, Country country)
         {
             if (_supportedCountries.ContainsKey(country))
@@ -152,6 +171,10 @@ namespace Attest
 
         }
 
+        /// <summary>Validates a VAT registration number, with or without its country prefix.</summary>
+        /// <param name="vat">The value to validate. A leading country prefix is stripped from the front only.</param>
+        /// <param name="country">The country whose rule to apply.</param>
+        /// <returns>Whether the value is valid, and if not, why.</returns>
         public ValidationResult ValidateVAT(string vat, Country country)
         {
             if (_supportedCountries.ContainsKey(country))
@@ -171,6 +194,10 @@ namespace Attest
 
         }
 
+        /// <summary>Validates a company or organisation identifier.</summary>
+        /// <param name="vat">The value to validate, with or without the separators it is printed with.</param>
+        /// <param name="country">The country whose rule to apply.</param>
+        /// <returns>Whether the value is valid, and if not, why.</returns>
         public ValidationResult ValidateEntity(string vat, Country country)
         {
             if (_supportedCountries.ContainsKey(country))
@@ -190,6 +217,10 @@ namespace Attest
 
         }
 
+        /// <summary>Validates a national identity number.</summary>
+        /// <param name="ssn">The value to validate, with or without the separators it is printed with.</param>
+        /// <param name="country">The country whose rule to apply.</param>
+        /// <returns>Whether the value is valid, and if not, why.</returns>
         public ValidationResult ValidateNationalIdentityCode(string ssn, Country country)
         {
             if (_supportedCountries.ContainsKey(country))
@@ -209,6 +240,10 @@ namespace Attest
 
         }
 
+        /// <summary>Validates a postal code.</summary>
+        /// <param name="zip">The value to validate, with or without the space it is printed with.</param>
+        /// <param name="country">The country whose rule to apply.</param>
+        /// <returns>Whether the value is valid, and if not, why.</returns>
         public ValidationResult ValidateZIPCode(string zip, Country country)
         {
             if (_supportedCountries.ContainsKey(country))

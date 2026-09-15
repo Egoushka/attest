@@ -3,10 +3,12 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by France.</summary>
     public class FranceValidator : IdValidationAbstract
     {
         readonly string _alphabet = "0123456789ABCDEFGHJKLMNPQRSTUVWXYZ";
 
+        /// <summary>Creates a validator for France (FR).</summary>
         public FranceValidator()
         {
             CountryCode = nameof(Country.FR);
@@ -188,6 +190,7 @@ namespace Attest.Countries
             return ValidationResult.Success();
         }
 
+        /// <summary>Validates a postal code issued by France.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

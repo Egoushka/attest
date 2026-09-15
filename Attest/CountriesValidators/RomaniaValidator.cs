@@ -3,13 +3,16 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Romania.</summary>
     public class RomaniaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Romania (RO).</summary>
         public RomaniaValidator()
         {
             CountryCode = nameof(Country.RO);
         }
 
+        /// <summary>Validates a company identifier issued by Romania: Cod fiscal.</summary>
         public override ValidationResult ValidateEntity(string id)
         {
             return ValidateVAT(id);
@@ -87,6 +90,7 @@ namespace Attest.Countries
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>Validates a VAT number issued by Romania: Cod fiscal TVA.</summary>
         public override ValidationResult ValidateVAT(string vatId)
         {
             vatId = vatId.RemoveSpecialCharacthers();
@@ -120,6 +124,7 @@ namespace Attest.Countries
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>Validates a postal code issued by Romania.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
