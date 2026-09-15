@@ -53,7 +53,10 @@ namespace Attest.Countries
             // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/br/cnpj.py
             if (!Regex.IsMatch(id, @"^[0-9A-Z]{12}[0-9]{2}$") || id.StartsWith("000000000000", StringComparison.Ordinal))
             {
-                return ValidationResult.InvalidFormat("12345678901234");
+                // The hint has to show the alphanumeric shape: a digits-only example told a caller
+                // holding 12.ABC.345/01DE-35 that its letters were the defect. This is Receita's
+                // own published example, and the row asserting it valid is in the test file.
+                return ValidationResult.InvalidFormat("12ABC34501DE35");
             }
 
             var registration = id.Substring(0, 12);

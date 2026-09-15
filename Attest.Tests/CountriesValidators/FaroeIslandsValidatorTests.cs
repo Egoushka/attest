@@ -50,6 +50,10 @@ namespace Attest.Tests
         [Theory]
         [InlineData("150785123", true)]
         [InlineData("010190-456", true)]
+        [InlineData("290200123", true)]    // 29 February: real in some centuries, and the P number names none
+        [InlineData("310422123", false)]   // 31 April, impossible in every century
+        [InlineData("300222123", false)]   // 30 February, likewise
+        [InlineData("310922123", false)]   // 31 September, likewise
         [InlineData("311299001", true)]    // 31 December, the last day of a long month
         [InlineData("999999999", false)]   // day 99 and month 99 are not a date
         [InlineData("000000000", false)]   // day 00 and month 00 are not a date
@@ -78,6 +82,8 @@ namespace Attest.Tests
         [InlineData("12", false)]
         [InlineData("1000", false)]
         [InlineData(null, false)]
+        [InlineData("971", false)]     // Above 970, where the published list ends
+        [InlineData("999", false)]
         [InlineData("", false)]
         [InlineData("abc", false)]
         public void TestPostalCode(string code, bool isValid)
