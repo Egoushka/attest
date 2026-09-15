@@ -1,9 +1,15 @@
 # Known weaknesses
 
-Found during the audit and the repair waves, and deliberately left alone: either the fix would have
-been a rewrite, or the country's real rule could not be sourced with confidence. None of these is a
-wrong verdict on a well-formed number — they are validators that check less than the country
-publishes, or that are stricter than the spec in a narrow case.
+What is left after the repair waves, and why. None of these is a wrong verdict on a well-formed
+number — they are validators that check less than the country publishes, or that are stricter than
+the spec in a narrow case. Three labels:
+
+- ***Not fixed*** — a real gap nobody has closed. Almost every one is a check digit the issuing
+  authority does not publish. Inventing one rejects live numbers and nobody reports it to you, so
+  the format and the field ranges are validated and the gap is written down instead.
+- ***Won't fix*** — investigated and decided against: the rule was sourced and says not to make the
+  change, or the sources contradict each other and any choice would reject what the others describe.
+- ***Settled*** — not a defect. The behaviour is what the country publishes.
 
 Anyone picking one of these up: confirm the rule from an official source or python-stdnum first, and
 add the test before the fix.
@@ -15,9 +21,7 @@ add the test before the fix.
 - The 10th digit of the public services number (the 'specifying digit') is not verified.
   - *Not fixed:* Law HO-288-N art. 4 part 2 and decision N 1783-N annex 1 both say the calculation order for that digit is established by the authorised body (the migration/population-register authority, formerly the Ministry of Social Security), and that procedure is not published. Format and field ranges are enforced; the check digit is not.
 - The unshifted June month code (06, 26, 46, 66, 86) is accepted alongside the shifted one (14, 34, 54, 74, 94).
-  - *Not fixed:* The acts are self-contradictory here: they state the range as 01-12 (which contains 06) and then say June is coded 14. I could not establish which reading governs issued numbers, so the validator accepts both rather than risking a false negative on live June-born numbers. No test asserts either way.
-- The day/month pair is not cross-checked against the year (e.g. day 31 in a 30-day month, 29 February in a non-leap year).
-  - *Not fixed:* Out of scope for the person/business question and not required by the acts; the century is derivable from the month pair, so it could be added later, but it buys nothing for the ambiguity this task was about.
+  - *Won't fix:* The acts are self-contradictory here: they state the range as 01-12 (which contains 06) and then say June is coded 14. I could not establish which reading governs issued numbers, so the validator accepts both rather than risking a false negative on live June-born numbers. No test asserts either way. The acts are self-contradictory and accepting both codings cannot false reject; picking one would.
 
 ## Azerbaijan
 
@@ -31,17 +35,10 @@ add the test before the fix.
 - The YYMM birth prefix of the CPR is not validated, so '999912345' (month 99) is accepted as valid.
   - *Not fixed:* The documented format is YYMMNNNNC, but the same source notes a minority of citizens and residents hold personal numbers that do not follow it, so a month range check would reject real numbers. No test asserts either way.
 
-## Belarus
-
-- IdExtensions.Translit() is dead code (BelarusValidator was its only caller and now uses its own Cyrillic look-alike map instead).
-  - *Not fixed:* Attest/IdExtensions.cs is on the forbidden shared-file list. Confirmed the situation is unchanged: grep for Translit() across Attest/CountriesValidators returns zero hits, and BelarusValidator.Normalize() does the mapping inline (А->A, В->B, Н->H, Р->P, С->C) precisely because transliteration is wrong for these numbers. Unchanged, reported only.
-
 ## Bolivia
 
-- The complemento is still capped at one character (`[A-Za-z0-9]?`), but SEGIP assigns two-character complements such as "1A" and "1B".
-  - *Not fixed:* I pulled the SEGIP regulation itself. Articulo 40 defines the Numero Complemento Alfanumerico as "caracteres alfanumericos" (plural, no count) separated from the root number by a hyphen; the document states no length anywhere. Widening to {0,2} without a count is guesswork and it widens a real false-positive hole: because RemoveSpecialCharacthers is not applied here and the complemento may be numeric, "1234567890" would then validate as 8 digits plus a two-digit complemento. I fixed only the part that is wrong under any reading (the underscore) and left the count alone.
 - The 7-13 digit bound I encoded is a union of secondary sources, not a SIN specification.
-  - *Not fixed:* Fixed in the sense that the unbounded regex is gone, but flagging the residual uncertainty: the SIN publishes the generation rule (CI + 3 digits) and no total length, and the three secondary sources disagree on the maximum (10 / 12 / 13). I took the widest published bound so the change cannot reject anything any source endorses, and the reasoning is in a code comment. If a SIAT field spec turns up later the maximum should be tightened to it.
+  - *Won't fix:* Fixed in the sense that the unbounded regex is gone, but flagging the residual uncertainty: the SIN publishes the generation rule (CI + 3 digits) and no total length, and the three secondary sources disagree on the maximum (10 / 12 / 13). I took the widest published bound so the change cannot reject anything any source endorses, and the reasoning is in a code comment. If a SIAT field spec turns up later the maximum should be tightened to it. The widest published bound is the only one that cannot reject a number some source endorses.
 
 ## Bosnia
 
@@ -51,26 +48,22 @@ add the test before the fix.
 ## Brazil
 
 - No text-readable Receita Federal source states that repeated-digit CPFs are invalid; the rule rests on two independent Brazilian implementations plus the arithmetic demonstration.
-  - *Not fixed:* Fix applied anyway (it was the assignment), but flagging the citation quality: gov.br's own CPF material is either a scanned PDF or behind a restricted-content gate for fetching. Note the behaviour now deliberately diverges from python-stdnum, which rejects only the all-zero CPF via `int(number) <= 0`. The code comment says so explicitly.
-- ValidateEntity's InvalidFormat hint is still the digits-only example "12345678901234", which no longer advertises that letters are accepted.
-  - *Not fixed:* Cosmetic message-only change with no behavioural effect, and every existing assertion is on IsValid rather than ErrorMessage. Left alone to keep the diff minimal; one-line change if wanted.
+  - *Won't fix:* Fix applied anyway (it was the assignment), but flagging the citation quality: gov.br's own CPF material is either a scanned PDF or behind a restricted-content gate for fetching. Note the behaviour now deliberately diverges from python-stdnum, which rejects only the all-zero CPF via `int(number) <= 0`. The code comment says so explicitly. The rule is implemented; only the citation quality is flagged.
 
 ## Cyprus
 
 - ValidateNationalIdentity checks format only (10 digits), and the question of whether TICs in the 6xxxxxxx range use a revised check-character algorithm after the Tax For All migration is unresolved.
-  - *Not fixed:* Unchanged from the earlier wave and still correct: no Cypriot government source publishes an identity-card check digit, and no specification of a second VAT check-character algorithm exists. python-stdnum applies one algorithm to all CY numbers. Nothing new found this pass; I did not touch either method.
+  - *Won't fix:* Unchanged from the earlier wave and still correct: no Cypriot government source publishes an identity-card check digit, and no specification of a second VAT check-character algorithm exists. python-stdnum applies one algorithm to all CY numbers. Nothing new found this pass; I did not touch either method. Re-checked this pass and unchanged: no Cypriot source publishes an identity card check digit.
 
 ## DominicanRepublic
 
 - The _validCedula / _validRnc whitelists are consulted before the length check and contain entries shorter than the format (two 10-digit cedulas, one 8-digit RNC), so ValidateIndividualTaxCode("0094662667") is valid at 10 characters.
-  - *Not fixed:* Unchanged from the earlier wave's finding and still correct: this is a faithful port - python-stdnum's own cedula.py/rnc.py whitelists carry those exact short tokens and stdnum also checks the whitelist before the length. "Fixing" it would diverge from the reference data on numbers the DGII apparently does issue.
+  - *Won't fix:* Unchanged from the earlier wave's finding and still correct: this is a faithful port - python-stdnum's own cedula.py/rnc.py whitelists carry those exact short tokens and stdnum also checks the whitelist before the length. "Fixing" it would diverge from the reference data on numbers the DGII apparently does issue. Diverging from the reference data would reject numbers the DGII apparently does issue.
 
 ## FaroeIslands
 
-- The new P-number guard still accepts impossible calendar dates (31 February, 31 April, 30 February), and it may reject the non-resident identification number TAKS issues.
-  - *Not fixed:* Two separate blockers, both unresolved after searching. (1) No century rule is published for the two-digit year, and 29 February is only a real date under one century interpretation (2000 yes, 1900 no), so a day-in-month check cannot be written without inventing the rule the earlier wave already refused to invent. A day 01-31 / month 01-12 guard is exactly what the OECD sheet states and nothing more. (2) The same OECD sheet says that for a person who is not a Faroese resident but is taxable there, "the Faroese Tax Administration issues an Identification number. The structure and format of this Identification number is similar, but not identical to the P number" — and no source I could find (OECD, norden.org, lookuptax, torshavn.fo, the TAKS temporary-p-tal application form) publishes that format. If it offsets the day the way Danish erstatningsnumre (+60) or Norwegian D-numbers (+40) do, my new guard would reject it. I flagged this risk in the source comment. Widening it later is a one-line regex change.
-- Postal codes 971-999 and the large unassigned gaps inside 100-970 are still accepted.
-  - *Not fixed:* The earlier wave's reason still stands for the assigned-set part: encoding the roughly 100 allocated codes would need a hard-coded list that exists nowhere else among the repo's ~85 ValidatePostalCode methods. I did not add a 970 ceiling either, because my only source for the upper bound is the Danish Wikipedia list, and a newly allocated code above 970 would then be falsely rejected. I tightened only the 000-099 block, which is impossible under every source.
+- ValidateIndividualTaxCode may reject the identification number TAKS issues to a non-resident who is taxable in the Faroes.
+  - *Not fixed:* The OECD sheet says that number's structure is "similar, but not identical to the P number" and no source publishes it -- not OECD, norden.org, lookuptax, torshavn.fo, nor the TAKS temporary p-tal application form. If it offsets the day the way Danish erstatningsnumre (+60) or Norwegian D-numbers (+40) do, the calendar check now in place would reject it. Widening it is a one-line regex change once the format is known.
 
 ## Georgia
 
@@ -79,34 +72,25 @@ add the test before the fix.
 
 ## Iceland
 
-- The century digit (position 10) is decoded as `year = (century == 9) ? 1900 + year : (20 + century) * 100 + year`. Digit 8 — documented by Registers Iceland/Wikipedia as marking births in 1800-1899 — yields year 28yy instead of 18yy, and digits 1-7 are accepted at all, producing years 2100-2799. python-stdnum restricts the field to [09] and so rejects digit 8 entirely.
-  - *Not fixed:* Out of scope for the assigned question, and the two candidate fixes disagree: python-stdnum's [09] would reject 1800s-born people that Þjóðskrá documents as existing, while accepting 8 needs a rule I could not source with confidence for the 1-7 values. The practical impact is near zero — the decoded year only flips a verdict for 29 February in an x800 year, since 1800 is not a leap year but 2800 is; every other date has identical leap status at +1000 years. Needs its own sourcing pass against skra.is.
 - ValidateVAT accepts any 5-6 digit VSK number with no structural or check-digit validation.
-  - *Not fixed:* Not part of the assignment and not researched; reported only so it is not mistaken for something this pass verified.
-
-## Indonesia
-
-- ValidateNik checks the 16-digit shape and the embedded birth date but not the registration-place code (first 6 digits), so a NIK with an impossible province/regency is accepted.
-  - *Not fixed:* python-stdnum validates it against numdb.get('id/loc'), a bundled province/regency/district database; this library carries no such table and embedding one is a data-shipping decision, not a local fix. Province codes alone are not a safe substitute - the 2022 reorganisation added codes 93-96, so a hardcoded range would start rejecting valid numbers. Documented in the XML comment on ValidateNik.
-- ValidateVAT still delegates to ValidateEntity, so it only accepts organisation taxpayer types (0-3). A VAT-registered sole proprietor (PKP orang pribadi), whose NPWP is an individual number or a NIK, fails VAT validation.
-  - *Not fixed:* Pre-existing design that predates my change and applies equally to the 15-digit individual numbers. Widening ValidateVAT to accept individual types changes what the method means, which is a product decision, not a lookup. No test asserts either way.
+  - *Won't fix:* Not part of the assignment and not researched; reported only so it is not mistaken for something this pass verified. Checked this pass: the VSK is a separate 5-6 digit number from the kennitala and no source -- Skatturinn, vatify, lookuptax -- publishes a check digit or any structure inside it. The format is all there is to validate.
 
 ## Kazakhstan
 
 - ValidateIndividualTaxCode only range-checks the birth date (month 1-12, day 1-31), so 900231... (31 February) passes.
-  - *Not fixed:* The earlier wave's reason not only still stands, it is now positively sourced against the fix. Постановление Правительства РК № 853 of 26.08.2013 removed the birth date from the Правила формирования идентификационного номера, and the Minister of Internal Affairs states that a mismatch between the IIN and the holder's date of birth is not an error and is no ground to refuse service; the migration police add that the IIN must be treated as one whole number, not decomposed. A real DateTime.TryParseExact would therefore reject legitimately issued numbers. Separately, this makes the EXISTING month 1-12 / day 1-31 gate (rows 901301300108 and 900700300108 assert it) doctrinally indefensible too - but removing it is a behaviour change on a secondary source and well outside a defect fix, so I left it. Whoever owns KNOWN-ISSUES should record that this item is closed as won't-fix rather than as unsourced. https://ru.wikipedia.org/wiki/Индивидуальный_идентификационный_номер
+  - *Won't fix:* Not unsourced — sourced against the fix. Постановление Правительства РК № 853 of 26.08.2013 removed the birth date from the Правила формирования идентификационного номера, and the Minister of Internal Affairs states that a mismatch between the IIN and the holder's date of birth is not an error and is no ground to refuse service; the migration police add that the IIN must be treated as one whole number, not decomposed. A real DateTime.TryParseExact would therefore reject legitimately issued numbers. Separately, this makes the EXISTING month 1-12 / day 1-31 gate (rows 901301300108 and 900700300108 assert it) doctrinally indefensible too - but removing it is a behaviour change on a secondary source and well outside a defect fix, so I left it. https://ru.wikipedia.org/wiki/Индивидуальный_идентификационный_номер
 - ValidateEntity (BIN) checks length and check digit only; the published BIN structure constrains the 5th digit to 4/5/6 and the 6th to 0/1/2/3, so e.g. 12-digit numbers with a 5th digit of 0-3 or 7-9 are accepted as BINs.
   - *Not fixed:* Not in my assignment or in KNOWN-ISSUES, and I could only source it from secondary accounting portals (adilet.zan.kz renders its documents in JS and returns no text to a fetch, so I could not read Приказ МВД РК от 29.06.2023 itself). Tightening on that basis risks false negatives, and the same 2013 reasoning that kills the IIN date rule may or may not extend to the BIN - I could not establish which. Reported for visibility; the BIN structure is now at least documented in the test file's comment.
 
 ## Korea
 
 - The lower date bound `datetime < new DateTime(1860, 1, 1)` is stricter than python-stdnum, which accepts any valid 18xx date for S digits 9/0.
-  - *Not fixed:* Unsourced in either direction and unreachable for any living person (it only rejects births in 1800-1859). Removing it would widen accepted values on no authority; left alone deliberately.
+  - *Won't fix:* Unsourced in either direction and unreachable for any living person (it only rejects births in 1800-1859). Removing it would widen accepted values on no authority; left alone deliberately. It is unreachable for anyone living, and widening it on no authority would be the guess.
 
 ## Malta
 
 - ValidateVAT computes the check digits as `37 - sum % 37`, yielding 37 when the weighted sum is a multiple of 37, so a number whose check digits are '00' is rejected.
-  - *Not fixed:* INVESTIGATED AND SETTLED — this is not a defect, so I made no behavioural change. The task asked me to decide from the spec whether such a number is invalid or the check digits are 00. The premise that 37 cannot be a check pair is wrong: the pair is a two-digit number in 00-99, and 37 fits. Three independent implementations compute it as `37 - sum % 37` and therefore accept '…37' and reject '…00' — vatdb, the Braemoor-derived algorithm, and vat-validator, whose code handles precisely this case on purpose: `return (r == 0 and c7_c8 == 37) or (c7_c8 == r)`. python-stdnum does not contradict them: it weights all eight digits 3,4,6,7,8,9,10,1 and asks for a multiple of 37, which is the same test loosened into a congruence, so it accepts the check value plus 37 and plus 74 indiscriminately — I verified in python3 that it accepts 11679149 and 11679186 as aliases of the correct 11679112, which Malta certainly never issues. stdnum accepting '00' is an artefact of that looseness, not a statement that the IRD emits '00'. Answer: the check digits are 37 and '00' is invalid; the current arithmetic is right. I recorded the reasoning and the vat-validator citation in the ValidateVAT doc comment and added one regression row, "10001737" true (3+0+0+0+8+63 = 74 = 2x37), which is exactly the row that would break if a future wave changed the formula to `(37 - sum % 37) % 37`.
+  - *Settled:* INVESTIGATED AND SETTLED — this is not a defect, so I made no behavioural change. The task asked me to decide from the spec whether such a number is invalid or the check digits are 00. The premise that 37 cannot be a check pair is wrong: the pair is a two-digit number in 00-99, and 37 fits. Three independent implementations compute it as `37 - sum % 37` and therefore accept '…37' and reject '…00' — vatdb, the Braemoor-derived algorithm, and vat-validator, whose code handles precisely this case on purpose: `return (r == 0 and c7_c8 == 37) or (c7_c8 == r)`. python-stdnum does not contradict them: it weights all eight digits 3,4,6,7,8,9,10,1 and asks for a multiple of 37, which is the same test loosened into a congruence, so it accepts the check value plus 37 and plus 74 indiscriminately — I verified in python3 that it accepts 11679149 and 11679186 as aliases of the correct 11679112, which Malta certainly never issues. stdnum accepting '00' is an artefact of that looseness, not a statement that the IRD emits '00'. Answer: the check digits are 37 and '00' is invalid; the current arithmetic is right. I recorded the reasoning and the vat-validator citation in the ValidateVAT doc comment and added one regression row, "10001737" true (3+0+0+0+8+63 = 74 = 2x37), which is exactly the row that would break if a future wave changed the formula to `(37 - sum % 37) % 37`. Not a defect: the arithmetic is right and three independent implementations agree.
 
 ## Mauritius
 
@@ -116,7 +100,7 @@ add the test before the fix.
 ## Moldova
 
 - The leading registry digit of the IDNP is still unenforced, so an IDNO or IDNV with a correct checksum passes ValidateIndividualTaxCode.
-  - *Not fixed:* The only source for the accepted prefixes is idnx-validator, which allows both 2xxxxxxxxxxxx and 09xxxxxxxxxxx (the second presumably for foreigners/refugees). Encoding a prefix rule on that evidence alone risks rejecting real IDNPs, and false rejections are worse than the current over-acceptance. The checksum was the sourced half; I stopped there.
+  - *Won't fix:* The only source for the accepted prefixes is idnx-validator, which allows both 2xxxxxxxxxxxx and 09xxxxxxxxxxx (the second presumably for foreigners/refugees). Encoding a prefix rule on that evidence alone risks rejecting real IDNPs, and false rejections are worse than the current over-acceptance. The checksum was the sourced half; I stopped there. Re-checked this pass and the sources contradict each other outright: one guide says an IDNP opens with the birth year 19 or 20, idnx-validator allows 2 and 09, and the OECD sheet gives no prefix rule at all. Encoding any of them would reject the numbers the others describe.
 
 ## Montenegro
 
@@ -139,52 +123,35 @@ add the test before the fix.
 - No entity or VAT rule exists - the FBR's National Tax Number and sales tax registration number have no published format or check digit.
   - *Not fixed:* python-stdnum has only pk.cnic for Pakistan (confirmed against the 2.1 module index); the FBR publishes no NTN algorithm. Inventing one would reject live numbers.
 
-## Peru
-
-- Taxpayer type 17 is accepted as both a personal and a company RUC, so it is the one Peruvian input that still reports IsAmbiguous.
-  - *Not fixed:* SUNAT's structure description lists only 10, 15 and 20. python-stdnum accepts 17 as a RUC type but says nothing about who holds it, and the secondary pages that do contradict each other ("no domiciliados" vs "carné de FFAA" vs "carné de extranjería"), none citing a SUNAT norm. Assigning 17 to one side on that basis would risk rejecting a live number, so it stays valid for both. If SUNAT ever publishes the type, the fix is one string moved between _personTypes and _entityTypes.
-- ValidateVAT still delegates to ValidateEntity, so a natural person's RUC (type 10/15) is rejected as a VAT number even though Peru files IGV under that same RUC.
-  - *Not fixed:* Deliberate, and now documented in the method's XML comment. Peru has no separate VAT number, so the only question is which reading IdentifierKind.Vat carries — and this library places Vat under IdentifierKind.Business. Making ValidateVAT accept every RUC would keep every personal RUC matching a Business kind and so leave IsAmbiguous true for all of them, defeating the fix. Flag it if the intended reading of Vat is "any IGV registration" rather than "a business VAT identifier"; it is a one-line change.
-
 ## Philippines
 
 - python-stdnum PR #349 also accepts 13-digit TINs; my regex accepts only 9, 12 and 14 digits, so the existing test row "1234567890000" (13 digits) stays false.
-  - *Not fixed:* I found no BIR source for a 4-digit branch code. The BIR's own wording sources 9 (core), 12 (3-digit branch) and 14 (5-digit branch); PR #349 is an unmerged community proposal and I would not widen the accepted set on it alone.
+  - *Won't fix:* I found no BIR source for a 4-digit branch code. The BIR's own wording sources 9 (core), 12 (3-digit branch) and 14 (5-digit branch); PR #349 is an unmerged community proposal and I would not widen the accepted set on it alone. Confirmed this pass against the BIR's own structure and the 2026 branch-code expansion: 9 digits, 12 with a 3 digit branch and 14 with a 5 digit branch are what is issued. Nothing published describes a 13 digit TIN, and PR #349 is an unmerged community proposal.
 
 ## Portugal
 
-- `public int CheckSum(string value)` multiplies the character CODE by the weight instead of the digit, and throws NullReferenceException on null.
-  - *Not fixed:* Unchanged, and the earlier wave's reasoning holds: it is public API but not a Validate* method, so the never-throw rule as written does not reach it, and the ASCII bias cancels mod 11 on its only internal call path (48 x 44 = 2112, and 2112 % 11 == 0) so ValidateBilhetedeIdentidade is correct. Changing a public signature is outside this assignment. Note for a future wave: it is also public surface that a caller could reach with any length and get garbage.
 - ValidateCartaoCidadao positions 9 and 10 accept digits as well as letters, so the 'two-letter document version' is not enforced.
-  - *Not fixed:* Deliberately not tightened. python-stdnum's own pattern for those two positions is [A-Z0-9], not [A-Z], and stdnum is the authority named in my instructions. Requiring letters would diverge from it and risk rejecting real cards, and I found no official Portuguese statement on the version field's character set. The new guard matches stdnum exactly.
+  - *Won't fix:* Deliberately not tightened. python-stdnum's own pattern for those two positions is [A-Z0-9], not [A-Z], and stdnum is the authority named in my instructions. Requiring letters would diverge from it and risk rejecting real cards, and I found no official Portuguese statement on the version field's character set. The new guard matches stdnum exactly. The guard matches python-stdnum exactly, which is the authority named for this library.
 
 ## Russia
 
 - ValidateBIK never checks the leading country code, and its 000-002 / 050-999 guard on the last three digits is itself not backed by the current regulation.
   - *Not fixed:* I re-checked the authoritative source rather than the bank blogs the earlier wave used. Appendix 6 of Положение Банка России от 06.07.2017 № 595-П defines the БИК as position 1 = participation type (0 direct, 1 indirect, 2 non-participant client) and positions 2-9 = a free participant identifier 00000001..99999999 — no fixed "04" prefix and no reserved range for the last three digits (https://www.consultant.ru/document/cons_doc_LAW_280683/24a8cab5291d2517c8fdaeee243a44901d717408/). That contradicts the classic layout the current code and its tests encode, and real post-2021 БИКs (e.g. 004525988, 017003983) happen to satisfy both readings, so neither adding a prefix guard nor removing the existing range guard can be justified without evidence about which values are actually assigned. Left alone; the earlier wave's "unsettled" call stands and is now better evidenced.
-- ValidateBIK and ValidateOGRN report InvalidChecksum for range/structure violations.
-  - *Not fixed:* Cosmetic, and the fix needs a new result kind on the shared Attest/ValidationResult.cs, which is off limits.
-- README.md line 57 and the XML doc on IdentifierResult.IsAmbiguous (Attest/IdentifierResult.cs line 35) both still list Russia among the countries that issue one number for both roles.
-  - *Not fixed:* Both files are on the hard no-touch list. They are now stale: Russia no longer reports IsAmbiguous for a company ИНН. The 12-digit personal form is still ambiguous (PersonalTaxCode + Vat), so Russia is not simply removable from the list — the wording needs to narrow to the entrepreneur case. Flagging for whoever owns those files.
 
 ## Taiwan
 
-- ValidatePostalCode accepts any 3/5/6 digits, including 000 and 999, where real district codes run roughly 100-983.
-  - *Not fixed:* Every ValidatePostalCode in this repo is a bare format regex and the district list drifts as districts are merged; same reasoning the earlier wave gave for Turkey and the Faroes. Not worth diverging in one file.
 - The UBN '7' exception makes two different check digits valid for the same first seven digits (12345670 and 12345675 both pass).
-  - *Not fixed:* That is the published rule, not a defect: 7 x weight 4 = 28, whose digit sum may be counted as 10 or as 1. python-stdnum behaves identically. Encoded as-is and covered by a test row.
+  - *Settled:* That is the published rule, not a defect: 7 x weight 4 = 28, whose digit sum may be counted as 10 or as 1. python-stdnum behaves identically. Encoded as-is and covered by a test row. Not a defect: that is the published rule, and python-stdnum behaves identically.
 
 ## Thailand
 
-- The OECD sheet's carve-out 'Numbers 100-999 ... (except 601)' is not encoded, so a 601-prefixed number with a valid check digit is still accepted as a personal number.
-  - *Not fixed:* Deliberate. The sheet does not say who, if anyone, holds 601, and rejecting it risks a false negative on a live personal number while gaining nothing for person/company discrimination — 601 belongs to neither side. Encoding it is a one-line change if you want the stricter reading.
 - Residual false-negative risk on ValidateNationalIdentity: the Department of Provincial Administration also issues 13-digit numbers beginning with 0 to persons of undetermined registration status (the 'pink card' holders), which the OECD/RD structure does not account for and which can collide with the 010-096 DBD window. Those are rejected as national identity numbers now.
-  - *Not fixed:* Both sourced references say a personal number is 100-999 (OECD Section II) and that leading 0 is 'not found on cards of Thai nationals' (Wikipedia, Thai identity card); python-stdnum rejects 0 for PIN too. Accepting leading 0 as personal would re-create exactly the ambiguity this task asked me to remove, since every company number starts with 0. Flagging rather than guessing.
+  - *Won't fix:* Both sourced references say a personal number is 100-999 (OECD Section II) and that leading 0 is 'not found on cards of Thai nationals' (Wikipedia, Thai identity card); python-stdnum rejects 0 for PIN too. Accepting leading 0 as personal would re-create exactly the ambiguity this task asked me to remove, since every company number starts with 0. Flagging rather than guessing. Accepting a leading zero as personal would re-create the ambiguity with company numbers that the holder-type work removed, and all three sources say a personal number is 100-999.
 
 ## Ukraine
 
-- ValidateVAT still accepts any 12 digits with no checksum, and rejects the legacy 10-digit ІПН.
-  - *Not fixed:* The 12-digit check digit is genuinely unpublished — uk.wikipedia quotes the rule as '12-й знак — контрольний розряд, алгоритм формування якого встановлює центральний орган державної податкової служби України', i.e. the tax authority sets it and does not publish it. I did resolve the 'sources contradict' half of the KNOWN-ISSUES entry, and recorded it in the code comment: the 12-digit ІПН is 7 ЄДРПОУ digits (without the ЄДРПОУ's own check digit) + 2 oblast + 2 district + 1 check digit for a legal entity, and RNOKPP + 2 control digits for an individual. Separately, per LIGA:ZAKON citing Minfin order no. 30 of 29.01.2020 (amending Regulation no. 1130 of 14.11.2014), sole traders registered for VAT before 09.03.2020 keep a 10-digit ІПН that stays valid until their VAT registration is cancelled — so the 12-digit-only rule does produce false negatives. I did not widen it: that is a format/scope change rather than a check-digit fix, it loosens validation, and it rests on a secondary source. Flagging it for a wave that owns the format question.
+- ValidateVAT accepts the twelve digit IPN on its format alone; the twelfth digit is a check digit and is not verified.
+  - *Not fixed:* Genuinely unpublished. uk.wikipedia quotes the rule as "12-й знак -- контрольний розряд, алгоритм формування якого встановлює центральний орган державної податкової служби України": the tax authority sets the algorithm and does not publish it. The composition either side of that digit is now recorded in the code comment, and the ten digit legacy form -- whose check digit *is* published -- is validated in full.
 
 ## UnitedArabEmirates
 

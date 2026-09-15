@@ -1,10 +1,13 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Armenia.</summary>
     public class ArmeniaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Armenia (AM).</summary>
         public ArmeniaValidator()
         {
             CountryCode = nameof(Country.AM);
@@ -55,8 +58,23 @@ namespace Attest.Countries
             // 21-32 for the 21st, 41-52 for the 22nd, 61-72 for the 23rd and 81-92 for the 19th.
             // June is additionally coded 8 higher (14, 34, 54, 74, 94) so that the digit 6 never
             // lands here; the acts state the plain range as well, so both codings are accepted.
-            int month = int.Parse(ssn.Substring(2, 2)) % 20;
+            int monthCode = int.Parse(ssn.Substring(2, 2));
+            int month = monthCode % 20;
             if ((month < 1 || month > 12) && month != 14)
+            {
+                return ValidationResult.InvalidDate();
+            }
+
+            // The month code carries the century, so the whole date can be resolved and checked:
+            // 31 September and 29 February in a non leap year are rejected rather than accepted as
+            // "day 01-31, month 01-12". The shift block runs 20th, 21st, 22nd, 23rd, 19th.
+            int[] centuries = { 1900, 2000, 2100, 2200, 1800 };
+            int century = centuries[monthCode / 20];
+            int calendarMonth = (month == 14) ? 6 : month;
+            int calendarDay = (day <= 41) ? day - 10 : day - 50;
+
+            int year = century + int.Parse(ssn.Substring(4, 2));
+            if (calendarDay > DateTime.DaysInMonth(year, calendarMonth))
             {
                 return ValidationResult.InvalidDate();
             }

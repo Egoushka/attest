@@ -127,6 +127,11 @@ namespace Attest.Tests
         [InlineData("100", true)]               // bare district code, Zhongzheng
         [InlineData("100091", true)]            // 3+3 form, in use since 2020-03-03
         [InlineData("1234", false)]             // 4 digits
+        [InlineData("983", true)]               // Fuli, Hualien: where zone 9 and the range end
+        [InlineData("099", false)]              // Below the first district
+        [InlineData("000", false)]
+        [InlineData("984", false)]              // Above the last district
+        [InlineData("999", false)]
         [InlineData("1234567", false)]          // 7 digits
         [InlineData("10", false)]               // 2 digits
         [InlineData("abcde", false)]

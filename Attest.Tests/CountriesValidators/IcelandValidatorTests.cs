@@ -22,6 +22,8 @@ namespace Attest.Tests
         [InlineData("0101904519", false)] // Wrong check digit, should be 2
         [InlineData("1207740009", false)] // Weighted sum mod 11 is 1, so no check digit can match
         [InlineData("3002901109", false)] // 30 February never exists
+        [InlineData("1207742208", false)] // Century digit 8: only 9 and 0 are issued, and 8 decoded to 28yy
+        [InlineData("1207742203", false)] // Century digit 3 decoded to 23yy, a year no register issues
         [InlineData(null, false)]
         [InlineData("", false)]
         [InlineData("   ", false)]

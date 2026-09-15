@@ -158,6 +158,20 @@ namespace Attest
             return lastDigit == (digits.Sum(d => i++ % 2 == lengthMod ? d : results[d]) * 9) % 10;
         }
 
+        /// <summary>
+        /// Transliterates Cyrillic to Latin, Russian alphabet order.
+        /// </summary>
+        /// <remarks>
+        /// Nothing in this library calls it any more, and no identifier should: BelarusValidator was
+        /// its only caller and now maps the five Cyrillic look-alikes to their Latin twins instead
+        /// (А to A, В to B, Н to H, Р to P, С to C), because a UNP printed in Cyrillic is the same
+        /// characters rather than a transliteration of them. It is marked obsolete rather than
+        /// deleted, because removing public API is a breaking change and a caller who found it did
+        /// not choose to depend on it.
+        /// </remarks>
+        [Obsolete("Transliteration is wrong for an identifier written in Cyrillic: a Belarusian UNP " +
+                  "carries Cyrillic characters that are Latin look-alikes, not sounds to spell out. " +
+                  "Nothing in this library calls it. It will be removed in the next major version.")]
         public static string Translit(this string str)
         {
             string[] lat_up = { "A", "B", "V", "G", "D", "E", "Yo", "Zh", "Z", "I", "Y", "K", "L", "M", "N", "O", "P", "R", "S", "T", "U", "F", "Kh", "Ts", "Ch", "Sh", "Shch", "\"", "Y", "'", "E", "Yu", "Ya" };

@@ -43,6 +43,18 @@ namespace Attest.Countries
                 return ValidationResult.InvalidFormat("ddmmyyxxx");
             }
 
+            // The day has to exist in the month it names. That much needs no century: 31 April and
+            // 30 February are impossible in every one of them. 29 February is the only day that
+            // depends on the year, so it stays accepted -- rejecting it would need the century the
+            // sheet does not publish, and a false reject is the expensive direction here.
+            int day = int.Parse(ssn.Substring(0, 2));
+            int month = int.Parse(ssn.Substring(2, 2));
+            int[] daysInMonth = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+            if (day > daysInMonth[month - 1])
+            {
+                return ValidationResult.InvalidDate();
+            }
+
 
             return ValidationResult.Success();
 
@@ -58,16 +70,24 @@ namespace Attest.Countries
             return ValidateEntity(vatId);
         }
 
+        /// <summary>Validates a postal code issued by Faroe Islands.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
-            // Three digits running from 100 (Torshavn) to 970 (Sumba) with large unassigned gaps,
-            // so only the impossible 000-099 block is rejected here.
+            // Three digits running from 100 (Torshavn) to 970 (Sumba); the published list ends
+            // there, so 971-999 are not codes. The gaps inside the range are not encoded: the
+            // assigned set is about 120 numbers and it moves, while the bounds do not.
             // https://da.wikipedia.org/wiki/Postnumre_p%C3%A5_F%C3%A6r%C3%B8erne
             postalCode = postalCode.RemoveSpecialCharacthers();
             if (!Regex.IsMatch(postalCode, "^[1-9][0-9]{2}$"))
             {
                 return ValidationResult.InvalidFormat("NNN");
             }
+
+            if (int.Parse(postalCode) > 970)
+            {
+                return ValidationResult.Invalid("No such postal code");
+            }
+
             return ValidationResult.Success();
         }
     }

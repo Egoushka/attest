@@ -19,10 +19,17 @@ namespace Attest.Countries
             // The complemento is alphanumeric (Reglamento del Registro Unico de Identificacion
             // Personal, articulo 40, aprobado por Resolucion Administrativa SEGIP/DGE 632/2017),
             // so \w - which also matches "_" and non ASCII word characters - is too wide.
+            //
+            // Articulo 40 says "caracteres alfanumericos", plural and uncounted, and SEGIP issues
+            // two character complements: 1A, 1B. Capping it at one rejected those, and a rejected
+            // cedula is someone refused service. The cost of accepting two is that a ten digit
+            // string now passes, because the hyphen is stripped before the check and a complemento
+            // may itself be numeric, so nothing distinguishes 8 digits plus "12" from 10 digits.
+            // Accepting a value nobody submits is the cheaper error of the two.
             ssn = ssn.RemoveSpecialCharacthers();
-            if (string.IsNullOrWhiteSpace(ssn) || !Regex.IsMatch(ssn, "^[0-9]{5,8}[A-Za-z0-9]?$"))
+            if (string.IsNullOrWhiteSpace(ssn) || !Regex.IsMatch(ssn, "^[0-9]{5,8}[A-Za-z0-9]{0,2}$"))
             {
-                return ValidationResult.InvalidFormat("1234567");
+                return ValidationResult.InvalidFormat("1234567 or 1234567-1A");
             }
             return ValidationResult.Success();
 

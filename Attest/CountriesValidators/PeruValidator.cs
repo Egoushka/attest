@@ -59,12 +59,20 @@ namespace Attest.Countries
         // random number + verification digit. c) Legal entities: Prefix 20 + random number +
         // verification digit."
         // https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/peru-tin.pdf
-        // "17" is the odd one out: python-stdnum accepts it as a RUC type but SUNAT does not list
-        // it, and no source says which of the two it belongs to, so it stays valid as both rather
-        // than being assigned to one on a guess.
+        // "17" is not in that list, and python-stdnum accepts it as a RUC type without saying whose.
+        // It sits with the natural persons: the Peruvian press and the RUC guides both describe 15
+        // and 17 as the prefixes for an individual identified by a document other than the DNI, 17
+        // being the persona natural no domiciliada. Nothing places it with legal entities, for which
+        // SUNAT lists 20 alone. It was valid as both until now, which made every 17 ambiguous.
+        // https://www.infobae.com/peru/2023/06/22/sunat-cuales-son-los-tipos-de-ruc-y-que-significan/
         // https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/pe/ruc.py
         private static readonly string[] _personTypes = new string[] { "10", "15", "17" };
-        private static readonly string[] _entityTypes = new string[] { "20", "17" };
+        private static readonly string[] _entityTypes = new string[] { "20" };
+
+        // IGV is filed under the RUC and Peru issues no separate VAT number, so every RUC is a
+        // VAT identifier -- a sole trader's included. Delegating to ValidateEntity rejected the
+        // personal forms, which is a false negative on a real registration.
+        private static readonly string[] _vatTypes = new string[] { "10", "15", "17", "20" };
 
         /// <summary>
         /// RUC Peruvian company tax number
@@ -125,17 +133,21 @@ namespace Attest.Countries
         }
 
         /// <summary>
-        /// Peru has no separate VAT number: IGV is filed under the RUC. This overload keeps the
-        /// business reading of <see cref="IdentifierKind.Vat"/>, so a natural person's RUC is
-        /// validated by <see cref="ValidateIndividualTaxCode"/> instead.
+        /// Peru has no separate VAT number: IGV is filed under the RUC, so any RUC is accepted
+        /// here, a natural person's included.
         /// </summary>
-        /// <param name="vatId"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// A personal RUC is therefore valid as a business identifier as well as a personal one,
+        /// and <see cref="IdentifierResult.IsAmbiguous"/> says so. That is the country's doing
+        /// rather than this library's: Peru issues one number for both roles and publishes no way
+        /// to tell a VAT registration from a personal one.
+        /// </remarks>
         public override ValidationResult ValidateVAT(string vatId)
         {
-            return ValidateEntity(vatId);
+            return ValidateRuc(vatId, _vatTypes);
         }
 
+        /// <summary>Validates a postal code issued by Peru.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

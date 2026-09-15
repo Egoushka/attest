@@ -19,7 +19,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateEntity(string ssn)
         {
-            return ValidateNpwp(ssn, individual: false);
+            return ValidateNpwp(ssn, EntityTypes, "Taxpayer type must be between 0-3", allowNik: false);
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Attest.Countries
         /// <returns></returns>
         public override ValidationResult ValidateIndividualTaxCode(string id)
         {
-            return ValidateNpwp(id, individual: true);
+            return ValidateNpwp(id, IndividualTypes, "Taxpayer type must be between 4-9", allowNik: true);
         }
 
         /// <summary>
@@ -44,18 +44,16 @@ namespace Attest.Countries
         /// [pegawai perorangan]).
         /// https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.id.npwp
         /// </summary>
-        private static ValidationResult ValidateNpwp(string npwp, bool individual)
+        private const string IndividualTypes = "456789";
+        private const string EntityTypes = "0123";
+
+        private static ValidationResult ValidateNpwp(string npwp, string taxpayerTypes, string typeError, bool allowNik)
         {
             npwp = npwp.RemoveSpecialCharacthers();
             if (npwp.Length == 12)
             {
                 npwp += "000";
             }
-
-            var taxpayerTypes = individual ? "456789" : "0123";
-            var typeError = individual
-                ? "Taxpayer type must be between 4-9"
-                : "Taxpayer type must be between 0-3";
 
             int typeIndex;
             int checkedLength;
@@ -72,7 +70,7 @@ namespace Attest.Countries
             else if (Regex.IsMatch(npwp, "^[0-9]{16}$"))
             {
                 // A NIK belongs to a person, so it is never an organisation's NPWP.
-                return individual ? ValidateNik(npwp) : ValidationResult.Invalid(typeError);
+                return allowNik ? ValidateNik(npwp) : ValidationResult.Invalid(typeError);
             }
             else
             {
@@ -101,6 +99,11 @@ namespace Attest.Countries
         /// </summary>
         private static ValidationResult ValidateNik(string nik)
         {
+            if (!IsAllocatedProvince(int.Parse(nik.Substring(0, 2), CultureInfo.InvariantCulture)))
+            {
+                return ValidationResult.Invalid("Invalid registration place");
+            }
+
             var day = int.Parse(nik.Substring(6, 2), CultureInfo.InvariantCulture);
             if (day > 40)
             {
@@ -116,15 +119,43 @@ namespace Attest.Countries
         }
 
         /// <summary>
-        /// NPWP - Nomor Pokok Wajib Pajak  
+        /// Whether the two digit province code falls in one of the blocks Indonesia allocates
+        /// provinces from, one block per island group: Sumatra 11-21, Java 31-36, Bali and Nusa
+        /// Tenggara 51-53, Kalimantan 61-65, Sulawesi 71-76, Maluku 81-82, Papua 91-96.
         /// </summary>
-        /// <param name="vatId"></param>
-        /// <returns></returns>
-        public override ValidationResult ValidateVAT(string vatId)
+        /// <remarks>
+        /// The blocks are checked rather than the 38 assigned codes, because the assigned set moves
+        /// and the blocks do not: law 29 of 2022 carved four new provinces out of Papua, and the
+        /// sources still disagree over which of 91-96 each one holds. A new province is created
+        /// inside its island's block, so a block check cannot false reject one; an exact list would
+        /// have rejected every number issued in Papua Barat Daya from the day it was created.
+        /// </remarks>
+        private static bool IsAllocatedProvince(int province)
         {
-            return ValidateEntity(vatId);
+            return (province >= 11 && province <= 21)
+                || (province >= 31 && province <= 36)
+                || (province >= 51 && province <= 53)
+                || (province >= 61 && province <= 65)
+                || (province >= 71 && province <= 76)
+                || (province >= 81 && province <= 82)
+                || (province >= 91 && province <= 96);
         }
 
+        /// <summary>
+        /// NPWP - Nomor Pokok Wajib Pajak, as held by a taxpayer registered for VAT.
+        /// </summary>
+        /// <remarks>
+        /// Every taxpayer type is accepted here, not only the organisation types 0-3. A PKP
+        /// (pengusaha kena pajak, a taxpayer registered to collect VAT) can be a sole proprietor,
+        /// whose NPWP carries an individual taxpayer type or, since 2024, is their NIK. Delegating
+        /// to <see cref="ValidateEntity"/> rejected every one of them.
+        /// </remarks>
+        public override ValidationResult ValidateVAT(string vatId)
+        {
+            return ValidateNpwp(vatId, EntityTypes + IndividualTypes, "Invalid taxpayer type", allowNik: true);
+        }
+
+        /// <summary>Validates a postal code issued by Indonesia.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

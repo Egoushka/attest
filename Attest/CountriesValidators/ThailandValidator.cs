@@ -144,7 +144,11 @@ namespace Attest.Countries
 
             if (agency >= 100)
             {
-                return Holder.Citizen;
+                // Section II of the TIN sheet writes the personal range as "Numbers 100-999 ...
+                // (except 601)", so 601 is carved out of it by the authority itself. It is not
+                // moved to another holder: the sheet does not say who holds it, only that a
+                // personal number is not one of them.
+                return (agency == 601) ? Holder.None : Holder.Citizen;
             }
 
             if (agency >= 10 && agency <= 96)
