@@ -4,9 +4,11 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by India.</summary>
     public class IndiaValidator : IdValidationAbstract
     {
 
+        /// <summary>Creates a validator for India (IN).</summary>
         public IndiaValidator()
         {
             CountryCode = nameof(Country.IN);
@@ -238,6 +240,7 @@ namespace Attest.Countries
             return ValidateEntity(pan);
         }
 
+        /// <summary>Validates a postal code issued by India.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

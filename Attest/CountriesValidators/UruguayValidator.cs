@@ -3,8 +3,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Uruguay.</summary>
     public class UruguayValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Uruguay (UY).</summary>
         public UruguayValidator()
         {
             CountryCode = nameof(Country.UY);
@@ -89,6 +91,7 @@ namespace Attest.Countries
 
         }
 
+        /// <summary>Validates a postal code issued by Uruguay.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

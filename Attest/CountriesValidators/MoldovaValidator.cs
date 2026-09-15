@@ -3,13 +3,16 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Moldova.</summary>
     public class MoldovaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Moldova (MD).</summary>
         public MoldovaValidator()
         {
             CountryCode = nameof(Country.MD);
         }
 
+        /// <summary>Validates a company identifier issued by Moldova.</summary>
         public override ValidationResult ValidateEntity(string number)
         {
             number = number.RemoveSpecialCharacthers();
@@ -85,6 +88,7 @@ namespace Attest.Countries
             return sum % 10;
         }
 
+        /// <summary>Validates a postal code issued by Moldova.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

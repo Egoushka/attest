@@ -4,17 +4,24 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Netherlands.</summary>
     public class NetherlandsValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Netherlands (NL).</summary>
         public NetherlandsValidator()
         {
             CountryCode = nameof(Country.NL);
         }
+        /// <summary>Validates a company identifier issued by Netherlands.</summary>
         public override ValidationResult ValidateEntity(string id)
         {
             return ValidateVAT(id);
         }
 
+        /// <summary>
+        /// Validates a national identification number issued by Netherlands: Burgerservicenummer (BSN) -
+        /// Citizen Service Number or Onderwijsnummer.
+        /// </summary>
         public override ValidationResult ValidateNationalIdentity(string ssn)
         {
             ValidationResult result = ValidateIndividualTaxCode(ssn);
@@ -134,6 +141,7 @@ namespace Attest.Countries
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>Validates a postal code issued by Netherlands.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers().ToUpperInvariant();

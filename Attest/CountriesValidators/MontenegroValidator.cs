@@ -3,13 +3,16 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Montenegro.</summary>
     public class MontenegroValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Montenegro (ME).</summary>
         public MontenegroValidator()
         {
             CountryCode = nameof(Country.ME);
         }
 
+        /// <summary>Validates a national identification number issued by Montenegro.</summary>
         public override ValidationResult ValidateNationalIdentity(string value)
         {
             value = value.RemoveSpecialCharacthers();
@@ -76,6 +79,7 @@ namespace Attest.Countries
         }
 
 
+        /// <summary>Validates a company identifier issued by Montenegro.</summary>
         public override ValidationResult ValidateEntity(string id)
         {
             return ValidateVAT(id);
@@ -126,6 +130,7 @@ namespace Attest.Countries
             return ValidationResult.Success();
         }
 
+        /// <summary>Validates a postal code issued by Montenegro.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

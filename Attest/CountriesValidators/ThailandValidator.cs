@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Thailand.</summary>
     public class ThailandValidator : IdValidationAbstract
     {
         /// <summary>
@@ -28,6 +29,7 @@ namespace Attest.Countries
             Any = Individual | Business
         }
 
+        /// <summary>Creates a validator for Thailand (TH).</summary>
         public ThailandValidator()
         {
             CountryCode = nameof(Country.TH);
@@ -55,6 +57,7 @@ namespace Attest.Countries
             return Validate(ssn, Holder.Individual);
         }
 
+        /// <summary>Validates a company identifier issued by Thailand.</summary>
         public override ValidationResult ValidateEntity(string id)
         {
             return Validate(id, Holder.Business);
@@ -70,6 +73,7 @@ namespace Attest.Countries
             return Validate(vatId, Holder.Any);
         }
 
+        /// <summary>Validates a postal code issued by Thailand.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

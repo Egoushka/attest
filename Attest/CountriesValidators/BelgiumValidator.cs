@@ -2,8 +2,10 @@
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Belgium.</summary>
     public class BelgiumValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Belgium (BE).</summary>
         public BelgiumValidator()
         {
             CountryCode = nameof(Country.BE);
@@ -79,6 +81,7 @@ namespace Attest.Countries
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>Validates a postal code issued by Belgium.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

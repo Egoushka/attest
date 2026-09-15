@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Andorra.</summary>
     public class AndorraValidator : IdValidationAbstract
     {
         // The first letter of an NRT states what kind of holder it belongs to, so a number can be
@@ -20,6 +21,7 @@ namespace Attest.Countries
         const string EntityLetters = "ACDEGLOPU";
         const string AnyLetters = "ACDEFGLOPU";
 
+        /// <summary>Creates a validator for Andorra (AD).</summary>
         public AndorraValidator()
         {
             CountryCode = nameof(Country.AD);
@@ -78,6 +80,7 @@ namespace Attest.Countries
             return ValidateNrt(vatId, AnyLetters, "Invalid format. First letter must be ACDEFGLOPU");
         }
 
+        /// <summary>Validates a postal code issued by Andorra.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

@@ -3,8 +3,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Uzbekistan.</summary>
     public class UzbekistanValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Uzbekistan (UZ).</summary>
         public UzbekistanValidator()
         {
             CountryCode = nameof(Country.UZ);
@@ -16,6 +18,10 @@ namespace Attest.Countries
             get { return IdentifierKind.CompanyNumber | IdentifierKind.Vat; }
         }
 
+        /// <summary>
+        /// Uzbekistan has no company identifier rule here, so every value is reported invalid -- which is
+        /// not a verdict on the value. Ask <see cref="CountryValidator.Supports"/> first.
+        /// </summary>
         public override ValidationResult ValidateEntity(string id)
         {
             return ValidationResult.Invalid("Not supported");
@@ -45,6 +51,7 @@ namespace Attest.Countries
                 : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>Validates a postal code issued by Uzbekistan.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();
@@ -55,6 +62,10 @@ namespace Attest.Countries
             return ValidationResult.Success();
         }
 
+        /// <summary>
+        /// Uzbekistan has no VAT number rule here, so every value is reported invalid -- which is not a
+        /// verdict on the value. Ask <see cref="CountryValidator.Supports"/> first.
+        /// </summary>
         public override ValidationResult ValidateVAT(string vatId)
         {
             return ValidationResult.Invalid("Not supported");

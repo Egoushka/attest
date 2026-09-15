@@ -4,8 +4,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Brazil.</summary>
     public class BrazilValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Brazil (BR).</summary>
         public BrazilValidator()
         {
             CountryCode = nameof(Country.BR);
@@ -134,6 +136,7 @@ namespace Attest.Countries
             return ValidateEntity(vatId);
         }
 
+        /// <summary>Validates a postal code issued by Brazil.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

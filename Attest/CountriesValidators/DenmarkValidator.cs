@@ -4,12 +4,15 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Denmark.</summary>
     public class DenmarkValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Denmark (DK).</summary>
         public DenmarkValidator()
         {
             CountryCode = nameof(Country.DK);
         }
+        /// <summary>Validates a company identifier issued by Denmark.</summary>
         public override ValidationResult ValidateEntity(string id)
         {
             return ValidateVAT(id);
@@ -90,6 +93,7 @@ namespace Attest.Countries
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>Validates a postal code issued by Denmark.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

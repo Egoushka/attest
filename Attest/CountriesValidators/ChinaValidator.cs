@@ -5,8 +5,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by China.</summary>
     public class ChinaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for China (CN).</summary>
         public ChinaValidator()
         {
             CountryCode = nameof(Country.CN);
@@ -59,6 +61,7 @@ namespace Attest.Countries
             return (int)Math.Pow(2, n - 1) % 11;
         }
 
+        /// <summary>Validates a natural person's tax code.</summary>
         public override ValidationResult ValidateIndividualTaxCode(string id)
         {
             id = id.RemoveSpecialCharacthers();
@@ -184,11 +187,16 @@ namespace Attest.Countries
                 return ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>
+        /// China has no VAT number rule here, so every value is reported invalid -- which is not a verdict
+        /// on the value. Ask <see cref="CountryValidator.Supports"/> first.
+        /// </summary>
         public override ValidationResult ValidateVAT(string vatId)
         {
             return ValidationResult.Invalid("Not supported");
         }
 
+        /// <summary>Validates a postal code issued by China.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

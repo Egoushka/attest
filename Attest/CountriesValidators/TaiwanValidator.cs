@@ -3,8 +3,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Taiwan.</summary>
     public class TaiwanValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Taiwan (TW).</summary>
         public TaiwanValidator()
         {
             CountryCode = nameof(Country.TW);
@@ -142,6 +144,7 @@ namespace Attest.Countries
             return ValidateEntity(vatId);
         }
 
+        /// <summary>Validates a postal code issued by Taiwan.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             // The three digit district code stands on its own; Chunghwa Post extended the

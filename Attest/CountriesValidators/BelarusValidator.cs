@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Belarus.</summary>
     public class BelarusValidator : IdValidationAbstract
     {
         // УНП (UNP) structure, see https://arthurdejong.org/git/python-stdnum/tree/stdnum/by/unp.py
@@ -19,6 +20,7 @@ namespace Attest.Countries
         private const string CyrillicLetters = "АВЕКМНОРСТ";
         private const string LatinLetters = "ABEKMHOPCT";
 
+        /// <summary>Creates a validator for Belarus (BY).</summary>
         public BelarusValidator()
         {
             CountryCode = nameof(Country.BY);
@@ -132,6 +134,7 @@ namespace Attest.Countries
             return new string(characters);
         }
 
+        /// <summary>Validates a postal code issued by Belarus.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

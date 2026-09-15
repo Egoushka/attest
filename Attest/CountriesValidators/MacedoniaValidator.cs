@@ -3,13 +3,16 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Macedonia.</summary>
     public class MacedoniaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Macedonia (MK).</summary>
         public MacedoniaValidator()
         {
             CountryCode = nameof(Country.MK);
         }
 
+        /// <summary>Validates a national identification number issued by Macedonia.</summary>
         public override ValidationResult ValidateNationalIdentity(string value)
         {
             value = value.RemoveSpecialCharacthers();
@@ -77,6 +80,7 @@ namespace Attest.Countries
         }
 
 
+        /// <summary>Validates a company identifier issued by Macedonia.</summary>
         public override ValidationResult ValidateEntity(string id)
         {
             return ValidateVAT(id);
@@ -136,6 +140,7 @@ namespace Attest.Countries
             return (11 - sum % 11) % 11 % 10;
         }
 
+        /// <summary>Validates a postal code issued by Macedonia.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

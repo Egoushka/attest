@@ -3,8 +3,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Canada.</summary>
     public class CanadaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Canada (CA).</summary>
         public CanadaValidator()
         {
             CountryCode = nameof(Country.CA);
@@ -94,6 +96,7 @@ namespace Attest.Countries
             return ValidateEntity(bn);
         }
 
+        /// <summary>Validates a postal code issued by Canada.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

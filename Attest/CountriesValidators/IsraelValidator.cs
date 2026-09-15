@@ -3,13 +3,16 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Israel.</summary>
     public class IsraelValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Israel (IL).</summary>
         public IsraelValidator()
         {
             CountryCode = nameof(Country.IL);
         }
 
+        /// <summary>Validates a company identifier issued by Israel.</summary>
         public override ValidationResult ValidateEntity(string ssn)
         {
             ssn = ssn.RemoveSpecialCharacthers();
@@ -33,6 +36,7 @@ namespace Attest.Countries
             return ValidationResult.Success();
         }
 
+        /// <summary>Validates a natural person's tax code.</summary>
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
             ssn = ssn.RemoveSpecialCharacthers();
@@ -71,6 +75,7 @@ namespace Attest.Countries
             return ValidateEntity(vatId);
         }
 
+        /// <summary>Validates a postal code issued by Israel.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

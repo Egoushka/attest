@@ -3,8 +3,10 @@
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Albania.</summary>
     public class AlbaniaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Albania (AL).</summary>
         public AlbaniaValidator()
         {
             CountryCode = nameof(Country.AL);
@@ -72,6 +74,7 @@ namespace Attest.Countries
             return ValidationResult.Success();
         }
 
+        /// <summary>Validates a postal code issued by Albania.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

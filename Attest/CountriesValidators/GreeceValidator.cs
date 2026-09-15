@@ -4,8 +4,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Greece.</summary>
     public class GreeceValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Greece (GR).</summary>
         public GreeceValidator()
         {
             CountryCode = nameof(Country.GR);
@@ -51,16 +53,22 @@ namespace Attest.Countries
             return ValidationResult.Success();
         }
 
+        /// <summary>Validates a company identifier issued by Greece: VAT Number (FPA).</summary>
         public override ValidationResult ValidateEntity(string id)
         {
             return ValidateVAT(id);
         }
 
+        /// <summary>
+        /// Validates a natural person's tax code, which here is the same number
+        /// <see cref="ValidateVAT"/> validates.
+        /// </summary>
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
             return ValidateVAT(ssn);
         }
 
+        /// <summary>Validates a VAT number issued by Greece: VAT Number (FPA).</summary>
         public override ValidationResult ValidateVAT(string vatId)
         {
             vatId = vatId.RemoveSpecialCharacthers().ToUpperInvariant().StripPrefix("EL").StripPrefix("GR");
@@ -88,6 +96,7 @@ namespace Attest.Countries
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>Validates a postal code issued by Greece.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers();

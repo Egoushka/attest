@@ -3,8 +3,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Mauritius.</summary>
     public class MauritiusValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Mauritius (MU).</summary>
         public MauritiusValidator()
         {
             CountryCode = nameof(Country.MU);

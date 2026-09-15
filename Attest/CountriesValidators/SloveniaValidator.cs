@@ -3,8 +3,10 @@ using System.Text.RegularExpressions;
 
 namespace Attest.Countries
 {
+    /// <summary>Validates the identifiers and postal codes issued by Slovenia.</summary>
     public class SloveniaValidator : IdValidationAbstract
     {
+        /// <summary>Creates a validator for Slovenia (SI).</summary>
         public SloveniaValidator()
         {
             CountryCode = nameof(Country.SI);
@@ -83,11 +85,16 @@ namespace Attest.Countries
         }
 
 
+        /// <summary>Validates a company identifier issued by Slovenia.</summary>
         public override ValidationResult ValidateEntity(string id)
         {
             return ValidateVAT(id);
         }
 
+        /// <summary>
+        /// Validates a natural person's tax code, which here is the same number
+        /// <see cref="ValidateVAT"/> validates.
+        /// </summary>
         public override ValidationResult ValidateIndividualTaxCode(string ssn)
         {
             return ValidateVAT(ssn);
@@ -128,6 +135,7 @@ namespace Attest.Countries
             return isValid ? ValidationResult.Success() : ValidationResult.InvalidChecksum();
         }
 
+        /// <summary>Validates a postal code issued by Slovenia.</summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
             postalCode = postalCode.RemoveSpecialCharacthers().ToUpperInvariant().StripPrefix("SI");
