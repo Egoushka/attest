@@ -2,8 +2,6 @@
 
 ## 1.2.0
 
-**Draft. Written by an agent from the commits on this branch; revise before release.**
-
 Verdicts change in both directions, so this is a minor release rather than a patch even though every
 new answer is the correct one. Sixteen entries in
 [KNOWN-ISSUES.md](KNOWN-ISSUES.md) are closed, one of them the last open bug report left on
