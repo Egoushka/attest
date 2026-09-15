@@ -114,7 +114,10 @@ namespace Attest.Countries
             {
                 return ValidationResult.Invalid("Invalid taxpayer type");
             }
-            else if (!number.EndsWith(CalculateChecksum(number).ToString()))
+            // A char comparison, not EndsWith: String.EndsWith(string) folds with the thread's
+            // culture, which is the defect CultureSweepTests exists for. The checksum is a single
+            // digit (Mod(10)) and the format guard above has already fixed the length at 11.
+            else if ((int)char.GetNumericValue(number[10]) != CalculateChecksum(number))
             {
                 return ValidationResult.InvalidChecksum();
             }
