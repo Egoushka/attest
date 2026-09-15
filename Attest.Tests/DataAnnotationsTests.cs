@@ -112,6 +112,59 @@ namespace Attest.Tests
             Assert.NotEqual(DataAnnotationsResult.Success, attribute.GetValidationResult(42, Context(new Model())));
         }
 
+        /// <summary>
+        /// The five attributes are the same forty lines with one Validate call swapped, so a defect
+        /// in one is a defect in all five -- which is how the Items["Error"] throw came to be in
+        /// every one of them. Two of them, SSN and CompanyTIN, had no test at all: the model above
+        /// carries neither, so coverage of both bodies was one line in six. This asserts the shared
+        /// contract against each attribute rather than repeating it five times.
+        /// </summary>
+        [Theory]
+        [InlineData(typeof(PersonTINAttribute), "93051822361", "93051822360")]
+        [InlineData(typeof(CompanyTINAttribute), "0428759497", "0428759498")]
+        [InlineData(typeof(SSNAttribute), "93051822361", "93051822360")]
+        [InlineData(typeof(VATAttribute), "BE0428759497", "0428759498")]
+        [InlineData(typeof(ZipCodeAttribute), "1000", "12345")]
+        public void EveryAttributeKeepsTheSameContract(System.Type attributeType, string valid, string invalid)
+        {
+            ValidationAttribute attribute = Attribute(attributeType);
+
+            Assert.Equal(DataAnnotationsResult.Success, attribute.GetValidationResult(valid, Context(new Model())));
+            Assert.NotEqual(DataAnnotationsResult.Success, attribute.GetValidationResult(invalid, Context(new Model())));
+
+            // Null is Required's business, not the format's.
+            Assert.Equal(DataAnnotationsResult.Success, attribute.GetValidationResult(null, Context(new Model())));
+
+            // ValidationAttribute.IsValid(object) is not implemented, so deferring to it threw.
+            Assert.NotEqual(DataAnnotationsResult.Success, attribute.GetValidationResult(42, Context(new Model())));
+        }
+
+        [Theory]
+        [InlineData(typeof(PersonTINAttribute), "93051822360")]
+        [InlineData(typeof(CompanyTINAttribute), "0428759498")]
+        [InlineData(typeof(SSNAttribute), "93051822360")]
+        [InlineData(typeof(VATAttribute), "0428759498")]
+        [InlineData(typeof(ZipCodeAttribute), "12345")]
+        public void EveryAttributeNamesTheMemberAndRecordsTheReason(System.Type attributeType, string invalid)
+        {
+            ValidationAttribute attribute = Attribute(attributeType);
+            var context = new ValidationContext(new Model()) { MemberName = "TaxCode" };
+
+            DataAnnotationsResult result = attribute.GetValidationResult(invalid, context);
+
+            Assert.NotEqual(DataAnnotationsResult.Success, result);
+            Assert.Equal(new[] { "TaxCode" }, result.MemberNames.ToArray());
+            Assert.True(context.Items.ContainsKey("Error"), attributeType.Name + " recorded no reason under Items[\"Error\"].");
+
+            // The same context twice: Items.Add on a fixed key threw ArgumentException here.
+            Assert.NotEqual(DataAnnotationsResult.Success, attribute.GetValidationResult(invalid, context));
+        }
+
+        private static ValidationAttribute Attribute(System.Type attributeType)
+        {
+            return (ValidationAttribute)System.Activator.CreateInstance(attributeType, Country.BE);
+        }
+
         private static ValidationContext Context(object instance)
         {
             return new ValidationContext(instance);

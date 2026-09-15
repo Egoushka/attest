@@ -340,3 +340,9 @@ ASALocalRun/
 healthchecksdb
 /CountryValidator/CryptoValidator
 /CountryValidator.Tests/CryptoValidator/CryptoValidatorTests.cs
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/
+
+# Coverage reports from `dotnet test --collect`, written by CI and reproducible locally.
+/coverage/

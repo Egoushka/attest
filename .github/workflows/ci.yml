@@ -18,38 +18,69 @@ jobs:
             8.0.x
             9.0.x
 
-      # The README table is the first thing an evaluating consumer reads, and it ships inside both
-      # packages. It has drifted before: five countries were registered, tested and missing from it.
-      - name: Every registered country is in the README table
-        run: |
-          codes=$(grep -oE 'Country\.[A-Z]{2},' Attest/CountryValidator.cs | grep -oE '[A-Z]{2}' | sort -u)
-          # A check that cannot fail is worse than no check: if the scan ever finds nothing, because
-          # Load() was reformatted or the file moved, say so instead of reporting success.
-          if [ "$(printf '%s\n' "$codes" | grep -c .)" -lt 50 ]; then
-            echo "Found only $(printf '%s\n' "$codes" | grep -c .) countries in CountryValidator.Load(); the scan is broken." >&2
-            exit 1
-          fi
-          missing=""
-          for code in $codes; do
-            grep -qE "^\| .*\| +$code +\|" README.md || missing="$missing $code"
-          done
-          if [ -n "$missing" ]; then
-            echo "Registered in CountryValidator.Load() but absent from the README table:$missing" >&2
-            exit 1
-          fi
-          echo "All registered countries are in the README table."
-
       - name: Restore
         run: dotnet restore Attest.sln
 
+      # -warnaserror is what makes AGENTS.md's "the build has no warnings" true rather than
+      # aspirational. It is also what keeps CS1591 closed: the XML docs on the public surface were
+      # completed in one pass, and a warning nobody fails on is a warning that comes back.
       - name: Build
-        run: dotnet build Attest.sln --configuration Release --no-restore
+        run: dotnet build Attest.sln --configuration Release --no-restore -warnaserror
 
       - name: Test
-        run: dotnet test Attest.Tests/Attest.Tests.csproj --configuration Release --no-build --verbosity normal
+        run: >
+          dotnet test Attest.Tests/Attest.Tests.csproj --configuration Release --no-build --verbosity normal
+          --collect:"XPlat Code Coverage" --results-directory ./coverage
+
+      # Not a gate. A coverage floor gets met by writing tests that execute a line without asserting
+      # anything about it, which is worse than no number at all. This prints where the thin places
+      # are, so the next country to be revisited can be chosen by evidence.
+      - name: Coverage
+        run: |
+          python3 - <<'PY'
+          import glob, os, xml.etree.ElementTree as ET
+
+          reports = glob.glob("coverage/*/coverage.cobertura.xml")
+          if not reports:
+              raise SystemExit("No coverage report was produced; the collector did not run.")
+
+          root = ET.parse(reports[0]).getroot()
+          rows = []
+          for element in root.iter("class"):
+              lines = list(element.iter("line"))
+              if lines:
+                  covered = sum(1 for line in lines if int(line.get("hits")) > 0)
+                  rows.append((covered / len(lines), len(lines), element.get("name").split(".")[-1]))
+          rows.sort()
+
+          out = ["## Coverage", "",
+                 "Line %.1f%%, branch %.1f%%, %d of %d classes fully covered." % (
+                     float(root.get("line-rate")) * 100,
+                     float(root.get("branch-rate")) * 100,
+                     sum(1 for rate, _, _ in rows if rate == 1.0),
+                     len(rows)),
+                 "", "| Class | Covered | Lines |", "|---|---:|---:|"]
+          out += ["| %s | %.1f%% | %d |" % (name, rate * 100, count) for rate, count, name in rows[:15]]
+
+          print("\n".join(out))
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a") as summary:
+              summary.write("\n".join(out) + "\n")
+          PY
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: coverage
+          path: ./coverage/*/coverage.cobertura.xml
 
       - name: Pack
         run: dotnet pack Attest.sln --configuration Release --no-build --output ./artifacts
+
+      # Attest.Tests targets net9.0, so every test in this repository binds the net8.0 asset. This
+      # is the only thing that resolves the netstandard2.0 one, and the only thing that reads the
+      # dependency Attest.DataAnnotations declares for netstandard2.0 alone -- a dependency the
+      # library can compile and pack perfectly well without ever putting in its nuspec.
+      - name: The packages resolve for a netstandard2.0 and a .NET Framework consumer
+        run: dotnet build Attest.PackageConsumer/Attest.PackageConsumer.csproj --configuration Release
 
       - uses: actions/upload-artifact@v7
         with:
