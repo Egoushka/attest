@@ -1,9 +1,37 @@
 # Migrating from CountryValidator
 
-Attest is a fork of [CountryValidator](https://github.com/anghelvalentin/CountryValidator) 1.1.3,
-which has had no release since 2023. Three repair waves fixed 197 defects in it. Most of those
-change a verdict, so upgrading is not a drop-in swap: numbers your users could not enter will start
-working, and numbers you accepted and stored may stop validating.
+CountryValidator 1.1.3 shipped in November 2021 and has had no release since. Three repair waves
+have fixed 197 defects in it. Before the mechanics, what you are running today:
+
+- **Hungary rejected every valid tax id.** Not most. All 36,363,636 of them. The checksum summed
+  UTF-16 code units instead of digit values, adding 48 x (1+...+9) = 2160, which is 4 mod 11, so the
+  check digit it computed was always the correct one plus 4 and could never match.
+- **Mexico and South Africa could not validate anything either.** Both date helpers returned false on
+  the success path, so every RFC and every South African ID was rejected.
+- **Thailand, San Marino and Malaysia accepted almost anything**, the empty string included, and
+  rejected the real formats. If you stored what those validators approved, it is not what you think.
+- **22 of the 87 validators threw** rather than returning a result — on `null`, on short input, on a
+  letter where a digit belonged.
+- **Every bug report still open upstream is answered here**, each asserted with its reporter's own
+  value in [UpstreamReportTests.cs](Attest.Tests/UpstreamReportTests.cs).
+
+The test suite went from 586 cases to 4,212. What is still weak is written down rather than hidden,
+in [KNOWN-ISSUES.md](KNOWN-ISSUES.md).
+
+## The swap
+
+1. `dotnet remove package CountryValidator` and `dotnet add package Attest` (likewise
+   `CountryValidator.DataAnnotations` to `Attest.DataAnnotations`).
+2. Find and replace `CountryValidation` with `Attest` across the solution. Class and method names are
+   unchanged, so nothing else moves.
+3. Delete the `try`/`catch` blocks you wrapped around validator calls. Nothing throws now, so they
+   are unreachable.
+
+That is the whole mechanical change, and for most callers it is the whole change. **What it does not
+cover is that a repaired validator gives a different answer.** Numbers your users could not enter
+will start working, and numbers you accepted and stored may stop validating. If you store what you
+validated, read [Before you ship](#before-you-ship) below; if you only validate at the edge of a
+form, you are done.
 
 This page is about what changes. [CHANGELOG.md](CHANGELOG.md) is the exhaustive record, entry by
 entry, with the source for each rule.
@@ -18,7 +46,7 @@ git diff -M upstream-1.1.3..v1.1.0 -- \
 
 The fork renamed the source directory, so both paths are needed and `-M` is what pairs them up.
 
-## The mechanical part
+## The package and namespace names
 
 | CountryValidator 1.1.3 | Attest |
 |---|---|
@@ -28,8 +56,7 @@ The fork renamed the source directory, so both paths are needed and `-M` is what
 | `namespace CountryValidation.Countries` | `namespace Attest.Countries` |
 | `netstandard2.0`, `netstandard2.1`, `net48` | `netstandard2.0`, `net8.0` |
 
-Class and method names are unchanged, so after the package swap it is a find and replace on the
-namespace. Two things behave differently and will not show up as compile errors:
+Two things behave differently and will not show up as compile errors:
 
 - **`IdValidationAbstract.CountryCode` was `static`.** All 87 validator constructors wrote to it, so
   it held whichever validator was constructed last — process-wide shared mutable state that read
@@ -40,13 +67,18 @@ namespace. Two things behave differently and will not show up as compile errors:
   annotated with it validated unconditionally. It works now, which means properties you thought were
   being validated start being validated for the first time.
 
-## Numbers that were rejected and now pass
+## Before you ship
+
+Two sets of verdicts move. The first costs you nothing; the second is the one to check
+against what you have stored.
+
+### Numbers that were rejected and now pass
 
 Nothing to do here — these are users who could not get through your forms before.
 
 | Country | What was wrong |
 |---|---|
-| Hungary | The tax-code checksum summed UTF-16 code units instead of digit values, shifting every result by a constant. It accepted **none** of 181,677 valid numbers. Personal IDs for October births were rejected by a regex missing month `10`, and for anyone born from 1997 by the reversed check weights |
+| Hungary | The tax-code checksum summed UTF-16 code units instead of digit values, adding a constant 2160, which is 4 mod 11. It accepted **none** of the 36,363,636 valid numbers, and provably could not. Personal IDs for October births were rejected by a regex missing month `10`, and for anyone born from 1997 by the reversed check weights |
 | Belgium | Check numbers `01`–`09` were compared as text, so a computed `1` never matched `01`. About 9% of all Belgian numbers |
 | Mexico | `HasValidDate` read the date at the wrong offsets and always threw internally, so **every** RFC was rejected |
 | South Africa | Its date helper returned false on the success path too, so **every** ID was rejected |
@@ -63,7 +95,7 @@ Nothing to do here — these are users who could not get through your forms befo
 | Hong Kong | Lowercase HKIDs were mishandled |
 | Argentina | Seven-digit DNIs, which are still in circulation, were rejected |
 
-## Numbers that were accepted and now fail
+### Numbers that were accepted and now fail
 
 **Read this section before upgrading.** If you stored numbers that only passed because of a defect,
 re-validating them will now flag them. The worst cases are validators that accepted nearly anything.
@@ -109,8 +141,9 @@ return `Invalid("Not supported")`.
   a country issues one number for both roles, which Armenia and Nigeria genuinely do.
 - `Supports(country, kind)` distinguishes "this country has no rule for this" from "this value is
   wrong". 25 of the 435 country/kind pairs have no rule.
-- [KNOWN-ISSUES.md](KNOWN-ISSUES.md): 48 remaining gaps, by country, each with the reason. Mostly
-  check digits no authority publishes.
+- [KNOWN-ISSUES.md](KNOWN-ISSUES.md): 33 entries across 26 countries, each with the reason. 19 are
+  still-open gaps, almost all of them check digits no authority publishes; 14 were investigated and
+  closed.
 
 ## Suggested upgrade path
 

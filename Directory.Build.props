@@ -16,8 +16,12 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>icon.png</PackageIcon>
     <!-- Space separated: NuGet treats a comma-joined list as a single tag, so "tax identification
-         number" was one token nobody searches for. -->
-    <PackageTags>vat ssn tin tax-id national-id personal-id company-number postal-code zipcode validation checksum country iso3166 dataannotations</PackageTags>
+         number" was one token nobody searches for.
+
+         The second line is the local name of the number, which is what a developer in that country
+         actually searches for: a Brazilian looks for "CPF", not "national id". Every one of these is
+         a number this library validates - see the country table in README.md. -->
+    <PackageTags>vat ssn tin tax-id national-id personal-id company-number postal-code zipcode validation checksum country iso3166 dataannotations countryvalidator cpf cnpj pesel nip bsn btw nif cif nie codice-fiscale partita-iva steuernummer rfc curp pan gstin aadhaar personnummer hetu abn</PackageTags>
     <PackageReleaseNotes>See CHANGELOG.md at https://github.com/Egoushka/attest/blob/main/CHANGELOG.md</PackageReleaseNotes>
   </PropertyGroup>
 

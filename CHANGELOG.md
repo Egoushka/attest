@@ -1,5 +1,30 @@
 # Changelog
 
+## 1.2.1
+
+Package metadata and documentation. No validator behaviour changed, so nothing a caller can observe
+is different from 1.2.0.
+
+- **`Title` is set on both packages.** It was unset, so nuget.org indexed and displayed the package
+  id, and "Attest" is not a phrase anyone searches for. The package did not appear anywhere in the
+  first 36 results for "vat validation" and came last of eleven for "country validator".
+- **`PackageTags` carries the local name of each number** — `cpf`, `cnpj`, `pesel`, `nip`, `bsn`,
+  `nif`, `codice-fiscale`, `rfc`, `curp`, `gstin`, `personnummer`, `hetu` and the rest — plus
+  `countryvalidator`. A developer looking for this searches for the number their country issues, not
+  for "national identification number". Every tag names a number this library validates.
+- **The Hungarian figure in README.md and MIGRATION.md was wrong.** Both said upstream rejected
+  181,677 valid tax codes, a number with no source. Enumerating the format gives 36,363,636 valid
+  numbers, and upstream accepted none of them: summing UTF-16 code units adds 48 to every digit,
+  which is a constant 48 x (1+...+9) = 2160 across the weights, and 2160 mod 11 is 4, so the computed
+  check digit was always the correct one plus 4 and could never match it. The claim was right and the
+  count was invented; both are now checkable.
+- [README.md](README.md) says what this library does not do: it checks that a number is well formed,
+  not that it is registered. Registration is a VIES call and a different package's job.
+- [MIGRATION.md](MIGRATION.md) leads with the defects you are running rather than with the verdicts
+  that change, and states the three mechanical steps before the detail. It also said upstream had had
+  no release since 2023, which was wrong — 1.1.3 shipped in November 2021 — and counted 48 remaining
+  gaps where [KNOWN-ISSUES.md](KNOWN-ISSUES.md) holds 33 entries across 26 countries.
+
 ## 1.2.0
 
 Verdicts change in both directions, so this is a minor release rather than a patch even though every

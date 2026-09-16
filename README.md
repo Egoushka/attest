@@ -28,13 +28,27 @@ already stored. [CHANGELOG.md](CHANGELOG.md) says which, in both directions, for
 in both directions. Read the section on numbers that used to be accepted and now are not before
 you upgrade anything that stores what it validated.
 
+## What this checks, and what it does not
+
+Attest checks that a number is **well formed**: the right shape for that country, carrying the check
+digits the issuing authority publishes. It runs in-process and makes no network call, so it is the
+cheap first gate on a form, an import or a batch of rows.
+
+It cannot tell you a number is **registered**. A VAT number can be perfectly well formed and belong
+to nobody, or have been deregistered last week. For EU VAT that answer only comes from the European
+Commission's VIES service, and [vies-dotnet-api](https://github.com/zapadi/vies-dotnet) makes that
+call. The two compose rather than compete: reject the malformed ones here without a round trip, and
+ask VIES about the ones that survive.
+
 ## What is different from upstream
 
 The short version of three repair waves, all of it verified by running the code rather than reading
 it:
 
-- **Hungary** accepted none of 181,677 valid tax ids. Its checksum summed UTF-16 code units instead
-  of digit values, which shifted every result by a constant.
+- **Hungary** accepted none of the 36,363,636 valid tax ids there are. Its checksum summed UTF-16
+  code units instead of digit values, adding a constant 48 x (1+...+9) = 2160, which is 4 mod 11.
+  The check digit it computed was therefore always the correct one plus 4, mod 11, and so could
+  never equal it. The count is an enumeration of the whole space; the impossibility is arithmetic.
 - **22 of 87 validators threw** instead of returning a result — on `null`, on short input, on a
   letter where a digit belonged. A sweep over every country and every method now proves none does.
 - **Mexico and South Africa** could never validate anything: their date helpers always returned
