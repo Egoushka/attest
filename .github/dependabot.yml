@@ -31,6 +31,15 @@ updates:
           - xunit*
           - Microsoft.NET.Test.Sdk
           - coverlet.*
+    ignore:
+      # System.ComponentModel.Annotations is the only third-party package a consumer
+      # inherits from Attest.DataAnnotations, and only on netstandard2.0.  NuGet resolves
+      # the lowest version that satisfies a range, so the version declared here is the
+      # floor every such consumer is pushed to.  4.7.0 already has every type the package
+      # uses; a 5.x bump would raise that floor for nothing.
+      - dependency-name: System.ComponentModel.Annotations
+        update-types:
+          - version-update:semver-major
 
   # GitHub Actions.  ci.yml and release.yml between them pin actions/checkout,
   # actions/setup-dotnet, actions/upload-artifact and NuGet/login.  Grouped into a
