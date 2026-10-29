@@ -27,6 +27,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
@@ -63,30 +64,36 @@ jobs:
         run: |
           # A release nobody documented is a release nobody can audit later. The notes are extracted
           # here rather than after the push, because everything before the push is still reversible.
-          if ! grep -q "^## ${{ steps.version.outputs.changelog }}\b" CHANGELOG.md; then
-            echo "CHANGELOG.md has no '## ${{ steps.version.outputs.changelog }}' section." >&2
+          if ! grep -q "^## ${STEPS_VERSION_OUTPUTS_CHANGELOG}\b" CHANGELOG.md; then
+            echo "CHANGELOG.md has no '## ${STEPS_VERSION_OUTPUTS_CHANGELOG}' section." >&2
             exit 1
           fi
           # The heading match is anchored on a space or end of line so that "## 1.0.1" does not also
           # match "## 1.0.10", and the exit rule stops at the next section.
-          awk -v v="## ${{ steps.version.outputs.changelog }}" '
+          awk -v v="## ${STEPS_VERSION_OUTPUTS_CHANGELOG}" '
             $0 ~ "^" v "( |$)" { found = 1; next }
             found && /^## / { exit }
             found { print }
           ' CHANGELOG.md > notes.md
           if ! grep -q '[^[:space:]]' notes.md; then
-            echo "The '## ${{ steps.version.outputs.changelog }}' section is empty." >&2
+            echo "The '## ${STEPS_VERSION_OUTPUTS_CHANGELOG}' section is empty." >&2
             exit 1
           fi
+        env:
+          STEPS_VERSION_OUTPUTS_CHANGELOG: ${{ steps.version.outputs.changelog }}
 
       - name: Build
-        run: dotnet build Attest.sln --configuration Release -p:Version=${{ steps.version.outputs.version }} -p:ContinuousIntegrationBuild=true
+        run: dotnet build Attest.sln --configuration Release -p:Version=${STEPS_VERSION_OUTPUTS_VERSION} -p:ContinuousIntegrationBuild=true
+        env:
+          STEPS_VERSION_OUTPUTS_VERSION: ${{ steps.version.outputs.version }}
 
       - name: Test
         run: dotnet test Attest.Tests/Attest.Tests.csproj --configuration Release --no-build
 
       - name: Pack
-        run: dotnet pack Attest.sln --configuration Release --no-build -p:Version=${{ steps.version.outputs.version }} --output ./artifacts
+        run: dotnet pack Attest.sln --configuration Release --no-build -p:Version=${STEPS_VERSION_OUTPUTS_VERSION} --output ./artifacts
+        env:
+          STEPS_VERSION_OUTPUTS_VERSION: ${{ steps.version.outputs.version }}
 
       # Immediately before the push: the key nuget.org returns lives for one hour, and
       # each OIDC token buys exactly one key.
@@ -112,6 +119,7 @@ jobs:
           # notes.md was written and checked before the push.
           gh release create "$GITHUB_REF_NAME" ./artifacts/*.nupkg \
             --title "$GITHUB_REF_NAME" --notes-file notes.md \
-            ${{ contains(steps.version.outputs.version, '-') && '--prerelease' || '' }}
+            $PRERELEASE_FLAG
         env:
           GH_TOKEN: ${{ github.token }}
+          PRERELEASE_FLAG: ${{ contains(steps.version.outputs.version, '-') && '--prerelease' || '' }}
