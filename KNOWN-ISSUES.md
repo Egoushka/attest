@@ -291,6 +291,11 @@ add the test before the fix.
 - **KI-SE-1** Parse decodes the birth date only from the twelve-digit form. The ten-digit form has no century (the separator "-" becomes "+" from the year a person turns 100), and Normalize drops the separator. The sex (9th digit of the ten-digit part, odd for a man) is decoded for both.
   - *Not fixed:* Skatteverket's page does not give the control digit algorithm and the legal guidance page 330245 refused the fetch.
 
+## Bulgaria
+
+- **KI-BG-1** bg.nationalid reports every rejection (a wrong check digit included) as Reason.InvalidFormat with the message "Invalid code"; the 1.x rule does not separate the causes.
+  - *Not fixed:* The verdict is right; only the reason is coarse. No corpus row asserts the coarse reason.
+
 ## Estonia
 
 - **KI-EE-1** No Parse. The ministry page says the first digit gives sex and the next six the date and cites standard EVS 585, but the digit-to-century table is not on any page that could be read (the Riigi Teataja regulation returned only its header).

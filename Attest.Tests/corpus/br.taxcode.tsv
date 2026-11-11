@@ -1,0 +1,8 @@
+# br.taxcode  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+12345678909	valid	-	12345678909	12345678909	computed:cpf-mod11-weights-10-to-2-then-11-to-2	check digits 09
+11144477735	valid	-	11144477735	11144477735	computed:cpf-mod11-weights-10-to-2-then-11-to-2	check digits 35
+52998224725	valid	-	52998224725	52998224725	computed:cpf-mod11-weights-10-to-2-then-11-to-2	check digits 25
+98765432100	valid	-	98765432100	98765432100	computed:cpf-mod11-weights-10-to-2-then-11-to-2	check digits 00
+52998224735	invalid	InvalidChecksum	-	-	computed:cpf-mod11-weights-10-to-2-then-11-to-2	first check digit changed
+52998224A25	invalid	InvalidFormat	-	-	synthetic	a letter

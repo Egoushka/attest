@@ -42,7 +42,6 @@ be.nationalid
 be.postalcode
 be.taxcode
 bg.company
-bg.nationalid
 bg.postalcode
 bg.taxcode
 bg.vat
@@ -58,7 +57,6 @@ bo.vat
 br.company
 br.nationalid
 br.postalcode
-br.taxcode
 br.vat
 by.company
 by.nationalid
@@ -81,7 +79,6 @@ cl.postalcode
 cl.taxcode
 cl.vat
 cn.company
-cn.nationalid
 cn.postalcode
 cn.taxcode
 co.company
@@ -138,7 +135,6 @@ es.postalcode
 es.taxcode
 es.vat
 fi.company
-fi.nationalid
 fi.postalcode
 fi.taxcode
 fi.vat

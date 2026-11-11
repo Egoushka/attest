@@ -1,0 +1,7 @@
+# bg.nationalid  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+8001010008	valid	-	8001010008	8001010008	computed:egn-weights-2-4-8-5-10-9-7-3-6-mod11	born 1980-01-01, check 8
+7523169263	valid	-	7523169263	7523169263	computed:egn-weights-2-4-8-5-10-9-7-3-6-mod11	month 23 = March 1875, check 3
+0012311230	valid	-	0012311230	0012311230	computed:egn-weights-2-4-8-5-10-9-7-3-6-mod11	born 1900-12-31, month 12, check 0
+0041011230	valid	-	0041011230	0041011230	computed:egn-weights-2-4-8-5-10-9-7-3-6-mod11	month 41 = January 2000, check 0
+80010100AB	invalid	InvalidFormat	-	-	synthetic	letters

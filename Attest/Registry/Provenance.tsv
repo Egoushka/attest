@@ -662,6 +662,7 @@ S	pl:nationalid,taxcode	Chancellery of the Prime Minister (gov.pl)	https://www.g
 S	fi:nationalid,taxcode	Finlex	https://data.finlex.fi/api/media/statute/17253/mainPdf/main.pdf	Decree 690/2022 amending 128/2010 section 2: century sign, individual number parity	2026-11-11	Law
 S	ee:nationalid	Ministry of the Interior	https://www.siseministeerium.ee/tegevusvaldkonnad/rahvastikutoimingud/rahvastikuregister	Population register: the code is 11 digits, the first gives sex, the next six the date; standard EVS 585	2026-11-11	Authority
 S	lt:nationalid	Seimas	https://www.lrs.lt/tais-portal/dokpaieska.showdoc_l?p_id=2507	Law I-2237 of 1992: first digit gives sex and century (mapping not in the text)	2026-11-11	Law
+G	bg:nationalid	KI-BG-1
 G	no:nationalid,taxcode	KI-NO-1
 G	dk:nationalid,taxcode	KI-DK-1
 G	se:nationalid,taxcode	KI-SE-1
