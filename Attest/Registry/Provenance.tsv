@@ -1,6 +1,6 @@
 # Provenance table: sources, known gaps and coverage overrides per identifier type.
 # Read by Attest.Provenance (embedded resource). Tab-separated; lines starting with # are comments.
-# ids = <country code>:<kind>[,<kind>...] with kinds nationalid, taxcode, company, vat, postalcode.
+# ids = <country code>:<kind>[,<kind>...] with kinds nationalid, taxcode, company, vat, postalcode; or a bare id for an international type (iban).
 # S  ids  authority  url  title  accessed(yyyy-MM-dd)  sourcekind(Authority|Law|Oecd|ReferenceImplementation|Secondary)
 # G  ids  KI-xx-n      (id of an entry in KNOWN-ISSUES.md)
 # C  ids  Full|FormatOnly|NotApplicable|NotPublished|NotCovered   (default: Full when supported, NotCovered otherwise)
@@ -632,3 +632,9 @@ G	hk:company	KI-HK-1
 G	mc:company,nationalid,taxcode	KI-MC-1
 G	uz:company,vat	KI-UZ-1
 G	gb:taxcode	KI-GB-1
+S	iban	SWIFT (ISO 13616 Registration Authority)	https://www.swift.com/standards/data-standards/iban	IBAN Registry: national IBAN formats under ISO 13616	2026-11-11	Authority
+S	iban	Wikipedia	https://en.wikipedia.org/wiki/International_Bank_Account_Number	International Bank Account Number (IBAN formats by country)	2026-11-11	Secondary
+S	iban	IbanNet	https://github.com/skwasjer/IbanNet	IbanNet (differential oracle in the tests only)	2026-11-11	ReferenceImplementation
+G	iban	KI-IBAN-1
+G	iban	KI-IBAN-2
+G	iban	KI-IBAN-3

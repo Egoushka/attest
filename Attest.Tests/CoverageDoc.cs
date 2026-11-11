@@ -19,7 +19,7 @@ namespace Attest.Tests
             sb.Append("<!-- Generated from the registry by Attest.Tests.CoverageDocTests. Do not edit; run the tests with ATTEST_UPDATE_COVERAGE=1 to regenerate. -->\n");
             sb.Append("# Coverage\n\n");
 
-            sb.Append("- Types: ").Append(all.Count).Append(" (").Append(all.Select(t => t.Country).Distinct().Count()).Append(" countries x 5 kinds)\n");
+            sb.Append("- Types: ").Append(all.Count).Append(" (").Append(all.Where(t => t.Country != null).Select(t => t.Country).Distinct().Count()).Append(" countries x 5 kinds, ").Append(all.Count(t => t.Country == null)).Append(" international)\n");
             sb.Append("- Coverage: ");
             sb.Append(string.Join(", ", Enum.GetValues(typeof(Coverage)).Cast<Coverage>()
                 .Select(c => c + " " + all.Count(t => t.Rule.Coverage == c))));

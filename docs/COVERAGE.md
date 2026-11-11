@@ -1,12 +1,12 @@
 <!-- Generated from the registry by Attest.Tests.CoverageDocTests. Do not edit; run the tests with ATTEST_UPDATE_COVERAGE=1 to regenerate. -->
 # Coverage
 
-- Types: 435 (87 countries x 5 kinds)
-- Coverage: Full 402, FormatOnly 11, NotApplicable 4, NotPublished 0, NotCovered 18
-- Last verified: null for 435 of 435
-- Sources: 788 citations; 375 types cite an authority, law or OECD source, 39 only a reference implementation or secondary source, 21 none
-- Native Normalize / Format / Parse: 4 / 8 / 0
-- Types with known gaps: 76
+- Types: 436 (87 countries x 5 kinds, 1 international)
+- Coverage: Full 403, FormatOnly 11, NotApplicable 4, NotPublished 0, NotCovered 18
+- Last verified: null for 436 of 436
+- Sources: 791 citations; 376 types cite an authority, law or OECD source, 39 only a reference implementation or secondary source, 21 none
+- Native Normalize / Format / Parse: 5 / 9 / 0
+- Types with known gaps: 77
 
 Sources are authority@host (kind: A authority, L law, O OECD, R reference implementation, S secondary); full URLs are in Attest/Registry/Provenance.tsv. N/F/P: a native Normalize / Format / Parse (y/-).
 
@@ -212,6 +212,7 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | hu.postalcode | Hungary postal code | PostalCode | HU | Full | Magyar Posta@posta.hu A | null | 1 | --- |  |
 | hu.taxcode | Hungary personal tax code | PersonalTaxCode | HU | Full | NAV@nav.gov.hu A; OECD@oecd.org O; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
 | hu.vat | Hungary VAT number | Vat | HU | Full | python-stdnum@arthurdejong.org R; NAV@nav.gov.hu A; European Commission@ec.europa.eu A | null | 1 | --- |  |
+| iban | International Bank Account Number | BankAccount |  | Full | SWIFT (ISO 13616 Registration Authority)@swift.com A; Wikipedia@en.wikipedia.org S; IbanNet@github.com R | null | 1 | yy- | KI-IBAN-1, KI-IBAN-2, KI-IBAN-3 |
 | id.company | Indonesia company number | CompanyNumber | ID | Full | OSS@oss.go.id A | null | 1 | --- |  |
 | id.nationalid | Indonesia national identity number | PersonalId | ID | Full | Wikipedia@en.wikipedia.org S | null | 1 | --- |  |
 | id.postalcode | Indonesia postal code | PostalCode | ID | Full | Pos Indonesia@posindonesia.co.id A | null | 1 | --- |  |

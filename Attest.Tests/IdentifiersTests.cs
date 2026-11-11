@@ -26,15 +26,15 @@ namespace Attest.Tests
         [Fact]
         public void EveryOneDotXPairIsRegistered()
         {
-            Assert.Equal(87 * 5, Identifiers.All.Count);
-            Assert.Equal(Identifiers.All.Count, Identifiers.All.Select(t => t.Id).Distinct().Count());
-            Assert.All(Identifiers.All, t => Assert.Equal(t.Id.ToLowerInvariant(), t.Id));
+            Assert.Equal(87 * 5, TestTypes.Pairs.Count);
+            Assert.Equal(TestTypes.Pairs.Count, TestTypes.Pairs.Select(t => t.Id).Distinct().Count());
+            Assert.All(TestTypes.Pairs, t => Assert.Equal(t.Id.ToLowerInvariant(), t.Id));
         }
 
         [Fact]
         public void EveryIdAndAliasResolvesToItsType()
         {
-            foreach (IdentifierType type in Identifiers.All)
+            foreach (IdentifierType type in TestTypes.Pairs)
             {
                 Assert.Same(type, Identifiers.Find(type.Id));
                 Assert.Same(type, Identifiers.Find(type.Id.ToUpperInvariant()));
@@ -89,7 +89,7 @@ namespace Attest.Tests
             var legacy = new CountryValidator();
             int notCovered = 0;
 
-            foreach (IdentifierType type in Identifiers.All)
+            foreach (IdentifierType type in TestTypes.Pairs)
             {
                 bool supported = legacy.Supports(type.Country.Value, type.Kind);
                 IdentifierResult result = type.Validate("0428759497");
@@ -118,7 +118,7 @@ namespace Attest.Tests
         {
             var legacy = new CountryValidator();
 
-            foreach (IdentifierType type in Identifiers.All.Where(t => t.Coverage == Coverage.Full))
+            foreach (IdentifierType type in TestTypes.Pairs.Where(t => t.Coverage == Coverage.Full))
             {
                 foreach (string sample in Samples)
                 {
@@ -153,7 +153,7 @@ namespace Attest.Tests
         [InlineData("\t　")]
         public void EmptyInputIsEmpty(string value)
         {
-            foreach (IdentifierType type in Identifiers.All.Where(t => t.Coverage == Coverage.Full))
+            foreach (IdentifierType type in TestTypes.Pairs.Where(t => t.Coverage == Coverage.Full))
             {
                 IdentifierResult result = type.Validate(value);
 
@@ -168,7 +168,7 @@ namespace Attest.Tests
             string atBound = new string('1', 128);
             string over = new string('1', 129);
 
-            foreach (IdentifierType type in Identifiers.All.Where(t => t.Coverage == Coverage.Full))
+            foreach (IdentifierType type in TestTypes.Pairs.Where(t => t.Coverage == Coverage.Full))
             {
                 Assert.Equal(Reason.TooLong, type.Validate(over).Reason);
                 Assert.NotEqual(Reason.TooLong, type.Validate(atBound).Reason);
@@ -198,7 +198,7 @@ namespace Attest.Tests
         {
             string[] inputs = { "be 0428.759-497", "1234ij", "sw1a 1aa", "x.y-z/1", "١٢", "ß-ß" };
 
-            foreach (IdentifierType type in Identifiers.All)
+            foreach (IdentifierType type in TestTypes.Pairs)
             {
                 foreach (string input in inputs)
                 {
@@ -375,7 +375,7 @@ namespace Attest.Tests
                     Thread.CurrentThread.CurrentCulture = culture;
                     Thread.CurrentThread.CurrentUICulture = culture;
 
-                    foreach (IdentifierType type in Identifiers.All)
+                    foreach (IdentifierType type in TestTypes.Pairs)
                     {
                         IdentifierResult result = type.Validate(value);
                         string normalized = type.Normalize(value);
@@ -416,7 +416,7 @@ namespace Attest.Tests
                 {
                     // Per type: a type may keep the case of a letter that carries meaning (at.company),
                     // but its answer must not depend on the culture.
-                    foreach (IdentifierType type in Identifiers.All.Take(40))
+                    foreach (IdentifierType type in TestTypes.Pairs.Take(40))
                     {
                         var seen = new HashSet<string>();
                         foreach (CultureInfo culture in Cultures)

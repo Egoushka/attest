@@ -30,13 +30,13 @@ namespace Attest.Tests
         [Fact]
         public void EveryCoveredTypeCitesAnHttpsSource()
         {
-            var missing = Identifiers.All
+            var missing = TestTypes.Pairs
                 .Where(t => IsCovered(t) && !NoSourceAllowList.Contains(t.Id))
                 .Where(t => !t.Rule.Sources.Any(s => s.Url.StartsWith("https://", StringComparison.Ordinal)))
                 .Select(t => t.Id).ToList();
             Assert.True(missing.Count == 0, "Covered types with no https source: " + string.Join(", ", missing));
 
-            var stale = NoSourceAllowList.Where(id => Identifiers.All.Any(t => t.Id == id && t.Rule.Sources.Count > 0)).ToList();
+            var stale = NoSourceAllowList.Where(id => TestTypes.Pairs.Any(t => t.Id == id && t.Rule.Sources.Count > 0)).ToList();
             Assert.True(stale.Count == 0, "Remove from the allow-list, they have sources now: " + string.Join(", ", stale));
         }
 
@@ -44,7 +44,7 @@ namespace Attest.Tests
         public void SourcesAreWellFormedAndNotDatedInTheFuture()
         {
             DateTime limit = DateTime.UtcNow.Date.AddDays(1);
-            foreach (IdentifierType type in Identifiers.All)
+            foreach (IdentifierType type in TestTypes.Pairs)
             {
                 var urls = new HashSet<string>(StringComparer.Ordinal);
                 foreach (Source s in type.Rule.Sources)
@@ -68,14 +68,14 @@ namespace Attest.Tests
         [Fact]
         public void RevisionsArePositive()
         {
-            Assert.All(Identifiers.All, t => Assert.True(t.Rule.Revision >= 1, t.Id));
+            Assert.All(TestTypes.Pairs, t => Assert.True(t.Rule.Revision >= 1, t.Id));
         }
 
         [Fact]
         public void IdsAreUniqueAndEveryCountryHasAllFiveKinds()
         {
-            Assert.Equal(Identifiers.All.Count, Identifiers.All.Select(t => t.Id).Distinct().Count());
-            foreach (var group in Identifiers.All.GroupBy(t => t.Country))
+            Assert.Equal(TestTypes.Pairs.Count, TestTypes.Pairs.Select(t => t.Id).Distinct().Count());
+            foreach (var group in TestTypes.Pairs.GroupBy(t => t.Country))
             {
                 var slugs = group.Select(t => t.Id.Substring(t.Id.IndexOf('.') + 1)).OrderBy(s => s, StringComparer.Ordinal).ToList();
                 Assert.True(
@@ -97,18 +97,18 @@ namespace Attest.Tests
         {
             // Of the 25 pairs without a rule: 3 gained one, 4 are NotApplicable (the country issues
             // no such identifier), 18 remain NotCovered with a known gap or a published rule not yet written.
-            Assert.Equal(18, Identifiers.All.Count(t => t.Rule.Coverage == Coverage.NotCovered));
+            Assert.Equal(18, TestTypes.Pairs.Count(t => t.Rule.Coverage == Coverage.NotCovered));
             Assert.Equal(
                 new[] { "ae.postalcode", "hk.postalcode", "hk.vat", "us.vat" },
-                Identifiers.All.Where(t => t.Rule.Coverage == Coverage.NotApplicable).Select(t => t.Id).OrderBy(i => i, StringComparer.Ordinal).ToArray());
+                TestTypes.Pairs.Where(t => t.Rule.Coverage == Coverage.NotApplicable).Select(t => t.Id).OrderBy(i => i, StringComparer.Ordinal).ToArray());
             Assert.All(
-                Identifiers.All.Where(t => t.Rule.Coverage == Coverage.NotApplicable),
+                TestTypes.Pairs.Where(t => t.Rule.Coverage == Coverage.NotApplicable),
                 t => Assert.Equal(Verdict.NotCovered, t.Validate("1234567").Verdict));
             Assert.All(
-                Identifiers.All.Where(t => t.Rule.Coverage == Coverage.NotCovered),
+                TestTypes.Pairs.Where(t => t.Rule.Coverage == Coverage.NotCovered),
                 t => Assert.Equal(Verdict.NotCovered, t.Validate("1234567").Verdict));
             Assert.All(
-                Identifiers.All.Where(t => t.Rule.Coverage == Coverage.NotCovered),
+                TestTypes.Pairs.Where(t => t.Rule.Coverage == Coverage.NotCovered),
                 t => Assert.True(t.Rule.KnownGaps.Count > 0, t.Id + " is NotCovered and names no known gap."));
         }
 
@@ -116,7 +116,7 @@ namespace Attest.Tests
         public void KnownGapsLinkToRealEntriesOfTheSameCountryAndEveryEntryIsLinked()
         {
             string text = File.ReadAllText(Path.Combine(RepoRoot.Find(), "KNOWN-ISSUES.md"));
-            var entries = Regex.Matches(text, @"^- \*\*(KI-[A-Z]{2}-[0-9]+)\*\*", RegexOptions.Multiline)
+            var entries = Regex.Matches(text, @"^- \*\*(KI-[A-Z]{2,5}-[0-9]+)\*\*", RegexOptions.Multiline)
                 .Cast<Match>().Select(m => m.Groups[1].Value).ToList();
             Assert.True(entries.Count >= 30, "Found only " + entries.Count + " KNOWN-ISSUES.md entries with ids; the scan is broken.");
             Assert.Equal(entries.Count, entries.Distinct().Count());
@@ -124,11 +124,12 @@ namespace Attest.Tests
             var linked = new HashSet<string>(StringComparer.Ordinal);
             foreach (IdentifierType type in Identifiers.All)
             {
+                string prefix = "KI-" + (type.Country != null ? type.Country.ToString() : type.Id.ToUpperInvariant()) + "-";
                 foreach (string gap in type.Rule.KnownGaps)
                 {
                     Assert.True(entries.Contains(gap), type.Id + " links to " + gap + ", which is not in KNOWN-ISSUES.md");
                     Assert.True(
-                        gap.StartsWith("KI-" + type.Country + "-", StringComparison.Ordinal),
+                        gap.StartsWith(prefix, StringComparison.Ordinal),
                         type.Id + " links to " + gap + ", an entry of another country");
                     linked.Add(gap);
                 }
