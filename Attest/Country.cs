@@ -365,5 +365,57 @@
         /// South Africa
         /// </summary>
         ZA = 87,
+        /// <summary>
+        /// Algeria
+        /// </summary>
+        DZ = 88,
+        /// <summary>
+        /// Egypt
+        /// </summary>
+        EG = 89,
+        /// <summary>
+        /// Ghana
+        /// </summary>
+        GH = 90,
+        /// <summary>
+        /// Guinea
+        /// </summary>
+        GN = 91,
+        /// <summary>
+        /// Kenya
+        /// </summary>
+        KE = 92,
+        /// <summary>
+        /// Liechtenstein
+        /// </summary>
+        LI = 93,
+        /// <summary>
+        /// Morocco
+        /// </summary>
+        MA = 94,
+        /// <summary>
+        /// Mozambique
+        /// </summary>
+        MZ = 95,
+        /// <summary>
+        /// Oman
+        /// </summary>
+        OM = 96,
+        /// <summary>
+        /// Singapore
+        /// </summary>
+        SG = 97,
+        /// <summary>
+        /// Senegal
+        /// </summary>
+        SN = 98,
+        /// <summary>
+        /// Tunisia
+        /// </summary>
+        TN = 99,
+        /// <summary>
+        /// Vietnam
+        /// </summary>
+        VN = 100,
     }
 }

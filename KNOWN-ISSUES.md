@@ -211,6 +211,71 @@ add the test before the fix.
 - **KI-AE-4** No personal tax code rule: ae.taxcode is NotCovered.
   - *Not fixed:* The UAE has no personal income tax and issues no personal tax number as far as I know, but I found no authority page that says so, so it is not marked NotApplicable. The OECD TIN sheet URL used for other countries returned 404.
 
+## Algeria
+
+- **KI-DZ-1** No rule for any of the five kinds: dz.* are NotCovered.
+  - *Not fixed:* Added in 2.0 as registered types only. No authority page stating a format (NIF, national id, postal code) was read in this pass.
+
+## Egypt
+
+- **KI-EG-1** No rule for any of the five kinds: eg.* are NotCovered.
+  - *Not fixed:* Registered types only; no authority page stating a format (tax registration number, national id, postal code) was read.
+
+## Ghana
+
+- **KI-GH-1** No rule for any of the five kinds: gh.* are NotCovered.
+  - *Not fixed:* Registered types only; no authority page stating a format (TIN, Ghana Card, GhanaPostGPS) was read.
+
+## Guinea
+
+- **KI-GN-1** No rule for any of the five kinds: gn.* are NotCovered.
+  - *Not fixed:* Registered types only; no authority page stating a format (NIFP) was read.
+
+## Kenya
+
+- **KI-KE-1** ke.nationalid and ke.postalcode are NotCovered; the KRA PIN rules (ke.taxcode, ke.company, ke.vat) check only the shape.
+  - *Not fixed:* KRA's eTIMS specification gives A or P, nine digits and a letter, and no algorithm for the last letter, so it is not checked. The first letter is accepted as A or P for all three kinds because the specification does not tie a letter to a use. No national id or postal code format was read.
+
+## Liechtenstein
+
+- **KI-LI-1** No rule for any of the five kinds: li.* are NotCovered.
+  - *Not fixed:* Registered types only; no authority page stating a format (PEID, UID, postal codes) was read.
+
+## Morocco
+
+- **KI-MA-1** Only ma.company (ICE, 15 digits) has a rule, and it checks the length only; the other four kinds are NotCovered.
+  - *Not fixed:* DGI forms print the ICE in boxes of 9, 4 and 2 digits (decree 2-11-63). The meaning of the groups and any check were not found. The tax identifier (IF), national id and postal codes were not read.
+
+## Mozambique
+
+- **KI-MZ-1** No rule for any of the five kinds: mz.* are NotCovered.
+  - *Not fixed:* Registered types only; no authority page stating a format (NUIT) was read.
+
+## Oman
+
+- **KI-OM-1** No rule for any of the five kinds: om.* are NotCovered.
+  - *Not fixed:* Registered types only; no authority page stating a format was read.
+
+## Senegal
+
+- **KI-SN-1** No rule for any of the five kinds: sn.* are NotCovered.
+  - *Not fixed:* Registered types only; no authority page stating a format (NINEA) was read.
+
+## Singapore
+
+- **KI-SG-1** No rule for any of the five kinds: sg.* are NotCovered.
+  - *Not fixed:* ACRA's Special UEN page shows sample UENs of several shapes, but no format specification or check-letter algorithm was found, and the NRIC/FIN check letters were not found on an authority page. Nothing is guessed.
+
+## Tunisia
+
+- **KI-TN-1** No rule for any of the five kinds: tn.* are NotCovered.
+  - *Not fixed:* Registered types only; no authority page stating a format (matricule fiscal) was read.
+
+## Vietnam
+
+- **KI-VN-1** vn.taxcode, vn.company and vn.vat check only the shape (10 digits, or 10 and 3); vn.nationalid and vn.postalcode are NotCovered.
+  - *Not fixed:* Circular 105/2020/TT-BTC defines N1N2 N3..N9 N10 - N11N12N13 with N10 a check digit; the check algorithm was not found. The citizen identification number and postal codes were not read.
+
 ## International
 
 - **KI-IBAN-1** The national check digits inside the BBAN are not verified; only the registry length, the BBAN character classes and the MOD 97-10 check digits are.

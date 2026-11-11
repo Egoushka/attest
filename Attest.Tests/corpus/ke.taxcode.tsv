@@ -1,0 +1,8 @@
+# ke.taxcode  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+A123456789Z	valid	-	A123456789Z	A123456789Z	published:https://www.kra.go.ke/images/publications/Revised-Electronic-Tax-Register-Specifications-V2.0_14July2021.pdf	KRA example for an individual (quoted by a search excerpt of the specification, not read on the PDF)
+P123456789Z	valid	-	P123456789Z	P123456789Z	published:https://www.kra.go.ke/images/publications/Revised-Electronic-Tax-Register-Specifications-V2.0_14July2021.pdf	KRA example for a company
+X12345678	invalid	InvalidLength	-	-	published:https://www.kra.go.ke/images/publications/Revised-Electronic-Tax-Register-Specifications-V2.0_14July2021.pdf	KRA's own invalid example
+P12345678912	invalid	InvalidLength	-	-	published:https://www.kra.go.ke/images/publications/Revised-Electronic-Tax-Register-Specifications-V2.0_14July2021.pdf	KRA's own invalid example
+X123456789Z	invalid	InvalidFormat	-	-	synthetic	prefix X
+A12345678AZ	invalid	InvalidFormat	-	-	synthetic	letter among the digits
