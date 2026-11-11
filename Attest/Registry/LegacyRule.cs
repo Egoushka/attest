@@ -14,16 +14,11 @@ namespace Attest
         private readonly IdValidationAbstract _validator;
         private readonly IdentifierKind _kind;
 
-        internal LegacyRule(IdValidationAbstract validator, IdentifierKind kind, bool supported)
+        internal LegacyRule(string id, IdValidationAbstract validator, IdentifierKind kind, bool supported)
         {
             _validator = validator;
             _kind = kind;
-            Info = new RuleInfo(
-                new Source[0],
-                null,
-                1,
-                new string[0],
-                supported ? Coverage.Full : Coverage.NotCovered);
+            Info = Provenance.For(id, supported);
         }
 
         internal override RuleInfo Info { get; }

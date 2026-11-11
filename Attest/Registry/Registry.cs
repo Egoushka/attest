@@ -48,14 +48,15 @@ namespace Attest
                     string slug, alias, description;
                     Describe(kind, out slug, out alias, out description);
 
+                    string id = code + "." + slug;
                     var type = new IdentifierType(
-                        code + "." + slug,
+                        id,
                         pair.Key,
                         kind,
                         country + " " + description,
                         country + " " + description,
                         new[] { code + "." + alias },
-                        new LegacyRule(pair.Value, kind, supported));
+                        new LegacyRule(id, pair.Value, kind, supported));
 
                     Add(type);
                     all.Add(type);
