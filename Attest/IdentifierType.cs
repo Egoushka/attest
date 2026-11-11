@@ -16,6 +16,9 @@ namespace Attest
 
         private readonly Rule _rule;
 
+        /// <summary>The rule behind this type, for tests that inspect which operations it implements.</summary>
+        internal Rule Implementation => _rule;
+
         internal IdentifierType(string id, Country? country, IdentifierKind kind, string name, string localName, IReadOnlyList<string> aliases, Rule rule)
         {
             Id = id;

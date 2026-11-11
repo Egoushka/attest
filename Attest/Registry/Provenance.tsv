@@ -1,0 +1,608 @@
+# Provenance table: sources, known gaps and coverage overrides per identifier type.
+# Read by Attest.Provenance (embedded resource). Tab-separated; lines starting with # are comments.
+# ids = <country code>:<kind>[,<kind>...] with kinds nationalid, taxcode, company, vat, postalcode.
+# S  ids  authority  url  title  accessed(yyyy-MM-dd)  sourcekind(Authority|Law|Oecd|ReferenceImplementation|Secondary)
+# G  ids  KI-xx-n      (id of an entry in KNOWN-ISSUES.md)
+# C  ids  Full|FormatOnly|NotApplicable|NotPublished|NotCovered   (default: Full when supported, NotCovered otherwise)
+# V  ids  yyyy-MM-dd   LastVerified; absent means null (not re-verified)
+# R  ids  n            Revision; absent means 1
+# accessed = the day the URL was fetched. Where it is earlier than the day of the last check the URL no longer answered; kept for re-verification.
+S	ad:company	Govern d'Andorra	https://www.govern.ad/ca/l/4191585	Andorran company registration	2026-11-11	Authority
+S	ad:company,taxcode,nationalid	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/andorra-tin.pdf	OECD TIN Andorra	2026-11-11	Oecd
+S	ad:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Andorra	Postal codes in Andorra	2026-11-11	Secondary
+S	ad:taxcode,nationalid	Govern d'Andorra	https://www.impostos.ad	Andorra tax portal	2026-11-11	Authority
+S	ad:taxcode,nationalid	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.ad.nrt.html	stdnum.ad.nrt	2026-11-11	ReferenceImplementation
+S	ad:vat	Govern d'Andorra	https://www.impostos.ad/index.php/ca/igi	IGI	2026-11-11	Authority
+S	ae:nationalid	ICP UAE	https://icp.gov.ae/	Federal Authority for Identity, Citizenship (Emirates ID)	2026-11-11	Authority
+S	al:company	National Business Centre (QKB)	https://qkb.gov.al/	National Business Centre	2026-11-11	Authority
+S	al:nationalid	Wikipedia	https://en.wikipedia.org/wiki/National_identification_number	National identification number	2026-11-11	Secondary
+S	al:postalcode	Posta Shqiptare	https://www.postashqiptare.al/	Posta Shqiptare	2026-11-11	Authority
+S	al:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Albania	Postal codes in Albania	2026-11-11	Secondary
+S	al:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/albania-tin.pdf	Albania TIN sheet	2026-11-11	Oecd
+S	al:taxcode,company,vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.al.nipt.html	stdnum.al.nipt (NIPT)	2026-11-11	ReferenceImplementation
+S	al:taxcode,vat	Albanian National Taxation Directorate	https://www.tatime.gov.al/	National Taxation Directorate	2026-11-11	Authority
+S	am:company	Ministry of Justice	https://www.e-register.am/en/	Armenian state register	2026-11-11	Authority
+S	am:company,taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/armenia-tin.pdf	OECD TIN Armenia	2026-11-11	Oecd
+S	am:nationalid	ARLIS	https://www.arlis.am/hy/acts/87872	Armenian legal act 87872	2026-11-11	Law
+S	am:nationalid	ARLIS	https://www.arlis.am/hy/acts/36172	Armenian legal act 36172	2026-11-11	Law
+S	am:postalcode	HayPost	https://www.haypost.am/	HayPost	2026-11-11	Authority
+S	am:vat	State Revenue Committee	https://www.src.am/	State Revenue Committee	2026-11-11	Authority
+S	ar:nationalid	RENAPER	https://www.argentina.gob.ar/interior/renaper	Registro Nacional de las Personas (DNI)	2026-11-11	Authority
+S	ar:nationalid	python-stdnum	https://arthurdejong.org/nl/python-stdnum/doc/1.20/stdnum.ar.dni	stdnum.ar.dni	2026-09-12	ReferenceImplementation
+S	ar:postalcode	Correo Argentino	https://www.correoargentino.com.ar/	Correo Argentino (CPA postal code)	2026-11-11	Authority
+S	ar:taxcode,company,vat	ARCA	https://www.arca.gob.ar/	ARCA tax agency (CUIT)	2026-11-11	Authority
+S	ar:taxcode,company,vat	AFIP	https://www.afip.gob.ar/	AFIP (CUIT)	2026-11-11	Authority
+S	ar:taxcode,company,vat	python-stdnum	https://arthurdejong.org/nl/python-stdnum/doc/1.20/stdnum.ar.cuit	stdnum.ar.cuit	2026-09-12	ReferenceImplementation
+S	at:company	Federal Ministry of Justice	https://www.justiz.gv.at/	Federal Ministry of Justice (Firmenbuch)	2026-11-11	Authority
+S	at:company	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.at.businessid.html	stdnum.at.businessid	2026-11-11	ReferenceImplementation
+S	at:nationalid	Federal Ministry of the Interior	https://www.bmi.gv.at/	Federal Ministry of the Interior	2026-11-11	Authority
+S	at:postalcode	Austrian Post	https://www.post.at/	Austrian Post	2026-11-11	Authority
+S	at:postalcode	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.at.postleitzahl.html	stdnum.at.postleitzahl	2026-11-11	ReferenceImplementation
+S	at:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Austria	Postal codes in Austria	2026-11-11	Secondary
+S	at:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/austria-tin.pdf	Austria TIN sheet	2026-11-11	Oecd
+S	at:taxcode	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.at.tin.html	stdnum.at.tin	2026-11-11	ReferenceImplementation
+S	at:taxcode,vat	Federal Ministry of Finance	https://www.bmf.gv.at/	Federal Ministry of Finance	2026-11-11	Authority
+S	at:vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.at.uid.html	stdnum.at.uid	2026-11-11	ReferenceImplementation
+S	at:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES VAT number validation	2026-11-11	Authority
+S	au:company,vat	Australian Business Register	https://abr.business.gov.au/Help/AbnFormat	ABN format	2026-11-11	Authority
+S	au:company,vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.au.abn.html	stdnum.au.abn	2026-11-11	ReferenceImplementation
+S	au:postalcode	Australia Post	https://auspost.com.au/postcode	Australia Post postcodes	2026-11-11	Authority
+S	au:taxcode,nationalid	Australian Taxation Office	https://www.ato.gov.au/individuals-and-families/tax-file-number	Tax file number	2026-11-11	Authority
+S	au:taxcode,nationalid	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.au.tfn.html	stdnum.au.tfn	2026-11-11	ReferenceImplementation
+S	au:vat	Australian Taxation Office	https://www.ato.gov.au/businesses-and-organisations/gst-excise-and-indirect-taxes/gst	GST	2026-11-11	Authority
+S	az:nationalid	e-gov.az	https://www.e-gov.az/en/services/read/3243/1	e-gov.az service page (FIN)	2026-09-12	Authority
+S	az:nationalid	ASAN Service	https://www.asan.gov.az/	ASAN Service portal	2026-11-11	Authority
+S	az:postalcode	Azerpost	https://www.azerpost.az/	Azerpost	2026-11-11	Authority
+S	az:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/azerbaijan-tin.pdf	Azerbaijan TIN information sheet	2026-11-11	Oecd
+S	az:taxcode,company,vat	State Tax Service	https://www.taxes.gov.az/en	State Tax Service of Azerbaijan	2026-11-11	Authority
+S	ba:company	Tax Administration of the Federation of BiH	https://www.pufbih.ba/v1/public/upload/zakoni/96237-pravilnik-o-dodjeljivanju-id-brojeva.pdf	Pravilnik o dodjeljivanju ID brojeva	2026-09-12	Law
+S	ba:nationalid	Wikipedia	https://en.wikipedia.org/wiki/Unique_Master_Citizen_Number	Unique Master Citizen Number	2026-11-11	Secondary
+S	ba:postalcode	BH Post	https://www.hpt.ba/	BH Post	2026-11-11	Authority
+S	ba:taxcode	Indirect Taxation Authority of BiH	https://www.uino.gov.ba/	Indirect Taxation Authority	2026-11-11	Authority
+S	ba:vat	Indirect Taxation Authority of BiH	https://www.uino.gov.ba/portal/wp-content/uploads/PROPISI/2_Porezi/1_PDV/2_Pravilnici/B/B-2-Pravilnik-o-registraciji-i-upisu-u-Jedinstveni-registar-obveznika-indirektnih-poreza-Sluzbeni-glasnik-BiH-broj-5112b.pdf	Pravilnik o registraciji obveznika indirektnih poreza	2026-11-11	Law
+S	ba:vat	Tax Administration of the Federation of BiH	https://pufbih.ba/v1/public/upload/files/Kanton%20Sarajevo%202.pdf	PUFBiH Kanton Sarajevo document	2026-11-11	Authority
+S	be:company,vat	FPS Economy (BCE/KBO)	https://economie.fgov.be/en/themes/enterprises/crossroads-bank-enterprises	Crossroads Bank for Enterprises	2026-11-11	Authority
+S	be:nationalid,taxcode	FPS Home Affairs	https://www.ibz.be/	FPS Home Affairs (National Register)	2026-11-11	Authority
+S	be:postalcode	bpost	https://www.bpost.be/en	bpost	2026-11-11	Authority
+S	be:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Belgium	Postal codes in Belgium	2026-11-11	Secondary
+S	be:taxcode,nationalid	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.be.nn.html	stdnum.be.nn	2026-11-11	ReferenceImplementation
+S	be:taxcode,nationalid	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/belgium-tin.pdf	OECD TIN Belgium	2026-11-11	Oecd
+S	be:taxcode,nationalid	FPS Finance	https://finances.belgium.be/en	FPS Finance	2026-11-11	Authority
+S	be:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES	2026-11-11	Authority
+S	be:vat,company	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.be.vat.html	stdnum.be.vat	2026-11-11	ReferenceImplementation
+S	bg:company	Registry Agency	https://www.registryagency.bg/	Registry Agency (EIK)	2026-11-11	Authority
+S	bg:nationalid	GRAO	https://www.grao.bg/	GRAO civil registration (EGN)	2026-11-11	Authority
+S	bg:postalcode	Bulgarian Posts	https://www.bgpost.bg/	Bulgarian Posts	2026-11-11	Authority
+S	bg:taxcode,vat	National Revenue Agency	https://www.nra.bg/	National Revenue Agency	2026-11-11	Authority
+S	bg:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES VAT number formats	2026-11-11	Authority
+S	bg:vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.19/stdnum.bg.pnf.html	stdnum.bg.pnf	2026-11-11	ReferenceImplementation
+S	bg:vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.19/stdnum.bg.vat.html	stdnum.bg.vat	2026-11-11	ReferenceImplementation
+S	bh:nationalid	Information and eGovernment Authority	https://www.iga.gov.bh/	Information and eGovernment Authority	2026-11-11	Authority
+S	bh:postalcode	Wikipedia	https://en.wikipedia.org/wiki/List_of_postal_codes	List of postal codes	2026-11-11	Secondary
+S	bh:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/bahrain-tin.pdf	Bahrain TIN sheet	2026-11-11	Oecd
+S	bo:company,taxcode,vat	Servicio de Impuestos Nacionales	https://siatinfo.impuestos.gob.bo/index.php/requisitos-para-la-inscripcion/conceptos-generales/generacion-del-nit	Generacion del NIT	2026-09-12	Authority
+S	bo:nationalid	SEGIP	https://www.segip.gob.bo/fuent/2025/09/REGLAMENTO-REGISTRO-UNICO-IDENTIFICACION-PERSONAL.pdf	Reglamento del Registro Unico de Identificacion Personal	2026-11-11	Law
+S	bo:nationalid	Ministerio de Gobierno	https://web.mingobierno.gob.bo/wp-content/uploads/2025/09/LEY-N%C2%B0-145-DEL-SERVICIO-DE-IDENTIFICACION-PERSONAL-SEGIP.pdf	Ley 145 del SEGIP	2026-11-11	Law
+S	bo:postalcode	Correos de Bolivia	https://www.correos.gob.bo/	Correos de Bolivia	2026-11-11	Authority
+S	bo:taxcode	Servicio de Impuestos Nacionales	https://www.impuestos.gob.bo/	SIN Bolivia	2026-11-11	Authority
+S	bo:taxcode,company,vat	Servicio de Impuestos Nacionales	https://www.impuestos.gob.bo	SIN Bolivia	2026-11-11	Authority
+S	br:company	Receita Federal	https://www.gov.br/receitafederal/pt-br/centrais-de-conteudo/publicacoes/documentos-tecnicos/cnpj/manual-dv-cnpj.pdf	Manual do digito verificador do CNPJ	2026-11-11	Authority
+S	br:company	python-stdnum	https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/br/cnpj.py	stdnum.br.cnpj	2026-11-11	ReferenceImplementation
+S	br:postalcode	Correios	https://www.correios.com.br/	Correios (CEP)	2026-11-11	Authority
+S	br:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/brazil-tin.pdf	Brazil TIN information sheet	2026-11-11	Oecd
+S	br:taxcode	brazilian-utils	https://github.com/brazilian-utils/brazilian-utils/blob/main/src/is-valid-cpf/constants.ts	brazilian-utils CPF constants	2026-09-12	Secondary
+S	br:taxcode	validate-docbr	https://github.com/alvarofpp/validate-docbr/blob/master/validate_docbr/CPF.py	validate-docbr CPF	2026-11-11	Secondary
+S	br:taxcode,company,vat	Receita Federal	https://www.gov.br/receitafederal/pt-br	Receita Federal do Brasil	2026-11-11	Authority
+S	br:taxcode,nationalid	Receita Federal	https://www.gov.br/pt-br/servicos/consultar-cadastro-de-pessoas-fisicas	Consulta cadastro de pessoas fisicas (CPF)	2026-11-11	Authority
+S	by:company	python-stdnum	https://arthurdejong.org/git/python-stdnum/tree/stdnum/by/unp.py	stdnum/by/unp.py	2026-09-12	ReferenceImplementation
+S	by:company,taxcode	Wikipedia	https://be.wikipedia.org/wiki/Уліковы_нумар_плацельшчыка	Уліковы нумар плацельшчыка	2026-09-12	Secondary
+S	by:company,taxcode	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.by.unp.html	stdnum.by.unp (UNP)	2026-11-11	ReferenceImplementation
+S	by:nationalid	Wikipedia	https://en.wikipedia.org/wiki/National_identification_number	National identification number	2026-11-11	Secondary
+S	by:postalcode	Belpochta	https://www.belpost.by/	Belpochta	2026-11-11	Authority
+S	by:taxcode	Ministry of Taxes and Duties	https://www.nalog.gov.by/	Ministry of Taxes and Duties	2026-11-11	Authority
+S	by:vat	Ministry of Taxes and Duties	https://www.nalog.gov.by/	Ministry of Taxes and Duties	2026-11-11	Authority
+S	ca:company,vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.ca.bn.html	stdnum.ca.bn	2026-11-11	ReferenceImplementation
+S	ca:company,vat	Canada Revenue Agency	https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst-businesses.html	GST/HST for businesses	2026-11-11	Authority
+S	ca:company,vat	Canada Revenue Agency	https://www.canada.ca/en/revenue-agency.html	Canada Revenue Agency	2026-11-11	Authority
+S	ca:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Canada	Postal codes in Canada	2026-11-11	Secondary
+S	ca:taxcode,nationalid	Service Canada	https://www.canada.ca/en/employment-social-development/services/sin.html	Social Insurance Number	2026-11-11	Authority
+S	ca:taxcode,nationalid	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.ca.sin.html	stdnum.ca.sin	2026-11-11	ReferenceImplementation
+S	ca:taxcode,nationalid,company,vat	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/canada-tin.pdf	OECD TIN Canada	2026-11-11	Oecd
+S	ch:company	Federal Statistical Office	https://www.uid.admin.ch/	UID Register	2026-11-11	Authority
+S	ch:nationalid,taxcode	Federal Social Insurance Office	https://www.bsv.admin.ch/	BSV (AHV/AVS number)	2026-11-11	Authority
+S	ch:postalcode	Swiss Post	https://www.post.ch/en	Swiss Post	2026-11-11	Authority
+S	ch:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/switzerland-tin.pdf	Switzerland TIN information sheet	2026-11-11	Oecd
+S	ch:taxcode	python-stdnum	https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/ch/ssn.py	stdnum.ch.ssn	2026-11-11	ReferenceImplementation
+S	ch:vat	Federal Tax Administration	https://www.estv.admin.ch/	FTA (VAT / MWST-UID)	2026-11-11	Authority
+S	cl:company	Registro de Empresas y Sociedades	https://www.registrodeempresasysociedades.cl/	Registro de Empresas y Sociedades	2026-11-11	Authority
+S	cl:nationalid	Civil Registry and Identification Service	https://www.registrocivil.cl/	Registro Civil	2026-11-11	Authority
+S	cl:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Chile	Postal codes in Chile	2026-11-11	Secondary
+S	cl:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/chile-tin.pdf	Chile TIN sheet	2026-11-11	Oecd
+S	cl:taxcode,vat	Servicio de Impuestos Internos	https://www.sii.cl/	Servicio de Impuestos Internos	2026-11-11	Authority
+S	cl:taxcode,vat,nationalid	python-stdnum	https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/cl/rut.py	stdnum/cl/rut.py	2026-09-12	ReferenceImplementation
+S	cn:company	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.cn.uscc.html	stdnum.cn.uscc	2026-11-11	ReferenceImplementation
+S	cn:company	SAMR	https://www.samr.gov.cn/	State Administration for Market Regulation	2026-11-11	Authority
+S	cn:company,taxcode,nationalid	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/china-tin.pdf	OECD TIN China	2026-11-11	Oecd
+S	cn:postalcode	China Post	https://www.chinapost.com.cn	China Post	2026-11-11	Authority
+S	cn:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_China	Postal codes in China	2026-11-11	Secondary
+S	cn:taxcode,nationalid	SAMR/Standardization Administration	https://openstd.samr.gov.cn/bzgk/gb/newGbInfo?hcno=080D6FBF2BB468F9529D8B8F1FA4F4A8	GB 11643-1999 citizen ID	2026-11-11	Authority
+S	cn:taxcode,nationalid	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.cn.ric.html	stdnum.cn.ric	2026-11-11	ReferenceImplementation
+S	co:company	RUES	https://www.rues.org.co/	RUES business registry	2026-11-11	Authority
+S	co:nationalid	Wikipedia	https://es.wikipedia.org/wiki/C%C3%A9dula_de_ciudadan%C3%ADa_(Colombia)	Cedula de ciudadania (Colombia)	2026-11-11	Secondary
+S	co:postalcode	4-72	https://www.4-72.com.co/	4-72 Servicios Postales	2026-11-11	Authority
+S	co:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/colombia-tin.pdf	Colombia TIN information sheet	2026-11-11	Oecd
+S	co:taxcode,vat,company	DIAN	https://www.dian.gov.co/	DIAN (NIT)	2026-11-11	Authority
+S	co:vat	python-stdnum	https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/co/nit.py	stdnum.co.nit	2026-11-11	ReferenceImplementation
+S	cr:company	National Registry	https://www.rnpdigital.com/	Registro Nacional	2026-11-11	Authority
+S	cr:company	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.cr.cpj.html	stdnum.cr.cpj	2026-11-11	ReferenceImplementation
+S	cr:nationalid	Supreme Electoral Tribunal	https://www.tse.go.cr/	Tribunal Supremo de Elecciones	2026-11-11	Authority
+S	cr:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Costa_Rica	Postal codes in Costa Rica	2026-11-11	Secondary
+S	cr:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/costa-rica-tin.pdf	Costa Rica TIN sheet	2026-11-11	Oecd
+S	cr:taxcode	python-stdnum	https://arthurdejong.org/nm/python-stdnum/doc/1.20/stdnum.cr.cpf.html	stdnum.cr.cpf (1.20)	2026-09-12	ReferenceImplementation
+S	cr:taxcode,nationalid	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.cr.cpf.html	stdnum.cr.cpf	2026-11-11	ReferenceImplementation
+S	cr:taxcode,vat	Ministerio de Hacienda	https://www.hacienda.go.cr/	Ministerio de Hacienda	2026-11-11	Authority
+S	cu:taxcode,nationalid	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.cu.ni.html	stdnum.cu.ni	2026-11-11	ReferenceImplementation
+S	cu:taxcode,nationalid	Gaceta Oficial de Cuba	https://www.gacetaoficial.gob.cu/	Gaceta Oficial	2026-11-11	Law
+S	cy:company	Dept of Registrar of Companies	https://www.companies.gov.cy/	Registrar of Companies	2026-11-11	Authority
+S	cy:company	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.cy.vat.html	stdnum.cy.vat	2026-11-11	ReferenceImplementation
+S	cy:nationalid	Microsoft Purview	https://learn.microsoft.com/en-us/purview/sit-defn-cyprus-identity-card	Cyprus identity card number SIT	2026-11-11	Secondary
+S	cy:postalcode	Cyprus Post	https://www.cypruspost.post/	Cyprus Post	2026-11-11	Authority
+S	cy:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Cyprus	Postal codes in Cyprus	2026-11-11	Secondary
+S	cy:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/cyprus-tin.pdf	Cyprus TIN information sheet	2026-11-11	Oecd
+S	cy:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES VAT number formats	2026-11-11	Authority
+S	cz:company	ARES Business Register	https://ares.gov.cz/	ARES	2026-11-11	Authority
+S	cz:nationalid	Ministry of the Interior	https://www.mvcr.cz/	Ministry of the Interior	2026-11-11	Authority
+S	cz:nationalid	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.cz.rc.html	stdnum.cz.rc (rodne cislo)	2026-11-11	ReferenceImplementation
+S	cz:postalcode	Czech Post	https://www.ceskaposta.cz/	Ceska posta	2026-11-11	Authority
+S	cz:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_the_Czech_Republic	Postal codes in the Czech Republic	2026-09-11	Secondary
+S	cz:taxcode,vat	Financial Administration	https://www.financnisprava.cz/	Financni sprava	2026-11-11	Authority
+S	cz:taxcode,vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.cz.dic.html	stdnum.cz.dic	2026-11-11	ReferenceImplementation
+S	cz:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES VAT number validation	2026-11-11	Authority
+S	de:company	Gemeinsames Registerportal	https://www.handelsregister.de/rp_web/welcome.xhtml	Handelsregister	2026-11-11	Authority
+S	de:company,taxcode,nationalid	ELSTER	https://download.elster.de/download/schnittstellen/Pruefung_der_Steuer_und_Steueridentifikatsnummer.pdf	Pruefung der Steuer- und Steuer-IdNr.	2026-11-11	Authority
+S	de:postalcode	Deutsche Post	https://www.deutschepost.de	Deutsche Post	2026-11-11	Authority
+S	de:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Germany	Postal codes in Germany	2026-11-11	Secondary
+S	de:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/germany-tin.pdf	OECD TIN Germany	2026-11-11	Oecd
+S	de:taxcode,nationalid	Bundeszentralamt fuer Steuern	https://www.bzst.de/DE/Privatpersonen/SteuerlicheIdentifikationsnummer/steuerlicheidentifikationsnummer_node.html	Steuerliche Identifikationsnummer	2026-11-11	Authority
+S	de:taxcode,nationalid	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.de.idnr.html	stdnum.de.idnr	2026-11-11	ReferenceImplementation
+S	de:taxcode,nationalid	Wikipedia	https://de.wikipedia.org/wiki/Steuerliche_Identifikationsnummer	Steuerliche Identifikationsnummer	2026-11-11	Secondary
+S	de:vat	Bundeszentralamt fuer Steuern	https://www.bzst.de/DE/Unternehmen/Identifikationsnummern/Umsatzsteuer-Identifikationsnummer/umsatzsteuer-identifikationsnummer_node.html	USt-IdNr.	2026-11-11	Authority
+S	de:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES	2026-11-11	Authority
+S	de:vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.de.vat.html	stdnum.de.vat	2026-11-11	ReferenceImplementation
+S	dk:company	Danish Business Authority	https://virk.dk/	Virk (CVR)	2026-11-11	Authority
+S	dk:nationalid	CPR Office	https://cpr.dk/	CPR-kontoret (CPR number)	2026-11-11	Authority
+S	dk:postalcode	Danmarks Adresser	https://danmarksadresser.dk/	Danmarks Adresser (postal codes)	2026-11-11	Authority
+S	dk:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/denmark-tin.pdf	Denmark TIN information sheet	2026-11-11	Oecd
+S	dk:taxcode,vat	Skattestyrelsen	https://skat.dk/	Skat (tax agency)	2026-11-11	Authority
+S	dk:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES VAT number formats	2026-11-11	Authority
+S	do:company	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.do.ncf	stdnum.do.ncf (1.20)	2026-09-12	ReferenceImplementation
+S	do:nationalid	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.do.cedula.html	stdnum.do.cedula	2026-11-11	ReferenceImplementation
+S	do:postalcode	Instituto Postal Dominicano	https://inposdom.gob.do/	INPOSDOM	2026-11-11	Authority
+S	do:postalcode	Wikipedia	https://en.wikipedia.org/wiki/List_of_postal_codes	List of postal codes	2026-11-11	Secondary
+S	do:taxcode,company	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.do.rnc.html	stdnum.do.rnc	2026-11-11	ReferenceImplementation
+S	do:taxcode,company,vat	Direccion General de Impuestos Internos	https://www.dgii.gov.do/	DGII	2026-11-11	Authority
+S	do:vat	python-stdnum	https://raw.githubusercontent.com/arthurdejong/python-stdnum/master/stdnum/do/ncf.py	stdnum/do/ncf.py	2026-09-12	ReferenceImplementation
+S	ec:company,vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.ec.ruc.html	stdnum.ec.ruc	2026-11-11	ReferenceImplementation
+S	ec:company,vat	python-stdnum	https://arthurdejong.org/nm/python-stdnum/doc/1.20/stdnum.ec.ruc.html	stdnum.ec.ruc	2026-09-12	ReferenceImplementation
+S	ec:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Ecuador	Postal codes in Ecuador	2026-11-11	Secondary
+S	ec:taxcode,nationalid	Registro Civil	https://www.registrocivil.gob.ec/	Registro Civil Ecuador	2026-11-11	Authority
+S	ec:taxcode,nationalid,company,vat	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/ecuador-tin.pdf	OECD TIN Ecuador	2026-11-11	Oecd
+S	ec:taxcode,nationalid,vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.ec.ci.html	stdnum.ec.ci	2026-11-11	ReferenceImplementation
+S	ec:vat,taxcode,nationalid	python-stdnum	https://arthurdejong.org/nm/python-stdnum/doc/1.20/stdnum.ec.ci.html	stdnum.ec.ci	2026-09-12	ReferenceImplementation
+S	ee:company	Centre of Registers	https://ariregister.rik.ee/	e-Business Register	2026-11-11	Authority
+S	ee:nationalid	Riigi Teataja	https://www.riigiteataja.ee/	Riigi Teataja (state gazette)	2026-11-11	Law
+S	ee:postalcode	Omniva	https://www.omniva.ee/	Omniva	2026-11-11	Authority
+S	ee:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/estonia-tin.pdf	Estonia TIN information sheet	2026-11-11	Oecd
+S	ee:taxcode,vat	EMTA	https://www.emta.ee/	Estonian Tax and Customs Board	2026-11-11	Authority
+S	ee:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES VAT number formats	2026-11-11	Authority
+S	es:company	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.es.cif.html	stdnum.es.cif	2026-11-11	ReferenceImplementation
+S	es:nationalid,taxcode	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.es.nif.html	stdnum.es.nif	2026-11-11	ReferenceImplementation
+S	es:nationalid,taxcode,company,vat	Spanish State Gazette (BOE)	https://www.boe.es/buscar/act.php?id=BOE-A-2007-15984	Real Decreto 1065/2007 (NIF)	2026-11-11	Law
+S	es:postalcode	Correos	https://www.correos.es/	Correos	2026-11-11	Authority
+S	es:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Spain	Postal codes in Spain	2026-11-11	Secondary
+S	es:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/spain-tin.pdf	Spain TIN sheet	2026-11-11	Oecd
+S	es:taxcode,company,vat	Agencia Tributaria	https://sede.agenciatributaria.gob.es/	Agencia Tributaria	2026-11-11	Authority
+S	es:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES VAT number validation	2026-11-11	Authority
+S	fi:company	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.fi.ytunnus.html	stdnum.fi.ytunnus	2026-11-11	ReferenceImplementation
+S	fi:company	Finnish Patent and Registration Office	https://www.prh.fi/en/index.html	PRH	2026-11-11	Authority
+S	fi:company,vat	Finnish Tax Administration	https://www.vero.fi/en	Finnish Tax Administration	2026-11-11	Authority
+S	fi:postalcode	Posti	https://www.posti.fi/en	Posti	2026-11-11	Authority
+S	fi:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/finland-tin.pdf	OECD TIN Finland	2026-11-11	Oecd
+S	fi:taxcode,nationalid	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.fi.hetu.html	stdnum.fi.hetu	2026-11-11	ReferenceImplementation
+S	fi:taxcode,nationalid	Finlex	https://www.finlex.fi/fi/lainsaadanto/saadoskokoelma/2022/690	Act 690/2022 (personal identity code)	2026-11-11	Law
+S	fi:vat	Finnish Tax Administration	https://www.vero.fi/en/businesses-and-corporations/taxes-and-charges/vat/	VAT	2026-11-11	Authority
+S	fi:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES	2026-11-11	Authority
+S	fo:company	Skraseting Foroya	https://www.skraseting.fo/	Skraseting Foroya (company registry)	2026-11-11	Authority
+S	fo:nationalid,taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/faroe-islands-tin.pdf	Faroe Islands TIN information sheet	2026-11-11	Oecd
+S	fo:postalcode	Postverk Foroya	https://www.posta.fo/	Posta (Postverk Foroya)	2026-11-11	Authority
+S	fo:postalcode	Wikipedia	https://da.wikipedia.org/wiki/Postnumre_p%C3%A5_F%C3%A6r%C3%B8erne	Postnumre pa Faeroerne	2026-11-11	Secondary
+S	fo:taxcode,vat	TAKS	https://www.taks.fo/	Faroese Tax Administration	2026-11-11	Authority
+S	fr:company	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.fr.siren.html	stdnum.fr.siren	2026-11-11	ReferenceImplementation
+S	fr:nationalid	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.fr.nir.html	stdnum.fr.nir	2026-11-11	ReferenceImplementation
+S	fr:nationalid,company	INSEE	https://www.insee.fr/	INSEE (NIR, SIREN, SIRET)	2026-11-11	Authority
+S	fr:postalcode	La Poste	https://www.laposte.fr/	La Poste	2026-11-11	Authority
+S	fr:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_France	Postal codes in France	2026-11-11	Secondary
+S	fr:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/france-tin.pdf	France TIN sheet	2026-11-11	Oecd
+S	fr:taxcode	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.fr.nif.html	stdnum.fr.nif	2026-11-11	ReferenceImplementation
+S	fr:taxcode,vat	Direction generale des Finances publiques	https://www.impots.gouv.fr/	impots.gouv.fr	2026-11-11	Authority
+S	fr:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES VAT number validation	2026-11-11	Authority
+S	fr:vat	python-stdnum	https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/fr/tva.py	stdnum/fr/tva.py	2026-09-11	ReferenceImplementation
+S	gb:company	Companies House	https://www.gov.uk/government/organisations/companies-house	Companies House	2026-11-11	Authority
+S	gb:company	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.gb.utr.html	stdnum.gb.utr	2026-11-11	ReferenceImplementation
+S	gb:nationalid,taxcode	HM Revenue and Customs	https://www.gov.uk/national-insurance	National Insurance	2026-11-11	Authority
+S	gb:nationalid,taxcode	HM Revenue and Customs	https://www.gov.uk/hmrc-internal-manuals/national-insurance-manual/nim39110	NI number format	2026-11-11	Authority
+S	gb:postalcode	Royal Mail	https://www.royalmail.com/find-a-postcode	Royal Mail postcode finder	2026-11-11	Authority
+S	gb:taxcode	HM Revenue and Customs	https://www.gov.uk/hmrc-internal-manuals/self-assessment-manual/sam121140	UTR	2026-11-11	Authority
+S	gb:taxcode,nationalid	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/uk-tin.pdf	OECD TIN United Kingdom	2026-11-11	Oecd
+S	gb:vat	HM Revenue and Customs	https://www.gov.uk/guidance/register-for-vat	VAT registration	2026-11-11	Authority
+S	gb:vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.gb.vat.html	stdnum.gb.vat	2026-11-11	ReferenceImplementation
+S	ge:nationalid,company	National Agency of Public Registry	https://napr.gov.ge/	NAPR	2026-11-11	Authority
+S	ge:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Georgian_Post	Georgian Post	2026-11-11	Secondary
+S	ge:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/georgia-tin.pdf	Georgia TIN information sheet	2026-11-11	Oecd
+S	ge:taxcode,vat	Revenue Service	https://www.rs.ge/	Revenue Service of Georgia	2026-11-11	Authority
+S	gr:company	General Commercial Registry	https://www.businessportal.gr/	Business Portal (GEMI)	2026-11-11	Authority
+S	gr:nationalid	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.gr.amka.html	stdnum.gr.amka	2026-11-11	ReferenceImplementation
+S	gr:nationalid	Wikipedia	https://en.wikipedia.org/wiki/National_identification_number	National identification number	2026-11-11	Secondary
+S	gr:postalcode	ELTA Hellenic Post	https://www.elta.gr/	ELTA	2026-11-11	Authority
+S	gr:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Greece	Postal codes in Greece	2026-11-11	Secondary
+S	gr:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/greece-tin.pdf	Greece TIN sheet	2026-11-11	Oecd
+S	gr:taxcode,vat	Independent Authority for Public Revenue	https://www.aade.gr/	AADE	2026-11-11	Authority
+S	gr:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES VAT number validation	2026-11-11	Authority
+S	gr:vat,taxcode	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.gr.vat.html	stdnum.gr.vat	2026-11-11	ReferenceImplementation
+S	gt:company,vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.gt.nit.html	stdnum.gt.nit	2026-11-11	ReferenceImplementation
+S	gt:company,vat	python-stdnum	https://arthurdejong.org/nm/python-stdnum/doc/1.20/stdnum.gt.nit.html	stdnum.gt.nit	2026-09-12	ReferenceImplementation
+S	gt:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Guatemala	Postal codes in Guatemala	2026-11-11	Secondary
+S	hk:nationalid,taxcode	Immigration Department	https://www.immd.gov.hk/	Immigration Department (HKID)	2026-11-11	Authority
+S	hk:taxcode	Inland Revenue Department	https://www.ird.gov.hk/	Inland Revenue Department	2026-11-11	Authority
+S	hk:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/hong-kong-tin.pdf	Hong Kong TIN information sheet	2026-11-11	Oecd
+S	hk:taxcode,nationalid	Microsoft Purview	https://learn.microsoft.com/en-us/purview/sit-defn-hong-kong-identity-card-number	Hong Kong identity card number SIT	2026-11-11	Secondary
+S	hr:company	Court Register	https://sudreg.pravosudje.hr/	Sudski registar	2026-11-11	Authority
+S	hr:nationalid,taxcode	OIB register	https://oib.oib.hr/	OIB (personal identification number)	2026-11-11	Authority
+S	hr:nationalid,taxcode,company,vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.hr.oib.html	stdnum.hr.oib	2026-11-11	ReferenceImplementation
+S	hr:postalcode	Croatian Post	https://www.posta.hr/	Hrvatska posta	2026-11-11	Authority
+S	hr:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Croatia	Postal codes in Croatia	2026-11-11	Secondary
+S	hr:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/croatia-tin.pdf	Croatia TIN sheet	2026-11-11	Oecd
+S	hr:taxcode,vat	Croatian Tax Administration	https://www.porezna-uprava.hr/	Porezna uprava	2026-11-11	Authority
+S	hr:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES VAT number validation	2026-11-11	Authority
+S	hu:company	Ministry of Justice	https://www.e-cegjegyzek.hu/	e-cegjegyzek	2026-11-11	Authority
+S	hu:company	Wikipedia	https://hu.wikipedia.org/wiki/C%C3%A9gjegyz%C3%A9ksz%C3%A1m	Cegjegyzekszam	2026-11-11	Secondary
+S	hu:nationalid	Hungarian Government	https://magyarorszag.hu	Magyarorszag.hu	2026-11-11	Authority
+S	hu:nationalid	Hungarian Government	https://www.kormany.hu	Kormany.hu	2026-11-11	Authority
+S	hu:nationalid	Wikipedia	https://hu.wikipedia.org/wiki/Szem%C3%A9lyi_azonos%C3%ADt%C3%B3	Szemelyi azonosito	2026-11-11	Secondary
+S	hu:postalcode	Magyar Posta	https://www.posta.hu/ugyfelszolgalat/iranyitoszam_kereso	Iranyitoszam kereso	2026-11-11	Authority
+S	hu:taxcode	NAV	https://nav.gov.hu/	NAV Hungary	2026-11-11	Authority
+S	hu:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/hungary-tin.pdf	OECD TIN Hungary	2026-11-11	Oecd
+S	hu:taxcode,vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.hu.anum.html	stdnum.hu.anum	2026-11-11	ReferenceImplementation
+S	hu:vat	NAV	https://nav.gov.hu/ado/afa	AFA	2026-11-11	Authority
+S	hu:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES	2026-11-11	Authority
+S	id:company	OSS	https://oss.go.id/	Online Single Submission (NIB)	2026-11-11	Authority
+S	id:nationalid	Wikipedia	https://en.wikipedia.org/wiki/Indonesian_identity_card	Indonesian identity card	2026-11-11	Secondary
+S	id:postalcode	Pos Indonesia	https://www.posindonesia.co.id/	Pos Indonesia	2026-11-11	Authority
+S	id:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/indonesia-tin.pdf	Indonesia TIN information sheet	2026-11-11	Oecd
+S	id:taxcode	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.id.npwp	stdnum.id.npwp	2026-11-11	ReferenceImplementation
+S	id:taxcode	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.id.nik	stdnum.id.nik	2026-11-11	ReferenceImplementation
+S	id:taxcode,vat	Directorate General of Taxes	https://www.pajak.go.id/en	DGT Indonesia	2026-11-11	Authority
+S	ie:company	Wikipedia	https://en.wikipedia.org/wiki/Companies_Registration_Office_(Ireland)	Companies Registration Office	2026-11-11	Secondary
+S	ie:nationalid	Department of Social Protection	https://www.mywelfare.ie/	MyWelfare (PPSN)	2026-11-11	Authority
+S	ie:nationalid,taxcode	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.ie.pps.html	stdnum.ie.pps	2026-11-11	ReferenceImplementation
+S	ie:postalcode	Eircode	https://www.eircode.ie/	Eircode	2026-11-11	Authority
+S	ie:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/ireland-tin.pdf	Ireland TIN sheet	2026-11-11	Oecd
+S	ie:taxcode,vat	Revenue Commissioners	https://www.revenue.ie/	Revenue	2026-11-11	Authority
+S	ie:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES VAT number validation	2026-11-11	Authority
+S	ie:vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.ie.vat.html	stdnum.ie.vat	2026-11-11	ReferenceImplementation
+S	il:company	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.il.hp.html	stdnum.il.hp	2026-11-11	ReferenceImplementation
+S	il:company	Israel Corporations Authority	https://ica.justice.gov.il/	Israel Corporations Authority	2026-11-11	Authority
+S	il:company	python-stdnum	https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/il/hp.py	stdnum.il.hp	2026-11-11	ReferenceImplementation
+S	il:nationalid,taxcode	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.il.idnr.html	stdnum.il.idnr	2026-11-11	ReferenceImplementation
+S	il:nationalid,taxcode	Nevo legal database	https://www.nevo.co.il	Israeli legislation	2026-11-11	Secondary
+S	il:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Israel	Postal codes in Israel	2026-11-11	Secondary
+S	il:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/israel-tin.pdf	OECD TIN Israel	2026-11-11	Oecd
+S	in:company	Ministry of Corporate Affairs	https://www.mca.gov.in/	MCA (CIN)	2026-11-11	Authority
+S	in:company	python-stdnum	https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/in_/pan.py	stdnum.in.pan	2026-11-11	ReferenceImplementation
+S	in:nationalid	UIDAI	https://uidai.gov.in/	UIDAI (Aadhaar)	2026-11-11	Authority
+S	in:nationalid	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.in_.aadhaar.html	stdnum.in.aadhaar	2026-11-11	ReferenceImplementation
+S	in:postalcode	India Post	https://www.indiapost.gov.in/	India Post (PIN code)	2026-11-11	Authority
+S	in:taxcode	Income Tax Department	https://www.incometax.gov.in/	Income Tax Department (PAN)	2026-11-11	Authority
+S	in:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/india-tin.pdf	India TIN information sheet	2026-11-11	Oecd
+S	in:vat	GST Council	https://www.gstcouncil.gov.in/	GST Council (GSTIN)	2026-11-11	Authority
+S	in:vat	python-stdnum	https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/in_/gstin.py	stdnum.in.gstin	2026-11-11	ReferenceImplementation
+S	is:nationalid,taxcode	Registers Iceland	https://www.skra.is/english/people/my-registration/id-numbers/	Registers Iceland, ID numbers	2026-09-15	Authority
+S	is:nationalid,taxcode	python-stdnum	https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/is_/kennitala.py	stdnum/is_/kennitala.py	2026-09-11	ReferenceImplementation
+S	is:postalcode	Icelandic Post	https://www.postur.is/	Postur	2026-11-11	Authority
+S	is:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/iceland-tin.pdf	Iceland TIN sheet	2026-11-11	Oecd
+S	is:taxcode,company,vat	Directorate of Internal Revenue	https://www.rsk.is/	Iceland Revenue and Customs	2026-11-11	Authority
+S	it:company	Registro Imprese	https://www.registroimprese.it/	Registro Imprese	2026-11-11	Authority
+S	it:company,vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.it.iva.html	stdnum.it.iva	2026-11-11	ReferenceImplementation
+S	it:nationalid	Ministry of the Interior	https://www.anagrafenazionale.interno.it/	ANPR	2026-11-11	Authority
+S	it:postalcode	Poste Italiane	https://www.poste.it/cerca/index.html	Poste Italiane CAP	2026-11-11	Authority
+S	it:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/italy-tin.pdf	OECD TIN Italy	2026-11-11	Oecd
+S	it:taxcode,nationalid	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.it.codicefiscale.html	stdnum.it.codicefiscale	2026-11-11	ReferenceImplementation
+S	it:taxcode,nationalid,company,vat	Agenzia delle Entrate	https://www.agenziaentrate.gov.it/portale/	Agenzia delle Entrate	2026-11-11	Authority
+S	it:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES	2026-11-11	Authority
+S	jp:company	National Tax Agency	https://www.houjin-bangou.nta.go.jp/en/	Corporate Number Publication Site	2026-11-11	Authority
+S	jp:nationalid	Digital Agency	https://www.digital.go.jp/policies/mynumber/	My Number policy	2026-11-11	Authority
+S	jp:postalcode	Japan Post	https://www.post.japanpost.jp/zipcode/	Japan Post postal codes	2026-11-11	Authority
+S	jp:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/japan-tin.pdf	Japan TIN information sheet	2026-11-11	Oecd
+S	jp:taxcode,vat	National Tax Agency	https://www.nta.go.jp/english/	National Tax Agency	2026-11-11	Authority
+S	jp:vat	National Tax Agency	https://www.invoice-kohyo.nta.go.jp/	Qualified invoice issuer publication	2026-11-11	Authority
+S	kr:nationalid	Ministry of the Interior and Safety	https://www.mois.go.kr/	Ministry of the Interior and Safety	2026-11-11	Authority
+S	kr:nationalid,taxcode	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.kr.rrn	stdnum.kr.rrn	2026-09-12	ReferenceImplementation
+S	kr:postalcode	Korea Post	https://www.koreapost.go.kr/	Korea Post	2026-11-11	Authority
+S	kr:postalcode	Ministry of the Interior and Safety	https://www.juso.go.kr/	Road name address (juso.go.kr)	2026-11-11	Authority
+S	kr:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_South_Korea	Postal codes in South Korea	2026-11-11	Secondary
+S	kr:taxcode	National Tax Service	https://www.nts.go.kr/	National Tax Service	2026-11-11	Authority
+S	kr:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/korea-tin.pdf	Korea TIN sheet	2026-11-11	Oecd
+S	kz:postalcode	Kazpost	https://www.post.kz/	Kazpost	2026-11-11	Authority
+S	kz:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/kazakhstan-tin.pdf	OECD TIN Kazakhstan	2026-11-11	Oecd
+S	kz:taxcode,nationalid	Wikipedia	https://ru.wikipedia.org/wiki/%D0%98%D0%BD%D0%B4%D0%B8%D0%B2%D0%B8%D0%B4%D1%83%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9_%D0%B8%D0%B4%D0%B5%D0%BD%D1%82%D0%B8%D1%84%D0%B8%D0%BA%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D1%8B%D0%B9_%D0%BD%D0%BE%D0%BC%D0%B5%D1%80	Individualnyi identifikatsionnyi nomer	2026-11-11	Secondary
+S	kz:taxcode,nationalid,company,vat	State Revenue Committee	https://kgd.gov.kz/en	SRC Kazakhstan	2026-11-11	Authority
+S	lt:nationalid,company	Centre of Registers	https://www.registrucentras.lt/	State Enterprise Centre of Registers	2026-11-11	Authority
+S	lt:postalcode	Lietuvos Pastas	https://www.post.lt/	Lithuanian Post	2026-11-11	Authority
+S	lt:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/lithuania-tin.pdf	Lithuania TIN information sheet	2026-11-11	Oecd
+S	lt:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES VAT number formats	2026-11-11	Authority
+S	lt:vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/lt.pvm	stdnum.lt.pvm	2026-09-11	ReferenceImplementation
+S	lu:company	Luxembourg Business Registers	https://www.lbr.lu/	LBR	2026-11-11	Authority
+S	lu:nationalid,taxcode,company,vat	Guichet.lu	https://guichet.public.lu/	Guichet.lu	2026-11-11	Authority
+S	lu:postalcode	POST Luxembourg	https://www.post.lu/	POST Luxembourg	2026-11-11	Authority
+S	lu:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Luxembourg	Postal codes in Luxembourg	2026-11-11	Secondary
+S	lu:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/luxembourg-tin.pdf	Luxembourg TIN sheet	2026-11-11	Oecd
+S	lu:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES VAT number validation	2026-11-11	Authority
+S	lu:vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.lu.tva.html	stdnum.lu.tva	2026-11-11	ReferenceImplementation
+S	lv:company	Register of Enterprises	https://www.ur.gov.lv/en/	Register of Enterprises	2026-11-11	Authority
+S	lv:company,vat	State Revenue Service	https://www.vid.gov.lv/en	SRS Latvia	2026-11-11	Authority
+S	lv:nationalid,taxcode	OCMA	https://www.pmlp.gov.lv/en	Office of Citizenship and Migration Affairs	2026-11-11	Authority
+S	lv:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Latvia	Postal codes in Latvia	2026-11-11	Secondary
+S	lv:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/latvia-tin.pdf	OECD TIN Latvia	2026-11-11	Oecd
+S	lv:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES	2026-11-11	Authority
+S	lv:vat,company	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.lv.pvn.html	stdnum.lv.pvn	2026-11-11	ReferenceImplementation
+S	mc:postalcode	La Poste Monaco	https://www.lapostemonaco.mc/	La Poste Monaco	2026-11-11	Authority
+S	mc:vat	DGFiP France	https://www.impots.gouv.fr/	impots.gouv.fr (Monaco uses FR VAT)	2026-11-11	Authority
+S	mc:vat	python-stdnum	https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/fr/tva.py	stdnum.fr.tva	2026-11-11	ReferenceImplementation
+S	md:nationalid,company	Public Services Agency	https://www.asp.gov.md/	Public Services Agency	2026-11-11	Authority
+S	md:postalcode	Posta Moldovei	https://www.posta.md/	Posta Moldovei	2026-11-11	Authority
+S	md:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Moldova	Postal codes in Moldova	2026-11-11	Secondary
+S	md:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/moldova-tin.pdf	Moldova TIN sheet	2026-11-11	Oecd
+S	md:taxcode	iAsig	https://github.com/iAsig/idnx-validator/blob/main/src/index.ts	idnx-validator	2026-09-12	Secondary
+S	md:taxcode,company	python-stdnum	https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/md/idno.py	stdnum/md/idno.py	2026-09-12	ReferenceImplementation
+S	md:vat	Vatify	https://www.vatify.eu/moldova-vat-number.html	Moldova VAT number	2026-09-12	Secondary
+S	md:vat	Wikipedia	https://en.wikipedia.org/wiki/VAT_identification_number	VAT identification number	2026-11-11	Secondary
+S	me:company	Statistical Office	https://www.monstat.org	MONSTAT	2026-11-11	Authority
+S	me:company,vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.me.pib.html	stdnum.me.pib	2026-11-11	ReferenceImplementation
+S	me:nationalid,taxcode	PV Informer	https://www.pvinformer.me/uvodi-se-identifikacioni-broj-umjesto-jedinstvenog-maticnog-broja-procitajte-kako-se-odredjuje/	Identification number replacing JMBG	2026-11-11	Secondary
+S	me:postalcode	Posta Crne Gore	https://www.postacg.me/	Montenegro Post (postal operator homepage)	2026-11-11	Authority
+S	mk:nationalid	Ministry of Interior	https://www.mvr.gov.mk/	Ministry of Interior (EMBG)	2026-11-11	Authority
+S	mk:postalcode	Posta na Makedonija	https://www.posta.com.mk/	Macedonian Post	2026-11-11	Authority
+S	mk:taxcode,company	Public Revenue Office	https://www.ujp.gov.mk/files/attachment/0000/0154/Pravilnik_za_postapkata_nacinot_i_rokovite_za_dodeluvanje_na_edinstven_danocen_broj_161_09__od_31.12.2009.pdf	Rulebook on unique tax number allocation 161/09	2026-11-11	Law
+S	mk:taxcode,company,vat	Public Revenue Office	https://www.ujp.gov.mk/	UJP Macedonia	2026-11-11	Authority
+S	mk:vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.mk.edb.html	stdnum.mk.edb	2026-11-11	ReferenceImplementation
+S	mt:company	Malta Business Registry	https://mbr.mt/	Malta Business Registry	2026-11-11	Authority
+S	mt:nationalid	Identity Malta	https://identitymalta.com/	Identity Malta	2026-11-11	Authority
+S	mt:postalcode	Malta Communications Authority	https://www.mca.org.mt/sites/default/files/Postcodes%20Decision_1.pdf	Postcodes Decision	2026-09-12	Authority
+S	mt:postalcode	MaltaPost	https://www.maltapost.com/	MaltaPost	2026-11-11	Authority
+S	mt:taxcode,company	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/malta-tin.pdf	Malta TIN sheet	2026-11-11	Oecd
+S	mt:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES VAT number validation	2026-11-11	Authority
+S	mt:vat	vat-validator	https://vat-validator.readthedocs.io/en/latest/_modules/vat_validator/countries.html	vat_validator countries	2026-09-12	Secondary
+S	mt:vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.mt.vat.html	stdnum.mt.vat	2026-11-11	ReferenceImplementation
+S	mu:company,vat	Mauritius Revenue Authority	https://www.mra.mu/download/ListofVATRegPersons.pdf	List of VAT registered persons	2026-11-11	Authority
+S	mu:nationalid,taxcode	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.mu.nid.html	stdnum.mu.nid	2026-11-11	ReferenceImplementation
+S	mu:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/mauritius-tin.pdf	OECD TIN Mauritius	2026-11-11	Oecd
+S	mu:taxcode,nationalid	Mauritius Revenue Authority	https://www.mra.mu/	MRA	2026-11-11	Authority
+S	mx:company	python-stdnum	https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/mx/rfc.py	stdnum.mx.rfc	2026-11-11	ReferenceImplementation
+S	mx:nationalid	Gobierno de Mexico	https://www.gob.mx/curp/	CURP	2026-11-11	Authority
+S	mx:postalcode	Correos de Mexico	https://www.gob.mx/correosdemexico	Correos de Mexico	2026-11-11	Authority
+S	mx:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/mexico-tin.pdf	Mexico TIN information sheet	2026-11-11	Oecd
+S	mx:taxcode,company,vat	SAT	https://www.gob.mx/sat	SAT (RFC)	2026-11-11	Authority
+S	my:company	Companies Commission of Malaysia	https://www.ssm.com.my/	SSM	2026-11-11	Authority
+S	my:nationalid	National Registration Department	https://www.jpn.gov.my/	Jabatan Pendaftaran Negara	2026-11-11	Authority
+S	my:nationalid	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.my.nric.html	stdnum.my.nric	2026-11-11	ReferenceImplementation
+S	my:postalcode	Pos Malaysia	https://www.pos.com.my/	Pos Malaysia	2026-11-11	Authority
+S	my:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Malaysia	Postal codes in Malaysia	2026-11-11	Secondary
+S	my:taxcode,company	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/malaysia-tin.pdf	Malaysia TIN sheet	2026-11-11	Oecd
+S	my:taxcode,vat	Inland Revenue Board	https://www.hasil.gov.my/	Lembaga Hasil Dalam Negeri	2026-11-11	Authority
+S	ng:company	Corporate Affairs Commission	https://www.cac.gov.ng/	CAC	2026-11-11	Authority
+S	ng:company,taxcode	FCT Internal Revenue Service	https://fctirs.gov.ng/nigerian-tax-id-portal-goes-live/	Nigerian Tax ID portal goes live	2026-11-11	Authority
+S	ng:nationalid	NIMC	https://nimc.gov.ng/	NIMC	2026-11-11	Authority
+S	ng:postalcode	NIPOST	https://www.nipost.gov.ng/postcode	NIPOST postcode	2026-11-11	Authority
+S	ng:taxcode,nationalid,company,vat	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/nigeria-tin.pdf	OECD TIN Nigeria	2026-11-11	Oecd
+S	nl:company	KVK	https://www.kvk.nl/	Chamber of Commerce (KVK)	2026-11-11	Authority
+S	nl:nationalid	Rijksoverheid	https://www.rijksoverheid.nl/	Rijksoverheid (BSN)	2026-11-11	Authority
+S	nl:postalcode	PostNL	https://www.postnl.nl/	PostNL	2026-11-11	Authority
+S	nl:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/netherlands-tin.pdf	Netherlands TIN information sheet	2026-11-11	Oecd
+S	nl:taxcode,vat	Belastingdienst	https://www.belastingdienst.nl/	Belastingdienst	2026-11-11	Authority
+S	nl:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES VAT number formats	2026-11-11	Authority
+S	nl:vat	python-stdnum	https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/nl/btw.py	stdnum.nl.btw	2026-11-11	ReferenceImplementation
+S	no:company	Bronnoysund Register Centre	https://www.brreg.no/	Bronnoysundregistrene	2026-11-11	Authority
+S	no:company	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.no.orgnr.html	stdnum.no.orgnr	2026-11-11	ReferenceImplementation
+S	no:nationalid,taxcode	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.no.fodselsnummer.html	stdnum.no.fodselsnummer	2026-11-11	ReferenceImplementation
+S	no:nationalid,taxcode,vat	Norwegian Tax Administration	https://www.skatteetaten.no/	Skatteetaten	2026-11-11	Authority
+S	no:postalcode	Posten Norge	https://www.posten.no/	Posten	2026-11-11	Authority
+S	no:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Norway	Postal codes in Norway	2026-11-11	Secondary
+S	no:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/norway-tin.pdf	Norway TIN sheet	2026-11-11	Oecd
+S	no:vat	python-stdnum	https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/no/mva.py	stdnum/no/mva.py	2026-09-12	ReferenceImplementation
+S	nz:company	NZ Companies Office	https://www.companiesoffice.govt.nz/	Companies Office	2026-11-11	Authority
+S	nz:postalcode	NZ Post	https://www.nzpost.co.nz/tools/address-postcode-finder	NZ Post postcode finder	2026-11-11	Authority
+S	nz:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/new-zealand-tin.pdf	OECD TIN New Zealand	2026-11-11	Oecd
+S	nz:taxcode,nationalid,company,vat	Inland Revenue	https://www.ird.govt.nz/managing-my-tax/ird-numbers	IRD numbers	2026-11-11	Authority
+S	nz:taxcode,nationalid,company,vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.nz.ird.html	stdnum.nz.ird	2026-11-11	ReferenceImplementation
+S	nz:vat	Inland Revenue	https://www.ird.govt.nz/gst	GST	2026-11-11	Authority
+S	pe:nationalid	RENIEC	https://www.gob.pe/reniec	RENIEC (DNI)	2026-11-11	Authority
+S	pe:nationalid	python-stdnum	https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/pe/cui.py	stdnum.pe.cui	2026-11-11	ReferenceImplementation
+S	pe:nationalid	python-stdnum	https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/pe/ruc.py	stdnum.pe.ruc	2026-11-11	ReferenceImplementation
+S	pe:nationalid	Infobae	https://www.infobae.com/peru/2023/06/22/sunat-cuales-son-los-tipos-de-ruc-y-que-significan/	SUNAT: tipos de RUC	2026-11-11	Secondary
+S	pe:nationalid,taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/peru-tin.pdf	Peru TIN information sheet	2026-11-11	Oecd
+S	pe:postalcode	Serpost	https://www.gob.pe/serpost	Serpost	2026-11-11	Authority
+S	pe:taxcode,company,vat	SUNAT	https://www.sunat.gob.pe/	SUNAT (RUC)	2026-11-11	Authority
+S	ph:company	Bureau of Internal Revenue	https://bir-cdn.bir.gov.ph/BIR/pdf/1701-MS%20Guide%20August%202024%20ENCS_Final.pdf	BIR Form 1701-MS Guide	2026-09-12	Authority
+S	ph:nationalid	Wikipedia	https://en.wikipedia.org/wiki/Philippine_Identification_System	Philippine Identification System	2026-11-11	Secondary
+S	ph:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_the_Philippines	Postal codes in the Philippines	2026-11-11	Secondary
+S	ph:taxcode,vat	Bureau of Internal Revenue	https://www.bir.gov.ph/	Bureau of Internal Revenue	2026-11-11	Authority
+S	pk:postalcode	Pakistan Post	https://www.pakpost.gov.pk/	Pakistan Post	2026-11-11	Authority
+S	pk:taxcode	Federal Board of Revenue	https://www.fbr.gov.pk/	FBR	2026-11-11	Authority
+S	pk:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/pakistan-tin.pdf	OECD TIN Pakistan	2026-11-11	Oecd
+S	pk:taxcode,nationalid	NADRA	https://www.nadra.gov.pk/	NADRA	2026-11-11	Authority
+S	pk:taxcode,nationalid	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.pk.cnic	stdnum.pk.cnic	2026-11-11	ReferenceImplementation
+S	pl:company	Ministry of Justice	https://ekrs.ms.gov.pl/	KRS	2026-11-11	Authority
+S	pl:nationalid	gov.pl	https://www.gov.pl/web/gov/czym-jest-numer-pesel	Czym jest numer PESEL	2026-11-11	Authority
+S	pl:postalcode	Poczta Polska	https://www.poczta-polska.pl/	Poczta Polska	2026-11-11	Authority
+S	pl:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/poland-tin.pdf	Poland TIN information sheet	2026-11-11	Oecd
+S	pl:taxcode,vat	Ministry of Finance	https://www.podatki.gov.pl/	podatki.gov.pl (NIP)	2026-11-11	Authority
+S	pl:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES VAT number formats	2026-11-11	Authority
+S	pl:vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.pl.nip	stdnum.pl.nip	2026-11-11	ReferenceImplementation
+S	pt:nationalid	Wikipedia	https://pt.wikipedia.org/wiki/N%C3%BAmero_de_identifica%C3%A7%C3%A3o_fiscal	Numero de identificacao fiscal	2026-09-12	Secondary
+S	pt:nationalid,company	Instituto dos Registos e do Notariado	https://www.irn.mj.pt/	IRN	2026-11-11	Authority
+S	pt:postalcode	CTT Correios de Portugal	https://www.ctt.pt/	CTT	2026-11-11	Authority
+S	pt:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Portugal	Postal codes in Portugal	2026-09-12	Secondary
+S	pt:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/portugal-tin.pdf	Portugal TIN sheet	2026-11-11	Oecd
+S	pt:taxcode,nationalid	python-stdnum	https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/pt/cc.py	stdnum/pt/cc.py	2026-09-12	ReferenceImplementation
+S	pt:taxcode,vat	Autoridade Tributaria e Aduaneira	https://www.portaldasfinancas.gov.pt/	Portal das Financas	2026-11-11	Authority
+S	pt:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES VAT number validation	2026-11-11	Authority
+S	pt:vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.pt.nif.html	stdnum.pt.nif	2026-09-12	ReferenceImplementation
+S	py:company,vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.py.ruc.html	stdnum.py.ruc	2026-11-11	ReferenceImplementation
+S	py:company,vat	Ministry of Industry and Commerce	https://www.mic.gov.py	Ministry of Industry and Commerce	2026-11-11	Authority
+S	py:company,vat	python-stdnum	https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/py/ruc.py	stdnum.py.ruc	2026-11-11	ReferenceImplementation
+S	py:nationalid,taxcode	Dept. of Identification	https://www.identificaciones.gov.py/	Identificaciones (Paraguay)	2026-11-11	Authority
+S	ro:company	ONRC	https://www.onrc.ro/	Trade Register Office	2026-11-11	Authority
+S	ro:nationalid	Ministry of Internal Affairs	https://hub.mai.gov.ro/	MAI (CNP)	2026-11-11	Authority
+S	ro:postalcode	Posta Romana	https://www.posta-romana.ro/	Posta Romana	2026-11-11	Authority
+S	ro:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/romania-tin.pdf	Romania TIN information sheet	2026-11-11	Oecd
+S	ro:taxcode,vat	ANAF	https://www.anaf.ro/	ANAF	2026-11-11	Authority
+S	ro:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES VAT number formats	2026-11-11	Authority
+S	rs:company	Business Registers Agency	https://www.apr.gov.rs/	APR	2026-11-11	Authority
+S	rs:nationalid	Ministry of Interior	https://mup.gov.rs/	Ministry of Interior (JMBG)	2026-11-11	Authority
+S	rs:nationalid	Wikipedia	https://en.wikipedia.org/wiki/Unique_Master_Citizen_Number	Unique Master Citizen Number	2026-11-11	Secondary
+S	rs:postalcode	Post of Serbia	https://www.posta.rs/	Posta Srbije	2026-11-11	Authority
+S	rs:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Serbia	Postal codes in Serbia	2026-11-11	Secondary
+S	rs:taxcode,vat	Tax Administration	https://www.purs.gov.rs/	Poreska uprava Srbije	2026-11-11	Authority
+S	rs:taxcode,vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.rs.pib.html	stdnum.rs.pib	2026-11-11	ReferenceImplementation
+S	ru:nationalid	Pension Fund	https://sfr.gov.ru/	SFR (SNILS)	2026-11-11	Authority
+S	ru:nationalid	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.ru.inn.html	stdnum.ru.inn	2026-11-11	ReferenceImplementation
+S	ru:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Russia	Postal codes in Russia	2026-11-11	Secondary
+S	ru:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/russia-tin.pdf	OECD TIN Russia	2026-11-11	Oecd
+S	ru:taxcode,company,vat	Federal Tax Service	https://www.nalog.gov.ru/eng/	FTS Russia	2026-11-11	Authority
+S	ru:taxcode,company,vat	Kholenkov	https://www.kholenkov.ru/data-validation/inn/	INN validation	2026-11-11	Secondary
+S	ru:taxcode,company,vat	python-stdnum	https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/ru/inn.py	stdnum.ru.inn	2026-11-11	ReferenceImplementation
+S	se:company	Bolagsverket	https://bolagsverket.se/	Bolagsverket	2026-11-11	Authority
+S	se:nationalid,taxcode	Skatteverket	https://www.skatteverket.se/	Skatteverket (personnummer)	2026-11-11	Authority
+S	se:postalcode	PTS	https://pts.se/	Post and Telecom Authority	2026-11-11	Authority
+S	se:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/sweden-tin.pdf	Sweden TIN information sheet	2026-11-11	Oecd
+S	se:vat	Skatteverket	https://www.skatteverket.se/	Skatteverket (VAT)	2026-11-11	Authority
+S	se:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES VAT number formats	2026-11-11	Authority
+S	si:company	AJPES	https://www.ajpes.si/	AJPES	2026-11-11	Authority
+S	si:nationalid	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.si.emso.html	stdnum.si.emso	2026-11-11	ReferenceImplementation
+S	si:nationalid	Government of Slovenia	https://www.gov.si/	gov.si	2026-11-11	Authority
+S	si:postalcode	Post of Slovenia	https://www.posta.si/	Posta Slovenije	2026-11-11	Authority
+S	si:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Slovenia	Postal codes in Slovenia	2026-11-11	Secondary
+S	si:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/slovenia-tin.pdf	Slovenia TIN sheet	2026-11-11	Oecd
+S	si:taxcode,vat	Financial Administration	https://www.fu.gov.si/	FURS	2026-11-11	Authority
+S	si:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES VAT number validation	2026-11-11	Authority
+S	si:vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.si.ddv	stdnum.si.ddv	2026-09-12	ReferenceImplementation
+S	sk:postalcode	Slovenska posta	https://www.posta.sk	Slovenska posta	2026-11-11	Authority
+S	sk:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Slovakia	Postal codes in Slovakia	2026-11-11	Secondary
+S	sk:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/slovak-republic-tin.pdf	OECD TIN Slovakia	2026-11-11	Oecd
+S	sk:taxcode,nationalid	Ministry of Interior	https://www.minv.sk/	Birth number	2026-11-11	Authority
+S	sk:taxcode,nationalid	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.sk.rc.html	stdnum.sk.rc	2026-11-11	ReferenceImplementation
+S	sk:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES	2026-11-11	Authority
+S	sk:vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.sk.dph.html	stdnum.sk.dph	2026-11-11	ReferenceImplementation
+S	sk:vat,company	Financial Administration	https://www.financnasprava.sk/en	Financial Administration SK	2026-11-11	Authority
+S	sm:company,vat	Government of San Marino	https://www.gov.sm/	Government of San Marino portal	2026-11-11	Authority
+S	sm:nationalid	ISS San Marino	https://www.iss.sm/	ISS (social security institute)	2026-11-11	Authority
+S	sm:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_San_Marino	Postal codes in San Marino	2026-11-11	Secondary
+S	sm:taxcode,company	OECD	https://www.oecd.org/tax/automatic-exchange/crs-implementation-and-assistance/tax-identification-numbers/San-Marino-TIN.pdf	San Marino TIN information sheet	2026-11-11	Oecd
+S	sv:company	Wikipedia	https://en.wikipedia.org/wiki/Tax_identification_number	Tax identification number	2026-11-11	Secondary
+S	sv:nationalid	Wikipedia	https://en.wikipedia.org/wiki/Documento_%C3%9Anico_de_Identidad	Documento Unico de Identidad	2026-11-11	Secondary
+S	sv:postalcode	Correos de El Salvador	https://www.correos.gob.sv/	Correos de El Salvador	2026-11-11	Authority
+S	sv:taxcode	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.sv.nit.html	stdnum.sv.nit	2026-11-11	ReferenceImplementation
+S	sv:taxcode	python-stdnum	https://arthurdejong.org/nm/python-stdnum/doc/1.20/stdnum.sv.nit.html	stdnum.sv.nit (1.20)	2026-09-12	ReferenceImplementation
+S	sv:taxcode,vat	Ministerio de Hacienda	https://www.mh.gob.sv/	Ministerio de Hacienda	2026-11-11	Authority
+S	th:company,vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.th.tin.html	stdnum.th.tin	2026-11-11	ReferenceImplementation
+S	th:nationalid,taxcode	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.th.pin.html	stdnum.th.pin	2026-11-11	ReferenceImplementation
+S	th:postalcode	Thailand Post	https://www.thailandpost.co.th/	Thailand Post	2026-11-11	Authority
+S	th:taxcode,nationalid	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/thailand-tin.pdf	OECD TIN Thailand	2026-11-11	Oecd
+S	th:taxcode,nationalid,company,vat	Revenue Department	https://www.rd.go.th/english/	Revenue Department	2026-11-11	Authority
+S	tr:company	MERSIS	https://mersis.ticaret.gov.tr/	MERSIS	2026-11-11	Authority
+S	tr:nationalid	NVI	https://www.nvi.gov.tr/	General Directorate of Population (NVI)	2026-11-11	Authority
+S	tr:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Turkey	Postal codes in Turkey	2026-11-11	Secondary
+S	tr:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Provinces_of_Turkey	Provinces of Turkey	2026-11-11	Secondary
+S	tr:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/turkiye-tin.pdf	Turkiye TIN information sheet	2026-11-11	Oecd
+S	tr:taxcode,vat	Revenue Administration	https://www.gib.gov.tr/	GIB	2026-11-11	Authority
+S	tr:vat	python-stdnum	https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/tr/vkn.py	stdnum.tr.vkn	2026-11-11	ReferenceImplementation
+S	tw:company	Ministry of Finance	https://www.mof.gov.tw/singlehtml/384fb3077bb349ea973e7fc6f13b6974?cntId=8d164b10f20042b9ab9864b51b20f0c2	MOF unified business number	2026-09-12	Authority
+S	tw:company	Ministry of Economic Affairs	https://gcis.nat.gov.tw/	GCIS business registry	2026-11-11	Authority
+S	tw:company,vat	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.tw.ubn.html	stdnum.tw.ubn	2026-09-12	ReferenceImplementation
+S	tw:nationalid	Department of Household Registration	https://www.ris.gov.tw/	Household Registration	2026-11-11	Authority
+S	tw:postalcode	Chunghwa Post	https://www.post.gov.tw/	Chunghwa Post	2026-11-11	Authority
+S	tw:postalcode	Central News Agency	https://www.cna.com.tw/news/firstnews/202003020346.aspx	CNA news 2020-03-02	2026-09-12	Secondary
+S	tw:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Taiwan	Postal codes in Taiwan	2026-09-15	Secondary
+S	tw:taxcode	Central News Agency	https://www.cna.com.tw/news/asoc/202012160106.aspx	CNA news 2020-12-16	2026-09-12	Secondary
+S	tw:taxcode,vat	Ministry of Finance	https://www.mof.gov.tw/	Ministry of Finance	2026-11-11	Authority
+S	ua:company	Ministry of Justice	https://minjust.gov.ua/	Ministry of Justice of Ukraine	2026-11-11	Authority
+S	ua:company	python-stdnum	https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/ua/edrpou.py	stdnum.ua.edrpou	2026-11-11	ReferenceImplementation
+S	ua:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_Ukraine	Postal codes in Ukraine	2026-11-11	Secondary
+S	ua:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/ukraine-tin.pdf	OECD TIN Ukraine	2026-11-11	Oecd
+S	ua:taxcode,nationalid	python-stdnum	https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/ua/rntrc.py	stdnum.ua.rntrc	2026-11-11	ReferenceImplementation
+S	ua:taxcode,nationalid,vat	State Tax Service	https://tax.gov.ua/	State Tax Service	2026-11-11	Authority
+S	ua:vat	Wikipedia	https://uk.wikipedia.org/wiki/Індивідуальний_податковий_номер_платника_ПДВ	IPN platnyka PDV	2026-11-11	Secondary
+S	ua:vat	Obukhiv city council	https://obcity.gov.ua/2020/04/01/individualniy-podatkoviy-nomer-platnika-pdv-u-fop/	IPN platnyka PDV u FOP	2026-11-11	Secondary
+S	us:company	IRS	https://www.irs.gov/businesses/small-businesses-self-employed/employer-id-numbers	Employer ID numbers (EIN)	2026-11-11	Authority
+S	us:nationalid	SSA	https://www.ssa.gov/employer/randomization.html	SSN randomization	2026-11-11	Authority
+S	us:postalcode	USPS	https://pe.usps.com/text/pub28/	Publication 28 Postal Addressing Standards	2026-11-11	Authority
+S	us:taxcode	IRS	https://www.irs.gov/tin	Taxpayer identification numbers	2026-11-11	Authority
+S	us:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/united-states-tin.pdf	United States TIN information sheet	2026-11-11	Oecd
+S	uy:nationalid	Ministry of the Interior	https://www.gub.uy/ministerio-interior/	Ministerio del Interior	2026-11-11	Authority
+S	uy:postalcode	Wikipedia	https://en.wikipedia.org/wiki/List_of_postal_codes	List of postal codes	2026-11-11	Secondary
+S	uy:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/uruguay-tin.pdf	Uruguay TIN sheet	2026-11-11	Oecd
+S	uy:taxcode,company	Direccion General Impositiva	https://www.gub.uy/direccion-general-impositiva	DGI	2026-11-11	Authority
+S	uy:taxcode,vat,company	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.uy.rut.html	stdnum.uy.rut	2026-11-11	ReferenceImplementation
+S	uy:vat	DGI	https://www.gub.uy/direccion-general-impositiva/comunicacion/noticias/nueva-numeracion-del-rut	Nueva numeracion del RUT	2026-09-12	Authority
+S	uz:postalcode	Uzbekistan Post	https://pochta.uz/	Uzpost	2026-11-11	Authority
+S	uz:taxcode,nationalid	Lex.uz	https://lex.uz/ru/docs/5955669	Uzbek legal act 5955669	2026-11-11	Law
+S	ve:nationalid	SAIME	https://www.saime.gob.ve/	SAIME (cedula)	2026-11-11	Authority
+S	ve:nationalid	Wikipedia	https://es.wikipedia.org/wiki/C%C3%A9dula_de_identidad_(Venezuela)	Cedula de identidad (Venezuela)	2026-11-11	Secondary
+S	ve:postalcode	Ipostel	https://www.ipostel.gob.ve/	Ipostel	2026-11-11	Authority
+S	ve:taxcode,company,vat	Wikipedia	https://es.wikipedia.org/wiki/Registro_%C3%9Anico_de_Informaci%C3%B3n_Fiscal	Registro Unico de Informacion Fiscal	2026-11-11	Secondary
+S	ve:taxcode,company,vat	Wikipedia	https://es.wikipedia.org/wiki/SENIAT	SENIAT	2026-11-11	Secondary
+S	za:company	CIPC	https://www.cipc.co.za/	Companies and IP Commission	2026-11-11	Authority
+S	za:nationalid	Department of Home Affairs	https://www.dha.gov.za/	Home Affairs	2026-11-11	Authority
+S	za:nationalid	python-stdnum	https://github.com/arthurdejong/python-stdnum/blob/master/stdnum/za/idnr.py	stdnum/za/idnr.py	2026-09-11	ReferenceImplementation
+S	za:postalcode	South African Post Office	https://www.postoffice.co.za/	SA Post Office	2026-11-11	Authority
+S	za:postalcode	Wikipedia	https://en.wikipedia.org/wiki/Postal_codes_in_South_Africa	Postal codes in South Africa	2026-11-11	Secondary
+S	za:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/south-africa-tin.pdf	South Africa TIN sheet	2026-11-11	Oecd
+S	za:taxcode	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.za.tin.html	stdnum.za.tin	2026-11-11	ReferenceImplementation
+S	za:taxcode,vat	South African Revenue Service	https://www.sars.gov.za/	SARS	2026-11-11	Authority
+G	am:taxcode,company,vat	KI-AM-1
+G	am:nationalid	KI-AM-2
+G	am:nationalid	KI-AM-3
+G	az:taxcode,company,vat	KI-AZ-1
+G	bh:taxcode,nationalid	KI-BH-1
+G	bh:taxcode,nationalid	KI-BH-2
+G	bo:taxcode,company,vat	KI-BO-1
+G	ba:company	KI-BA-1
+G	br:taxcode,nationalid	KI-BR-1
+G	cy:nationalid	KI-CY-1
+G	do:taxcode,nationalid	KI-DO-1
+G	fo:taxcode,nationalid	KI-FO-1
+G	ge:taxcode,nationalid	KI-GE-1
+G	is:vat	KI-IS-1
+G	kz:taxcode,nationalid	KI-KZ-1
+G	kz:company,vat	KI-KZ-2
+G	kr:nationalid,taxcode	KI-KR-1
+G	mt:vat	KI-MT-1
+G	mu:nationalid,taxcode,company,vat	KI-MU-1
+G	md:taxcode,nationalid	KI-MD-1
+G	me:taxcode,nationalid	KI-ME-1
+G	ng:nationalid,taxcode,company,vat,postalcode	KI-NG-1
+G	ng:taxcode,company,vat	KI-NG-2
+G	ng:taxcode,company,vat	KI-NG-3
+G	ng:company	KI-NG-4
+G	pk:company,vat	KI-PK-1
+G	ph:taxcode,nationalid	KI-PH-1
+G	pt:nationalid	KI-PT-1
+G	ru:company	KI-RU-1
+G	tw:company,vat	KI-TW-1
+G	th:nationalid,taxcode	KI-TH-1
+G	ua:vat	KI-UA-1
+G	ae:nationalid	KI-AE-1
+C	am:taxcode,company,vat	FormatOnly
+C	am:nationalid	FormatOnly
+C	az:taxcode,company,vat	FormatOnly
+C	bh:taxcode,nationalid	FormatOnly

@@ -96,7 +96,7 @@ namespace Attest.Tests
 
                 if (supported)
                 {
-                    Assert.Equal(Coverage.Full, type.Coverage);
+                    Assert.True(type.Coverage == Coverage.Full || type.Coverage == Coverage.FormatOnly);
                     Assert.NotEqual(Verdict.NotCovered, result.Verdict);
                 }
                 else

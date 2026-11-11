@@ -15,6 +15,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Registry\Provenance.tsv" LogicalName="Attest.Provenance.tsv" />
+  </ItemGroup>
+
+  <ItemGroup>
     <InternalsVisibleTo Include="Attest.Tests" />
   </ItemGroup>
 
