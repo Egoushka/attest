@@ -631,3 +631,4 @@ G	gt:taxcode,company,vat	KI-GT-2
 G	hk:company	KI-HK-1
 G	mc:company,nationalid,taxcode	KI-MC-1
 G	uz:company,vat	KI-UZ-1
+G	gb:taxcode	KI-GB-1
