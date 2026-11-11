@@ -129,12 +129,14 @@ namespace Attest.Tests
                     Assert.Equal(Verdict.NotCovered, t.Validate("1234567").Verdict);
                 });
             Assert.Equal(
-                new[] { "ke.company", "ke.taxcode", "ke.vat", "ma.company", "vn.company", "vn.taxcode", "vn.vat" },
+                new[] { "ke.company", "ke.taxcode", "ke.vat", "ma.company", "mz.company", "mz.taxcode", "mz.vat", "vn.company", "vn.taxcode", "vn.vat" },
                 TestTypes.NativePairs.Where(t => t.Rule.Coverage == Coverage.FormatOnly).Select(t => t.Id).OrderBy(i => i, StringComparer.Ordinal).ToArray());
             Assert.Equal("1234567890-123", Identifiers.Find("vn.company").Format("1234567890123"));
             Assert.True(Identifiers.Find("vn.company").Validate("1234567890-123").IsValid);
             Assert.False(Identifiers.Find("ke.vat").Validate("B123456789Z").IsValid);
             Assert.True(Identifiers.Find("ma.company").Validate("123456789 0001 12").IsValid);
+            Assert.True(Identifiers.Find("mz.taxcode").Validate("123456789").IsValid);
+            Assert.False(Identifiers.Find("mz.taxcode").Validate("12345678").IsValid);
         }
 
         [Fact]

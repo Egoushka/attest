@@ -91,6 +91,11 @@ namespace Attest
                     check = VietnamTaxCode;
                     format = v => v.Length == 13 ? v.Substring(0, 10) + "-" + v.Substring(10) : v;
                     break;
+                case "mz.taxcode":
+                case "mz.company":
+                case "mz.vat":
+                    check = MozambiqueNuit;
+                    break;
                 case "ma.company":
                     check = MoroccoIce;
                     break;
@@ -116,6 +121,21 @@ namespace Attest
             }
 
             return Outcome.Valid;
+        }
+
+        /// <summary>
+        /// Mozambique NUIT: nine digits, the first the entity type, seven sequential digits and a
+        /// check digit (Decreto 28/2012, Regulamento do NUIT, art. 4). The decree does not state the
+        /// check algorithm or the entity-type values, so only the shape is checked (KI-MZ-1).
+        /// </summary>
+        private static Outcome MozambiqueNuit(string v)
+        {
+            if (v.Length != 9)
+            {
+                return new Outcome(Reason.InvalidLength, "A NUIT has nine digits.");
+            }
+
+            return Regex.IsMatch(v, "^[0-9]+$") ? Outcome.Valid : new Outcome(Reason.InvalidFormat, "Digits only.");
         }
 
         /// <summary>

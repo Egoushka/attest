@@ -687,6 +687,8 @@ S	ke:taxcode,company,vat	Kenya Revenue Authority	https://www.kra.go.ke/images/pu
 S	ke:taxcode,company,vat	OECD	https://www.oecd.org/tax/automatic-exchange/crs-implementation-and-assistance/tax-identification-numbers/Kenya-TIN.pdf	OECD TIN Kenya	2026-11-11	Oecd
 S	vn:taxcode,company,vat	Ministry of Finance (via Thu Vien Phap Luat)	https://thuvienphapluat.vn/van-ban/Thue-Phi-Le-Phi/Thong-tu-105-2020-TT-BTC-huong-dan-dang-ky-thue-459433.aspx	Circular 105/2020/TT-BTC on tax registration (structure N1..N13)	2026-11-11	Law
 S	ma:company	Direction Generale des Impots	https://www.tax.gov.ma/wps/wcm/connect/1bcc62a5-2b0e-425c-98a2-8a5b801811d9/aac_139b_16i.pdf	DGI form showing the ICE as boxes of 9, 4 and 2 digits	2026-11-11	Authority
+S	mz:taxcode,company,vat	Decreto n. 28/2012 (Regulamento do NUIT), art. 4, via a Moore Mozambique copy	https://mooremz.co.mz/wp-content/uploads/2026/09/Regulamento-do-NUIT_2012_Moore.pdf	NUIT: nine digits; entity-type digit, seven sequential digits, control digit (a third-party copy, not the Boletim da Republica)	2026-11-11	Law
+C	mz:taxcode,company,vat	FormatOnly
 C	ke:taxcode,company,vat	FormatOnly
 C	vn:taxcode,company,vat	FormatOnly
 C	ma:company	FormatOnly
