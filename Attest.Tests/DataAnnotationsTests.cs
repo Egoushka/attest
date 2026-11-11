@@ -92,6 +92,63 @@ namespace Attest.Tests
             Assert.Equal(viaValidator, viaAttribute);
         }
 
+        private class IdentifierModel
+        {
+            [Identifier("be.vat")]
+            public string Vat { get; set; }
+
+            [Identifier("sn.nationalid")]
+            public string NotCovered { get; set; }
+        }
+
+        [Theory]
+        [InlineData("BE0428759497", true)]
+        [InlineData("BE0428759498", false)]
+        public void IdentifierAttributeFollowsIdentifiersValidate(string value, bool expected)
+        {
+            var model = new IdentifierModel { Vat = value };
+            var context = new ValidationContext(model) { MemberName = nameof(IdentifierModel.Vat) };
+            var attribute = new IdentifierAttribute("be.vat");
+
+            Assert.Equal(expected, attribute.GetValidationResult(value, context) == DataAnnotationsResult.Success);
+            Assert.Equal(Identifiers.Validate(value, "be.vat").IsValid, expected);
+        }
+
+        [Fact]
+        public void IdentifierAttributeLeavesNullToRequiredAndFailsANonString()
+        {
+            var model = new IdentifierModel();
+            var context = new ValidationContext(model) { MemberName = nameof(IdentifierModel.Vat) };
+            var attribute = new IdentifierAttribute("be.vat");
+
+            Assert.Equal(DataAnnotationsResult.Success, attribute.GetValidationResult(null, context));
+            Assert.NotEqual(DataAnnotationsResult.Success, attribute.GetValidationResult(42, context));
+        }
+
+        [Fact]
+        public void IdentifierAttributeFailsATypeThatHasNoRule()
+        {
+            var model = new IdentifierModel { NotCovered = "1234567890" };
+
+            Assert.False(Validator.TryValidateObject(model, Context(model), new List<DataAnnotationsResult>(), true));
+        }
+
+        [Fact]
+        public void IdentifierAttributeRefusesAnUnknownId()
+        {
+            Assert.Throws<System.ArgumentException>(() => new IdentifierAttribute("zz.nothing"));
+        }
+
+        [Fact]
+        public void IdentifierAttributeAcceptsAnAliasAndReusedContext()
+        {
+            var attribute = new IdentifierAttribute("be.vat");
+            var context = new ValidationContext(new IdentifierModel()) { MemberName = "Vat" };
+
+            attribute.GetValidationResult("bad", context);
+            Assert.NotEqual(DataAnnotationsResult.Success, attribute.GetValidationResult("bad", context));
+        }
+
         [Fact]
         public void EveryAttributeRejectsAnUndefinedCountry()
         {
