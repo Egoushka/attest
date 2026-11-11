@@ -71,7 +71,6 @@ S	be:taxcode,nationalid	FPS Finance	https://finances.belgium.be/en	FPS Finance	2
 S	be:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES	2026-11-11	Authority
 S	be:vat,company	python-stdnum	https://arthurdejong.org/python-stdnum/doc/1.20/stdnum.be.vat.html	stdnum.be.vat	2026-11-11	ReferenceImplementation
 S	bg:company	Registry Agency	https://www.registryagency.bg/	Registry Agency (EIK)	2026-11-11	Authority
-S	bg:nationalid	GRAO	https://www.grao.bg/	GRAO civil registration (EGN)	2026-11-11	Authority
 S	bg:postalcode	Bulgarian Posts	https://www.bgpost.bg/	Bulgarian Posts	2026-11-11	Authority
 S	bg:taxcode,vat	National Revenue Agency	https://www.nra.bg/	National Revenue Agency	2026-11-11	Authority
 S	bg:vat	European Commission	https://ec.europa.eu/taxation_customs/vies/	VIES VAT number formats	2026-11-11	Authority
@@ -442,7 +441,6 @@ S	pk:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-f
 S	pk:taxcode,nationalid	NADRA	https://www.nadra.gov.pk/	NADRA	2026-11-11	Authority
 S	pk:taxcode,nationalid	python-stdnum	https://arthurdejong.org/python-stdnum/doc/2.1/stdnum.pk.cnic	stdnum.pk.cnic	2026-11-11	ReferenceImplementation
 S	pl:company	Ministry of Justice	https://ekrs.ms.gov.pl/	KRS	2026-11-11	Authority
-S	pl:nationalid	gov.pl	https://www.gov.pl/web/gov/czym-jest-numer-pesel	Czym jest numer PESEL	2026-11-11	Authority
 S	pl:postalcode	Poczta Polska	https://www.poczta-polska.pl/	Poczta Polska	2026-11-11	Authority
 S	pl:taxcode	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-issue-focus/aeoi/poland-tin.pdf	Poland TIN information sheet	2026-11-11	Oecd
 S	pl:taxcode,vat	Ministry of Finance	https://www.podatki.gov.pl/	podatki.gov.pl (NIP)	2026-11-11	Authority
@@ -656,6 +654,19 @@ S	iso6346	Bureau International des Containers	https://www.bic-code.org/identific
 G	ismn	KI-ISMN-1
 G	imei	KI-IMEI-1
 G	iso6346	KI-ISO6346-1
+S	bg:nationalid,taxcode	GRAO	https://www.grao.bg/	Naredba RD-02-20-9 Art. 104: EGN structure (month offsets, sex digit)	2026-11-11	Law
+S	se:nationalid,taxcode	Skatteverket	https://www.skatteverket.se/privat/folkbokforing/personnummer.4.3810a01c150939e893f18c29.html	Personnummer: structure, sex digit, the + separator	2026-11-11	Authority
+S	no:nationalid,taxcode	Skatteetaten	https://www.skatteetaten.no/en/person/foreign/norwegian-id-number-and-d-number/	Norwegian ID number: structure, sex digit	2026-11-11	Authority
+S	dk:nationalid,taxcode	CPR Office	https://cpr.dk/cpr-systemet/opbygning-af-cpr-nummeret	Opbygning af CPR-nummeret (structure, sex digit)	2026-11-11	Authority
+S	pl:nationalid,taxcode	Chancellery of the Prime Minister (gov.pl)	https://www.gov.pl/web/gov/czym-jest-numer-pesel	PESEL: month offsets by century, sex digit (page of 2026-03-18, read in full)	2026-11-11	Authority
+S	fi:nationalid,taxcode	Finlex	https://data.finlex.fi/api/media/statute/17253/mainPdf/main.pdf	Decree 690/2022 amending 128/2010 section 2: century sign, individual number parity	2026-11-11	Law
+S	ee:nationalid	Ministry of the Interior	https://www.siseministeerium.ee/tegevusvaldkonnad/rahvastikutoimingud/rahvastikuregister	Population register: the code is 11 digits, the first gives sex, the next six the date; standard EVS 585	2026-11-11	Authority
+S	lt:nationalid	Seimas	https://www.lrs.lt/tais-portal/dokpaieska.showdoc_l?p_id=2507	Law I-2237 of 1992: first digit gives sex and century (mapping not in the text)	2026-11-11	Law
+G	no:nationalid,taxcode	KI-NO-1
+G	dk:nationalid,taxcode	KI-DK-1
+G	se:nationalid,taxcode	KI-SE-1
+G	ee:nationalid	KI-EE-1
+G	lt:nationalid	KI-LT-1
 S	ke:taxcode,company,vat	Kenya Revenue Authority	https://www.kra.go.ke/images/publications/Revised-Electronic-Tax-Register-Specifications-V2.0_14July2021.pdf	Revised Electronic Tax Register Specifications (PIN: A or P, nine digits, a letter)	2026-11-11	Authority
 S	ke:taxcode,company,vat	OECD	https://www.oecd.org/tax/automatic-exchange/crs-implementation-and-assistance/tax-identification-numbers/Kenya-TIN.pdf	OECD TIN Kenya	2026-11-11	Oecd
 S	vn:taxcode,company,vat	Ministry of Finance (via Thu Vien Phap Luat)	https://thuvienphapluat.vn/van-ban/Thue-Phi-Le-Phi/Thong-tu-105-2020-TT-BTC-huong-dan-dang-ky-thue-459433.aspx	Circular 105/2020/TT-BTC on tax registration (structure N1..N13)	2026-11-11	Law

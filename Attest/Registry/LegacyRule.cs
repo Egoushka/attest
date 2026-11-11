@@ -14,6 +14,7 @@ namespace Attest
         private readonly IdValidationAbstract _validator;
         private readonly IdentifierKind _kind;
         private readonly PrintedForm? _printed;
+        private readonly Func<string, ParsedParts?>? _parse;
 
         internal LegacyRule(string id, IdValidationAbstract validator, IdentifierKind kind, bool supported)
         {
@@ -21,6 +22,7 @@ namespace Attest
             _kind = kind;
             Info = Provenance.For(id, supported);
             _printed = PrintedForms.For(id);
+            _parse = ParseForms.For(id);
         }
 
         internal override RuleInfo Info { get; }
@@ -28,6 +30,13 @@ namespace Attest
         internal override bool NativeNormalize => _printed?.Normalize != null;
 
         internal override bool NativeFormat => _printed?.Format != null;
+
+        internal override bool NativeParse => _parse != null;
+
+        internal override ParsedParts? Parse(string normalized)
+        {
+            return _parse?.Invoke(normalized);
+        }
 
         internal override string? Normalize(string value)
         {

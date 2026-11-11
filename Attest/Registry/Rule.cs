@@ -24,6 +24,23 @@ namespace Attest
     /// the bounds, null handling and exception guard live in <see cref="IdentifierType"/>, so a
     /// rule cannot forget them.
     /// </summary>
+    /// <summary>What a native Parse decodes from a valid, normalized value.</summary>
+    internal sealed class ParsedParts
+    {
+        internal ParsedParts(System.DateTime? birthDate, Sex? sex, System.Collections.Generic.IReadOnlyDictionary<string, string>? parts)
+        {
+            BirthDate = birthDate;
+            Sex = sex;
+            Parts = parts;
+        }
+
+        internal System.DateTime? BirthDate { get; }
+
+        internal Sex? Sex { get; }
+
+        internal System.Collections.Generic.IReadOnlyDictionary<string, string>? Parts { get; }
+    }
+
     internal abstract class Rule
     {
         /// <summary>Provenance and coverage.</summary>
@@ -39,6 +56,12 @@ namespace Attest
         internal virtual bool NativeParse => false;
 
         /// <summary>Whether Attest has an opinion at all; false makes the verdict NotCovered.</summary>
+        /// <summary>Decodes a value that Check accepted, or null when the type has nothing to decode.</summary>
+        internal virtual ParsedParts? Parse(string normalized)
+        {
+            return null;
+        }
+
         internal virtual bool HasRule => Info.Coverage == Coverage.Full || Info.Coverage == Coverage.FormatOnly;
 
         /// <summary>Validates a value that is non-empty and within the bound.</summary>
