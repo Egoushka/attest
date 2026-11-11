@@ -141,7 +141,7 @@ namespace Attest.Tests
         public void KnownGapsLinkToRealEntriesOfTheSameCountryAndEveryEntryIsLinked()
         {
             string text = File.ReadAllText(Path.Combine(RepoRoot.Find(), "KNOWN-ISSUES.md"));
-            var entries = Regex.Matches(text, @"^- \*\*(KI-[A-Z]{2,5}-[0-9]+)\*\*", RegexOptions.Multiline)
+            var entries = Regex.Matches(text, @"^- \*\*(KI-[A-Z0-9]{2,8}-[0-9]+)\*\*", RegexOptions.Multiline)
                 .Cast<Match>().Select(m => m.Groups[1].Value).ToList();
             Assert.True(entries.Count >= 30, "Found only " + entries.Count + " KNOWN-ISSUES.md entries with ids; the scan is broken.");
             Assert.Equal(entries.Count, entries.Distinct().Count());

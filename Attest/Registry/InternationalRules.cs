@@ -265,5 +265,99 @@ namespace Attest
 
             return Outcome.Valid;
         }
+
+        /// <summary>ISMN: thirteen digits, prefix 9790, EAN-13 style check with weights 1 and 3 (Library of Congress, U.S. ISMN Agency).</summary>
+        internal static Outcome Ismn(string v)
+        {
+            if (v.Length != 13)
+            {
+                return Bad(Reason.InvalidLength, "An ISMN has thirteen digits.");
+            }
+
+            if (!AllDigits(v))
+            {
+                return Bad(Reason.InvalidFormat, "An ISMN is digits only.");
+            }
+
+            if (!v.StartsWith("9790", StringComparison.Ordinal))
+            {
+                return Bad(Reason.InvalidPrefix, "An ISMN starts with 979-0.");
+            }
+
+            return GtinSumOk(v) ? Outcome.Valid : Bad(Reason.InvalidChecksum, "The ISMN check digit does not match.");
+        }
+
+        /// <summary>IMEI: fifteen digits, the last a Luhn check digit over the first fourteen (3GPP TS 23.003 clause 6.2.1 and annex B).</summary>
+        internal static Outcome Imei(string v)
+        {
+            if (v.Length != 15)
+            {
+                return Bad(Reason.InvalidLength, "An IMEI has fifteen digits.");
+            }
+
+            if (!AllDigits(v))
+            {
+                return Bad(Reason.InvalidFormat, "An IMEI is digits only.");
+            }
+
+            return Luhn.IsValid(v) ? Outcome.Valid : Bad(Reason.InvalidChecksum, "The IMEI check digit does not match.");
+        }
+
+        /// <summary>
+        /// Freight container number (ISO 6346): three owner letters, U, J or Z, six digits and a check
+        /// digit. Layout from BIC; the check is the ISO 6346 weighted sum (see KI-ISO6346-1).
+        /// </summary>
+        internal static Outcome Container(string v)
+        {
+            if (v.Length != 11)
+            {
+                return Bad(Reason.InvalidLength, "A container number has eleven characters.");
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (v[i] < 'A' || v[i] > 'Z')
+                {
+                    return Bad(Reason.InvalidFormat, "The owner code is three letters.");
+                }
+            }
+
+            if (v[3] != 'U' && v[3] != 'J' && v[3] != 'Z')
+            {
+                return Bad(Reason.InvalidFormat, "The equipment category is U, J or Z.");
+            }
+
+            if (!Digits(v, 4, 7))
+            {
+                return Bad(Reason.InvalidFormat, "The serial number and check digit are digits.");
+            }
+
+            int sum = 0;
+            int weight = 1;
+            for (int i = 0; i < 10; i++)
+            {
+                int value = i < 4 ? LetterValue(v[i]) : v[i] - '0';
+                sum += value * weight;
+                weight *= 2;
+            }
+
+            return sum % 11 % 10 == v[10] - '0' ? Outcome.Valid : Bad(Reason.InvalidChecksum, "The container check digit does not match.");
+        }
+
+        // A is 10 and values that are multiples of 11 are skipped: A=10, B=12, ... K=21, L=23.
+        private static int LetterValue(char letter)
+        {
+            int value = 10;
+            for (char c = 'A'; c < letter; c++)
+            {
+                value++;
+                if (value % 11 == 0)
+                {
+                    value++;
+                }
+            }
+
+            return value;
+        }
     }
 }

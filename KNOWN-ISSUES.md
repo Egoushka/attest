@@ -296,3 +296,9 @@ add the test before the fix.
   - *Not fixed:* Read ISO 17442; consider the LOU prefix list.
 - **KI-BIC-1** swift.com answered 403; BIC (8 or 11 characters, letters then alphanumerics) was not read from the source and has no check digit. The country letters are not tested against ISO 3166.
   - *Not fixed:* Read ISO 9362.
+- **KI-ISMN-1** Only the 13-digit form with prefix 979-0 is accepted. The pre-2008 form (M followed by nine digits) is not, and no hyphenation is printed: that needs the agency's range table.
+  - *Not fixed:* Read the ISMN Users' Manual for the legacy form and the publisher ranges.
+- **KI-IMEI-1** The Luhn check and the 15-digit length come from 3GPP TS 23.003, read through a mirror (itecspec.com) because the specification archive is a zip download. The 16-digit IMEISV has no check digit and is not accepted. The TAC is not checked against the GSMA allocation.
+  - *Not fixed:* Read the TS 23.003 archive itself; the GSMA TAC database is not public.
+- **KI-ISO6346-1** BIC's identification-number page confirms the layout (three owner letters, U, J or Z, six digits, a check digit) but does not state the check algorithm, and ISO 6346 itself is paywalled. The weights (powers of two), the letter values (A is 10, multiples of 11 skipped) and the mod 11 then mod 10 reduction are the published method, checked against the widely quoted example CSQU3054383 (a secondary source, not BIC) only. The owner code is not looked up in BIC's register.
+  - *Not fixed:* Read ISO 6346 or the BIC calculator's stated method; consider the owner-code register.
