@@ -1,12 +1,12 @@
 <!-- Generated from the registry by Attest.Tests.CoverageDocTests. Do not edit; run the tests with ATTEST_UPDATE_COVERAGE=1 to regenerate. -->
 # Coverage
 
-- Types: 510 (100 countries x 5 kinds, 10 international)
-- Coverage: Full 412, FormatOnly 18, NotApplicable 4, NotPublished 0, NotCovered 76
-- Last verified: null for 510 of 510
-- Sources: 822 citations; 392 types cite an authority, law or OECD source, 39 only a reference implementation or secondary source, 79 none
-- Native Normalize / Format / Parse: 79 / 13 / 12
-- Types with known gaps: 160
+- Types: 515 (100 countries x 5 kinds, 15 international)
+- Coverage: Full 413, FormatOnly 21, NotApplicable 4, NotPublished 0, NotCovered 77
+- Last verified: null for 515 of 515
+- Sources: 828 citations; 397 types cite an authority, law or OECD source, 39 only a reference implementation or secondary source, 79 none
+- Native Normalize / Format / Parse: 84 / 14 / 12
+- Types with known gaps: 165
 
 Sources are authority@host (kind: A authority, L law, O OECD, R reference implementation, S secondary); full URLs are in Attest/Registry/Provenance.tsv. N/F/P: a native Normalize / Format / Parse (y/-).
 
@@ -158,6 +158,7 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | ec.postalcode | Ecuador postal code | PostalCode | EC | Full | Wikipedia@en.wikipedia.org S | null | 1 | --- |  |
 | ec.taxcode | Ecuador personal tax code | PersonalTaxCode | EC | Full | Registro Civil@registrocivil.gob.ec A; OECD@oecd.org O; python-stdnum@arthurdejong.org R; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
 | ec.vat | Ecuador VAT number | Vat | EC | Full | python-stdnum@arthurdejong.org R; python-stdnum@arthurdejong.org R; OECD@oecd.org O; python-stdnum@arthurdejong.org R; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
+| ecnumber | EC inventory number (ECHA) | Other |  | NotCovered | ECHA@echa.europa.eu A | null | 1 | y-- | KI-ECNUMBER-1 |
 | ee.company | Estonia company number | CompanyNumber | EE | Full | Centre of Registers@ariregister.rik.ee A | null | 1 | --- |  |
 | ee.nationalid | Estonia national identity number | PersonalId | EE | Full | Riigi Teataja@riigiteataja.ee L; Ministry of the Interior@siseministeerium.ee A | null | 1 | --- | KI-EE-1 |
 | ee.postalcode | Estonia postal code | PostalCode | EE | Full | Omniva@omniva.ee A | null | 1 | --- |  |
@@ -168,6 +169,7 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | eg.postalcode | Egypt postal code | PostalCode | EG | NotCovered |  | null | 1 | y-- | KI-EG-1 |
 | eg.taxcode | Egypt personal tax code | PersonalTaxCode | EG | NotCovered |  | null | 1 | y-- | KI-EG-1 |
 | eg.vat | Egypt VAT number | Vat | EG | NotCovered |  | null | 1 | y-- | KI-EG-1 |
+| eic | Energy Identification Code (ENTSO-E) | Other |  | Full | ENTSO-E@eepublicdownloads.entsoe.eu A; ENTSO-E@entsoe.eu A | null | 1 | y-- | KI-EIC-1 |
 | es.company | Spain company number | CompanyNumber | ES | Full | python-stdnum@arthurdejong.org R; Spanish State Gazette (BOE)@boe.es L; Agencia Tributaria@sede.agenciatributaria.gob.es A | null | 1 | --- |  |
 | es.nationalid | Spain national identity number | PersonalId | ES | Full | python-stdnum@arthurdejong.org R; Spanish State Gazette (BOE)@boe.es L | null | 1 | --- |  |
 | es.postalcode | Spain postal code | PostalCode | ES | Full | Correos@correos.es A; Wikipedia@en.wikipedia.org S | null | 1 | --- |  |
@@ -362,6 +364,7 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | mz.postalcode | Mozambique postal code | PostalCode | MZ | NotCovered |  | null | 1 | y-- | KI-MZ-1 |
 | mz.taxcode | Mozambique personal tax code | PersonalTaxCode | MZ | NotCovered |  | null | 1 | y-- | KI-MZ-1 |
 | mz.vat | Mozambique VAT number | Vat | MZ | NotCovered |  | null | 1 | y-- | KI-MZ-1 |
+| nace | NACE economic activity code | Other |  | FormatOnly | Eurostat@ec.europa.eu A | null | 1 | yy- | KI-NACE-1 |
 | ng.company | Nigeria company number | CompanyNumber | NG | Full | Corporate Affairs Commission@cac.gov.ng A; FCT Internal Revenue Service@fctirs.gov.ng A; OECD@oecd.org O | null | 1 | --- | KI-NG-1, KI-NG-2, KI-NG-3, KI-NG-4 |
 | ng.nationalid | Nigeria national identity number | PersonalId | NG | Full | NIMC@nimc.gov.ng A; OECD@oecd.org O | null | 1 | --- | KI-NG-1 |
 | ng.postalcode | Nigeria postal code | PostalCode | NG | Full | NIPOST@nipost.gov.ng A | null | 1 | --- | KI-NG-1 |
@@ -387,6 +390,7 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | om.postalcode | Oman postal code | PostalCode | OM | NotCovered |  | null | 1 | y-- | KI-OM-1 |
 | om.taxcode | Oman personal tax code | PersonalTaxCode | OM | NotCovered |  | null | 1 | y-- | KI-OM-1 |
 | om.vat | Oman VAT number | Vat | OM | NotCovered |  | null | 1 | y-- | KI-OM-1 |
+| oss | One Stop Shop VAT number (non-Union and import schemes) | Vat |  | FormatOnly | European Commission@vat-one-stop-shop.ec.europa.eu A | null | 1 | y-- | KI-OSS-1 |
 | pe.company | Peru company number | CompanyNumber | PE | Full | SUNAT@sunat.gob.pe A | null | 1 | --- |  |
 | pe.nationalid | Peru national identity number | PersonalId | PE | Full | RENIEC@gob.pe A; python-stdnum@github.com R; python-stdnum@github.com R; Infobae@infobae.com S; OECD@oecd.org O | null | 1 | --- |  |
 | pe.postalcode | Peru postal code | PostalCode | PE | Full | Serpost@gob.pe A | null | 1 | --- |  |
@@ -437,6 +441,7 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | se.postalcode | Sweden postal code | PostalCode | SE | Full | PTS@pts.se A | null | 1 | --- |  |
 | se.taxcode | Sweden personal tax code | PersonalTaxCode | SE | Full | Skatteverket@skatteverket.se A; OECD@oecd.org O; Skatteverket@skatteverket.se A | null | 1 | --y | KI-SE-1 |
 | se.vat | Sweden VAT number | Vat | SE | Full | Skatteverket@skatteverket.se A; European Commission@ec.europa.eu A | null | 1 | --- |  |
+| seed | Excise number (SEED) | CompanyNumber |  | FormatOnly | European Commission@ec.europa.eu A | null | 1 | y-- | KI-SEED-1 |
 | sg.company | Singapore company number | CompanyNumber | SG | NotCovered |  | null | 1 | y-- | KI-SG-1 |
 | sg.nationalid | Singapore national identity number | PersonalId | SG | NotCovered |  | null | 1 | y-- | KI-SG-1 |
 | sg.postalcode | Singapore postal code | PostalCode | SG | NotCovered |  | null | 1 | y-- | KI-SG-1 |

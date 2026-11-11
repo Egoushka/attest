@@ -668,6 +668,21 @@ G	dk:nationalid,taxcode	KI-DK-1
 G	se:nationalid,taxcode	KI-SE-1
 G	ee:nationalid	KI-EE-1
 G	lt:nationalid	KI-LT-1
+S	eic	ENTSO-E	https://eepublicdownloads.entsoe.eu/clean-documents/EDI/Library/cim_based/EIC_Data_Exchange_IG_v1.2.pdf	EIC Data Exchange Implementation Guide v1.2, section 5: 16 characters, check character algorithm and worked example 11XRWENET12345-2 (read in full)	2026-11-11	Authority
+S	eic	ENTSO-E	https://www.entsoe.eu/Documents/EDI/Library/EIC_Reference_Manual_Release_5_5.pdf	EIC Reference Manual 5.5 (structure: office, object type, 12 characters, check character)	2026-11-11	Authority
+S	nace	Eurostat	https://ec.europa.eu/eurostat/documents/3859598/21633320/KS-GQ-24-007-EN-N.pdf	NACE Rev. 2.1 (KS-GQ-24-007-EN-N) paras 22-24: section letter not in the code, 2-digit division, 3-digit group, 4-digit class, printed 20.51	2026-11-11	Authority
+S	seed	European Commission	https://ec.europa.eu/taxation_customs/dds2/seed/help/seedhedn.jsp	SEED excise number: two-letter country code and eleven characters, left-padded with zeros	2026-11-11	Authority
+S	oss	European Commission	https://vat-one-stop-shop.ec.europa.eu/one-stop-shop/register-oss_en	Register for OSS: non-Union EU + nine characters, import scheme IM + ten (the IM form from a search excerpt)	2026-11-11	Authority
+S	ecnumber	ECHA	https://echa.europa.eu/information-on-chemicals/ec-inventory	EC inventory (the page answered 403; the number format was not read)	2026-11-11	Authority
+G	eic	KI-EIC-1
+G	nace	KI-NACE-1
+G	seed	KI-SEED-1
+G	oss	KI-OSS-1
+G	ecnumber	KI-ECNUMBER-1
+C	nace	FormatOnly
+C	seed	FormatOnly
+C	oss	FormatOnly
+C	ecnumber	NotCovered
 S	ke:taxcode,company,vat	Kenya Revenue Authority	https://www.kra.go.ke/images/publications/Revised-Electronic-Tax-Register-Specifications-V2.0_14July2021.pdf	Revised Electronic Tax Register Specifications (PIN: A or P, nine digits, a letter)	2026-11-11	Authority
 S	ke:taxcode,company,vat	OECD	https://www.oecd.org/tax/automatic-exchange/crs-implementation-and-assistance/tax-identification-numbers/Kenya-TIN.pdf	OECD TIN Kenya	2026-11-11	Oecd
 S	vn:taxcode,company,vat	Ministry of Finance (via Thu Vien Phap Luat)	https://thuvienphapluat.vn/van-ban/Thue-Phi-Le-Phi/Thong-tu-105-2020-TT-BTC-huong-dan-dang-ky-thue-459433.aspx	Circular 105/2020/TT-BTC on tax registration (structure N1..N13)	2026-11-11	Law

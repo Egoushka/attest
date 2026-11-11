@@ -332,3 +332,13 @@ add the test before the fix.
   - *Not fixed:* Read the TS 23.003 archive itself; the GSMA TAC database is not public.
 - **KI-ISO6346-1** BIC's identification-number page confirms the layout (three owner letters, U, J or Z, six digits, a check digit) but does not state the check algorithm, and ISO 6346 itself is paywalled. The weights (powers of two), the letter values (A is 10, multiples of 11 skipped) and the mod 11 then mod 10 reduction are the published method, checked against the widely quoted example CSQU3054383 (a secondary source, not BIC) only. The owner code is not looked up in BIC's register.
   - *Not fixed:* Read ISO 6346 or the BIC calculator's stated method; consider the owner-code register.
+- **KI-EIC-1** The check algorithm is ENTSO-E's, and the Implementation Guide says it may be used only to check the validity of an allocated code. That is all Attest does with it. The object type letter (X, Y, Z, T, W, A, V) and the issuing-office prefix are not checked against ENTSO-E's lists, and a code whose computed check would be '-' is rejected because ENTSO-E never allocates one.
+  - *Not fixed:* Office and type lists were not read.
+- **KI-NACE-1** Only the shape is checked: two, three or four digits. A well-formed code that is not in the NACE list (or is in Rev. 2 but not Rev. 2.1) is accepted. The section letter (A to U) is not part of a code and is rejected.
+  - *Not fixed:* Load the Rev. 2.1 list from Eurostat and decide how to treat both revisions. The source URL is the Eurostat publication the shape was read from.
+- **KI-SEED-1** The EC SEED help page says the part after the country code is "11 digits" but its own example (00000987ABC) has letters; the rule accepts letters and digits. There is no check digit and the country letters are not tested against the member-state list.
+  - *Not fixed:* Find the SEED specification that settles the character class.
+- **KI-OSS-1** Shape only: EU plus nine, or IM plus ten, letters or digits. The source does not define the character classes or a check digit, and the import (IM) form was seen in a search excerpt, not read on the page. The Union scheme uses the national VAT number and is not a separate type.
+  - *Not fixed:* Read the OSS registration guidance for the exact structure.
+- **KI-ECNUMBER-1** ec number (the ECHA inventory number) is NotCovered: echa.europa.eu answered 403, and the only description of its check digit found was on Wikipedia, which is not a source for a rule.
+  - *Not fixed:* Read ECHA's description of the EC number, then implement it.

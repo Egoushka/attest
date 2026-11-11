@@ -359,5 +359,106 @@ namespace Attest
 
             return value;
         }
+
+        private const string EicAlphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-";
+
+        /// <summary>
+        /// EIC (ENTSO-E Energy Identification Code): sixteen characters from 0-9, A-Z and '-', the
+        /// last a check character. Each of the first fifteen is valued by its place in the alphabet
+        /// above, weighted 16 down to 2, summed; the check is 36 - ((sum - 1) mod 37), written as a
+        /// letter above 9. ENTSO-E EIC Data Exchange Implementation Guide v1.2, section 5.
+        /// </summary>
+        internal static Outcome Eic(string v)
+        {
+            if (v.Length != 16)
+            {
+                return Bad(Reason.InvalidLength, "An EIC has sixteen characters.");
+            }
+
+            int sum = 0;
+            for (int i = 0; i < 16; i++)
+            {
+                int value = EicAlphabet.IndexOf(v[i]);
+                if (value < 0)
+                {
+                    return Bad(Reason.InvalidFormat, "An EIC uses digits, capital letters and '-'.");
+                }
+
+                if (i < 15)
+                {
+                    sum += value * (16 - i);
+                }
+            }
+
+            int check = 36 - (sum - 1) % 37;
+            if (check == 36)
+            {
+                return Bad(Reason.InvalidChecksum, "An allocated EIC never has '-' as its check character.");
+            }
+
+            return EicAlphabet[check] == v[15] ? Outcome.Valid : Bad(Reason.InvalidChecksum, "The EIC check character does not match.");
+        }
+
+        /// <summary>NACE code: a division of two digits, optionally a group (three digits) or a class (four). The section letter is not part of the code (Eurostat KS-GQ-24-007).</summary>
+        internal static Outcome Nace(string v)
+        {
+            if (v.Length < 2 || v.Length > 4)
+            {
+                return Bad(Reason.InvalidLength, "A NACE code has two, three or four digits.");
+            }
+
+            return AllDigits(v) ? Outcome.Valid : Bad(Reason.InvalidFormat, "A NACE code is digits only; the section letter is not part of it.");
+        }
+
+        internal static string NaceFormat(string v)
+        {
+            return v.Length > 2 ? v.Substring(0, 2) + "." + v.Substring(2) : v;
+        }
+
+        /// <summary>SEED excise number: two letters of country, then eleven alphanumerics, left-padded with zeros (EC DDS2 SEED help page).</summary>
+        internal static Outcome Seed(string v)
+        {
+            if (v.Length != 13)
+            {
+                return Bad(Reason.InvalidLength, "A SEED excise number has thirteen characters.");
+            }
+
+            for (int i = 0; i < 13; i++)
+            {
+                bool ok = i < 2 ? v[i] >= 'A' && v[i] <= 'Z' : Alnum(v[i]);
+                if (!ok)
+                {
+                    return Bad(Reason.InvalidFormat, "Two letters of country, then eleven letters or digits.");
+                }
+            }
+
+            return Outcome.Valid;
+        }
+
+        /// <summary>OSS VAT number of the non-Union scheme (EU and nine characters) or the import scheme (IM and ten). Shape only.</summary>
+        internal static Outcome Oss(string v)
+        {
+            bool union = v.StartsWith("EU", StringComparison.Ordinal);
+            bool import = v.StartsWith("IM", StringComparison.Ordinal);
+            if (!union && !import)
+            {
+                return Bad(Reason.InvalidPrefix, "An OSS number starts with EU or IM.");
+            }
+
+            if (v.Length != (union ? 11 : 12))
+            {
+                return Bad(Reason.InvalidLength, union ? "A non-Union OSS number has eleven characters." : "An import OSS number has twelve characters.");
+            }
+
+            for (int i = 2; i < v.Length; i++)
+            {
+                if (!Alnum(v[i]))
+                {
+                    return Bad(Reason.InvalidFormat, "Letters and digits after the prefix.");
+                }
+            }
+
+            return Outcome.Valid;
+        }
     }
 }
