@@ -1,0 +1,5 @@
+# seed  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+BE00000987ABC	valid	-	BE00000987ABC	BE00000987ABC	published:https://ec.europa.eu/taxation_customs/dds2/seed/help/seedhedn.jsp	the page prints 00000987ABC for the eleven characters; the BE prefix is added here
+BE0000098	invalid	InvalidLength	-	-	synthetic	nine characters
+1E00000987ABC	invalid	InvalidFormat	-	-	synthetic	digit in the country code

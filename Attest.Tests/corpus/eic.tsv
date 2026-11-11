@@ -1,0 +1,10 @@
+# eic  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+11XRWENET12345-2	valid	-	11XRWENET12345-2	11XRWENET12345-2	published:https://eepublicdownloads.entsoe.eu/clean-documents/EDI/Library/cim_based/EIC_Data_Exchange_IG_v1.2.pdf	the IG worked example, sum 2107
+11Y123456789012T	valid	-	11Y123456789012T	11Y123456789012T	published:https://eepublicdownloads.entsoe.eu/clean-documents/EDI/Library/cim_based/EIC_Data_Exchange_IG_v1.2.pdf	the IG example of an area code
+10X168Y4E6H0041Z	valid	-	10X168Y4E6H0041Z	10X168Y4E6H0041Z	computed:entsoe-eic-mod37-weights-16-to-2	check Z, worked by a separate script
+10X---ENTSOE---L	valid	-	10X---ENTSOE---L	10X---ENTSOE---L	computed:entsoe-eic-mod37-weights-16-to-2	check L
+10Z317973010277Q	invalid	InvalidChecksum	-	-	published:https://eepublicdownloads.entsoe.eu/clean-documents/EDI/Library/cim_based/EIC_Data_Exchange_IG_v1.2.pdf	the IG names this code as one the algorithm catches; computed check is S
+11XRWENET12345-3	invalid	InvalidChecksum	-	-	computed:entsoe-eic-mod37-weights-16-to-2	check character changed
+11XRWENET12345	invalid	InvalidLength	-	-	synthetic	fifteen characters
+11XRWENET1234*-2	invalid	InvalidFormat	-	-	synthetic	a character outside the alphabet

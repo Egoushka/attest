@@ -1,0 +1,8 @@
+# nace  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+20.51	valid	-	2051	20.51	published:https://ec.europa.eu/eurostat/documents/3859598/21633320/KS-GQ-24-007-EN-N.pdf	the example Eurostat prints for a class
+20	valid	-	20	20	computed:shape-two-digits	a division
+205	valid	-	205	20.5	computed:shape-three-digits	a group prints with the dot after the division
+C20	invalid	InvalidFormat	-	-	synthetic	the section letter is not part of a code
+2	invalid	InvalidLength	-	-	synthetic	one digit
+20511	invalid	InvalidLength	-	-	synthetic	five digits

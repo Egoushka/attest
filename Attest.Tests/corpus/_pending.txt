@@ -293,6 +293,7 @@ nz.nationalid
 nz.postalcode
 nz.taxcode
 nz.vat
+oss
 pe.company
 pe.nationalid
 pe.postalcode
