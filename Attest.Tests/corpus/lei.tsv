@@ -1,0 +1,7 @@
+# lei  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+5493001KJTIIGC8Y1R12	valid	-	5493001KJTIIGC8Y1R12	5493001KJTIIGC8Y1R12	computed:mod97-10	18-character payload, 98 - remainder = 12
+529900T8BM49AURSDO55	valid	-	529900T8BM49AURSDO55	529900T8BM49AURSDO55	computed:mod97-10	check 55
+5493001KJTIIGC8Y1R13	invalid	InvalidChecksum	-	-	computed:mod97-10	check digits changed
+5493001KJTIIGC8Y1RAB	invalid	InvalidFormat	-	-	synthetic	check characters are letters
+5493001KJTIIGC8Y1R1	invalid	InvalidLength	-	-	synthetic	nineteen characters

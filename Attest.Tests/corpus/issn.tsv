@@ -1,0 +1,7 @@
+# issn  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+1050-124X	valid	-	1050124X	1050-124X	published:https://www.issn.org/understanding-the-issn/what-is-an-issn/	the ISSN issn.org prints; weighted sum 56, check 10 written X
+0317-8471	valid	-	03178471	0317-8471	computed:mod11-weights-8-to-2	sum 120, 11-10=1
+1050-124Y	invalid	InvalidFormat	-	-	synthetic	Y is not a digit or X
+1050-1241	invalid	InvalidChecksum	-	-	computed:mod11-weights-8-to-2	check should be X
+1050124	invalid	InvalidLength	-	-	synthetic	seven characters

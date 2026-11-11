@@ -70,6 +70,12 @@ namespace Attest
             var international = new List<IdentifierType>
             {
                 new IdentifierType("iban", null, IdentifierKind.BankAccount, "International Bank Account Number", "IBAN", new string[0], new IbanRule(Provenance.For("iban", true))),
+                Simple("issn", IdentifierKind.TradeItem, "International Standard Serial Number", "ISSN", new[] { '-', ' ' }, InternationalRules.Issn, InternationalRules.IssnFormat),
+                Simple("isbn", IdentifierKind.TradeItem, "International Standard Book Number", "ISBN", new[] { '-', ' ' }, InternationalRules.Isbn, null),
+                Simple("gtin", IdentifierKind.TradeItem, "Global Trade Item Number (EAN, UPC)", "GTIN", new[] { '-', ' ' }, InternationalRules.Gtin, null, "ean", "upc"),
+                Simple("isin", IdentifierKind.Security, "International Securities Identification Number", "ISIN", new[] { '-', ' ' }, InternationalRules.Isin, null),
+                Simple("lei", IdentifierKind.Security, "Legal Entity Identifier", "LEI", new[] { '-', ' ' }, InternationalRules.Lei, null),
+                Simple("bic", IdentifierKind.BankAccount, "Business Identifier Code (SWIFT BIC)", "BIC", new[] { ' ' }, InternationalRules.Bic, null, "swift"),
             };
             foreach (IdentifierType type in international)
             {
@@ -78,6 +84,11 @@ namespace Attest
             }
 
             All = all.AsReadOnly();
+        }
+
+        private static IdentifierType Simple(string id, IdentifierKind kind, string name, string local, char[] separators, Func<string, Outcome> check, Func<string, string>? format, params string[] aliases)
+        {
+            return new IdentifierType(id, null, kind, name, local, aliases, new SimpleRule(Provenance.For(id, true), separators, check, format));
         }
 
         internal static IdentifierType? Find(string? id)

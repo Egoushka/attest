@@ -1,0 +1,7 @@
+# isin  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+US0378331005	valid	-	US0378331005	US0378331005	computed:luhn-letters-as-10-35	US + 037833100 + 5, digit string 30280378331005 sums to 50
+us0378331005	valid	-	US0378331005	US0378331005	computed:luhn-letters-as-10-35	lower case
+US0378331006	invalid	InvalidChecksum	-	-	computed:luhn-letters-as-10-35	check digit changed
+10378331005A	invalid	InvalidPrefix	-	-	synthetic	starts with digits
+US037833100	invalid	InvalidLength	-	-	synthetic	eleven characters

@@ -1,0 +1,7 @@
+# bic  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+DEUTDEFF	valid	-	DEUTDEFF	DEUTDEFF	published:https://en.wikipedia.org/wiki/ISO_9362	Deutsche Bank, 8 characters
+DEUTDEFF500	valid	-	DEUTDEFF500	DEUTDEFF500	published:https://en.wikipedia.org/wiki/ISO_9362	with branch code
+deut de ff	valid	-	DEUTDEFF	DEUTDEFF	published:https://en.wikipedia.org/wiki/ISO_9362	spaces and case
+DEUT1EFF	invalid	InvalidFormat	-	-	synthetic	digit in the country letters
+DEUTDEF	invalid	InvalidLength	-	-	synthetic	seven characters
