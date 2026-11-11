@@ -274,6 +274,9 @@ my.nationalid
 my.postalcode
 my.taxcode
 my.vat
+mz.company
+mz.taxcode
+mz.vat
 ng.company
 ng.nationalid
 ng.postalcode

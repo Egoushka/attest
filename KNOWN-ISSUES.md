@@ -214,22 +214,22 @@ add the test before the fix.
 ## Algeria
 
 - **KI-DZ-1** No rule for any of the five kinds: dz.* are NotCovered.
-  - *Not fixed:* Added in 2.0 as registered types only. No authority page stating a format (NIF, national id, postal code) was read in this pass.
+  - *Not fixed:* Added in 2.0 as registered types only. No authority page stating a format (NIF, national id, postal code) was read in this pass. Searched again 2026-11-11 (dgi.gov.dz and secondary pages): no authority page states the NIF format or a check rule.
 
 ## Egypt
 
 - **KI-EG-1** No rule for any of the five kinds: eg.* are NotCovered.
-  - *Not fixed:* Registered types only; no authority page stating a format (tax registration number, national id, postal code) was read.
+  - *Not fixed:* Registered types only; no authority page stating a format (tax registration number, national id, postal code) was read. Searched again 2026-11-11 (Egyptian Tax Authority, Ministry of Interior, CAPMAS): no authority page states the tax registration number or national ID structure as a rule.
 
 ## Ghana
 
 - **KI-GH-1** No rule for any of the five kinds: gh.* are NotCovered.
-  - *Not fixed:* Registered types only; no authority page stating a format (TIN, Ghana Card, GhanaPostGPS) was read.
+  - *Not fixed:* Registered types only; no authority page stating a format (TIN, Ghana Card, GhanaPostGPS) was read. Searched again 2026-11-11: gra.gov.gh/tin says the Ghana Card PIN is now the TIN but gives no format or check rule.
 
 ## Guinea
 
 - **KI-GN-1** No rule for any of the five kinds: gn.* are NotCovered.
-  - *Not fixed:* Registered types only; no authority page stating a format (NIFP) was read.
+  - *Not fixed:* Registered types only; no authority page stating a format (NIFP) was read. Searched again 2026-11-11: the 2019 arrete on NIFP exists on dgi.gov.gn but sits behind a Google Drive link that could not be read.
 
 ## Kenya
 
@@ -239,7 +239,7 @@ add the test before the fix.
 ## Liechtenstein
 
 - **KI-LI-1** No rule for any of the five kinds: li.* are NotCovered.
-  - *Not fixed:* Registered types only; no authority page stating a format (PEID, UID, postal codes) was read.
+  - *Not fixed:* Registered types only; no authority page stating a format (PEID, UID, postal codes) was read. Searched again 2026-11-11: no Liechtenstein government page states the PEID structure or check.
 
 ## Morocco
 
@@ -248,28 +248,28 @@ add the test before the fix.
 
 ## Mozambique
 
-- **KI-MZ-1** No rule for any of the five kinds: mz.* are NotCovered.
-  - *Not fixed:* Registered types only; no authority page stating a format (NUIT) was read.
+- **KI-MZ-1** mz.taxcode, mz.company and mz.vat check only the shape (nine digits); mz.nationalid and mz.postalcode are NotCovered.
+  - *Not fixed:* Decreto 28/2012 art. 4 states nine digits (entity-type digit, seven sequential, control digit) but not the control algorithm or the entity-type values. The text was read in a Moore Mozambique copy, not in the Boletim da Republica. The identity card number and postal codes were not found on an authority page.
 
 ## Oman
 
 - **KI-OM-1** No rule for any of the five kinds: om.* are NotCovered.
-  - *Not fixed:* Registered types only; no authority page stating a format was read.
+  - *Not fixed:* Registered types only; no authority page stating a format was read. Searched again 2026-11-11: no Oman Tax Authority page states the VATIN or tax card format.
 
 ## Senegal
 
 - **KI-SN-1** No rule for any of the five kinds: sn.* are NotCovered.
-  - *Not fixed:* Registered types only; no authority page stating a format (NINEA) was read.
+  - *Not fixed:* Registered types only; no authority page stating a format (NINEA) was read. Searched again 2026-11-11 (ANSD and secondary pages): no authority page states the NINEA format.
 
 ## Singapore
 
 - **KI-SG-1** No rule for any of the five kinds: sg.* are NotCovered.
-  - *Not fixed:* ACRA's Special UEN page shows sample UENs of several shapes, but no format specification or check-letter algorithm was found, and the NRIC/FIN check letters were not found on an authority page. Nothing is guessed.
+  - *Not fixed:* ACRA's Special UEN page shows sample UENs of several shapes, but no format specification or check-letter algorithm was found, and the NRIC/FIN check letters were not found on an authority page. Nothing is guessed. Searched again 2026-11-11: ACRA prints example UENs (such as 201888888A, 53499999V, T18LL7777F) but no rule; the NRIC/FIN weights found elsewhere were secondary and are not used.
 
 ## Tunisia
 
 - **KI-TN-1** No rule for any of the five kinds: tn.* are NotCovered.
-  - *Not fixed:* Registered types only; no authority page stating a format (matricule fiscal) was read.
+  - *Not fixed:* Registered types only; no authority page stating a format (matricule fiscal) was read. Searched again 2026-11-11: no DGI page states the matricule fiscal format or its control key.
 
 ## Vietnam
 

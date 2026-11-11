@@ -2,9 +2,9 @@
 # Coverage
 
 - Types: 515 (100 countries x 5 kinds, 15 international)
-- Coverage: Full 413, FormatOnly 21, NotApplicable 4, NotPublished 0, NotCovered 77
+- Coverage: Full 413, FormatOnly 24, NotApplicable 4, NotPublished 0, NotCovered 74
 - Last verified: null for 515 of 515
-- Sources: 828 citations; 397 types cite an authority, law or OECD source, 39 only a reference implementation or secondary source, 79 none
+- Sources: 831 citations; 400 types cite an authority, law or OECD source, 39 only a reference implementation or secondary source, 76 none
 - Native Normalize / Format / Parse: 84 / 14 / 12
 - Types with known gaps: 165
 
@@ -359,11 +359,11 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | my.postalcode | Malaysia postal code | PostalCode | MY | Full | Pos Malaysia@pos.com.my A; Wikipedia@en.wikipedia.org S | null | 1 | --- |  |
 | my.taxcode | Malaysia personal tax code | PersonalTaxCode | MY | Full | OECD@oecd.org O; Inland Revenue Board@hasil.gov.my A | null | 1 | --- |  |
 | my.vat | Malaysia VAT number | Vat | MY | Full | Inland Revenue Board@hasil.gov.my A | null | 1 | --- |  |
-| mz.company | Mozambique company number | CompanyNumber | MZ | NotCovered |  | null | 1 | y-- | KI-MZ-1 |
+| mz.company | Mozambique company number | CompanyNumber | MZ | FormatOnly | Decreto n. 28/2012 (Regulamento do NUIT), art. 4, via a Moore Mozambique copy@mooremz.co.mz L | null | 1 | y-- | KI-MZ-1 |
 | mz.nationalid | Mozambique national identity number | PersonalId | MZ | NotCovered |  | null | 1 | y-- | KI-MZ-1 |
 | mz.postalcode | Mozambique postal code | PostalCode | MZ | NotCovered |  | null | 1 | y-- | KI-MZ-1 |
-| mz.taxcode | Mozambique personal tax code | PersonalTaxCode | MZ | NotCovered |  | null | 1 | y-- | KI-MZ-1 |
-| mz.vat | Mozambique VAT number | Vat | MZ | NotCovered |  | null | 1 | y-- | KI-MZ-1 |
+| mz.taxcode | Mozambique personal tax code | PersonalTaxCode | MZ | FormatOnly | Decreto n. 28/2012 (Regulamento do NUIT), art. 4, via a Moore Mozambique copy@mooremz.co.mz L | null | 1 | y-- | KI-MZ-1 |
+| mz.vat | Mozambique VAT number | Vat | MZ | FormatOnly | Decreto n. 28/2012 (Regulamento do NUIT), art. 4, via a Moore Mozambique copy@mooremz.co.mz L | null | 1 | y-- | KI-MZ-1 |
 | nace | NACE economic activity code | Other |  | FormatOnly | Eurostat@ec.europa.eu A | null | 1 | yy- | KI-NACE-1 |
 | ng.company | Nigeria company number | CompanyNumber | NG | Full | Corporate Affairs Commission@cac.gov.ng A; FCT Internal Revenue Service@fctirs.gov.ng A; OECD@oecd.org O | null | 1 | --- | KI-NG-1, KI-NG-2, KI-NG-3, KI-NG-4 |
 | ng.nationalid | Nigeria national identity number | PersonalId | NG | Full | NIMC@nimc.gov.ng A; OECD@oecd.org O | null | 1 | --- | KI-NG-1 |
