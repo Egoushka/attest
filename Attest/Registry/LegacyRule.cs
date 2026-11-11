@@ -13,15 +13,31 @@ namespace Attest
     {
         private readonly IdValidationAbstract _validator;
         private readonly IdentifierKind _kind;
+        private readonly PrintedForm? _printed;
 
         internal LegacyRule(string id, IdValidationAbstract validator, IdentifierKind kind, bool supported)
         {
             _validator = validator;
             _kind = kind;
             Info = Provenance.For(id, supported);
+            _printed = PrintedForms.For(id);
         }
 
         internal override RuleInfo Info { get; }
+
+        internal override bool NativeNormalize => _printed?.Normalize != null;
+
+        internal override bool NativeFormat => _printed?.Format != null;
+
+        internal override string? Normalize(string value)
+        {
+            return _printed?.Normalize != null ? _printed.Normalize(value) : base.Normalize(value);
+        }
+
+        internal override string Format(string normalized)
+        {
+            return _printed?.Format != null ? _printed.Format(normalized) : base.Format(normalized);
+        }
 
         internal override Outcome Check(string value)
         {

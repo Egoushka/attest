@@ -79,9 +79,8 @@ namespace Attest.Tests
         /// <summary>Whether the type's rule declares its own version of the operation.</summary>
         internal static bool Overrides(IdentifierType type, string method)
         {
-            MethodInfo found = type.Implementation.GetType().GetMethod(
-                method, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            return found != null && found.DeclaringType != typeof(Rule);
+            Rule rule = type.Implementation;
+            return method == "Normalize" ? rule.NativeNormalize : method == "Format" ? rule.NativeFormat : rule.NativeParse;
         }
     }
 }

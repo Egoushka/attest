@@ -29,6 +29,15 @@ namespace Attest
         /// <summary>Provenance and coverage.</summary>
         internal abstract RuleInfo Info { get; }
 
+        /// <summary>Whether the rule has its own Normalize, not the shared default.</summary>
+        internal virtual bool NativeNormalize => false;
+
+        /// <summary>Whether the rule has its own printed form, not the compact default.</summary>
+        internal virtual bool NativeFormat => false;
+
+        /// <summary>Whether the rule decomposes a value into parts.</summary>
+        internal virtual bool NativeParse => false;
+
         /// <summary>Whether Attest has an opinion at all; false makes the verdict NotCovered.</summary>
         internal virtual bool HasRule => Info.Coverage == Coverage.Full || Info.Coverage == Coverage.FormatOnly;
 

@@ -80,6 +80,11 @@ add the test before the fix.
 - **KI-FO-1** ValidateIndividualTaxCode may reject the identification number TAKS issues to a non-resident who is taxable in the Faroes.
   - *Not fixed:* The OECD sheet says that number's structure is "similar, but not identical to the P number" and no source publishes it -- not OECD, norden.org, lookuptax, torshavn.fo, nor the TAKS temporary p-tal application form. If it offsets the day the way Danish erstatningsnumre (+60) or Norwegian D-numbers (+40) do, the calendar check now in place would reject it. Widening it is a one-line regex change once the format is known.
 
+## UnitedKingdom
+
+- **KI-GB-1** ValidateIndividualTaxCode (NINO) does not strip spaces, so "AB 12 34 56 C", the printed form, is rejected there while ValidateNationalIdentity accepts it.
+  - *Not fixed:* Making it strip would move a verdict, which is a minor-release change of its own. gb.taxcode therefore prints compact; gb.nationalid prints the spaced form.
+
 ## Georgia
 
 - **KI-GE-1** The 11-digit personal number's trailing verification digits are still unchecked; ValidateIndividualTaxCode remains a 9-or-11-digit format guard.

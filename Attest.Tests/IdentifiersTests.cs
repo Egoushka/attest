@@ -414,18 +414,20 @@ namespace Attest.Tests
             {
                 foreach (string input in inputs)
                 {
-                    var seen = new HashSet<string>();
-                    foreach (CultureInfo culture in Cultures)
+                    // Per type: a type may keep the case of a letter that carries meaning (at.company),
+                    // but its answer must not depend on the culture.
+                    foreach (IdentifierType type in Identifiers.All.Take(40))
                     {
-                        Thread.CurrentThread.CurrentCulture = culture;
-                        foreach (IdentifierType type in Identifiers.All.Take(40))
+                        var seen = new HashSet<string>();
+                        foreach (CultureInfo culture in Cultures)
                         {
+                            Thread.CurrentThread.CurrentCulture = culture;
                             seen.Add(type.Normalize(input));
                         }
-                    }
 
-                    Assert.Single(seen);
-                    Assert.DoesNotContain('İ', seen.Single());
+                        Assert.Single(seen);
+                        Assert.DoesNotContain('İ', seen.Single());
+                    }
                 }
             }
             finally
