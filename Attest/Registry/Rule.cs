@@ -30,7 +30,7 @@ namespace Attest
         internal abstract RuleInfo Info { get; }
 
         /// <summary>Whether Attest has an opinion at all; false makes the verdict NotCovered.</summary>
-        internal virtual bool HasRule => Info.Coverage != Coverage.NotCovered && Info.Coverage != Coverage.NotPublished;
+        internal virtual bool HasRule => Info.Coverage == Coverage.Full || Info.Coverage == Coverage.FormatOnly;
 
         /// <summary>Validates a value that is non-empty and within the bound.</summary>
         internal abstract Outcome Check(string value);

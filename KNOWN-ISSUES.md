@@ -35,6 +35,11 @@ add the test before the fix.
 - **KI-BH-2** The YYMM birth prefix of the CPR is not validated, so '999912345' (month 99) is accepted as valid.
   - *Not fixed:* The documented format is YYMMNNNNC, but the same source notes a minority of citizens and residents hold personal numbers that do not follow it, so a month range check would reject real numbers. No test asserts either way.
 
+- **KI-BH-3** ValidateVAT checks only 15 digits; the VAT account number has no published structure or check digit.
+  - *Not fixed:* The NBR's VAT FAQ (https://www.nbr.gov.bh/vat_faqs/2, Arabic) is quoted by a web search as describing a private number of 15 digits. The page returned 403 to a direct fetch, so the wording was not read in full; treat the source as unverified. Some commercial guides say the number starts with 2; the NBR does not.
+- **KI-BH-4** No company number rule: bh.company is NotCovered.
+  - *Not fixed:* The commercial registration (CR) number format is not published by the Ministry of Industry and Commerce in anything I could read.
+
 ## Bolivia
 
 - **KI-BO-1** The 7-13 digit bound I encoded is a union of secondary sources, not a SIN specification.
@@ -49,6 +54,16 @@ add the test before the fix.
 
 - **KI-BR-1** No text-readable Receita Federal source states that repeated-digit CPFs are invalid; the rule rests on two independent Brazilian implementations plus the arithmetic demonstration.
   - *Won't fix:* Fix applied anyway (it was the assignment), but flagging the citation quality: gov.br's own CPF material is either a scanned PDF or behind a restricted-content gate for fetching. Note the behaviour now deliberately diverges from python-stdnum, which rejects only the all-zero CPF via `int(number) <= 0`. The code comment says so explicitly. The rule is implemented; only the citation quality is flagged.
+
+## China
+
+- **KI-CN-1** No VAT rule: cn.vat is NotCovered.
+  - *Not fixed:* A Chinese invoice carries the buyer's taxpayer identification number, which for an enterprise is the 18-character unified social credit code, for a person the 18-digit citizen ID, and older numbers are 15 to 20 characters. No single rule is published, and delegating to cn.company would reject the others.
+
+## Cuba
+
+- **KI-CU-1** No company or VAT rule: cu.company and cu.vat are NotCovered.
+  - *Not fixed:* No published format for a company number was found. Cuba levies a sales tax and a services tax rather than VAT, but the government has announced a move to a creditable VAT, so cu.vat is not marked NotApplicable.
 
 ## Cyprus
 
@@ -70,6 +85,18 @@ add the test before the fix.
 - **KI-GE-1** The 11-digit personal number's trailing verification digits are still unchecked; ValidateIndividualTaxCode remains a 9-or-11-digit format guard.
   - *Not fixed:* No algorithm published, so the earlier wave's reason stands. python-stdnum has no ge module. Sources also contradict each other on what the trailing digits even are: lookuptax.com says 'the last two digits are used for verification purposes', another says the last three are randomly generated, and tin-check.com states validation is performed against the Revenue Service registry rather than by formula. Nothing to encode.
 
+## Guatemala
+
+- **KI-GT-1** ValidateNationalIdentity (CUI) checks only 13 digits.
+  - *Not fixed:* The RENAP law (decreto 39-2010) fixes the layout as 8 assigned digits, 1 check digit, 2 department digits, 2 municipality digits. RENAP publishes no check algorithm and no department or municipality list that I could find, so only the length is enforced.
+- **KI-GT-2** No personal tax code rule: gt.taxcode is NotCovered, and the NIT rule of gt.company/gt.vat may reject newer individual NITs.
+  - *Not fixed:* The SAT says NITs generated from 2023-10-04 for individuals are the first 9 digits of the CUI. The CUI's check digit is not published, and whether it equals the NIT's modulo 11 digit is unknown, so no rule is applied to gt.taxcode and the NIT check of the other two types is unverified for those numbers.
+
+## HongKong
+
+- **KI-HK-1** No company number rule: hk.company is NotCovered.
+  - *Not fixed:* Companies Registry numbers and business registration numbers have no published structure or check digit that I could find.
+
 ## Iceland
 
 - **KI-IS-1** ValidateVAT accepts any 5-6 digit VSK number with no structural or check-digit validation.
@@ -87,6 +114,9 @@ add the test before the fix.
 - **KI-KR-1** The lower date bound `datetime < new DateTime(1860, 1, 1)` is stricter than python-stdnum, which accepts any valid 18xx date for S digits 9/0.
   - *Won't fix:* Unsourced in either direction and unreachable for any living person (it only rejects births in 1800-1859). Removing it would widen accepted values on no authority; left alone deliberately. It is unreachable for anyone living, and widening it on no authority would be the guess.
 
+- **KI-KR-2** No company or VAT rule: kr.company and kr.vat are NotCovered. Both would be the 10-digit business registration number (3 tax office, 2 type, 4 serial, 1 check).
+  - *Not fixed:* The National Tax Service publishes no check-digit algorithm that I could find. The weights 1 3 7 1 3 7 1 3 5 appear only on vendor blogs, so under rule 1 of AGENTS.md they are not used. The structure is also only on secondary sites.
+
 ## Malta
 
 - **KI-MT-1** ValidateVAT computes the check digits as `37 - sum % 37`, yielding 37 when the weighted sum is a multiple of 37, so a number whose check digits are '00' is rejected.
@@ -96,6 +126,11 @@ add the test before the fix.
 
 - **KI-MU-1** Neither the BRN nor the VAT registration number is checksum-validated, and the identity card date still accepts 29 February in non-leap years.
   - *Not fixed:* No check-digit algorithm is published for either business number — the MRA register gives the shapes but nothing derivable. For 29 February the card carries no century digit, so rejecting it would need a guessed pivot year; accepting it can only be too loose, never a false reject.
+
+## Monaco
+
+- **KI-MC-1** No company, national identity or tax code rule: mc.company, mc.nationalid and mc.taxcode are NotCovered.
+  - *Not fixed:* The Monegasque business register (RCI) number has no published rule, and I found nothing authoritative on a Monegasque personal number or personal tax number. Monaco VAT is the French VAT, which mc.vat already uses.
 
 ## Moldova
 
@@ -153,8 +188,20 @@ add the test before the fix.
 - **KI-UA-1** ValidateVAT accepts the twelve digit IPN on its format alone; the twelfth digit is a check digit and is not verified.
   - *Not fixed:* Genuinely unpublished. uk.wikipedia quotes the rule as "12-й знак -- контрольний розряд, алгоритм формування якого встановлює центральний орган державної податкової служби України": the tax authority sets the algorithm and does not publish it. The composition either side of that digit is now recorded in the code comment, and the ten digit legacy form -- whose check digit *is* published -- is validated in full.
 
+## Uzbekistan
+
+- **KI-UZ-1** No company or VAT rule: uz.company and uz.vat are NotCovered.
+  - *Not fixed:* The taxpayer number (STIR) and the VAT registration code have no published check digit or structure that I could read; the lex.uz act cited for uz.taxcode covers the personal number only.
+
 ## UnitedArabEmirates
 
 - **KI-AE-1** ValidateNationalIdentity checks only the 784 + 12 digit shape; the trailing check digit is never verified, so 784198012345670..9 are all accepted.
   - *Not fixed:* ICP/u.ae publish the 15-digit format but no check digit algorithm. The widely circulated Luhn recipe is explicitly untested by its own author and is reported to fail real cards whose check digit is 0, so encoding it would reject valid IDs. The valid samples in the test file were nevertheless chosen to carry the Luhn digit of their first 14 digits, so they survive if a checksum is added later.
 
+
+- **KI-AE-2** No company number rule: ae.company is NotCovered.
+  - *Not fixed:* Trade licence numbers are issued by each emirate's licensing authority (and each free zone), and I found no federal format or check digit published. A rule would have to be one per issuing authority.
+- **KI-AE-3** No VAT rule: ae.vat is NotCovered. The Tax Registration Number (TRN) is described as 15 digits.
+  - *Not fixed:* The FTA's TRN lookup page asks for 15 characters, but I could not open an FTA or Ministry of Finance specification that states the format. The Ministry's e-invoicing consultation draft says the number starts with 1 and ends with 03, which other sources do not repeat as a rule, and the final specification PDF could not be read here. Not enforced until the published rule is read.
+- **KI-AE-4** No personal tax code rule: ae.taxcode is NotCovered.
+  - *Not fixed:* The UAE has no personal income tax and issues no personal tax number as far as I know, but I found no authority page that says so, so it is not marked NotApplicable. The OECD TIN sheet URL used for other countries returned 404.

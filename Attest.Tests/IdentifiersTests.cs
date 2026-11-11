@@ -102,14 +102,15 @@ namespace Attest.Tests
                 else
                 {
                     notCovered++;
-                    Assert.Equal(Coverage.NotCovered, type.Coverage);
+                    Assert.True(type.Coverage == Coverage.NotCovered || type.Coverage == Coverage.NotApplicable);
                     Assert.Equal(Verdict.NotCovered, result.Verdict);
                     Assert.Equal(Reason.None, result.Reason);
                     Assert.False(result.IsValid);
                 }
             }
 
-            Assert.Equal(25, notCovered);
+            // 25 pairs had no rule in 1.x; three now have one (bh.vat, gt.nationalid, mu.postalcode).
+            Assert.Equal(22, notCovered);
         }
 
         [Fact]

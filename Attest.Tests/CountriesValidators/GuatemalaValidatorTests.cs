@@ -102,5 +102,20 @@ namespace Attest.Tests
         {
             Assert.Equal(isValid, _guatemalaValidator.ValidatePostalCode(code).IsValid);
         }
-    }
+
+        // CUI: 13 digits (8 assigned, 1 check, 2 department, 2 municipality). RENAP publishes no
+        // check algorithm (KNOWN-ISSUES KI-GT-1), so the valid rows satisfy the length rule only.
+        [Theory]
+        [InlineData("2000123450101", true)]
+        [InlineData("2000 12345 0101", true)]   // The printed grouping is separators
+        [InlineData("200012345010", false)]     // 12 digits
+        [InlineData("20001234501011", false)]   // 14 digits
+        [InlineData("200012345010A", false)]
+        [InlineData(null, false)]
+        [InlineData("", false)]
+        [InlineData("abc", false)]
+        public void TestNationalIdentity(string code, bool isValid)
+        {
+            Assert.Equal(isValid, _guatemalaValidator.ValidateNationalIdentity(code).IsValid);
+        }    }
 }

@@ -606,3 +606,28 @@ C	am:taxcode,company,vat	FormatOnly
 C	am:nationalid	FormatOnly
 C	az:taxcode,company,vat	FormatOnly
 C	bh:taxcode,nationalid	FormatOnly
+S	mu:postalcode	Universal Postal Union	https://www.upu.int/UPU/media/upu/PostalEntitiesFiles/addressingUnit/musEn.pdf	UPU addressing sheet: Mauritius	2026-11-11	Authority
+S	ae:postalcode	Universal Postal Union	https://www.upu.int/UPU/media/upu/PostalEntitiesFiles/addressingUnit/areEn.pdf	UPU addressing sheet: United Arab Emirates (deliveries to P.O. boxes only)	2026-11-11	Authority
+S	hk:postalcode	Universal Postal Union	https://www.upu.int/UPU/media/upu/PostalEntitiesFiles/addressingUnit/hkgEn.pdf	UPU addressing sheet: Hongkong, China (no postcode in the address)	2026-11-11	Authority
+S	hk:vat	Financial Services and the Treasury Bureau	https://www.fstb.gov.hk/en/treasury/general/prevailing-tax-policy.htm	Prevailing tax policy: there is no value-added or sales tax	2026-11-11	Authority
+S	us:vat	OECD	https://www.oecd.org/content/dam/oecd/en/topics/policy-sub-issues/consumption-tax-trends/consumption-tax-trends-united-states.pdf	Consumption Tax Trends: United States (retail sales tax is not federal, imposed by states)	2026-11-11	Oecd
+S	gt:nationalid	RENAP	https://www.renap.gob.gt/sites/default/files/informacion-publica/1_decreto_39-2010_reformas_a_la_ley_del_registro_nacional.pdf	Decreto 39-2010, reformas a la Ley del RENAP (CUI composition)	2026-11-11	Law
+S	bh:vat	National Bureau for Revenue	https://www.nbr.gov.bh/vat_faqs/2	NBR VAT FAQ (VAT account number of 15 digits)	2026-11-11	Authority
+C	ae:postalcode	NotApplicable
+C	hk:postalcode,vat	NotApplicable
+C	us:vat	NotApplicable
+C	gt:nationalid	FormatOnly
+C	bh:vat	FormatOnly
+G	ae:company	KI-AE-2
+G	ae:vat	KI-AE-3
+G	ae:taxcode	KI-AE-4
+G	bh:vat	KI-BH-3
+G	bh:company	KI-BH-4
+G	kr:company,vat	KI-KR-2
+G	cn:vat	KI-CN-1
+G	cu:company,vat	KI-CU-1
+G	gt:nationalid	KI-GT-1
+G	gt:taxcode,company,vat	KI-GT-2
+G	hk:company	KI-HK-1
+G	mc:company,nationalid,taxcode	KI-MC-1
+G	uz:company,vat	KI-UZ-1

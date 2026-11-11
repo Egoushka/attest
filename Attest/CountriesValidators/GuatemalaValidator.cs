@@ -17,7 +17,7 @@ namespace Attest.Countries
         /// <summary>The kinds GT has no published rule for.</summary>
         internal override IdentifierKind UnsupportedKinds
         {
-            get { return IdentifierKind.PersonalId | IdentifierKind.PersonalTaxCode; }
+            get { return IdentifierKind.PersonalTaxCode; }
         }
 
         /// <summary>
@@ -85,6 +85,23 @@ namespace Attest.Countries
             }
             return ValidationResult.Success();
 
+        }
+
+        /// <summary>
+        /// Código Único de Identificación (CUI, the DPI number): 13 digits, the law fixes the layout as
+        /// eight assigned digits, one check digit, two department digits and two municipality digits.
+        /// The check algorithm and the department and municipality lists are not published by RENAP,
+        /// so only the 13 digits are checked (KNOWN-ISSUES KI-GT-1).
+        /// https://www.renap.gob.gt/sites/default/files/informacion-publica/1_decreto_39-2010_reformas_a_la_ley_del_registro_nacional.pdf
+        /// </summary>
+        public override ValidationResult ValidateNationalIdentity(string ssn)
+        {
+            ssn = ssn.RemoveSpecialCharacthers();
+            if (!Regex.IsMatch(ssn, "^[0-9]{13}$"))
+            {
+                return ValidationResult.InvalidFormat("NNNN NNNNN NNNN");
+            }
+            return ValidationResult.Success();
         }
 
         /// <summary>

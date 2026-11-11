@@ -100,5 +100,25 @@ namespace Attest.Tests
         {
             Assert.Equal(isValid, _mauritiusValidator.ValidateVAT(code).IsValid);
         }
-    }
+
+        // Postal code: five digits, or R and four digits for Rodrigues. The first three rows are the
+        // examples on the UPU addressing sheet for Mauritius.
+        // https://www.upu.int/UPU/media/upu/PostalEntitiesFiles/addressingUnit/musEn.pdf
+        [Theory]
+        [InlineData("11213", true)]
+        [InlineData("42602", true)]
+        [InlineData("R0000", true)]
+        [InlineData("r9999", true)]             // Case is not significant
+        [InlineData("1121", false)]             // Four digits
+        [InlineData("112133", false)]           // Six digits
+        [InlineData("R000", false)]             // Three digits after R
+        [InlineData("R00000", false)]           // Five digits after R
+        [InlineData("X0000", false)]            // Only R is a letter prefix
+        [InlineData(null, false)]
+        [InlineData("", false)]
+        [InlineData("abc", false)]
+        public void TestPostalCode(string code, bool isValid)
+        {
+            Assert.Equal(isValid, _mauritiusValidator.ValidatePostalCode(code).IsValid);
+        }    }
 }
