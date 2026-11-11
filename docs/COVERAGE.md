@@ -264,7 +264,7 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | isbn | International Standard Book Number | TradeItem |  | Full | International ISBN Agency@isbn-international.org A | null | 1 | y-- | KI-ISBN-1 |
 | isin | International Securities Identification Number | Security |  | Full | ISO@iso.org A | null | 1 | y-- | KI-ISIN-1 |
 | ismn | International Standard Music Number | TradeItem |  | Full | U.S. ISMN Agency (Library of Congress)@loc.gov A | null | 1 | y-- | KI-ISMN-1 |
-| iso6346 | Freight container number (ISO 6346) | Vehicle |  | Full | Bureau International des Containers@bic-code.org A | null | 1 | y-- | KI-ISO-1 |
+| iso6346 | Freight container number (ISO 6346) | Vehicle |  | Full | Bureau International des Containers@bic-code.org A | null | 1 | y-- | KI-ISO6346-1 |
 | issn | International Standard Serial Number | TradeItem |  | Full | ISSN International Centre@issn.org A | null | 1 | yy- | KI-ISSN-1 |
 | it.company | Italy company number | CompanyNumber | IT | Full | Registro Imprese@registroimprese.it A; python-stdnum@arthurdejong.org R; Agenzia delle Entrate@agenziaentrate.gov.it A | null | 1 | --- |  |
 | it.nationalid | Italy national identity number | PersonalId | IT | Full | Ministry of the Interior@anagrafenazionale.interno.it A; python-stdnum@arthurdejong.org R; Agenzia delle Entrate@agenziaentrate.gov.it A | null | 1 | --- |  |

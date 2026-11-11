@@ -305,7 +305,7 @@ namespace Attest
 
         /// <summary>
         /// Freight container number (ISO 6346): three owner letters, U, J or Z, six digits and a check
-        /// digit. Layout from BIC; the check is the ISO 6346 weighted sum (see KI-ISO-1).
+        /// digit. Layout from BIC; the check is the ISO 6346 weighted sum (see KI-ISO6346-1).
         /// </summary>
         internal static Outcome Container(string v)
         {
