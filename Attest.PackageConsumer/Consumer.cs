@@ -21,7 +21,7 @@ namespace Attest.PackageConsumer
             var validator = new CountryValidator();
 
             Attest.ValidationResult result = validator.ValidateVAT(value, Country.BE);
-            IdentifierResult byKind = validator.Validate(value, Country.BE, IdentifierKind.Business);
+            var byKind = validator.Validate(value, Country.BE, IdentifierKind.Business);
 
             var context = new ValidationContext(new Consumer());
             bool viaAttribute = new VATAttribute(Country.BE).GetValidationResult(value, context) == null;

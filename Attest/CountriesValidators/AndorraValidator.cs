@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 namespace Attest.Countries
 {
     /// <summary>Validates the identifiers and postal codes issued by Andorra.</summary>
+    [System.Obsolete("Use Identifiers.For(Country) and IdentifierType.Validate. Removed in 3.0.")]
     public class AndorraValidator : IdValidationAbstract
     {
         // The first letter of an NRT states what kind of holder it belongs to, so a number can be

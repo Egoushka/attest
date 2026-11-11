@@ -4,6 +4,7 @@
 namespace Attest.Countries
 {
     /// <summary>Validates the identifiers and postal codes issued by Albania.</summary>
+    [System.Obsolete("Use Identifiers.For(Country) and IdentifierType.Validate. Removed in 3.0.")]
     public class AlbaniaValidator : IdValidationAbstract
     {
         /// <summary>Creates a validator for Albania (AL).</summary>

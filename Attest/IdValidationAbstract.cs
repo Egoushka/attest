@@ -10,6 +10,7 @@
     /// value in the wrong script, a value far too long. Twenty-two validators used to throw instead,
     /// and <c>ValidatorClassSweepTests</c> now proves that none does.
     /// </remarks>
+    [System.Obsolete("Use Identifiers.For(Country) and IdentifierType.Validate. Removed in 3.0.")]
     public abstract class IdValidationAbstract
     {
 

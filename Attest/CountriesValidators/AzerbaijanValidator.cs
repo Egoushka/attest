@@ -4,6 +4,7 @@
 namespace Attest.Countries
 {
     /// <summary>Validates the identifiers and postal codes issued by Azerbaijan.</summary>
+    [System.Obsolete("Use Identifiers.For(Country) and IdentifierType.Validate. Removed in 3.0.")]
     public class AzerbaijanValidator : IdValidationAbstract
     {
         /// <summary>Creates a validator for Azerbaijan (AZ).</summary>

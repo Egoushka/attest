@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 namespace Attest.Countries
 {
     /// <summary>Validates the identifiers and postal codes issued by Belarus.</summary>
+    [System.Obsolete("Use Identifiers.For(Country) and IdentifierType.Validate. Removed in 3.0.")]
     public class BelarusValidator : IdValidationAbstract
     {
         // УНП (UNP) structure, see https://arthurdejong.org/git/python-stdnum/tree/stdnum/by/unp.py

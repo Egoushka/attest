@@ -3,6 +3,7 @@
 namespace Attest.Countries
 {
     /// <summary>Validates the identifiers and postal codes issued by Philippines.</summary>
+    [System.Obsolete("Use Identifiers.For(Country) and IdentifierType.Validate. Removed in 3.0.")]
     public class PhilippinesValidator : IdValidationAbstract
     {
         // The BIR TIN is a nine digit core number followed, where the taxpayer has branches, by a
