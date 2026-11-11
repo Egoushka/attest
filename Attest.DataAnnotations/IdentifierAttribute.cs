@@ -1,4 +1,4 @@
-﻿#nullable enable
+﻿
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -21,11 +21,11 @@ namespace Attest.DataAnnotations
                 throw new ArgumentException("Unknown identifier type: " + typeId, nameof(typeId));
             }
 
-            TypeId = typeId;
+            Id = typeId;
         }
 
         /// <summary>The id of the type the annotated member is validated against.</summary>
-        public string TypeId { get; }
+        public string Id { get; }
 
         /// <summary>
         /// Null passes, so that whether the member is optional stays <c>RequiredAttribute</c>'s
@@ -34,7 +34,7 @@ namespace Attest.DataAnnotations
         /// checked must not look checked. The reason is recorded under
         /// <c>validationContext.Items["Error"]</c>, overwriting whatever was there.
         /// </summary>
-        protected override System.ComponentModel.DataAnnotations.ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        protected override System.ComponentModel.DataAnnotations.ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             if (value == null)
             {
@@ -42,7 +42,7 @@ namespace Attest.DataAnnotations
             }
 
             IdentifierResult result = value is string text
-                ? Identifiers.Validate(text, TypeId)
+                ? Identifiers.Validate(text, Id)
                 : default;
 
             if (result.IsValid)
