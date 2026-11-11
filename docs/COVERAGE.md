@@ -2,11 +2,11 @@
 # Coverage
 
 - Types: 435 (87 countries x 5 kinds)
-- Coverage: Full 401, FormatOnly 9, NotApplicable 0, NotPublished 0, NotCovered 25
+- Coverage: Full 402, FormatOnly 11, NotApplicable 4, NotPublished 0, NotCovered 18
 - Last verified: null for 435 of 435
-- Sources: 781 citations; 368 types cite an authority, law or OECD source, 39 only a reference implementation or secondary source, 28 none
+- Sources: 788 citations; 375 types cite an authority, law or OECD source, 39 only a reference implementation or secondary source, 21 none
 - Native Normalize / Format / Parse: 0 / 0 / 0
-- Types with known gaps: 55
+- Types with known gaps: 75
 
 Sources are authority@host (kind: A authority, L law, O OECD, R reference implementation, S secondary); full URLs are in Attest/Registry/Provenance.tsv. N/F/P: a native Normalize / Format / Parse (y/-).
 
@@ -17,11 +17,11 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | ad.postalcode | Andorra postal code | PostalCode | AD | Full | Wikipedia@en.wikipedia.org S | null | 1 | --- |  |
 | ad.taxcode | Andorra personal tax code | PersonalTaxCode | AD | Full | OECD@oecd.org O; Govern d'Andorra@impostos.ad A; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
 | ad.vat | Andorra VAT number | Vat | AD | Full | Govern d'Andorra@impostos.ad A | null | 1 | --- |  |
-| ae.company | United Arab Emirates company number | CompanyNumber | AE | NotCovered |  | null | 1 | --- |  |
+| ae.company | United Arab Emirates company number | CompanyNumber | AE | NotCovered |  | null | 1 | --- | KI-AE-2 |
 | ae.nationalid | United Arab Emirates national identity number | PersonalId | AE | Full | ICP UAE@icp.gov.ae A | null | 1 | --- | KI-AE-1 |
-| ae.postalcode | United Arab Emirates postal code | PostalCode | AE | NotCovered |  | null | 1 | --- |  |
-| ae.taxcode | United Arab Emirates personal tax code | PersonalTaxCode | AE | NotCovered |  | null | 1 | --- |  |
-| ae.vat | United Arab Emirates VAT number | Vat | AE | NotCovered |  | null | 1 | --- |  |
+| ae.postalcode | United Arab Emirates postal code | PostalCode | AE | NotApplicable | Universal Postal Union@upu.int A | null | 1 | --- |  |
+| ae.taxcode | United Arab Emirates personal tax code | PersonalTaxCode | AE | NotCovered |  | null | 1 | --- | KI-AE-4 |
+| ae.vat | United Arab Emirates VAT number | Vat | AE | NotCovered |  | null | 1 | --- | KI-AE-3 |
 | al.company | Albania company number | CompanyNumber | AL | Full | National Business Centre (QKB)@qkb.gov.al A; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
 | al.nationalid | Albania national identity number | PersonalId | AL | Full | Wikipedia@en.wikipedia.org S | null | 1 | --- |  |
 | al.postalcode | Albania postal code | PostalCode | AL | Full | Posta Shqiptare@postashqiptare.al A; Wikipedia@en.wikipedia.org S | null | 1 | --- |  |
@@ -67,11 +67,11 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | bg.postalcode | Bulgaria postal code | PostalCode | BG | Full | Bulgarian Posts@bgpost.bg A | null | 1 | --- |  |
 | bg.taxcode | Bulgaria personal tax code | PersonalTaxCode | BG | Full | National Revenue Agency@nra.bg A | null | 1 | --- |  |
 | bg.vat | Bulgaria VAT number | Vat | BG | Full | National Revenue Agency@nra.bg A; European Commission@ec.europa.eu A; python-stdnum@arthurdejong.org R; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
-| bh.company | Bahrain company number | CompanyNumber | BH | NotCovered |  | null | 1 | --- |  |
+| bh.company | Bahrain company number | CompanyNumber | BH | NotCovered |  | null | 1 | --- | KI-BH-4 |
 | bh.nationalid | Bahrain national identity number | PersonalId | BH | FormatOnly | Information and eGovernment Authority@iga.gov.bh A | null | 1 | --- | KI-BH-1, KI-BH-2 |
 | bh.postalcode | Bahrain postal code | PostalCode | BH | Full | Wikipedia@en.wikipedia.org S | null | 1 | --- |  |
 | bh.taxcode | Bahrain personal tax code | PersonalTaxCode | BH | FormatOnly | OECD@oecd.org O | null | 1 | --- | KI-BH-1, KI-BH-2 |
-| bh.vat | Bahrain VAT number | Vat | BH | NotCovered |  | null | 1 | --- |  |
+| bh.vat | Bahrain VAT number | Vat | BH | FormatOnly | National Bureau for Revenue@nbr.gov.bh A | null | 1 | --- | KI-BH-3 |
 | bo.company | Bolivia company number | CompanyNumber | BO | Full | Servicio de Impuestos Nacionales@siatinfo.impuestos.gob.bo A; Servicio de Impuestos Nacionales@impuestos.gob.bo A | null | 1 | --- | KI-BO-1 |
 | bo.nationalid | Bolivia national identity number | PersonalId | BO | Full | SEGIP@segip.gob.bo L; Ministerio de Gobierno@web.mingobierno.gob.bo L | null | 1 | --- |  |
 | bo.postalcode | Bolivia postal code | PostalCode | BO | Full | Correos de Bolivia@correos.gob.bo A | null | 1 | --- |  |
@@ -106,7 +106,7 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | cn.nationalid | China national identity number | PersonalId | CN | Full | OECD@oecd.org O; SAMR/Standardization Administration@openstd.samr.gov.cn A; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
 | cn.postalcode | China postal code | PostalCode | CN | Full | China Post@chinapost.com.cn A; Wikipedia@en.wikipedia.org S | null | 1 | --- |  |
 | cn.taxcode | China personal tax code | PersonalTaxCode | CN | Full | OECD@oecd.org O; SAMR/Standardization Administration@openstd.samr.gov.cn A; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
-| cn.vat | China VAT number | Vat | CN | NotCovered |  | null | 1 | --- |  |
+| cn.vat | China VAT number | Vat | CN | NotCovered |  | null | 1 | --- | KI-CN-1 |
 | co.company | Colombia company number | CompanyNumber | CO | Full | RUES@rues.org.co A; DIAN@dian.gov.co A | null | 1 | --- |  |
 | co.nationalid | Colombia national identity number | PersonalId | CO | Full | Wikipedia@es.wikipedia.org S | null | 1 | --- |  |
 | co.postalcode | Colombia postal code | PostalCode | CO | Full | 4-72@4-72.com.co A | null | 1 | --- |  |
@@ -117,11 +117,11 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | cr.postalcode | Costa Rica postal code | PostalCode | CR | Full | Wikipedia@en.wikipedia.org S | null | 1 | --- |  |
 | cr.taxcode | Costa Rica personal tax code | PersonalTaxCode | CR | Full | OECD@oecd.org O; python-stdnum@arthurdejong.org R; python-stdnum@arthurdejong.org R; Ministerio de Hacienda@hacienda.go.cr A | null | 1 | --- |  |
 | cr.vat | Costa Rica VAT number | Vat | CR | Full | Ministerio de Hacienda@hacienda.go.cr A | null | 1 | --- |  |
-| cu.company | Cuba company number | CompanyNumber | CU | NotCovered |  | null | 1 | --- |  |
+| cu.company | Cuba company number | CompanyNumber | CU | NotCovered |  | null | 1 | --- | KI-CU-1 |
 | cu.nationalid | Cuba national identity number | PersonalId | CU | Full | python-stdnum@arthurdejong.org R; Gaceta Oficial de Cuba@gacetaoficial.gob.cu L | null | 1 | --- |  |
 | cu.postalcode | Cuba postal code | PostalCode | CU | Full |  | null | 1 | --- |  |
 | cu.taxcode | Cuba personal tax code | PersonalTaxCode | CU | Full | python-stdnum@arthurdejong.org R; Gaceta Oficial de Cuba@gacetaoficial.gob.cu L | null | 1 | --- |  |
-| cu.vat | Cuba VAT number | Vat | CU | NotCovered |  | null | 1 | --- |  |
+| cu.vat | Cuba VAT number | Vat | CU | NotCovered |  | null | 1 | --- | KI-CU-1 |
 | cy.company | Cyprus company number | CompanyNumber | CY | Full | Dept of Registrar of Companies@companies.gov.cy A; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
 | cy.nationalid | Cyprus national identity number | PersonalId | CY | Full | Microsoft Purview@learn.microsoft.com S | null | 1 | --- | KI-CY-1 |
 | cy.postalcode | Cyprus postal code | PostalCode | CY | Full | Cyprus Post@cypruspost.post A; Wikipedia@en.wikipedia.org S | null | 1 | --- |  |
@@ -192,16 +192,16 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | gr.postalcode | Greece postal code | PostalCode | GR | Full | ELTA Hellenic Post@elta.gr A; Wikipedia@en.wikipedia.org S | null | 1 | --- |  |
 | gr.taxcode | Greece personal tax code | PersonalTaxCode | GR | Full | OECD@oecd.org O; Independent Authority for Public Revenue@aade.gr A; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
 | gr.vat | Greece VAT number | Vat | GR | Full | Independent Authority for Public Revenue@aade.gr A; European Commission@ec.europa.eu A; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
-| gt.company | Guatemala company number | CompanyNumber | GT | Full | python-stdnum@arthurdejong.org R; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
-| gt.nationalid | Guatemala national identity number | PersonalId | GT | NotCovered |  | null | 1 | --- |  |
+| gt.company | Guatemala company number | CompanyNumber | GT | Full | python-stdnum@arthurdejong.org R; python-stdnum@arthurdejong.org R | null | 1 | --- | KI-GT-2 |
+| gt.nationalid | Guatemala national identity number | PersonalId | GT | FormatOnly | RENAP@renap.gob.gt L | null | 1 | --- | KI-GT-1 |
 | gt.postalcode | Guatemala postal code | PostalCode | GT | Full | Wikipedia@en.wikipedia.org S | null | 1 | --- |  |
-| gt.taxcode | Guatemala personal tax code | PersonalTaxCode | GT | NotCovered |  | null | 1 | --- |  |
-| gt.vat | Guatemala VAT number | Vat | GT | Full | python-stdnum@arthurdejong.org R; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
-| hk.company | Hong Kong company number | CompanyNumber | HK | NotCovered |  | null | 1 | --- |  |
+| gt.taxcode | Guatemala personal tax code | PersonalTaxCode | GT | NotCovered |  | null | 1 | --- | KI-GT-2 |
+| gt.vat | Guatemala VAT number | Vat | GT | Full | python-stdnum@arthurdejong.org R; python-stdnum@arthurdejong.org R | null | 1 | --- | KI-GT-2 |
+| hk.company | Hong Kong company number | CompanyNumber | HK | NotCovered |  | null | 1 | --- | KI-HK-1 |
 | hk.nationalid | Hong Kong national identity number | PersonalId | HK | Full | Immigration Department@immd.gov.hk A; Microsoft Purview@learn.microsoft.com S | null | 1 | --- |  |
-| hk.postalcode | Hong Kong postal code | PostalCode | HK | NotCovered |  | null | 1 | --- |  |
+| hk.postalcode | Hong Kong postal code | PostalCode | HK | NotApplicable | Universal Postal Union@upu.int A | null | 1 | --- |  |
 | hk.taxcode | Hong Kong personal tax code | PersonalTaxCode | HK | Full | Immigration Department@immd.gov.hk A; Inland Revenue Department@ird.gov.hk A; OECD@oecd.org O; Microsoft Purview@learn.microsoft.com S | null | 1 | --- |  |
-| hk.vat | Hong Kong VAT number | Vat | HK | NotCovered |  | null | 1 | --- |  |
+| hk.vat | Hong Kong VAT number | Vat | HK | NotApplicable | Financial Services and the Treasury Bureau@fstb.gov.hk A | null | 1 | --- |  |
 | hr.company | Croatia company number | CompanyNumber | HR | Full | Court Register@sudreg.pravosudje.hr A; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
 | hr.nationalid | Croatia national identity number | PersonalId | HR | Full | OIB register@oib.oib.hr A; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
 | hr.postalcode | Croatia postal code | PostalCode | HR | Full | Croatian Post@posta.hr A; Wikipedia@en.wikipedia.org S | null | 1 | --- |  |
@@ -247,11 +247,11 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | jp.postalcode | Japan postal code | PostalCode | JP | Full | Japan Post@post.japanpost.jp A | null | 1 | --- |  |
 | jp.taxcode | Japan personal tax code | PersonalTaxCode | JP | Full | OECD@oecd.org O; National Tax Agency@nta.go.jp A | null | 1 | --- |  |
 | jp.vat | Japan VAT number | Vat | JP | Full | National Tax Agency@nta.go.jp A; National Tax Agency@invoice-kohyo.nta.go.jp A | null | 1 | --- |  |
-| kr.company | Korea company number | CompanyNumber | KR | NotCovered |  | null | 1 | --- |  |
+| kr.company | Korea company number | CompanyNumber | KR | NotCovered |  | null | 1 | --- | KI-KR-2 |
 | kr.nationalid | Korea national identity number | PersonalId | KR | Full | Ministry of the Interior and Safety@mois.go.kr A; python-stdnum@arthurdejong.org R | null | 1 | --- | KI-KR-1 |
 | kr.postalcode | Korea postal code | PostalCode | KR | Full | Korea Post@koreapost.go.kr A; Ministry of the Interior and Safety@juso.go.kr A; Wikipedia@en.wikipedia.org S | null | 1 | --- |  |
 | kr.taxcode | Korea personal tax code | PersonalTaxCode | KR | Full | python-stdnum@arthurdejong.org R; National Tax Service@nts.go.kr A; OECD@oecd.org O | null | 1 | --- | KI-KR-1 |
-| kr.vat | Korea VAT number | Vat | KR | NotCovered |  | null | 1 | --- |  |
+| kr.vat | Korea VAT number | Vat | KR | NotCovered |  | null | 1 | --- | KI-KR-2 |
 | kz.company | Kazakhstan company number | CompanyNumber | KZ | Full | State Revenue Committee@kgd.gov.kz A | null | 1 | --- | KI-KZ-2 |
 | kz.nationalid | Kazakhstan national identity number | PersonalId | KZ | Full | Wikipedia@ru.wikipedia.org S; State Revenue Committee@kgd.gov.kz A | null | 1 | --- | KI-KZ-1 |
 | kz.postalcode | Kazakhstan postal code | PostalCode | KZ | Full | Kazpost@post.kz A | null | 1 | --- |  |
@@ -272,10 +272,10 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | lv.postalcode | Latvia postal code | PostalCode | LV | Full | Wikipedia@en.wikipedia.org S | null | 1 | --- |  |
 | lv.taxcode | Latvia personal tax code | PersonalTaxCode | LV | Full | OCMA@pmlp.gov.lv A; OECD@oecd.org O | null | 1 | --- |  |
 | lv.vat | Latvia VAT number | Vat | LV | Full | State Revenue Service@vid.gov.lv A; European Commission@ec.europa.eu A; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
-| mc.company | Monaco company number | CompanyNumber | MC | NotCovered |  | null | 1 | --- |  |
-| mc.nationalid | Monaco national identity number | PersonalId | MC | NotCovered |  | null | 1 | --- |  |
+| mc.company | Monaco company number | CompanyNumber | MC | NotCovered |  | null | 1 | --- | KI-MC-1 |
+| mc.nationalid | Monaco national identity number | PersonalId | MC | NotCovered |  | null | 1 | --- | KI-MC-1 |
 | mc.postalcode | Monaco postal code | PostalCode | MC | Full | La Poste Monaco@lapostemonaco.mc A | null | 1 | --- |  |
-| mc.taxcode | Monaco personal tax code | PersonalTaxCode | MC | NotCovered |  | null | 1 | --- |  |
+| mc.taxcode | Monaco personal tax code | PersonalTaxCode | MC | NotCovered |  | null | 1 | --- | KI-MC-1 |
 | mc.vat | Monaco VAT number | Vat | MC | Full | DGFiP France@impots.gouv.fr A; python-stdnum@github.com R | null | 1 | --- |  |
 | md.company | Moldova company number | CompanyNumber | MD | Full | Public Services Agency@asp.gov.md A; python-stdnum@github.com R | null | 1 | --- |  |
 | md.nationalid | Moldova national identity number | PersonalId | MD | Full | Public Services Agency@asp.gov.md A | null | 1 | --- | KI-MD-1 |
@@ -299,7 +299,7 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | mt.vat | Malta VAT number | Vat | MT | Full | European Commission@ec.europa.eu A; vat-validator@vat-validator.readthedocs.io S; python-stdnum@arthurdejong.org R | null | 1 | --- | KI-MT-1 |
 | mu.company | Mauritius company number | CompanyNumber | MU | Full | Mauritius Revenue Authority@mra.mu A | null | 1 | --- | KI-MU-1 |
 | mu.nationalid | Mauritius national identity number | PersonalId | MU | Full | python-stdnum@arthurdejong.org R; Mauritius Revenue Authority@mra.mu A | null | 1 | --- | KI-MU-1 |
-| mu.postalcode | Mauritius postal code | PostalCode | MU | NotCovered |  | null | 1 | --- |  |
+| mu.postalcode | Mauritius postal code | PostalCode | MU | Full | Universal Postal Union@upu.int A | null | 1 | --- |  |
 | mu.taxcode | Mauritius personal tax code | PersonalTaxCode | MU | Full | python-stdnum@arthurdejong.org R; OECD@oecd.org O; Mauritius Revenue Authority@mra.mu A | null | 1 | --- | KI-MU-1 |
 | mu.vat | Mauritius VAT number | Vat | MU | Full | Mauritius Revenue Authority@mra.mu A | null | 1 | --- | KI-MU-1 |
 | mx.company | Mexico company number | CompanyNumber | MX | Full | python-stdnum@github.com R; SAT@gob.mx A | null | 1 | --- |  |
@@ -426,17 +426,17 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | us.nationalid | United States national identity number | PersonalId | US | Full | SSA@ssa.gov A | null | 1 | --- |  |
 | us.postalcode | United States postal code | PostalCode | US | Full | USPS@pe.usps.com A | null | 1 | --- |  |
 | us.taxcode | United States personal tax code | PersonalTaxCode | US | Full | IRS@irs.gov A; OECD@oecd.org O | null | 1 | --- |  |
-| us.vat | United States VAT number | Vat | US | NotCovered |  | null | 1 | --- |  |
+| us.vat | United States VAT number | Vat | US | NotApplicable | OECD@oecd.org O | null | 1 | --- |  |
 | uy.company | Uruguay company number | CompanyNumber | UY | Full | Direccion General Impositiva@gub.uy A; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
 | uy.nationalid | Uruguay national identity number | PersonalId | UY | Full | Ministry of the Interior@gub.uy A | null | 1 | --- |  |
 | uy.postalcode | Uruguay postal code | PostalCode | UY | Full | Wikipedia@en.wikipedia.org S | null | 1 | --- |  |
 | uy.taxcode | Uruguay personal tax code | PersonalTaxCode | UY | Full | OECD@oecd.org O; Direccion General Impositiva@gub.uy A; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
 | uy.vat | Uruguay VAT number | Vat | UY | Full | python-stdnum@arthurdejong.org R; DGI@gub.uy A | null | 1 | --- |  |
-| uz.company | Uzbekistan company number | CompanyNumber | UZ | NotCovered |  | null | 1 | --- |  |
+| uz.company | Uzbekistan company number | CompanyNumber | UZ | NotCovered |  | null | 1 | --- | KI-UZ-1 |
 | uz.nationalid | Uzbekistan national identity number | PersonalId | UZ | Full | Lex.uz@lex.uz L | null | 1 | --- |  |
 | uz.postalcode | Uzbekistan postal code | PostalCode | UZ | Full | Uzbekistan Post@pochta.uz A | null | 1 | --- |  |
 | uz.taxcode | Uzbekistan personal tax code | PersonalTaxCode | UZ | Full | Lex.uz@lex.uz L | null | 1 | --- |  |
-| uz.vat | Uzbekistan VAT number | Vat | UZ | NotCovered |  | null | 1 | --- |  |
+| uz.vat | Uzbekistan VAT number | Vat | UZ | NotCovered |  | null | 1 | --- | KI-UZ-1 |
 | ve.company | Venezuela company number | CompanyNumber | VE | Full | Wikipedia@es.wikipedia.org S; Wikipedia@es.wikipedia.org S | null | 1 | --- |  |
 | ve.nationalid | Venezuela national identity number | PersonalId | VE | Full | SAIME@saime.gob.ve A; Wikipedia@es.wikipedia.org S | null | 1 | --- |  |
 | ve.postalcode | Venezuela postal code | PostalCode | VE | Full | Ipostel@ipostel.gob.ve A | null | 1 | --- |  |

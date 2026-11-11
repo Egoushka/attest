@@ -60,5 +60,21 @@ namespace Attest.Tests
         {
             Assert.Equal(isValid, _bahrainValidator.ValidatePostalCode(code).IsValid);
         }
-    }
+
+        // VAT account number: 15 digits, nothing else is published (KNOWN-ISSUES KI-BH-3). The valid
+        // rows satisfy the length rule only; they are not numbers issued by the NBR.
+        // https://www.nbr.gov.bh/vat_faqs/2
+        [Theory]
+        [InlineData("200000000100002", true)]
+        [InlineData("2000 0000 0100 002", true)]    // Spaces are separators
+        [InlineData("20000000010000", false)]       // 14 digits
+        [InlineData("2000000001000020", false)]     // 16 digits
+        [InlineData("20000000010000A", false)]
+        [InlineData(null, false)]
+        [InlineData("", false)]
+        [InlineData("abc", false)]
+        public void TestVat(string code, bool isValid)
+        {
+            Assert.Equal(isValid, _bahrainValidator.ValidateVAT(code).IsValid);
+        }    }
 }

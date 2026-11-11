@@ -93,12 +93,23 @@ namespace Attest.Tests
         }
 
         [Fact]
-        public void TheTwentyFiveEmptyPairsStayNotCovered()
+        public void TheEmptyPairsAreResolvedOrStayNotCovered()
         {
-            Assert.Equal(25, Identifiers.All.Count(t => t.Rule.Coverage == Coverage.NotCovered));
+            // Of the 25 pairs without a rule: 3 gained one, 4 are NotApplicable (the country issues
+            // no such identifier), 18 remain NotCovered with a known gap or a published rule not yet written.
+            Assert.Equal(18, Identifiers.All.Count(t => t.Rule.Coverage == Coverage.NotCovered));
+            Assert.Equal(
+                new[] { "ae.postalcode", "hk.postalcode", "hk.vat", "us.vat" },
+                Identifiers.All.Where(t => t.Rule.Coverage == Coverage.NotApplicable).Select(t => t.Id).OrderBy(i => i, StringComparer.Ordinal).ToArray());
+            Assert.All(
+                Identifiers.All.Where(t => t.Rule.Coverage == Coverage.NotApplicable),
+                t => Assert.Equal(Verdict.NotCovered, t.Validate("1234567").Verdict));
             Assert.All(
                 Identifiers.All.Where(t => t.Rule.Coverage == Coverage.NotCovered),
                 t => Assert.Equal(Verdict.NotCovered, t.Validate("1234567").Verdict));
+            Assert.All(
+                Identifiers.All.Where(t => t.Rule.Coverage == Coverage.NotCovered),
+                t => Assert.True(t.Rule.KnownGaps.Count > 0, t.Id + " is NotCovered and names no known gap."));
         }
 
         [Fact]

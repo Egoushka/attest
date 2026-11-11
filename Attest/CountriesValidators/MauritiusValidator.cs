@@ -16,7 +16,7 @@ namespace Attest.Countries
         /// <summary>The kinds MU has no published rule for.</summary>
         internal override IdentifierKind UnsupportedKinds
         {
-            get { return IdentifierKind.PostalCode; }
+            get { return default(IdentifierKind); }
         }
 
         /// <summary>
@@ -136,12 +136,19 @@ namespace Attest.Countries
         }
 
         /// <summary>
-        /// Mauritius has postal codes, but the library carries no rule for them. The throw is the
-        /// sentinel CountryValidator.Supports reads to tell 'no rule' from 'invalid value'.
+        /// Postal code: five digits after the locality name, or R and four digits for Rodrigues
+        /// (the UPU addressing sheet gives R9999 as the pattern). The digits encode district, town,
+        /// ward and sub-locality; no list of assigned codes is published, so none is checked.
+        /// https://www.upu.int/UPU/media/upu/PostalEntitiesFiles/addressingUnit/musEn.pdf
         /// </summary>
         public override ValidationResult ValidatePostalCode(string postalCode)
         {
-            return ValidationResult.Invalid("Not supported");
+            postalCode = postalCode.RemoveSpecialCharacthers().ToUpperInvariant();
+            if (!Regex.IsMatch(postalCode, "^([0-9]{5}|R[0-9]{4})$"))
+            {
+                return ValidationResult.InvalidFormat("NNNNN or RNNNN");
+            }
+            return ValidationResult.Success();
         }
     }
 }

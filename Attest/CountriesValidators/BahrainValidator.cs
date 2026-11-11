@@ -16,7 +16,7 @@ namespace Attest.Countries
         /// <summary>The kinds BH has no published rule for.</summary>
         internal override IdentifierKind UnsupportedKinds
         {
-            get { return IdentifierKind.CompanyNumber | IdentifierKind.Vat; }
+            get { return IdentifierKind.CompanyNumber; }
         }
 
         /// <summary>
@@ -51,12 +51,19 @@ namespace Attest.Countries
         }
 
         /// <summary>
-        /// Bahrain has no VAT number rule here, so every value is reported invalid -- which is not a
-        /// verdict on the value. Ask <see cref="CountryValidator.Supports"/> first.
+        /// VAT account number issued by the National Bureau for Revenue (NBR): a private number of 15
+        /// digits, issued with the VAT registration certificate. No structure or check digit is
+        /// published, so the length is all that is checked (KNOWN-ISSUES KI-BH-3).
+        /// https://www.nbr.gov.bh/vat_faqs/2
         /// </summary>
         public override ValidationResult ValidateVAT(string vatId)
         {
-            return ValidationResult.Invalid("Not supported");
+            vatId = vatId.RemoveSpecialCharacthers();
+            if (!Regex.IsMatch(vatId, "^[0-9]{15}$"))
+            {
+                return ValidationResult.InvalidFormat("15 digits");
+            }
+            return ValidationResult.Success();
         }
     }
 }
