@@ -6,7 +6,7 @@
 - Last verified: null for 510 of 510
 - Sources: 822 citations; 392 types cite an authority, law or OECD source, 39 only a reference implementation or secondary source, 79 none
 - Native Normalize / Format / Parse: 79 / 13 / 12
-- Types with known gaps: 159
+- Types with known gaps: 160
 
 Sources are authority@host (kind: A authority, L law, O OECD, R reference implementation, S secondary); full URLs are in Attest/Registry/Provenance.tsv. N/F/P: a native Normalize / Format / Parse (y/-).
 
@@ -63,7 +63,7 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | be.taxcode | Belgium personal tax code | PersonalTaxCode | BE | Full | FPS Home Affairs@ibz.be A; python-stdnum@arthurdejong.org R; OECD@oecd.org O; FPS Finance@finances.belgium.be A | null | 1 | --- |  |
 | be.vat | Belgium VAT number | Vat | BE | Full | FPS Economy (BCE/KBO)@economie.fgov.be A; European Commission@ec.europa.eu A; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
 | bg.company | Bulgaria company number | CompanyNumber | BG | Full | Registry Agency@registryagency.bg A | null | 1 | --- |  |
-| bg.nationalid | Bulgaria national identity number | PersonalId | BG | Full | GRAO@grao.bg L | null | 1 | --y |  |
+| bg.nationalid | Bulgaria national identity number | PersonalId | BG | Full | GRAO@grao.bg L | null | 1 | --y | KI-BG-1 |
 | bg.postalcode | Bulgaria postal code | PostalCode | BG | Full | Bulgarian Posts@bgpost.bg A | null | 1 | --- |  |
 | bg.taxcode | Bulgaria personal tax code | PersonalTaxCode | BG | Full | National Revenue Agency@nra.bg A; GRAO@grao.bg L | null | 1 | --y |  |
 | bg.vat | Bulgaria VAT number | Vat | BG | Full | National Revenue Agency@nra.bg A; European Commission@ec.europa.eu A; python-stdnum@arthurdejong.org R; python-stdnum@arthurdejong.org R | null | 1 | --- |  |

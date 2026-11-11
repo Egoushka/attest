@@ -1,0 +1,6 @@
+# cn.nationalid  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+11010519491231002X	valid	-	11010519491231002X	11010519491231002X	computed:iso7064-mod11-2-weights-7-9-10-5-8-4-2-1-6-3-7-9-10-5-8-4-2	region 110105, born 1949-12-31, check X
+440301199001011234	valid	-	440301199001011234	440301199001011234	computed:iso7064-mod11-2-weights-7-9-10-5-8-4-2-1-6-3-7-9-10-5-8-4-2	region 440301, born 1990-01-01, check 4
+310101198506302016	valid	-	310101198506302016	310101198506302016	computed:iso7064-mod11-2-weights-7-9-10-5-8-4-2-1-6-3-7-9-10-5-8-4-2	region 310101, born 1985-06-30, check 6
+110105194912310020	invalid	InvalidChecksum	-	-	computed:iso7064-mod11-2-weights-7-9-10-5-8-4-2-1-6-3-7-9-10-5-8-4-2	check character changed

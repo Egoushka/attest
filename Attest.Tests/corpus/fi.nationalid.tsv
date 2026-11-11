@@ -1,0 +1,7 @@
+# fi.nationalid  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+131052-308T	valid	-	131052-308T	131052-308T	computed:mod31-0123456789ABCDEFHJKLMNPRSTUVWXY	born 1952-10-13, the example the DVV prints in its presentation (search excerpt); check T
+010594Y9032	valid	-	010594Y9032	010594Y9032	computed:mod31-0123456789ABCDEFHJKLMNPRSTUVWXY	Y is the 1900s separator; check 2
+311280-888Y	valid	-	311280-888Y	311280-888Y	computed:mod31-0123456789ABCDEFHJKLMNPRSTUVWXY	born 1980-12-31; check Y
+010100A002H	valid	-	010100A002H	010100A002H	computed:mod31-0123456789ABCDEFHJKLMNPRSTUVWXY	born 2000-01-01, A is the 2000s separator; check H
+131052-308U	invalid	InvalidChecksum	-	-	computed:mod31-0123456789ABCDEFHJKLMNPRSTUVWXY	check character changed
