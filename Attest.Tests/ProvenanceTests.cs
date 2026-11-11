@@ -113,6 +113,31 @@ namespace Attest.Tests
         }
 
         [Fact]
+        public void TheCountriesAddedIn2Point0HaveFiveKindsAndEveryUnruledTypeNamesAGap()
+        {
+            Assert.Equal(13, TestTypes.NativePairs.Select(t => t.Country).Distinct().Count());
+            foreach (var group in TestTypes.NativePairs.GroupBy(t => t.Country))
+            {
+                Assert.Equal(5, group.Count());
+            }
+
+            Assert.All(
+                TestTypes.NativePairs.Where(t => t.Rule.Coverage == Coverage.NotCovered),
+                t =>
+                {
+                    Assert.True(t.Rule.KnownGaps.Count > 0, t.Id);
+                    Assert.Equal(Verdict.NotCovered, t.Validate("1234567").Verdict);
+                });
+            Assert.Equal(
+                new[] { "ke.company", "ke.taxcode", "ke.vat", "ma.company", "vn.company", "vn.taxcode", "vn.vat" },
+                TestTypes.NativePairs.Where(t => t.Rule.Coverage == Coverage.FormatOnly).Select(t => t.Id).OrderBy(i => i, StringComparer.Ordinal).ToArray());
+            Assert.Equal("1234567890-123", Identifiers.Find("vn.company").Format("1234567890123"));
+            Assert.True(Identifiers.Find("vn.company").Validate("1234567890-123").IsValid);
+            Assert.False(Identifiers.Find("ke.vat").Validate("B123456789Z").IsValid);
+            Assert.True(Identifiers.Find("ma.company").Validate("123456789 0001 12").IsValid);
+        }
+
+        [Fact]
         public void KnownGapsLinkToRealEntriesOfTheSameCountryAndEveryEntryIsLinked()
         {
             string text = File.ReadAllText(Path.Combine(RepoRoot.Find(), "KNOWN-ISSUES.md"));

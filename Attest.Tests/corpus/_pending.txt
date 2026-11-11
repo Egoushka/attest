@@ -216,6 +216,8 @@ jp.nationalid
 jp.postalcode
 jp.taxcode
 jp.vat
+ke.company
+ke.vat
 kr.nationalid
 kr.postalcode
 kr.taxcode
@@ -239,6 +241,7 @@ lv.nationalid
 lv.postalcode
 lv.taxcode
 lv.vat
+ma.company
 mc.postalcode
 mc.vat
 md.company
@@ -398,6 +401,9 @@ ve.nationalid
 ve.postalcode
 ve.taxcode
 ve.vat
+vn.company
+vn.taxcode
+vn.vat
 za.company
 za.nationalid
 za.postalcode

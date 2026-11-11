@@ -66,6 +66,28 @@ namespace Attest
                 ByCountry[pair.Key] = forCountry;
             }
 
+            foreach (Country country in NativeCountries.Countries)
+            {
+                var forCountry = new List<IdentifierType>();
+                string code = country.ToString().ToLowerInvariant();
+                string name = NativeCountries.Name(country);
+                foreach (IdentifierKind kind in LegacyKinds)
+                {
+                    string slug, alias, description;
+                    Describe(kind, out slug, out alias, out description);
+                    string id = code + "." + slug;
+                    Func<string, Outcome>? check;
+                    Func<string, string>? format;
+                    NativeCountries.RuleFor(id, out check, out format);
+                    var type = new IdentifierType(id, country, kind, name + " " + description, name + " " + description, new[] { code + "." + alias }, new NativeRule(Provenance.For(id, check != null), check, format));
+                    Add(type);
+                    all.Add(type);
+                    forCountry.Add(type);
+                }
+
+                ByCountry[country] = forCountry;
+            }
+
             // International types: no country, so they are in All and Find but in no For(country).
             var international = new List<IdentifierType>
             {

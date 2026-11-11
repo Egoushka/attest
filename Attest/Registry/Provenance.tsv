@@ -650,3 +650,23 @@ G	gtin	KI-GTIN-1
 G	isin	KI-ISIN-1
 G	lei	KI-LEI-1
 G	bic	KI-BIC-1
+S	ke:taxcode,company,vat	Kenya Revenue Authority	https://www.kra.go.ke/images/publications/Revised-Electronic-Tax-Register-Specifications-V2.0_14July2021.pdf	Revised Electronic Tax Register Specifications (PIN: A or P, nine digits, a letter)	2026-11-11	Authority
+S	ke:taxcode,company,vat	OECD	https://www.oecd.org/tax/automatic-exchange/crs-implementation-and-assistance/tax-identification-numbers/Kenya-TIN.pdf	OECD TIN Kenya	2026-11-11	Oecd
+S	vn:taxcode,company,vat	Ministry of Finance (via Thu Vien Phap Luat)	https://thuvienphapluat.vn/van-ban/Thue-Phi-Le-Phi/Thong-tu-105-2020-TT-BTC-huong-dan-dang-ky-thue-459433.aspx	Circular 105/2020/TT-BTC on tax registration (structure N1..N13)	2026-11-11	Law
+S	ma:company	Direction Generale des Impots	https://www.tax.gov.ma/wps/wcm/connect/1bcc62a5-2b0e-425c-98a2-8a5b801811d9/aac_139b_16i.pdf	DGI form showing the ICE as boxes of 9, 4 and 2 digits	2026-11-11	Authority
+C	ke:taxcode,company,vat	FormatOnly
+C	vn:taxcode,company,vat	FormatOnly
+C	ma:company	FormatOnly
+G	dz:nationalid,taxcode,company,vat,postalcode	KI-DZ-1
+G	eg:nationalid,taxcode,company,vat,postalcode	KI-EG-1
+G	gh:nationalid,taxcode,company,vat,postalcode	KI-GH-1
+G	gn:nationalid,taxcode,company,vat,postalcode	KI-GN-1
+G	ke:nationalid,taxcode,company,vat,postalcode	KI-KE-1
+G	li:nationalid,taxcode,company,vat,postalcode	KI-LI-1
+G	ma:nationalid,taxcode,company,vat,postalcode	KI-MA-1
+G	mz:nationalid,taxcode,company,vat,postalcode	KI-MZ-1
+G	om:nationalid,taxcode,company,vat,postalcode	KI-OM-1
+G	sg:nationalid,taxcode,company,vat,postalcode	KI-SG-1
+G	sn:nationalid,taxcode,company,vat,postalcode	KI-SN-1
+G	tn:nationalid,taxcode,company,vat,postalcode	KI-TN-1
+G	vn:nationalid,taxcode,company,vat,postalcode	KI-VN-1
