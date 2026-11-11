@@ -4,9 +4,9 @@
 - Types: 510 (100 countries x 5 kinds, 10 international)
 - Coverage: Full 412, FormatOnly 18, NotApplicable 4, NotPublished 0, NotCovered 76
 - Last verified: null for 510 of 510
-- Sources: 810 citations; 392 types cite an authority, law or OECD source, 39 only a reference implementation or secondary source, 79 none
-- Native Normalize / Format / Parse: 79 / 13 / 0
-- Types with known gaps: 151
+- Sources: 822 citations; 392 types cite an authority, law or OECD source, 39 only a reference implementation or secondary source, 79 none
+- Native Normalize / Format / Parse: 79 / 13 / 12
+- Types with known gaps: 159
 
 Sources are authority@host (kind: A authority, L law, O OECD, R reference implementation, S secondary); full URLs are in Attest/Registry/Provenance.tsv. N/F/P: a native Normalize / Format / Parse (y/-).
 
@@ -63,9 +63,9 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | be.taxcode | Belgium personal tax code | PersonalTaxCode | BE | Full | FPS Home Affairs@ibz.be A; python-stdnum@arthurdejong.org R; OECD@oecd.org O; FPS Finance@finances.belgium.be A | null | 1 | --- |  |
 | be.vat | Belgium VAT number | Vat | BE | Full | FPS Economy (BCE/KBO)@economie.fgov.be A; European Commission@ec.europa.eu A; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
 | bg.company | Bulgaria company number | CompanyNumber | BG | Full | Registry Agency@registryagency.bg A | null | 1 | --- |  |
-| bg.nationalid | Bulgaria national identity number | PersonalId | BG | Full | GRAO@grao.bg A | null | 1 | --- |  |
+| bg.nationalid | Bulgaria national identity number | PersonalId | BG | Full | GRAO@grao.bg L | null | 1 | --y |  |
 | bg.postalcode | Bulgaria postal code | PostalCode | BG | Full | Bulgarian Posts@bgpost.bg A | null | 1 | --- |  |
-| bg.taxcode | Bulgaria personal tax code | PersonalTaxCode | BG | Full | National Revenue Agency@nra.bg A | null | 1 | --- |  |
+| bg.taxcode | Bulgaria personal tax code | PersonalTaxCode | BG | Full | National Revenue Agency@nra.bg A; GRAO@grao.bg L | null | 1 | --y |  |
 | bg.vat | Bulgaria VAT number | Vat | BG | Full | National Revenue Agency@nra.bg A; European Commission@ec.europa.eu A; python-stdnum@arthurdejong.org R; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
 | bh.company | Bahrain company number | CompanyNumber | BH | NotCovered |  | null | 1 | --- | KI-BH-4 |
 | bh.nationalid | Bahrain national identity number | PersonalId | BH | FormatOnly | Information and eGovernment Authority@iga.gov.bh A | null | 1 | --- | KI-BH-1, KI-BH-2 |
@@ -139,9 +139,9 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | de.taxcode | Germany personal tax code | PersonalTaxCode | DE | Full | ELSTER@download.elster.de A; OECD@oecd.org O; Bundeszentralamt fuer Steuern@bzst.de A; python-stdnum@arthurdejong.org R; Wikipedia@de.wikipedia.org S | null | 1 | --- |  |
 | de.vat | Germany VAT number | Vat | DE | Full | Bundeszentralamt fuer Steuern@bzst.de A; European Commission@ec.europa.eu A; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
 | dk.company | Denmark company number | CompanyNumber | DK | Full | Danish Business Authority@virk.dk A | null | 1 | --- |  |
-| dk.nationalid | Denmark national identity number | PersonalId | DK | Full | CPR Office@cpr.dk A | null | 1 | --- |  |
+| dk.nationalid | Denmark national identity number | PersonalId | DK | Full | CPR Office@cpr.dk A; CPR Office@cpr.dk A | null | 1 | --y | KI-DK-1 |
 | dk.postalcode | Denmark postal code | PostalCode | DK | Full | Danmarks Adresser@danmarksadresser.dk A | null | 1 | --- |  |
-| dk.taxcode | Denmark personal tax code | PersonalTaxCode | DK | Full | OECD@oecd.org O; Skattestyrelsen@skat.dk A | null | 1 | --- |  |
+| dk.taxcode | Denmark personal tax code | PersonalTaxCode | DK | Full | OECD@oecd.org O; Skattestyrelsen@skat.dk A; CPR Office@cpr.dk A | null | 1 | --y | KI-DK-1 |
 | dk.vat | Denmark VAT number | Vat | DK | Full | Skattestyrelsen@skat.dk A; European Commission@ec.europa.eu A | null | 1 | --- |  |
 | do.company | Dominican Republic company number | CompanyNumber | DO | Full | python-stdnum@arthurdejong.org R; python-stdnum@arthurdejong.org R; Direccion General de Impuestos Internos@dgii.gov.do A | null | 1 | --- |  |
 | do.nationalid | Dominican Republic national identity number | PersonalId | DO | Full | python-stdnum@arthurdejong.org R | null | 1 | --- | KI-DO-1 |
@@ -159,7 +159,7 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | ec.taxcode | Ecuador personal tax code | PersonalTaxCode | EC | Full | Registro Civil@registrocivil.gob.ec A; OECD@oecd.org O; python-stdnum@arthurdejong.org R; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
 | ec.vat | Ecuador VAT number | Vat | EC | Full | python-stdnum@arthurdejong.org R; python-stdnum@arthurdejong.org R; OECD@oecd.org O; python-stdnum@arthurdejong.org R; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
 | ee.company | Estonia company number | CompanyNumber | EE | Full | Centre of Registers@ariregister.rik.ee A | null | 1 | --- |  |
-| ee.nationalid | Estonia national identity number | PersonalId | EE | Full | Riigi Teataja@riigiteataja.ee L | null | 1 | --- |  |
+| ee.nationalid | Estonia national identity number | PersonalId | EE | Full | Riigi Teataja@riigiteataja.ee L; Ministry of the Interior@siseministeerium.ee A | null | 1 | --- | KI-EE-1 |
 | ee.postalcode | Estonia postal code | PostalCode | EE | Full | Omniva@omniva.ee A | null | 1 | --- |  |
 | ee.taxcode | Estonia personal tax code | PersonalTaxCode | EE | Full | OECD@oecd.org O; EMTA@emta.ee A | null | 1 | --- |  |
 | ee.vat | Estonia VAT number | Vat | EE | Full | EMTA@emta.ee A; European Commission@ec.europa.eu A | null | 1 | --- |  |
@@ -174,9 +174,9 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | es.taxcode | Spain personal tax code | PersonalTaxCode | ES | Full | python-stdnum@arthurdejong.org R; Spanish State Gazette (BOE)@boe.es L; OECD@oecd.org O; Agencia Tributaria@sede.agenciatributaria.gob.es A | null | 1 | --- |  |
 | es.vat | Spain VAT number | Vat | ES | Full | Spanish State Gazette (BOE)@boe.es L; Agencia Tributaria@sede.agenciatributaria.gob.es A; European Commission@ec.europa.eu A | null | 1 | --- |  |
 | fi.company | Finland company number | CompanyNumber | FI | Full | python-stdnum@arthurdejong.org R; Finnish Patent and Registration Office@prh.fi A; Finnish Tax Administration@vero.fi A | null | 1 | --- |  |
-| fi.nationalid | Finland national identity number | PersonalId | FI | Full | python-stdnum@arthurdejong.org R; Finlex@finlex.fi L | null | 1 | y-- |  |
+| fi.nationalid | Finland national identity number | PersonalId | FI | Full | python-stdnum@arthurdejong.org R; Finlex@finlex.fi L; Finlex@data.finlex.fi L | null | 1 | y-y |  |
 | fi.postalcode | Finland postal code | PostalCode | FI | Full | Posti@posti.fi A | null | 1 | --- |  |
-| fi.taxcode | Finland personal tax code | PersonalTaxCode | FI | Full | OECD@oecd.org O; python-stdnum@arthurdejong.org R; Finlex@finlex.fi L | null | 1 | y-- |  |
+| fi.taxcode | Finland personal tax code | PersonalTaxCode | FI | Full | OECD@oecd.org O; python-stdnum@arthurdejong.org R; Finlex@finlex.fi L; Finlex@data.finlex.fi L | null | 1 | y-y |  |
 | fi.vat | Finland VAT number | Vat | FI | Full | Finnish Tax Administration@vero.fi A; Finnish Tax Administration@vero.fi A; European Commission@ec.europa.eu A | null | 1 | --- |  |
 | fo.company | Faroe Islands company number | CompanyNumber | FO | Full | Skraseting Foroya@skraseting.fo A | null | 1 | --- |  |
 | fo.nationalid | Faroe Islands national identity number | PersonalId | FO | Full | OECD@oecd.org O | null | 1 | --- | KI-FO-1 |
@@ -298,7 +298,7 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | li.taxcode | Liechtenstein personal tax code | PersonalTaxCode | LI | NotCovered |  | null | 1 | y-- | KI-LI-1 |
 | li.vat | Liechtenstein VAT number | Vat | LI | NotCovered |  | null | 1 | y-- | KI-LI-1 |
 | lt.company | Lithuania company number | CompanyNumber | LT | Full | Centre of Registers@registrucentras.lt A | null | 1 | --- |  |
-| lt.nationalid | Lithuania national identity number | PersonalId | LT | Full | Centre of Registers@registrucentras.lt A | null | 1 | --- |  |
+| lt.nationalid | Lithuania national identity number | PersonalId | LT | Full | Centre of Registers@registrucentras.lt A; Seimas@lrs.lt L | null | 1 | --- | KI-LT-1 |
 | lt.postalcode | Lithuania postal code | PostalCode | LT | Full | Lietuvos Pastas@post.lt A | null | 1 | --- |  |
 | lt.taxcode | Lithuania personal tax code | PersonalTaxCode | LT | Full | OECD@oecd.org O | null | 1 | --- |  |
 | lt.vat | Lithuania VAT number | Vat | LT | Full | European Commission@ec.europa.eu A; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
@@ -373,9 +373,9 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | nl.taxcode | Netherlands personal tax code | PersonalTaxCode | NL | Full | OECD@oecd.org O; Belastingdienst@belastingdienst.nl A | null | 1 | --- |  |
 | nl.vat | Netherlands VAT number | Vat | NL | Full | Belastingdienst@belastingdienst.nl A; European Commission@ec.europa.eu A; python-stdnum@github.com R | null | 1 | --- |  |
 | no.company | Norway company number | CompanyNumber | NO | Full | Bronnoysund Register Centre@brreg.no A; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
-| no.nationalid | Norway national identity number | PersonalId | NO | Full | python-stdnum@arthurdejong.org R; Norwegian Tax Administration@skatteetaten.no A | null | 1 | --- |  |
+| no.nationalid | Norway national identity number | PersonalId | NO | Full | python-stdnum@arthurdejong.org R; Norwegian Tax Administration@skatteetaten.no A; Skatteetaten@skatteetaten.no A | null | 1 | --y | KI-NO-1 |
 | no.postalcode | Norway postal code | PostalCode | NO | Full | Posten Norge@posten.no A; Wikipedia@en.wikipedia.org S | null | 1 | --- |  |
-| no.taxcode | Norway personal tax code | PersonalTaxCode | NO | Full | python-stdnum@arthurdejong.org R; Norwegian Tax Administration@skatteetaten.no A; OECD@oecd.org O | null | 1 | --- |  |
+| no.taxcode | Norway personal tax code | PersonalTaxCode | NO | Full | python-stdnum@arthurdejong.org R; Norwegian Tax Administration@skatteetaten.no A; OECD@oecd.org O; Skatteetaten@skatteetaten.no A | null | 1 | --y | KI-NO-1 |
 | no.vat | Norway VAT number | Vat | NO | Full | Norwegian Tax Administration@skatteetaten.no A; python-stdnum@github.com R | null | 1 | --- |  |
 | nz.company | New Zealand company number | CompanyNumber | NZ | Full | NZ Companies Office@companiesoffice.govt.nz A; Inland Revenue@ird.govt.nz A; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
 | nz.nationalid | New Zealand national identity number | PersonalId | NZ | Full | Inland Revenue@ird.govt.nz A; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
@@ -403,9 +403,9 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | pk.taxcode | Pakistan personal tax code | PersonalTaxCode | PK | Full | Federal Board of Revenue@fbr.gov.pk A; OECD@oecd.org O; NADRA@nadra.gov.pk A; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
 | pk.vat | Pakistan VAT number | Vat | PK | NotCovered |  | null | 1 | --- | KI-PK-1 |
 | pl.company | Poland company number | CompanyNumber | PL | Full | Ministry of Justice@ekrs.ms.gov.pl A | null | 1 | --- |  |
-| pl.nationalid | Poland national identity number | PersonalId | PL | Full | gov.pl@gov.pl A | null | 1 | --- |  |
+| pl.nationalid | Poland national identity number | PersonalId | PL | Full | Chancellery of the Prime Minister (gov.pl)@gov.pl A | null | 1 | --y |  |
 | pl.postalcode | Poland postal code | PostalCode | PL | Full | Poczta Polska@poczta-polska.pl A | null | 1 | --- |  |
-| pl.taxcode | Poland personal tax code | PersonalTaxCode | PL | Full | OECD@oecd.org O; Ministry of Finance@podatki.gov.pl A | null | 1 | --- |  |
+| pl.taxcode | Poland personal tax code | PersonalTaxCode | PL | Full | OECD@oecd.org O; Ministry of Finance@podatki.gov.pl A; Chancellery of the Prime Minister (gov.pl)@gov.pl A | null | 1 | --y |  |
 | pl.vat | Poland VAT number | Vat | PL | Full | Ministry of Finance@podatki.gov.pl A; European Commission@ec.europa.eu A; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
 | pt.company | Portugal company number | CompanyNumber | PT | Full | Instituto dos Registos e do Notariado@irn.mj.pt A | null | 1 | --- |  |
 | pt.nationalid | Portugal national identity number | PersonalId | PT | Full | Wikipedia@pt.wikipedia.org S; Instituto dos Registos e do Notariado@irn.mj.pt A; python-stdnum@github.com R | null | 1 | --- | KI-PT-1 |
@@ -433,9 +433,9 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | ru.taxcode | Russia personal tax code | PersonalTaxCode | RU | Full | OECD@oecd.org O; Federal Tax Service@nalog.gov.ru A; Kholenkov@kholenkov.ru S; python-stdnum@github.com R | null | 1 | --- |  |
 | ru.vat | Russia VAT number | Vat | RU | Full | Federal Tax Service@nalog.gov.ru A; Kholenkov@kholenkov.ru S; python-stdnum@github.com R | null | 1 | --- |  |
 | se.company | Sweden company number | CompanyNumber | SE | Full | Bolagsverket@bolagsverket.se A | null | 1 | --- |  |
-| se.nationalid | Sweden national identity number | PersonalId | SE | Full | Skatteverket@skatteverket.se A | null | 1 | --- |  |
+| se.nationalid | Sweden national identity number | PersonalId | SE | Full | Skatteverket@skatteverket.se A; Skatteverket@skatteverket.se A | null | 1 | --y | KI-SE-1 |
 | se.postalcode | Sweden postal code | PostalCode | SE | Full | PTS@pts.se A | null | 1 | --- |  |
-| se.taxcode | Sweden personal tax code | PersonalTaxCode | SE | Full | Skatteverket@skatteverket.se A; OECD@oecd.org O | null | 1 | --- |  |
+| se.taxcode | Sweden personal tax code | PersonalTaxCode | SE | Full | Skatteverket@skatteverket.se A; OECD@oecd.org O; Skatteverket@skatteverket.se A | null | 1 | --y | KI-SE-1 |
 | se.vat | Sweden VAT number | Vat | SE | Full | Skatteverket@skatteverket.se A; European Commission@ec.europa.eu A | null | 1 | --- |  |
 | sg.company | Singapore company number | CompanyNumber | SG | NotCovered |  | null | 1 | y-- | KI-SG-1 |
 | sg.nationalid | Singapore national identity number | PersonalId | SG | NotCovered |  | null | 1 | y-- | KI-SG-1 |

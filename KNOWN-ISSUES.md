@@ -276,6 +276,31 @@ add the test before the fix.
 - **KI-VN-1** vn.taxcode, vn.company and vn.vat check only the shape (10 digits, or 10 and 3); vn.nationalid and vn.postalcode are NotCovered.
   - *Not fixed:* Circular 105/2020/TT-BTC defines N1N2 N3..N9 N10 - N11N12N13 with N10 a check digit; the check algorithm was not found. The citizen identification number and postal codes were not read.
 
+## Norway
+
+- **KI-NO-1** Parse decodes the sex (9th digit, odd for a man) but not the birth date.
+  - *Not fixed:* Skatteetaten's pages state DDMMYY and say the first six digits show the issue date when the numbers for a date run out, but neither the English nor the Norwegian page states how the century is read from the individual number. Not guessed.
+
+## Denmark
+
+- **KI-DK-1** Parse decodes the sex (10th digit, even for a woman) but not the birth date.
+  - *Not fixed:* cpr.dk says digits 5-7 select the century; the table was not on the page read. cpr.dk reports modulus 11 as holding only up to 2007-10-01; the existing rule does not check it, so no false rejects follow.
+
+## Sweden
+
+- **KI-SE-1** Parse decodes the birth date only from the twelve-digit form. The ten-digit form has no century (the separator "-" becomes "+" from the year a person turns 100), and Normalize drops the separator. The sex (9th digit of the ten-digit part, odd for a man) is decoded for both.
+  - *Not fixed:* Skatteverket's page does not give the control digit algorithm and the legal guidance page 330245 refused the fetch.
+
+## Estonia
+
+- **KI-EE-1** No Parse. The ministry page says the first digit gives sex and the next six the date and cites standard EVS 585, but the digit-to-century table is not on any page that could be read (the Riigi Teataja regulation returned only its header).
+  - *Not fixed:* Read the regulation or EVS 585. Secondary sources give 1/2 for the 1800s, 3/4 for the 1900s and 5/6 from 2000; not used.
+
+## Lithuania
+
+- **KI-LT-1** No Parse. Law I-2237 says the first digit gives sex and century, but the mapping is in the standard LST 1185-91, whose text is restricted.
+  - *Not fixed:* Read LST 1185-91.
+
 ## International
 
 - **KI-IBAN-1** The national check digits inside the BBAN are not verified; only the registry length, the BBAN character classes and the MOD 97-10 check digits are.

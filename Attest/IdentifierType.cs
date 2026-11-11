@@ -126,7 +126,26 @@ namespace Attest
         /// <param name="value">The value to parse.</param>
         public ParseResult Parse(string? value)
         {
-            return new ParseResult(Validate(value), null, null, null, null);
+            IdentifierResult result = Validate(value);
+            if (!result.IsValid || result.Normalized == null)
+            {
+                return new ParseResult(result, null, null, null, null);
+            }
+
+            ParsedParts? parsed;
+            try
+            {
+                parsed = _rule.Parse(result.Normalized);
+            }
+            catch (Exception)
+            {
+                // A decoder must not throw; a value it cannot decode is still a valid value.
+                parsed = null;
+            }
+
+            return parsed == null
+                ? new ParseResult(result, null, null, null, null)
+                : new ParseResult(result, parsed.BirthDate, parsed.Sex, null, parsed.Parts);
         }
 
         /// <inheritdoc />
