@@ -124,7 +124,7 @@ namespace Attest.Tests
         [InlineData("20512333797", IdentifierKind.CompanyNumber | IdentifierKind.Vat, false)]
         public void TestKindMatchesTheTaxpayerType(string code, IdentifierKind expectedMatch, bool ambiguous)
         {
-            IdentifierResult result = new CountryValidator().Validate(code, Country.PE);
+            var result = new CountryValidator().Validate(code, Country.PE);
 
             Assert.Equal(expectedMatch, result.Matched);
             Assert.Equal(ambiguous, result.IsAmbiguous);

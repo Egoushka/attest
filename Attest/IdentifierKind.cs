@@ -25,6 +25,27 @@ namespace Attest
         /// <summary>Postal code. Not part of <see cref="Any"/>.</summary>
         PostalCode = 1 << 4,
 
+        /// <summary>Bank account number, such as an IBAN. Not part of <see cref="Any"/>.</summary>
+        BankAccount = 1 << 5,
+
+        /// <summary>Health insurance or patient number (NHS, AMKA, AIC). Not part of <see cref="Any"/>.</summary>
+        Healthcare = 1 << 6,
+
+        /// <summary>Financial instrument identifier (ISIN, CUSIP, FIGI, LEI). Not part of <see cref="Any"/>.</summary>
+        Security = 1 << 7,
+
+        /// <summary>Trade item identifier (EAN, GTIN, ISBN, ISSN). Not part of <see cref="Any"/>.</summary>
+        TradeItem = 1 << 8,
+
+        /// <summary>Telecom equipment or subscriber identifier (IMEI, IMSI, MAC). Not part of <see cref="Any"/>.</summary>
+        Telecom = 1 << 9,
+
+        /// <summary>Vehicle identifier. Not part of <see cref="Any"/>.</summary>
+        Vehicle = 1 << 10,
+
+        /// <summary>Any identifier that fits none of the other kinds. Not part of <see cref="Any"/>.</summary>
+        Other = 1 << 11,
+
         /// <summary>Every identifier belonging to a natural person.</summary>
         Person = PersonalId | PersonalTaxCode,
 

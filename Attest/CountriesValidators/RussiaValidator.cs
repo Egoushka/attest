@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 namespace Attest.Countries
 {
     /// <summary>Validates the identifiers and postal codes issued by Russia.</summary>
+    [System.Obsolete("Use Identifiers.For(Country) and IdentifierType.Validate. Removed in 3.0.")]
     public class RussiaValidator : IdValidationAbstract
     {
         // ИНН. Russia issues two different numbers, not two formats of one: a legal entity gets a

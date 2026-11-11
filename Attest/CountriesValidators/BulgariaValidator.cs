@@ -3,6 +3,7 @@
 namespace Attest.Countries
 {
     /// <summary>Validates the identifiers and postal codes issued by Bulgaria.</summary>
+    [System.Obsolete("Use Identifiers.For(Country) and IdentifierType.Validate. Removed in 3.0.")]
     public class BulgariaValidator : IdValidationAbstract
     {
         private static readonly Regex RegexPhysicalPerson = new Regex(@"^[0-9][0-9][0-5][0-9][0-3][0-9][0-9]{4}$");

@@ -8,6 +8,14 @@
     <AssemblyName>Attest</AssemblyName>
     <PackageId>Attest</PackageId>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <!-- The new API needs nullable annotations; the 1.x files stay in the default (oblivious) context. -->
+    <LangVersion>latest</LangVersion>
+    <!-- The 1.x surface is [Obsolete] but is still the rule code behind the registry and the facade. -->
+    <NoWarn>$(NoWarn);CS0618</NoWarn>
   </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Attest.Tests" />
+  </ItemGroup>
 
 </Project>

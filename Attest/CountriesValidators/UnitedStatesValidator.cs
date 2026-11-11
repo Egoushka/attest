@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 namespace Attest.Countries
 {
     /// <summary>Validates the identifiers and postal codes issued by United States.</summary>
+    [System.Obsolete("Use Identifiers.For(Country) and IdentifierType.Validate. Removed in 3.0.")]
     public class UnitedStatesValidator : IdValidationAbstract
     {
         /// <summary>Creates a validator for United States (US).</summary>

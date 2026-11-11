@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 namespace Attest.Countries
 {
     /// <summary>Validates the identifiers and postal codes issued by Peru.</summary>
+    [System.Obsolete("Use Identifiers.For(Country) and IdentifierType.Validate. Removed in 3.0.")]
     public class PeruValidator : IdValidationAbstract
     {
 
@@ -140,7 +141,7 @@ namespace Attest.Countries
         /// </summary>
         /// <remarks>
         /// A personal RUC is therefore valid as a business identifier as well as a personal one,
-        /// and <see cref="IdentifierResult.IsAmbiguous"/> says so. That is the country's doing
+        /// and <see cref="LegacyIdentifierResult.IsAmbiguous"/> says so. That is the country's doing
         /// rather than this library's: Peru issues one number for both roles and publishes no way
         /// to tell a VAT registration from a personal one.
         /// </remarks>

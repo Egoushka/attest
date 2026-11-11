@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 namespace Attest.Countries
 {
     /// <summary>Validates the identifiers and postal codes issued by Hungary.</summary>
+    [System.Obsolete("Use Identifiers.For(Country) and IdentifierType.Validate. Removed in 3.0.")]
     public class HungaryValidator : IdValidationAbstract
     {
         /// <summary>Creates a validator for Hungary (HU).</summary>

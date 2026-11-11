@@ -3,6 +3,7 @@
 namespace Attest.Countries
 {
     /// <summary>Validates the identifiers and postal codes issued by Ireland.</summary>
+    [System.Obsolete("Use Identifiers.For(Country) and IdentifierType.Validate. Removed in 3.0.")]
     public class IrelandValidator : IdValidationAbstract
     {
 

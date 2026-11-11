@@ -5,6 +5,7 @@
     /// <c>Validate</c> method in this library returns one rather than throwing, including for null,
     /// for an empty string and for a value in the wrong script.
     /// </summary>
+    [System.Obsolete("Use IdentifierResult, which carries a Verdict and a Reason. Removed in 3.0.")]
     public sealed class ValidationResult
     {
 

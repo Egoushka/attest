@@ -7,6 +7,7 @@ namespace Attest.DataAnnotations
     /// <summary>
     /// When applied to a <see cref="string" /> property or parameter, validates that a valid TIN is provided.
     /// </summary>
+    [System.Obsolete("Use Identifiers.Validate(value, id) with an id from Identifiers.For(Country). Removed in 3.0.")]
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Parameter)]
     public sealed class PersonTINAttribute : ValidationAttribute
     {

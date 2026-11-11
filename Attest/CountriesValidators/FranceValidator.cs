@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 namespace Attest.Countries
 {
     /// <summary>Validates the identifiers and postal codes issued by France.</summary>
+    [System.Obsolete("Use Identifiers.For(Country) and IdentifierType.Validate. Removed in 3.0.")]
     public class FranceValidator : IdValidationAbstract
     {
         readonly string _alphabet = "0123456789ABCDEFGHJKLMNPQRSTUVWXYZ";

@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 namespace Attest.Countries
 {
     /// <summary>Validates the identifiers and postal codes issued by Ecuador.</summary>
+    [System.Obsolete("Use Identifiers.For(Country) and IdentifierType.Validate. Removed in 3.0.")]
     public class EcuadorValidator : IdValidationAbstract
     {
         /// <summary>Creates a validator for Ecuador (EC).</summary>

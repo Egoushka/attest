@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 namespace Attest.Countries
 {
     /// <summary>Validates the identifiers and postal codes issued by Armenia.</summary>
+    [System.Obsolete("Use Identifiers.For(Country) and IdentifierType.Validate. Removed in 3.0.")]
     public class ArmeniaValidator : IdValidationAbstract
     {
         /// <summary>Creates a validator for Armenia (AM).</summary>

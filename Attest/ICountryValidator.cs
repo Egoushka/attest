@@ -4,6 +4,7 @@
     /// The questions this library answers about a value. <see cref="CountryValidator"/> is the
     /// implementation; the interface is here so a consumer can substitute its own in a test.
     /// </summary>
+    [System.Obsolete("Use the static Identifiers class. Removed in 3.0.")]
     public interface ICountryValidator
     {
         /// <summary>Validates a company or organisation identifier.</summary>
@@ -26,7 +27,7 @@
         /// <paramref name="kinds"/>, and which ones it matched. Use this when the question is "is
         /// this any business identifier for this country?" rather than a named format.
         /// </summary>
-        IdentifierResult Validate(string value, Country country, IdentifierKind kinds = IdentifierKind.Any);
+        LegacyIdentifierResult Validate(string value, Country country, IdentifierKind kinds = IdentifierKind.Any);
 
         /// <summary>
         /// Whether the country has a rule for that kind at all. A kind with no rule reports every
