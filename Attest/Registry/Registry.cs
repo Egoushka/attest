@@ -66,6 +66,17 @@ namespace Attest
                 ByCountry[pair.Key] = forCountry;
             }
 
+            // International types: no country, so they are in All and Find but in no For(country).
+            var international = new List<IdentifierType>
+            {
+                new IdentifierType("iban", null, IdentifierKind.BankAccount, "International Bank Account Number", "IBAN", new string[0], new IbanRule(Provenance.For("iban", true))),
+            };
+            foreach (IdentifierType type in international)
+            {
+                Add(type);
+                all.Add(type);
+            }
+
             All = all.AsReadOnly();
         }
 

@@ -210,3 +210,12 @@ add the test before the fix.
   - *Not fixed:* The FTA's TRN lookup page asks for 15 characters, but I could not open an FTA or Ministry of Finance specification that states the format. The Ministry's e-invoicing consultation draft says the number starts with 1 and ends with 03, which other sources do not repeat as a rule, and the final specification PDF could not be read here. Not enforced until the published rule is read.
 - **KI-AE-4** No personal tax code rule: ae.taxcode is NotCovered.
   - *Not fixed:* The UAE has no personal income tax and issues no personal tax number as far as I know, but I found no authority page that says so, so it is not marked NotApplicable. The OECD TIN sheet URL used for other countries returned 404.
+
+## International
+
+- **KI-IBAN-1** The national check digits inside the BBAN are not verified; only the registry length, the BBAN character classes and the MOD 97-10 check digits are.
+  - *Not fixed:* Several registry entries carry a national check digit (BE, ES, FR, IT, PL, PT, NO, FI and others). Each is defined by the national bank, not by the IBAN registry, and none has been read from its national source yet, so none is guessed (AGENTS.md rule 1). Until then an IBAN with a wrong national check digit but a consistent MOD 97-10 check is accepted.
+- **KI-IBAN-2** The structure table was not read from the SWIFT registry itself: swift.com answered 403 to every fetch. It was written from memory of the registry's structures and checked against Wikipedia's table and IbanNet (tests only).
+  - *Not fixed:* Re-read the table against the current registry release when it can be fetched, and record the release number in the provenance table.
+- **KI-IBAN-3** RU is in the table (33 characters, 9 digits, 5 digits, 15 alphanumerics) on the strength of Wikipedia's table alone; IbanNet's registry does not have it.
+  - *Not fixed:* Confirm Russia's registration and structure against the SWIFT registry release notes. Until then an RU IBAN is accepted on structure and MOD 97-10 only.

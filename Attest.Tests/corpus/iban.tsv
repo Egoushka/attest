@@ -1,0 +1,12 @@
+# iban  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+DE89 3704 0044 0532 0130 00	valid	-	DE89370400440532013000	DE89 3704 0044 0532 0130 00	published:https://en.wikipedia.org/wiki/International_Bank_Account_Number	German example, the check digits also recomputed by BigInteger in IbanTests
+GB82 WEST 1234 5698 7654 32	valid	-	GB82WEST12345698765432	GB82 WEST 1234 5698 7654 32	published:https://en.wikipedia.org/wiki/International_Bank_Account_Number	UK example, letters in the bank code
+FR14 2004 1010 0505 0001 3M02 606	valid	-	FR1420041010050500013M02606	FR14 2004 1010 0505 0001 3M02 606	published:https://en.wikipedia.org/wiki/International_Bank_Account_Number	French example, a letter inside the account number
+NL91 ABNA 0417 1643 00	valid	-	NL91ABNA0417164300	NL91 ABNA 0417 1643 00	published:https://en.wikipedia.org/wiki/International_Bank_Account_Number	Dutch example
+de89370400440532013000	valid	-	DE89370400440532013000	DE89 3704 0044 0532 0130 00	published:https://en.wikipedia.org/wiki/International_Bank_Account_Number	lower case and no spaces
+DE89370400440532013001	invalid	InvalidChecksum	-	-	computed:mod97-10	last digit changed, remainder is no longer 1
+DE8937040044053201300	invalid	InvalidLength	-	-	synthetic	21 characters, DE has 22
+XX89370400440532013000	invalid	InvalidPrefix	-	-	synthetic	no registry entry for XX
+DE89-3704-0044-0532-0130-00	invalid	InvalidCharacters	-	-	synthetic	hyphen is not a separator of an IBAN
+DE89370400440532O13000	invalid	InvalidFormat	-	-	synthetic	letter O where a digit belongs

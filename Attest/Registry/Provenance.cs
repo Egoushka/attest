@@ -128,13 +128,14 @@ namespace Attest
             }
         }
 
-        /// <summary>"be:vat,company" becomes "be.vat" and "be.company".</summary>
+        /// <summary>"be:vat,company" becomes "be.vat" and "be.company"; an id without a colon ("iban") is an international type.</summary>
         private static IEnumerable<string> ExpandIds(string ids)
         {
             int colon = ids.IndexOf(':');
             if (colon < 0)
             {
-                throw new FormatException("ids must be <country>:<kind>[,<kind>]");
+                yield return ids;
+                yield break;
             }
 
             string country = ids.Substring(0, colon);
