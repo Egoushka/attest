@@ -1,0 +1,7 @@
+# isbn  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+0-306-40615-2	valid	-	0306406152	0306406152	computed:mod11-weights-10-to-1	sum 132 = 12*11
+978-0-306-40615-7	valid	-	9780306406157	9780306406157	computed:ean13-weights-1-3	sum 93, check 7
+9780306406158	invalid	InvalidChecksum	-	-	computed:ean13-weights-1-3	check digit changed
+9770306406157	invalid	InvalidPrefix	-	-	synthetic	prefix 977
+030640615	invalid	InvalidLength	-	-	synthetic	nine characters

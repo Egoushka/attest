@@ -219,3 +219,15 @@ add the test before the fix.
   - *Not fixed:* Re-read the table against the current registry release when it can be fetched, and record the release number in the provenance table.
 - **KI-IBAN-3** RU is in the table (33 characters, 9 digits, 5 digits, 15 alphanumerics) on the strength of Wikipedia's table alone; IbanNet's registry does not have it.
   - *Not fixed:* Confirm Russia's registration and structure against the SWIFT registry release notes. Until then an RU IBAN is accepted on structure and MOD 97-10 only.
+- **KI-ISSN-1** Only the ISSN source was read in full (issn.org states eight digits, modulus 11, X for 10). The check weights 8..2 follow from that rule but the page does not list them.
+  - *Not fixed:* Re-read the ISSN Manual for the weights.
+- **KI-ISBN-1** The ISBN Users Manual URL answered 404 and was not read; ISBN-10 (modulus 11, weights 10..1) and ISBN-13 (EAN check, prefix 978/979) are implemented from the standard as commonly published. No hyphenation: printing the groups needs the agency's range table.
+  - *Not fixed:* Read the current manual; add range-based Format.
+- **KI-GTIN-1** gs1.org answered 403, so the GS1 check digit rule (weights 3 and 1) was not read on that page. GTIN-8/12/13/14 are checked by length, digits and check digit; the GS1 prefix allocation is not.
+  - *Not fixed:* Re-read the GS1 General Specifications.
+- **KI-ISIN-1** The ISIN source URL (ISO 6166 page) was not fetched. The check (Luhn over letters read as 10-35) is the standard's published method. The country prefix is two letters, not tested against the ISO 3166 / ANNA allocation list.
+  - *Not fixed:* Read ISO 6166 or the ANNA ISIN guidelines.
+- **KI-LEI-1** gleif.org confirms 20 alphanumeric characters but its page does not describe the check digits; MOD 97-10 comes from ISO 17442 as published elsewhere. The LOU prefix is not checked against GLEIF's list.
+  - *Not fixed:* Read ISO 17442; consider the LOU prefix list.
+- **KI-BIC-1** swift.com answered 403; BIC (8 or 11 characters, letters then alphanumerics) was not read from the source and has no check digit. The country letters are not tested against ISO 3166.
+  - *Not fixed:* Read ISO 9362.

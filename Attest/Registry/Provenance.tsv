@@ -638,3 +638,15 @@ S	iban	IbanNet	https://github.com/skwasjer/IbanNet	IbanNet (differential oracle 
 G	iban	KI-IBAN-1
 G	iban	KI-IBAN-2
 G	iban	KI-IBAN-3
+S	issn	ISSN International Centre	https://www.issn.org/understanding-the-issn/what-is-an-issn/	What is an ISSN (eight digits, modulus 11, X for 10)	2026-11-11	Authority
+S	isbn	International ISBN Agency	https://www.isbn-international.org/content/isbn-users-manual	ISBN Users Manual (check digit rules)	2026-11-11	Authority
+S	gtin	GS1	https://www.gs1.org/services/how-calculate-check-digit-manually	How to calculate a check digit manually	2026-11-11	Authority
+S	isin	ISO	https://www.iso.org/standard/78502.html	ISO 6166 ISIN	2026-11-11	Authority
+S	lei	GLEIF	https://www.gleif.org/en/about-lei/iso-17442-the-lei-code-structure	ISO 17442 the LEI code structure (20 characters)	2026-11-11	Authority
+S	bic	SWIFT	https://www.swift.com/standards/data-standards/bic-business-identifier-code	BIC (ISO 9362)	2026-11-11	Authority
+G	issn	KI-ISSN-1
+G	isbn	KI-ISBN-1
+G	gtin	KI-GTIN-1
+G	isin	KI-ISIN-1
+G	lei	KI-LEI-1
+G	bic	KI-BIC-1

@@ -1,0 +1,7 @@
+# gtin  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+4006381333931	valid	-	4006381333931	4006381333931	computed:gtin-weights-3-1	sum 89, check 1
+96385074	valid	-	96385074	96385074	computed:gtin-weights-3-1	GTIN-8, sum 86, check 4
+4006381333932	invalid	InvalidChecksum	-	-	computed:gtin-weights-3-1	check digit changed
+400638133393	invalid	InvalidChecksum	-	-	computed:gtin-weights-3-1	12 digits, a different sum
+40063813339	invalid	InvalidLength	-	-	synthetic	eleven digits

@@ -1,12 +1,12 @@
 <!-- Generated from the registry by Attest.Tests.CoverageDocTests. Do not edit; run the tests with ATTEST_UPDATE_COVERAGE=1 to regenerate. -->
 # Coverage
 
-- Types: 436 (87 countries x 5 kinds, 1 international)
-- Coverage: Full 403, FormatOnly 11, NotApplicable 4, NotPublished 0, NotCovered 18
-- Last verified: null for 436 of 436
-- Sources: 791 citations; 376 types cite an authority, law or OECD source, 39 only a reference implementation or secondary source, 21 none
-- Native Normalize / Format / Parse: 5 / 9 / 0
-- Types with known gaps: 77
+- Types: 442 (87 countries x 5 kinds, 7 international)
+- Coverage: Full 409, FormatOnly 11, NotApplicable 4, NotPublished 0, NotCovered 18
+- Last verified: null for 442 of 442
+- Sources: 797 citations; 382 types cite an authority, law or OECD source, 39 only a reference implementation or secondary source, 21 none
+- Native Normalize / Format / Parse: 11 / 10 / 0
+- Types with known gaps: 83
 
 Sources are authority@host (kind: A authority, L law, O OECD, R reference implementation, S secondary); full URLs are in Attest/Registry/Provenance.tsv. N/F/P: a native Normalize / Format / Parse (y/-).
 
@@ -72,6 +72,7 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | bh.postalcode | Bahrain postal code | PostalCode | BH | Full | Wikipedia@en.wikipedia.org S | null | 1 | --- |  |
 | bh.taxcode | Bahrain personal tax code | PersonalTaxCode | BH | FormatOnly | OECD@oecd.org O | null | 1 | --- | KI-BH-1, KI-BH-2 |
 | bh.vat | Bahrain VAT number | Vat | BH | FormatOnly | National Bureau for Revenue@nbr.gov.bh A | null | 1 | --- | KI-BH-3 |
+| bic | Business Identifier Code (SWIFT BIC) | BankAccount |  | Full | SWIFT@swift.com A | null | 1 | y-- | KI-BIC-1 |
 | bo.company | Bolivia company number | CompanyNumber | BO | Full | Servicio de Impuestos Nacionales@siatinfo.impuestos.gob.bo A; Servicio de Impuestos Nacionales@impuestos.gob.bo A | null | 1 | --- | KI-BO-1 |
 | bo.nationalid | Bolivia national identity number | PersonalId | BO | Full | SEGIP@segip.gob.bo L; Ministerio de Gobierno@web.mingobierno.gob.bo L | null | 1 | --- |  |
 | bo.postalcode | Bolivia postal code | PostalCode | BO | Full | Correos de Bolivia@correos.gob.bo A | null | 1 | --- |  |
@@ -197,6 +198,7 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | gt.postalcode | Guatemala postal code | PostalCode | GT | Full | Wikipedia@en.wikipedia.org S | null | 1 | --- |  |
 | gt.taxcode | Guatemala personal tax code | PersonalTaxCode | GT | NotCovered |  | null | 1 | --- | KI-GT-2 |
 | gt.vat | Guatemala VAT number | Vat | GT | Full | python-stdnum@arthurdejong.org R; python-stdnum@arthurdejong.org R | null | 1 | --- | KI-GT-2 |
+| gtin | Global Trade Item Number (EAN, UPC) | TradeItem |  | Full | GS1@gs1.org A | null | 1 | y-- | KI-GTIN-1 |
 | hk.company | Hong Kong company number | CompanyNumber | HK | NotCovered |  | null | 1 | --- | KI-HK-1 |
 | hk.nationalid | Hong Kong national identity number | PersonalId | HK | Full | Immigration Department@immd.gov.hk A; Microsoft Purview@learn.microsoft.com S | null | 1 | --- |  |
 | hk.postalcode | Hong Kong postal code | PostalCode | HK | NotApplicable | Universal Postal Union@upu.int A | null | 1 | --- |  |
@@ -238,6 +240,9 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | is.postalcode | Iceland postal code | PostalCode | IS | Full | Icelandic Post@postur.is A | null | 1 | --- |  |
 | is.taxcode | Iceland personal tax code | PersonalTaxCode | IS | Full | Registers Iceland@skra.is A; python-stdnum@github.com R; OECD@oecd.org O; Directorate of Internal Revenue@rsk.is A | null | 1 | --- |  |
 | is.vat | Iceland VAT number | Vat | IS | Full | Directorate of Internal Revenue@rsk.is A | null | 1 | --- | KI-IS-1 |
+| isbn | International Standard Book Number | TradeItem |  | Full | International ISBN Agency@isbn-international.org A | null | 1 | y-- | KI-ISBN-1 |
+| isin | International Securities Identification Number | Security |  | Full | ISO@iso.org A | null | 1 | y-- | KI-ISIN-1 |
+| issn | International Standard Serial Number | TradeItem |  | Full | ISSN International Centre@issn.org A | null | 1 | yy- | KI-ISSN-1 |
 | it.company | Italy company number | CompanyNumber | IT | Full | Registro Imprese@registroimprese.it A; python-stdnum@arthurdejong.org R; Agenzia delle Entrate@agenziaentrate.gov.it A | null | 1 | --- |  |
 | it.nationalid | Italy national identity number | PersonalId | IT | Full | Ministry of the Interior@anagrafenazionale.interno.it A; python-stdnum@arthurdejong.org R; Agenzia delle Entrate@agenziaentrate.gov.it A | null | 1 | --- |  |
 | it.postalcode | Italy postal code | PostalCode | IT | Full | Poste Italiane@poste.it A | null | 1 | --- |  |
@@ -258,6 +263,7 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | kz.postalcode | Kazakhstan postal code | PostalCode | KZ | Full | Kazpost@post.kz A | null | 1 | --- |  |
 | kz.taxcode | Kazakhstan personal tax code | PersonalTaxCode | KZ | Full | OECD@oecd.org O; Wikipedia@ru.wikipedia.org S; State Revenue Committee@kgd.gov.kz A | null | 1 | --- | KI-KZ-1 |
 | kz.vat | Kazakhstan VAT number | Vat | KZ | Full | State Revenue Committee@kgd.gov.kz A | null | 1 | --- | KI-KZ-2 |
+| lei | Legal Entity Identifier | Security |  | Full | GLEIF@gleif.org A | null | 1 | y-- | KI-LEI-1 |
 | lt.company | Lithuania company number | CompanyNumber | LT | Full | Centre of Registers@registrucentras.lt A | null | 1 | --- |  |
 | lt.nationalid | Lithuania national identity number | PersonalId | LT | Full | Centre of Registers@registrucentras.lt A | null | 1 | --- |  |
 | lt.postalcode | Lithuania postal code | PostalCode | LT | Full | Lietuvos Pastas@post.lt A | null | 1 | --- |  |
