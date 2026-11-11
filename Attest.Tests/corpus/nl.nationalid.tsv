@@ -1,0 +1,4 @@
+# nl.nationalid  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+123456782	valid	-	123456782	123456782	computed:elfproef	9*1+8*2+7*3+6*4+5*5+4*6+3*7+2*8-1*2 = 154 = 14*11
+123456783	invalid	InvalidChecksum	-	-	computed:elfproef	last digit changed, sum 153

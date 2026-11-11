@@ -1,0 +1,6 @@
+# fr.company  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+123456782	valid	-	123456782	123456782	computed:luhn	SIREN, Luhn sum 40
+123 456 782	valid	-	123456782	123456782	computed:luhn	printed in groups of three
+123456783	invalid	InvalidChecksum	-	-	computed:luhn	last digit changed, sum 41
+12345678	invalid	InvalidLength	-	-	synthetic	eight digits

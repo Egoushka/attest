@@ -1,0 +1,5 @@
+# be.company  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+0428759497	valid	-	0428759497	0428.759.497	computed:mod97	04287594 mod 97 = 0, so the check number is 97
+0428.759.497	valid	-	0428759497	0428.759.497	computed:mod97	printed form
+0428759498	invalid	InvalidChecksum	-	-	computed:mod97	last digit changed

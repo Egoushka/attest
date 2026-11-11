@@ -1,0 +1,5 @@
+# ie.postalcode  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+A65 F4E2	valid	-	A65F4E2	A65 F4E2	published:https://www.eircode.ie/faqs	the Eircode the Eircode FAQ gives as typical
+A65F4E2	valid	-	A65F4E2	A65 F4E2	published:https://www.eircode.ie/faqs	same code entered as one string
+A65 F4E	invalid	InvalidFormat	-	-	synthetic	six characters

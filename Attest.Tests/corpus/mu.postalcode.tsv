@@ -1,0 +1,7 @@
+# mu.postalcode  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+11213	valid	-	11213	11213	published:https://www.upu.int/UPU/media/upu/PostalEntitiesFiles/addressingUnit/musEn.pdf	Port Louis, UPU example
+42602	valid	-	42602	42602	published:https://www.upu.int/UPU/media/upu/PostalEntitiesFiles/addressingUnit/musEn.pdf	Lalmatie, UPU example
+R0000	valid	-	R0000	R0000	published:https://www.upu.int/UPU/media/upu/PostalEntitiesFiles/addressingUnit/musEn.pdf	Rodrigues, UPU example
+1121	invalid	InvalidFormat	-	-	synthetic	four digits
+X0000	invalid	InvalidFormat	-	-	synthetic	only R is a letter prefix

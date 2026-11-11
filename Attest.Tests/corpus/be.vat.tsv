@@ -1,0 +1,6 @@
+# be.vat  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+BE0428759497	valid	-	BE0428759497	BE0428759497	computed:mod97	04287594 mod 97 = 0, so the check number is 97
+be 0428.759.497	valid	-	BE0428759497	BE0428759497	computed:mod97	same number as printed, lower-case prefix
+BE0428759498	invalid	InvalidChecksum	-	-	computed:mod97	last digit changed, check number should be 97
+BE0428759400	invalid	InvalidChecksum	-	-	computed:mod97	check number 00 instead of 97

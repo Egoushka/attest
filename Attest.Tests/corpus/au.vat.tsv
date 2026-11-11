@@ -1,0 +1,6 @@
+# au.vat  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+51824753556	valid	-	51824753556	51 824 753 556	published:https://abr.business.gov.au/Help/AbnFormat	the ABN the ABR uses to explain the check
+51 824 753 556	valid	-	51824753556	51 824 753 556	published:https://abr.business.gov.au/Help/AbnFormat	printed form
+51824753557	invalid	InvalidChecksum	-	-	computed:abn-mod89	last digit changed, weighted sum is no longer a multiple of 89
+5182475355	invalid	InvalidLength	-	-	synthetic	ten digits
