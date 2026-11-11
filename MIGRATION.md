@@ -152,3 +152,36 @@ return `Invalid("Not supported")`.
    and diff the verdicts. The set that changes is small and knowable, and much better found by a
    query than by a support ticket.
 3. Decide what to do about the numbers in the "now fail" column before you ship, not after.
+
+## From Attest 1.x to 2.0
+
+2.0 adds a new surface and keeps the 1.x one for the whole 2.x line. Nothing you compile today stops
+compiling because of the shim: `CountryValidator`, `ICountryValidator`, `ValidationResult`,
+`IdentifierKind`, the 87 `Attest.Countries.*Validator` classes and `Country` stay in namespace
+`Attest`, are marked `[Obsolete]` with a message naming the replacement, and now run on the new
+engine, so there is one set of rules. They are removed in 3.0.
+
+| 1.x call | 2.0 call |
+|---|---|
+| `new CountryValidator().ValidateVAT(v, Country.BE)` | `Identifiers.Validate(v, "be.vat")` |
+| `ValidateIndividualTaxCode`, `ValidateEntity`, `ValidateNationalIdentityCode`, `ValidateZIPCode` | `Identifiers.Validate(v, "<cc>.taxcode")`, `.company`, `.nationalid`, `.postalcode` |
+| `Validate(v, country, kinds)` | `Identifiers.Match(v, country, kinds)` |
+| `CountryValidator.IsCountrySupported(c)` / `Supports(c, kind)` | `Identifiers.For(c)` / `Identifiers.For(c, kind)` and each type's `Coverage` |
+| the five `[VAT]`, `[PersonTIN]`, `[CompanyTIN]`, `[SSN]`, `[ZipCode]` attributes | `[Identifier("be.vat")]` in `Attest.DataAnnotations` |
+| (none) | `IdentifierType.Normalize`, `Format`, `Parse` |
+
+What moved:
+
+- **A new verdict, `NotCovered`.** A type Attest has no rule for answers `Verdict.NotCovered`
+  instead of 1.x's `Invalid("Not supported")`. `IsValid` is false for both, so code that only reads
+  `IsValid` behaves as before; code that wants to tell "bad value" from "no opinion" can now.
+- **The multi-kind result was renamed.** 1.x's `IdentifierResult` is `MatchResult`; the obsolete
+  facade returns `LegacyIdentifierResult` carrying the old shape, so existing callers compile. This
+  is the one source break for direct users of the new `Match`.
+- **Verdicts changed for the 25 pairs that had no rule in 1.x, and only those.** 3 gained a rule
+  (`mu.postalcode`, `gt.nationalid`, `bh.vat`), 4 are `NotApplicable` with a cited source
+  (`ae.postalcode`, `hk.postalcode`, `hk.vat`, `us.vat`) and 18 stay `NotCovered`, each tied to an
+  entry in [KNOWN-ISSUES.md](KNOWN-ISSUES.md). The full per-type status is generated into
+  [docs/COVERAGE.md](docs/COVERAGE.md). Any other verdict that moves is a bug fix and is named in
+  the changelog, never silent.
+- **Input longer than 128 characters is rejected** with `Reason.TooLong` before any rule runs.
