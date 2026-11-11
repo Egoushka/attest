@@ -1,0 +1,9 @@
+# iso6346  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+CSQU3054383	valid	-	CSQU3054383	CSQU3054383	computed:iso6346-weights-2^i-mod11	sum mod 11 is 3; the commonly quoted example
+TGHU7500031	valid	-	TGHU7500031	TGHU7500031	computed:iso6346-weights-2^i-mod11	sum mod 11 is 1
+ABCU0000070	valid	-	ABCU0000070	ABCU0000070	computed:iso6346-weights-2^i-mod11	sum mod 11 is 10, written 0
+CSQU3054384	invalid	InvalidChecksum	-	-	computed:iso6346-weights-2^i-mod11	check digit changed
+CSQX3054383	invalid	InvalidFormat	-	-	synthetic	X is not an equipment category
+CS1U3054383	invalid	InvalidFormat	-	-	synthetic	digit in the owner code
+CSQU305438	invalid	InvalidLength	-	-	synthetic	ten characters

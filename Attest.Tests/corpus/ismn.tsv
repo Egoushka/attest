@@ -1,0 +1,8 @@
+# ismn  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+9790260000438	valid	-	9790260000438	9790260000438	published:https://www.loc.gov/ismn/structure.html	979-0-2600-0043-8, the LoC worked example
+9790700100018	valid	-	9790700100018	9790700100018	computed:ean13-weights-1-3	sum 12 digits 9790 7001 0001 check 8
+9790260000439	invalid	InvalidChecksum	-	-	computed:ean13-weights-1-3	check digit changed
+9780260000436	invalid	InvalidPrefix	-	-	synthetic	978 prefix is a book
+979026000043	invalid	InvalidLength	-	-	synthetic	twelve digits
+979026000043X	invalid	InvalidFormat	-	-	synthetic	a letter

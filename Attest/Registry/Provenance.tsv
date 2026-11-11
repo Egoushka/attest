@@ -650,6 +650,12 @@ G	gtin	KI-GTIN-1
 G	isin	KI-ISIN-1
 G	lei	KI-LEI-1
 G	bic	KI-BIC-1
+S	ismn	U.S. ISMN Agency (Library of Congress)	https://www.loc.gov/ismn/structure.html	Numerical structure of ISMN (13 digits, prefix 979-0, weights 1 and 3, worked example)	2026-11-11	Authority
+S	imei	3GPP	https://portal.3gpp.org/desktopmodules/Specifications/SpecificationDetails.aspx?specificationId=729	TS 23.003 clause 6.2.1 and annex B: IMEI composition and Luhn check digit	2026-11-11	Authority
+S	iso6346	Bureau International des Containers	https://www.bic-code.org/identification-number/	Container identification number: owner code, category identifier, serial number, check digit	2026-11-11	Authority
+G	ismn	KI-ISMN-1
+G	imei	KI-IMEI-1
+G	iso6346	KI-ISO-1
 S	ke:taxcode,company,vat	Kenya Revenue Authority	https://www.kra.go.ke/images/publications/Revised-Electronic-Tax-Register-Specifications-V2.0_14July2021.pdf	Revised Electronic Tax Register Specifications (PIN: A or P, nine digits, a letter)	2026-11-11	Authority
 S	ke:taxcode,company,vat	OECD	https://www.oecd.org/tax/automatic-exchange/crs-implementation-and-assistance/tax-identification-numbers/Kenya-TIN.pdf	OECD TIN Kenya	2026-11-11	Oecd
 S	vn:taxcode,company,vat	Ministry of Finance (via Thu Vien Phap Luat)	https://thuvienphapluat.vn/van-ban/Thue-Phi-Le-Phi/Thong-tu-105-2020-TT-BTC-huong-dan-dang-ky-thue-459433.aspx	Circular 105/2020/TT-BTC on tax registration (structure N1..N13)	2026-11-11	Law

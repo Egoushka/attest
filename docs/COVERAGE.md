@@ -1,12 +1,12 @@
 <!-- Generated from the registry by Attest.Tests.CoverageDocTests. Do not edit; run the tests with ATTEST_UPDATE_COVERAGE=1 to regenerate. -->
 # Coverage
 
-- Types: 507 (100 countries x 5 kinds, 7 international)
-- Coverage: Full 409, FormatOnly 18, NotApplicable 4, NotPublished 0, NotCovered 76
-- Last verified: null for 507 of 507
-- Sources: 807 citations; 389 types cite an authority, law or OECD source, 39 only a reference implementation or secondary source, 79 none
-- Native Normalize / Format / Parse: 76 / 13 / 0
-- Types with known gaps: 148
+- Types: 510 (100 countries x 5 kinds, 10 international)
+- Coverage: Full 412, FormatOnly 18, NotApplicable 4, NotPublished 0, NotCovered 76
+- Last verified: null for 510 of 510
+- Sources: 810 citations; 392 types cite an authority, law or OECD source, 39 only a reference implementation or secondary source, 79 none
+- Native Normalize / Format / Parse: 79 / 13 / 0
+- Types with known gaps: 151
 
 Sources are authority@host (kind: A authority, L law, O OECD, R reference implementation, S secondary); full URLs are in Attest/Registry/Provenance.tsv. N/F/P: a native Normalize / Format / Parse (y/-).
 
@@ -250,6 +250,7 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | il.postalcode | Israel postal code | PostalCode | IL | Full | Wikipedia@en.wikipedia.org S | null | 1 | --- |  |
 | il.taxcode | Israel personal tax code | PersonalTaxCode | IL | Full | python-stdnum@arthurdejong.org R; Nevo legal database@nevo.co.il S; OECD@oecd.org O | null | 1 | --- |  |
 | il.vat | Israel VAT number | Vat | IL | Full |  | null | 1 | --- |  |
+| imei | International Mobile Equipment Identity | Telecom |  | Full | 3GPP@portal.3gpp.org A | null | 1 | y-- | KI-IMEI-1 |
 | in.company | India company number | CompanyNumber | IN | Full | Ministry of Corporate Affairs@mca.gov.in A; python-stdnum@github.com R | null | 1 | --- |  |
 | in.nationalid | India national identity number | PersonalId | IN | Full | UIDAI@uidai.gov.in A; python-stdnum@arthurdejong.org R | null | 1 | --- |  |
 | in.postalcode | India postal code | PostalCode | IN | Full | India Post@indiapost.gov.in A | null | 1 | --- |  |
@@ -262,6 +263,8 @@ Sources are authority@host (kind: A authority, L law, O OECD, R reference implem
 | is.vat | Iceland VAT number | Vat | IS | Full | Directorate of Internal Revenue@rsk.is A | null | 1 | --- | KI-IS-1 |
 | isbn | International Standard Book Number | TradeItem |  | Full | International ISBN Agency@isbn-international.org A | null | 1 | y-- | KI-ISBN-1 |
 | isin | International Securities Identification Number | Security |  | Full | ISO@iso.org A | null | 1 | y-- | KI-ISIN-1 |
+| ismn | International Standard Music Number | TradeItem |  | Full | U.S. ISMN Agency (Library of Congress)@loc.gov A | null | 1 | y-- | KI-ISMN-1 |
+| iso6346 | Freight container number (ISO 6346) | Vehicle |  | Full | Bureau International des Containers@bic-code.org A | null | 1 | y-- | KI-ISO-1 |
 | issn | International Standard Serial Number | TradeItem |  | Full | ISSN International Centre@issn.org A | null | 1 | yy- | KI-ISSN-1 |
 | it.company | Italy company number | CompanyNumber | IT | Full | Registro Imprese@registroimprese.it A; python-stdnum@arthurdejong.org R; Agenzia delle Entrate@agenziaentrate.gov.it A | null | 1 | --- |  |
 | it.nationalid | Italy national identity number | PersonalId | IT | Full | Ministry of the Interior@anagrafenazionale.interno.it A; python-stdnum@arthurdejong.org R; Agenzia delle Entrate@agenziaentrate.gov.it A | null | 1 | --- |  |

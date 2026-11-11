@@ -1,0 +1,7 @@
+# imei  revision=1
+# value<TAB>verdict<TAB>reason<TAB>normalized<TAB>formatted<TAB>origin<TAB>note
+490154203237518	valid	-	490154203237518	490154203237518	computed:luhn	first 14 digits 49015420323751, check 8
+352099001761481	valid	-	352099001761481	352099001761481	computed:luhn	first 14 digits 35209900176148, check 1
+490154203237519	invalid	InvalidChecksum	-	-	computed:luhn	check digit changed
+49015420323751	invalid	InvalidLength	-	-	synthetic	fourteen digits
+49015420323751A	invalid	InvalidFormat	-	-	synthetic	a letter
