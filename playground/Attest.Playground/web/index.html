@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Attest playground: validate a tax ID or VAT number</title>
+<meta name="description" content="Paste a tax ID, national ID or VAT number and see if it is well formed, with the reason. 87 countries, free API, nothing stored.">
+<link rel="stylesheet" href="/app.css">
+<script src="/app.js" defer></script>
+</head>
+<body>
+<header class="bar">
+  <a class="brand" href="/">Attest</a>
+  <nav aria-label="Links">
+    <a href="https://github.com/Egoushka/attest">GitHub</a>
+    <a href="https://www.nuget.org/packages/Attest">NuGet</a>
+    <a href="https://hrabovskyi.online/">Blog</a>
+  </nav>
+</header>
+
+<main>
+  <section class="intro">
+    <h1>Is this tax ID valid?</h1>
+    <p class="lede">Paste a tax ID, national ID or VAT number. Attest checks its shape and check digits for 87 countries and says why a number fails.</p>
+  </section>
+
+  <section class="tool" aria-labelledby="tool-h">
+    <h2 id="tool-h" class="sr">Validate</h2>
+    <form id="form" autocomplete="off" novalidate>
+      <div class="field grow">
+        <label for="value">Number</label>
+        <input id="value" name="value" type="text" inputmode="text" spellcheck="false" autocapitalize="characters" maxlength="256" placeholder="BE 0403.019.261" aria-describedby="result">
+      </div>
+      <div class="field">
+        <label for="country">Country</label>
+        <select id="country" name="country"><option value="">Auto-detect</option></select>
+      </div>
+    </form>
+
+    <p class="examples" id="examples-row"><span>Try</span></p>
+
+    <div id="result" class="result" role="status" aria-live="polite" data-state="empty">
+      <p class="empty">Type or paste a number. The answer appears as you type.</p>
+    </div>
+  </section>
+
+  <section class="use" aria-labelledby="use-h">
+    <h2 id="use-h">Use it in code</h2>
+    <p>The same engine is a free HTTP API, and a NuGet package that runs in your process with no network call.</p>
+    <pre><code>curl 'https://attest.hrabovskyi.online/v1/validate?value=BE0403019261&amp;country=BE'
+
+dotnet add package Attest</code></pre>
+    <p class="note">This checks form and check digits only. It cannot tell you a number is registered: for EU VAT that answer comes from VIES. The API is rate limited, one number per request.</p>
+  </section>
+</main>
+
+<footer>
+  <p>Numbers you type are checked in memory and never stored or logged. Only the country, the verdict and the reason are counted. <a href="https://github.com/Egoushka/attest">Source, Apache-2.0</a>.</p>
+</footer>
+</body>
+</html>
