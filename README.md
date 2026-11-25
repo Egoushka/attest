@@ -3,8 +3,21 @@
 [![CI](https://github.com/Egoushka/attest/actions/workflows/ci.yml/badge.svg)](https://github.com/Egoushka/attest/actions/workflows/ci.yml)
 [![NuGet](https://img.shields.io/nuget/v/Attest.svg)](https://www.nuget.org/packages/Attest)
 
-Validates national identification numbers, tax identification numbers, VAT codes and postal codes
-for 87 countries.
+> A .NET library that checks national ID, tax ID, VAT and postal codes for 87 countries, in-process, with no network call.
+
+A form accepts `BE0428759496`, the invoice goes out, and the tax office rejects it three weeks later. A
+wrong check digit is cheap to catch at the door and expensive to find later. Attest lets a .NET
+app reject a malformed number before it is stored.
+
+```csharp
+using Attest;
+
+var result = Identifiers.ValidateVat("BE0428759496");
+Console.WriteLine(result.IsValid ? "ok" : result.Detail);   // Invalid checksum.
+```
+
+Install with `dotnet add package Attest`. Attest checks that a number is well formed; it cannot tell you
+the number is registered (see below).
 
 Attest started as a fork of [CountryValidator](https://github.com/anghelvalentin/CountryValidator)
 by Anghel Valentin, which has had no release since 1.1.3. The country coverage comes from that
@@ -42,32 +55,7 @@ ask VIES about the ones that survive.
 
 ## What is different from upstream
 
-The short version of three repair waves, all of it verified by running the code rather than reading
-it:
-
-- **Hungary** accepted none of the 36,363,636 valid tax ids there are. Its checksum summed UTF-16
-  code units instead of digit values, adding a constant 48 x (1+...+9) = 2160, which is 4 mod 11.
-  The check digit it computed was therefore always the correct one plus 4, mod 11, and so could
-  never equal it. The count is an enumeration of the whole space; the impossibility is arithmetic.
-- **22 of 87 validators threw** instead of returning a result — on `null`, on short input, on a
-  letter where a digit belonged. A sweep over every country and every method now proves none does.
-- **Mexico and South Africa** could never validate anything: their date helpers always returned
-  false. **Malaysia, Canada and San Marino** had inverted guards, so they accepted everything,
-  including the empty string, and rejected the real formats.
-- **Test data was fiction.** Thailand's tax-code tests used a Swedish personnummer; Cyprus's only
-  national-id test was a Czech rodné číslo copied from the Czech file. Both passed for years.
-- **Every bug report left open upstream is answered.** Ten of the twelve open issues report a
-  defect — the other two ask whether the project is maintained and what the four `Validate` methods
-  mean. The ten are the Netherlands' post-2020 btw-identificatienummer, Belgium's check number below
-  ten (reported twice), Belgian enterprise numbers starting with 1, Finland's 2023 HETU separators,
-  the printed Swiss TVA number, Mexico's unreachable company RFC, Chile, Paraguay and Uruguay, the
-  Indian Aadhaar validator throwing on a letter and the GSTIN that replaced the VAT TIN in 2017, and
-  the French VAT number capped at nine characters. Each is asserted with its reporter's own value in
-  [UpstreamReportTests.cs](Attest.Tests/UpstreamReportTests.cs).
-
-The test suite went from 586 cases to 4,212, and every validator now has one. What is still weak is
-written down rather than hidden: [KNOWN-ISSUES.md](KNOWN-ISSUES.md) lists 33 entries by country: 19
-still-open gaps, almost all of them check digits no authority publishes, and 14 the repair waves investigated and closed as decided rather than pending.
+Hungary accepted none of its valid tax ids, 22 of 87 validators threw on bad input, and the test suite grew from 586 cases to 4,212. The full list of repairs is in [docs/upstream-repairs.md](docs/upstream-repairs.md); what is still weak is in [KNOWN-ISSUES.md](KNOWN-ISSUES.md).
 
 ## Use
 
@@ -83,52 +71,9 @@ if (!result.IsValid)
 }
 ```
 
-### Asking by category
+### Asking by category, and per-country classes
 
-When you do not want to name a method — "is this any business identifier for this country?" — ask by
-kind:
-
-```csharp
-using Attest;
-
-var validator = new CountryValidator();
-
-IdentifierResult result = validator.Validate(value, Country.BE, IdentifierKind.Business);
-
-if (result.IsValid && !result.IsAmbiguous)
-{
-    // definitely a company number or a VAT number
-}
-```
-
-`IdentifierKind` is a flags enum: `PersonalId`, `PersonalTaxCode`, `CompanyNumber`, `Vat`,
-`PostalCode`, plus the combinations `Person`, `Business` and `Any` (the default, which covers
-personal and business identifiers but not postal codes).
-
-Two things the result tells you that a plain boolean cannot:
-
-- **`IsAmbiguous`** — a few countries issue one number that serves as both a personal and a business
-  identifier. Armenia (the 8 digit ՀՎՀՀ, whose digits carry no meaning by the State Revenue
-  Committee's own account) and Nigeria issue literally one number for both. In Russia, Peru,
-  Indonesia and Ukraine the overlap is narrower: a sole trader files VAT under their personal
-  number, so that number is a VAT identifier as well as a personal one. There, a value asked about
-  as a business identifier can be valid and indistinguishable at the same time, and the flag says so
-  instead of guessing.
-- **`Supports(country, kind)`** — whether the country has a rule for that kind at all. A kind with no
-  rule reports every value invalid, which is not a verdict on the value. 25 of the 435 country/kind
-  pairs in this library have no rule.
-
-`Matched` lists every kind the value is valid as, and `Details` carries the individual
-`ValidationResult` for each kind that was evaluated.
-
-Each country also has its own validator class in `Attest.Countries`, if you want to skip the
-dispatch:
-
-```csharp
-using Attest.Countries;
-
-bool valid = new BelgiumValidator().ValidateVAT("BE0428759497").IsValid;
-```
+Ask by kind ("is this any business identifier for this country?") with `Validate(value, country, IdentifierKind.Business)`, or call a country class such as `BelgiumValidator` directly. The full guide, with `IsAmbiguous` and `Supports`, is in [docs/asking-by-category.md](docs/asking-by-category.md).
 
 ### Using Data Annotations
 
